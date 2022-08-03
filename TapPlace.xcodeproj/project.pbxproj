@@ -7,23 +7,37 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A237CEA6BD9B118FC101AE53 /* Pods_TapPlace.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3133928FD2ADCB6663ED1FA0 /* Pods_TapPlace.framework */; };
 		DFC23F96289AB66400EC1090 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFC23F95289AB66400EC1090 /* AppDelegate.swift */; };
 		DFC23F98289AB66400EC1090 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFC23F97289AB66400EC1090 /* SceneDelegate.swift */; };
 		DFC23F9A289AB66400EC1090 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFC23F99289AB66400EC1090 /* ViewController.swift */; };
-		DFC23F9D289AB66400EC1090 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DFC23F9B289AB66400EC1090 /* Main.storyboard */; };
 		DFC23F9F289AB66600EC1090 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DFC23F9E289AB66600EC1090 /* Assets.xcassets */; };
 		DFC23FA2289AB66600EC1090 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DFC23FA0289AB66600EC1090 /* LaunchScreen.storyboard */; };
+		DFC23FAF289AB6C900EC1090 /* EmptyModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFC23FAE289AB6C900EC1090 /* EmptyModel.swift */; };
+		DFC23FB2289AB6E500EC1090 /* EmptyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFC23FB1289AB6E400EC1090 /* EmptyViewModel.swift */; };
+		DFC23FB5289AB6F000EC1090 /* EmptyNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFC23FB4289AB6F000EC1090 /* EmptyNetwork.swift */; };
+		DFC23FB8289AB6FF00EC1090 /* EmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFC23FB7289AB6FF00EC1090 /* EmptyView.swift */; };
+		DFC23FBB289AB70C00EC1090 /* EmptyExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFC23FBA289AB70C00EC1090 /* EmptyExtension.swift */; };
+		DFC23FBE289AB71800EC1090 /* EmptyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFC23FBD289AB71800EC1090 /* EmptyCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3133928FD2ADCB6663ED1FA0 /* Pods_TapPlace.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TapPlace.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		5857631C0AF0C551FB22305A /* Pods-TapPlace.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TapPlace.release.xcconfig"; path = "Target Support Files/Pods-TapPlace/Pods-TapPlace.release.xcconfig"; sourceTree = "<group>"; };
 		DFC23F92289AB66400EC1090 /* TapPlace.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TapPlace.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DFC23F95289AB66400EC1090 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DFC23F97289AB66400EC1090 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		DFC23F99289AB66400EC1090 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		DFC23F9C289AB66400EC1090 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		DFC23F9E289AB66600EC1090 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DFC23FA1289AB66600EC1090 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		DFC23FA3289AB66600EC1090 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DFC23FAE289AB6C900EC1090 /* EmptyModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyModel.swift; sourceTree = "<group>"; };
+		DFC23FB1289AB6E400EC1090 /* EmptyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyViewModel.swift; sourceTree = "<group>"; };
+		DFC23FB4289AB6F000EC1090 /* EmptyNetwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyNetwork.swift; sourceTree = "<group>"; };
+		DFC23FB7289AB6FF00EC1090 /* EmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyView.swift; sourceTree = "<group>"; };
+		DFC23FBA289AB70C00EC1090 /* EmptyExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyExtension.swift; sourceTree = "<group>"; };
+		DFC23FBD289AB71800EC1090 /* EmptyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyCell.swift; sourceTree = "<group>"; };
+		EE6B55B871920F4FFEBF22CD /* Pods-TapPlace.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TapPlace.debug.xcconfig"; path = "Target Support Files/Pods-TapPlace/Pods-TapPlace.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,17 +45,38 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A237CEA6BD9B118FC101AE53 /* Pods_TapPlace.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		01A2DED080638619BC75DAE2 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				EE6B55B871920F4FFEBF22CD /* Pods-TapPlace.debug.xcconfig */,
+				5857631C0AF0C551FB22305A /* Pods-TapPlace.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		A026D8A2C2B51A425AC4211E /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				3133928FD2ADCB6663ED1FA0 /* Pods_TapPlace.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		DFC23F89289AB66400EC1090 = {
 			isa = PBXGroup;
 			children = (
 				DFC23F94289AB66400EC1090 /* TapPlace */,
 				DFC23F93289AB66400EC1090 /* Products */,
+				01A2DED080638619BC75DAE2 /* Pods */,
+				A026D8A2C2B51A425AC4211E /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -56,15 +91,100 @@
 		DFC23F94289AB66400EC1090 /* TapPlace */ = {
 			isa = PBXGroup;
 			children = (
-				DFC23F95289AB66400EC1090 /* AppDelegate.swift */,
-				DFC23F97289AB66400EC1090 /* SceneDelegate.swift */,
-				DFC23F99289AB66400EC1090 /* ViewController.swift */,
-				DFC23F9B289AB66400EC1090 /* Main.storyboard */,
-				DFC23F9E289AB66600EC1090 /* Assets.xcassets */,
-				DFC23FA0289AB66600EC1090 /* LaunchScreen.storyboard */,
+				DFC23FAB289AB69D00EC1090 /* Sources */,
+				DFC23FA9289AB66C00EC1090 /* Resources */,
 				DFC23FA3289AB66600EC1090 /* Info.plist */,
 			);
 			path = TapPlace;
+			sourceTree = "<group>";
+		};
+		DFC23FA9289AB66C00EC1090 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				DFC23FAA289AB68400EC1090 /* Storyboards */,
+				DFC23F95289AB66400EC1090 /* AppDelegate.swift */,
+				DFC23F97289AB66400EC1090 /* SceneDelegate.swift */,
+				DFC23F9E289AB66600EC1090 /* Assets.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		DFC23FAA289AB68400EC1090 /* Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				DFC23FA0289AB66600EC1090 /* LaunchScreen.storyboard */,
+			);
+			path = Storyboards;
+			sourceTree = "<group>";
+		};
+		DFC23FAB289AB69D00EC1090 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				DFC23FBC289AB70F00EC1090 /* Cells */,
+				DFC23FB9289AB70300EC1090 /* Extensions */,
+				DFC23FB6289AB6F400EC1090 /* Views */,
+				DFC23FB3289AB6E800EC1090 /* Network */,
+				DFC23FB0289AB6CD00EC1090 /* ViewModels */,
+				DFC23FAD289AB6BC00EC1090 /* Models */,
+				DFC23FAC289AB6AA00EC1090 /* ViewControllers */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		DFC23FAC289AB6AA00EC1090 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				DFC23F99289AB66400EC1090 /* ViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		DFC23FAD289AB6BC00EC1090 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				DFC23FAE289AB6C900EC1090 /* EmptyModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		DFC23FB0289AB6CD00EC1090 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				DFC23FB1289AB6E400EC1090 /* EmptyViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		DFC23FB3289AB6E800EC1090 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				DFC23FB4289AB6F000EC1090 /* EmptyNetwork.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		DFC23FB6289AB6F400EC1090 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				DFC23FB7289AB6FF00EC1090 /* EmptyView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		DFC23FB9289AB70300EC1090 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				DFC23FBA289AB70C00EC1090 /* EmptyExtension.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		DFC23FBC289AB70F00EC1090 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				DFC23FBD289AB71800EC1090 /* EmptyCell.swift */,
+			);
+			path = Cells;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -74,9 +194,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = DFC23FA6289AB66600EC1090 /* Build configuration list for PBXNativeTarget "TapPlace" */;
 			buildPhases = (
+				F15BE6A5233B1B090D8DF854 /* [CP] Check Pods Manifest.lock */,
 				DFC23F8E289AB66400EC1090 /* Sources */,
 				DFC23F8F289AB66400EC1090 /* Frameworks */,
 				DFC23F90289AB66400EC1090 /* Resources */,
+				388E841DD0ABCCA24C04B45F /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -127,11 +249,52 @@
 			files = (
 				DFC23FA2289AB66600EC1090 /* LaunchScreen.storyboard in Resources */,
 				DFC23F9F289AB66600EC1090 /* Assets.xcassets in Resources */,
-				DFC23F9D289AB66400EC1090 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		388E841DD0ABCCA24C04B45F /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-TapPlace/Pods-TapPlace-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-TapPlace/Pods-TapPlace-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-TapPlace/Pods-TapPlace-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F15BE6A5233B1B090D8DF854 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-TapPlace-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		DFC23F8E289AB66400EC1090 /* Sources */ = {
@@ -140,21 +303,19 @@
 			files = (
 				DFC23F9A289AB66400EC1090 /* ViewController.swift in Sources */,
 				DFC23F96289AB66400EC1090 /* AppDelegate.swift in Sources */,
+				DFC23FB2289AB6E500EC1090 /* EmptyViewModel.swift in Sources */,
+				DFC23FBB289AB70C00EC1090 /* EmptyExtension.swift in Sources */,
 				DFC23F98289AB66400EC1090 /* SceneDelegate.swift in Sources */,
+				DFC23FB5289AB6F000EC1090 /* EmptyNetwork.swift in Sources */,
+				DFC23FB8289AB6FF00EC1090 /* EmptyView.swift in Sources */,
+				DFC23FAF289AB6C900EC1090 /* EmptyModel.swift in Sources */,
+				DFC23FBE289AB71800EC1090 /* EmptyCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		DFC23F9B289AB66400EC1090 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				DFC23F9C289AB66400EC1090 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		DFC23FA0289AB66600EC1090 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -282,6 +443,7 @@
 		};
 		DFC23FA7289AB66600EC1090 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = EE6B55B871920F4FFEBF22CD /* Pods-TapPlace.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -310,6 +472,7 @@
 		};
 		DFC23FA8289AB66600EC1090 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5857631C0AF0C551FB22305A /* Pods-TapPlace.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;

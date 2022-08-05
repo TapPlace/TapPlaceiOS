@@ -7,7 +7,7 @@ target 'TapPlace' do
 
   pod 'RealmSwift'
   pod 'SnapKit', '~> 5.6.0'
-
+  pod 'NMapsMap'
   # Pods for TapPlace
 
 end

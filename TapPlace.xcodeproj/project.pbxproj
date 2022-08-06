@@ -8,6 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		A237CEA6BD9B118FC101AE53 /* Pods_TapPlace.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3133928FD2ADCB6663ED1FA0 /* Pods_TapPlace.framework */; };
+		DF826698289CA0EC00272830 /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF826697289CA0EC00272830 /* SplashViewController.swift */; };
+		DF82669A289CA10800272830 /* OnBoardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF826699289CA10800272830 /* OnBoardingViewController.swift */; };
+		DF82669C289CA11700272830 /* PickPaymentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF82669B289CA11700272830 /* PickPaymentsViewController.swift */; };
+		DF82669E289CA12800272830 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF82669D289CA12800272830 /* MainViewController.swift */; };
+		DF8266A0289CA15100272830 /* PlaceSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF82669F289CA15100272830 /* PlaceSearchViewController.swift */; };
+		DF8266A2289CA17700272830 /* DetailPlaceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF8266A1289CA17700272830 /* DetailPlaceViewController.swift */; };
+		DF8266A4289CA18300272830 /* AddPlaceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF8266A3289CA18300272830 /* AddPlaceViewController.swift */; };
+		DF8266A6289CA18C00272830 /* MyPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF8266A5289CA18C00272830 /* MyPageViewController.swift */; };
 		DFC23F96289AB66400EC1090 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFC23F95289AB66400EC1090 /* AppDelegate.swift */; };
 		DFC23F98289AB66400EC1090 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFC23F97289AB66400EC1090 /* SceneDelegate.swift */; };
 		DFC23F9A289AB66400EC1090 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFC23F99289AB66400EC1090 /* ViewController.swift */; };
@@ -24,6 +32,14 @@
 /* Begin PBXFileReference section */
 		3133928FD2ADCB6663ED1FA0 /* Pods_TapPlace.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TapPlace.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5857631C0AF0C551FB22305A /* Pods-TapPlace.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TapPlace.release.xcconfig"; path = "Target Support Files/Pods-TapPlace/Pods-TapPlace.release.xcconfig"; sourceTree = "<group>"; };
+		DF826697289CA0EC00272830 /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
+		DF826699289CA10800272830 /* OnBoardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardingViewController.swift; sourceTree = "<group>"; };
+		DF82669B289CA11700272830 /* PickPaymentsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickPaymentsViewController.swift; sourceTree = "<group>"; };
+		DF82669D289CA12800272830 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		DF82669F289CA15100272830 /* PlaceSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceSearchViewController.swift; sourceTree = "<group>"; };
+		DF8266A1289CA17700272830 /* DetailPlaceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailPlaceViewController.swift; sourceTree = "<group>"; };
+		DF8266A3289CA18300272830 /* AddPlaceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPlaceViewController.swift; sourceTree = "<group>"; };
+		DF8266A5289CA18C00272830 /* MyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewController.swift; sourceTree = "<group>"; };
 		DFC23F92289AB66400EC1090 /* TapPlace.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TapPlace.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DFC23F95289AB66400EC1090 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DFC23F97289AB66400EC1090 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -134,6 +150,14 @@
 			isa = PBXGroup;
 			children = (
 				DFC23F99289AB66400EC1090 /* ViewController.swift */,
+				DF826697289CA0EC00272830 /* SplashViewController.swift */,
+				DF826699289CA10800272830 /* OnBoardingViewController.swift */,
+				DF82669B289CA11700272830 /* PickPaymentsViewController.swift */,
+				DF82669D289CA12800272830 /* MainViewController.swift */,
+				DF82669F289CA15100272830 /* PlaceSearchViewController.swift */,
+				DF8266A1289CA17700272830 /* DetailPlaceViewController.swift */,
+				DF8266A3289CA18300272830 /* AddPlaceViewController.swift */,
+				DF8266A5289CA18C00272830 /* MyPageViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -300,15 +324,23 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DF82669C289CA11700272830 /* PickPaymentsViewController.swift in Sources */,
+				DF82669E289CA12800272830 /* MainViewController.swift in Sources */,
 				DFC23F9A289AB66400EC1090 /* ViewController.swift in Sources */,
 				DFC23F96289AB66400EC1090 /* AppDelegate.swift in Sources */,
+				DF8266A4289CA18300272830 /* AddPlaceViewController.swift in Sources */,
 				DFC23FB2289AB6E500EC1090 /* EmptyViewModel.swift in Sources */,
 				DFC23FBB289AB70C00EC1090 /* EmptyExtension.swift in Sources */,
 				DFC23F98289AB66400EC1090 /* SceneDelegate.swift in Sources */,
 				DFC23FB5289AB6F000EC1090 /* EmptyNetwork.swift in Sources */,
 				DFC23FB8289AB6FF00EC1090 /* EmptyView.swift in Sources */,
+				DF8266A6289CA18C00272830 /* MyPageViewController.swift in Sources */,
 				DFC23FAF289AB6C900EC1090 /* EmptyModel.swift in Sources */,
+				DF8266A0289CA15100272830 /* PlaceSearchViewController.swift in Sources */,
 				DFC23FBE289AB71800EC1090 /* EmptyCell.swift in Sources */,
+				DF826698289CA0EC00272830 /* SplashViewController.swift in Sources */,
+				DF82669A289CA10800272830 /* OnBoardingViewController.swift in Sources */,
+				DF8266A2289CA17700272830 /* DetailPlaceViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

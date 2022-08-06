@@ -9,5 +9,5 @@ target 'TapPlace' do
   pod 'SnapKit', '~> 5.6.0'
 
   # Pods for TapPlace
-
+  pod 'NMapsMap'
 end

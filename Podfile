@@ -11,5 +11,5 @@ target 'TapPlace' do
   pod 'Alamofire'
 
   # Pods for TapPlace
-
+  pod 'NMapsMap'
 end

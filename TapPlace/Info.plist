@@ -4,8 +4,6 @@
 <dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>위치정보 제공을 허용하시겠습니까?</string>
-	<key>NMFClientId</key>
-	<string>yvdg2o4wtf</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

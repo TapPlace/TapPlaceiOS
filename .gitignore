@@ -1,0 +1,10 @@
+# Created by https://www.toptal.com/developers/gitignore/api/xcode
+# Edit at https://www.toptal.com/developers/gitignore?templates=xcode
+
+## User settings
+*.xcconfig
+
+## Big Files
+Pods/
+
+# End of https://www.toptal.com/developers/gitignore/api/xcode

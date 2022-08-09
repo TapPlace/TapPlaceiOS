@@ -16,6 +16,7 @@
 		DF8266A2289CA17700272830 /* DetailPlaceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF8266A1289CA17700272830 /* DetailPlaceViewController.swift */; };
 		DF8266A4289CA18300272830 /* AddPlaceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF8266A3289CA18300272830 /* AddPlaceViewController.swift */; };
 		DF8266A6289CA18C00272830 /* MyPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF8266A5289CA18C00272830 /* MyPageViewController.swift */; };
+		DF8266A8289F1D0D00272830 /* PlaceDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF8266A7289F1D0D00272830 /* PlaceDataService.swift */; };
 		DFC23F96289AB66400EC1090 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFC23F95289AB66400EC1090 /* AppDelegate.swift */; };
 		DFC23F98289AB66400EC1090 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFC23F97289AB66400EC1090 /* SceneDelegate.swift */; };
 		DFC23F9A289AB66400EC1090 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFC23F99289AB66400EC1090 /* ViewController.swift */; };
@@ -27,11 +28,17 @@
 		DFC23FB8289AB6FF00EC1090 /* EmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFC23FB7289AB6FF00EC1090 /* EmptyView.swift */; };
 		DFC23FBB289AB70C00EC1090 /* EmptyExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFC23FBA289AB70C00EC1090 /* EmptyExtension.swift */; };
 		DFC23FBE289AB71800EC1090 /* EmptyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFC23FBD289AB71800EC1090 /* EmptyCell.swift */; };
+		DFDC182F289FE8A70076EE2E /* UserDefaults+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFDC182E289FE8A70076EE2E /* UserDefaults+Extension.swift */; };
+		F425EECA28A25087002A20FC /* dog.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = F425EEC928A25087002A20FC /* dog.jpeg */; };
+		F425EECD28A29EF0002A20FC /* dog2.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = F425EECB28A29EEF002A20FC /* dog2.jpeg */; };
+		F425EECE28A29EF0002A20FC /* dog3.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = F425EECC28A29EF0002A20FC /* dog3.jpeg */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		3133928FD2ADCB6663ED1FA0 /* Pods_TapPlace.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TapPlace.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5857631C0AF0C551FB22305A /* Pods-TapPlace.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TapPlace.release.xcconfig"; path = "Target Support Files/Pods-TapPlace/Pods-TapPlace.release.xcconfig"; sourceTree = "<group>"; };
+		DF49AD8C28A0AB2A004EDC34 /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
+		DF49AD8D28A0AB3F004EDC34 /* Production.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Production.xcconfig; sourceTree = "<group>"; };
 		DF826697289CA0EC00272830 /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
 		DF826699289CA10800272830 /* OnBoardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardingViewController.swift; sourceTree = "<group>"; };
 		DF82669B289CA11700272830 /* PickPaymentsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickPaymentsViewController.swift; sourceTree = "<group>"; };
@@ -40,6 +47,7 @@
 		DF8266A1289CA17700272830 /* DetailPlaceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailPlaceViewController.swift; sourceTree = "<group>"; };
 		DF8266A3289CA18300272830 /* AddPlaceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPlaceViewController.swift; sourceTree = "<group>"; };
 		DF8266A5289CA18C00272830 /* MyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewController.swift; sourceTree = "<group>"; };
+		DF8266A7289F1D0D00272830 /* PlaceDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceDataService.swift; sourceTree = "<group>"; };
 		DFC23F92289AB66400EC1090 /* TapPlace.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TapPlace.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DFC23F95289AB66400EC1090 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DFC23F97289AB66400EC1090 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -53,7 +61,11 @@
 		DFC23FB7289AB6FF00EC1090 /* EmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyView.swift; sourceTree = "<group>"; };
 		DFC23FBA289AB70C00EC1090 /* EmptyExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyExtension.swift; sourceTree = "<group>"; };
 		DFC23FBD289AB71800EC1090 /* EmptyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyCell.swift; sourceTree = "<group>"; };
+		DFDC182E289FE8A70076EE2E /* UserDefaults+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Extension.swift"; sourceTree = "<group>"; };
 		EE6B55B871920F4FFEBF22CD /* Pods-TapPlace.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TapPlace.debug.xcconfig"; path = "Target Support Files/Pods-TapPlace/Pods-TapPlace.debug.xcconfig"; sourceTree = "<group>"; };
+		F425EEC928A25087002A20FC /* dog.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = dog.jpeg; sourceTree = "<group>"; };
+		F425EECB28A29EEF002A20FC /* dog2.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = dog2.jpeg; sourceTree = "<group>"; };
+		F425EECC28A29EF0002A20FC /* dog3.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = dog3.jpeg; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,6 +95,15 @@
 				3133928FD2ADCB6663ED1FA0 /* Pods_TapPlace.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		DF49AD8B28A0AB15004EDC34 /* Configurations */ = {
+			isa = PBXGroup;
+			children = (
+				DF49AD8C28A0AB2A004EDC34 /* Debug.xcconfig */,
+				DF49AD8D28A0AB3F004EDC34 /* Production.xcconfig */,
+			);
+			path = Configurations;
 			sourceTree = "<group>";
 		};
 		DFC23F89289AB66400EC1090 = {
@@ -116,6 +137,10 @@
 		DFC23FA9289AB66C00EC1090 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				F425EEC928A25087002A20FC /* dog.jpeg */,
+				F425EECB28A29EEF002A20FC /* dog2.jpeg */,
+				F425EECC28A29EF0002A20FC /* dog3.jpeg */,
+				DF49AD8B28A0AB15004EDC34 /* Configurations */,
 				DFC23FAA289AB68400EC1090 /* Storyboards */,
 				DFC23F95289AB66400EC1090 /* AppDelegate.swift */,
 				DFC23F97289AB66400EC1090 /* SceneDelegate.swift */,
@@ -182,6 +207,7 @@
 			isa = PBXGroup;
 			children = (
 				DFC23FB4289AB6F000EC1090 /* EmptyNetwork.swift */,
+				DF8266A7289F1D0D00272830 /* PlaceDataService.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -198,6 +224,7 @@
 			isa = PBXGroup;
 			children = (
 				DFC23FBA289AB70C00EC1090 /* EmptyExtension.swift */,
+				DFDC182E289FE8A70076EE2E /* UserDefaults+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -270,7 +297,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F425EECE28A29EF0002A20FC /* dog3.jpeg in Resources */,
 				DFC23FA2289AB66600EC1090 /* LaunchScreen.storyboard in Resources */,
+				F425EECD28A29EF0002A20FC /* dog2.jpeg in Resources */,
+				F425EECA28A25087002A20FC /* dog.jpeg in Resources */,
 				DFC23F9F289AB66600EC1090 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -333,7 +363,9 @@
 				DFC23FBB289AB70C00EC1090 /* EmptyExtension.swift in Sources */,
 				DFC23F98289AB66400EC1090 /* SceneDelegate.swift in Sources */,
 				DFC23FB5289AB6F000EC1090 /* EmptyNetwork.swift in Sources */,
+				DF8266A8289F1D0D00272830 /* PlaceDataService.swift in Sources */,
 				DFC23FB8289AB6FF00EC1090 /* EmptyView.swift in Sources */,
+				DFDC182F289FE8A70076EE2E /* UserDefaults+Extension.swift in Sources */,
 				DF8266A6289CA18C00272830 /* MyPageViewController.swift in Sources */,
 				DFC23FAF289AB6C900EC1090 /* EmptyModel.swift in Sources */,
 				DF8266A0289CA15100272830 /* PlaceSearchViewController.swift in Sources */,
@@ -408,7 +440,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -462,7 +494,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -474,7 +506,7 @@
 		};
 		DFC23FA7289AB66600EC1090 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = EE6B55B871920F4FFEBF22CD /* Pods-TapPlace.debug.xcconfig */;
+			baseConfigurationReference = DF49AD8C28A0AB2A004EDC34 /* Debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -487,6 +519,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -502,7 +535,7 @@
 		};
 		DFC23FA8289AB66600EC1090 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5857631C0AF0C551FB22305A /* Pods-TapPlace.release.xcconfig */;
+			baseConfigurationReference = DF49AD8D28A0AB3F004EDC34 /* Production.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -515,6 +548,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

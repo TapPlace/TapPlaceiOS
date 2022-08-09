@@ -41,6 +41,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         }
     }
     
+    // 위도와 경도를 받는 함수
 //    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
 //        if let location = locations.last {
 //            locationManager.stopUpdatingLocation()
@@ -49,6 +50,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
 //        }
 //    }
 //
+    // 에러
 //    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
 //        print(error)
 //    }

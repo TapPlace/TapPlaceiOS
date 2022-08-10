@@ -38,6 +38,9 @@
 		DFDA43F628A14AB3003763AC /* PickViewControllerTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFDA43F528A14AB3003763AC /* PickViewControllerTitleView.swift */; };
 		DFDA43F928A14C61003763AC /* CommonUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFDA43F828A14C61003763AC /* CommonUtils.swift */; };
 		DFDC182F289FE8A70076EE2E /* UserDefaults+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFDC182E289FE8A70076EE2E /* UserDefaults+Extension.swift */; };
+		F425EECA28A25087002A20FC /* dog.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = F425EEC928A25087002A20FC /* dog.jpeg */; };
+		F425EECD28A29EF0002A20FC /* dog2.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = F425EECB28A29EEF002A20FC /* dog2.jpeg */; };
+		F425EECE28A29EF0002A20FC /* dog3.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = F425EECC28A29EF0002A20FC /* dog3.jpeg */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -78,6 +81,9 @@
 		DFDA43F828A14C61003763AC /* CommonUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonUtils.swift; sourceTree = "<group>"; };
 		DFDC182E289FE8A70076EE2E /* UserDefaults+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Extension.swift"; sourceTree = "<group>"; };
 		EE6B55B871920F4FFEBF22CD /* Pods-TapPlace.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TapPlace.debug.xcconfig"; path = "Target Support Files/Pods-TapPlace/Pods-TapPlace.debug.xcconfig"; sourceTree = "<group>"; };
+		F425EEC928A25087002A20FC /* dog.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = dog.jpeg; sourceTree = "<group>"; };
+		F425EECB28A29EEF002A20FC /* dog2.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = dog2.jpeg; sourceTree = "<group>"; };
+		F425EECC28A29EF0002A20FC /* dog3.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = dog3.jpeg; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -157,6 +163,9 @@
 		DFC23FA9289AB66C00EC1090 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				F425EEC928A25087002A20FC /* dog.jpeg */,
+				F425EECB28A29EEF002A20FC /* dog2.jpeg */,
+				F425EECC28A29EF0002A20FC /* dog3.jpeg */,
 				DF49AD8B28A0AB15004EDC34 /* Configurations */,
 				DFC23FAA289AB68400EC1090 /* Storyboards */,
 				DFC23F95289AB66400EC1090 /* AppDelegate.swift */,
@@ -331,7 +340,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F425EECE28A29EF0002A20FC /* dog3.jpeg in Resources */,
 				DFC23FA2289AB66600EC1090 /* LaunchScreen.storyboard in Resources */,
+				F425EECD28A29EF0002A20FC /* dog2.jpeg in Resources */,
+				F425EECA28A25087002A20FC /* dog.jpeg in Resources */,
 				DFC23F9F289AB66600EC1090 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

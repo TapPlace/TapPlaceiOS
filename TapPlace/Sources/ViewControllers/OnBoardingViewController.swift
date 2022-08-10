@@ -34,10 +34,17 @@ class OnBoardingViewController: UIViewController {
 extension OnBoardingViewController: UIScrollViewDelegate, BottomButtonProtocol{
     
     func didTapBottomButton() {
-        let vc = PickPaymentsViewController()
-        vc.modalTransitionStyle = .crossDissolve
-        vc.modalPresentationStyle = .fullScreen
-        self.navigationController?.pushViewController(vc, animated: true)
+        guard let buttonText = skipButton.titleLabel?.text else { return }
+        if buttonText == "건너뛰기" {
+            UIView.animate(withDuration: 0.5, animations: {
+                self.scrollView.contentOffset = CGPoint(x: 255 * (self.images.count - 1), y: 0)
+            })
+        } else {
+            let vc = PickPaymentsViewController()
+            vc.modalTransitionStyle = .crossDissolve
+            vc.modalPresentationStyle = .fullScreen
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
     }
     
     private func setLayout() {

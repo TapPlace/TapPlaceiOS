@@ -9,6 +9,14 @@ import UIKit
 
 struct CommonUtils {
     /**
+     * @ 디바이스 고유 UUID 가져오기
+     * coder : sanghyeon
+     */
+    static func getDeviceUUID() -> String {
+        return UIDevice.current.identifierForVendor!.uuidString
+    }
+    
+    /**
      * @ 해상도 비율에 따라 폰트사이즈 동기화
      * 13Pro 해상도 기준 390
      * coder : sanghyeon
@@ -19,6 +27,7 @@ struct CommonUtils {
         let sizeFormatter = size/390
         return screenWidth * sizeFormatter
     }
+    
     /**
      * @ 결제수단 선택창 셀 크기 지정을 위해 글자수 기반 사이즈 반환
      * coder : sanghyeon

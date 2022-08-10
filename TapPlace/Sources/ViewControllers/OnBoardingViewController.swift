@@ -25,7 +25,10 @@ class OnBoardingViewController: UIViewController {
 //MARK: - Layout
 extension OnBoardingViewController: UIScrollViewDelegate, BottomButtonProtocol {
     func didTapBottomButton() {
-        
+        let vc = PickPaymentsViewController()
+        vc.modalTransitionStyle = .crossDissolve
+        vc.modalPresentationStyle = .fullScreen
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     private func setTestLayout() {
@@ -99,6 +102,7 @@ extension OnBoardingViewController: UIScrollViewDelegate, BottomButtonProtocol {
         
         // 건너뛰기 버튼
         let skipButton = BottomButton()
+        skipButton.delegate = self
         
         view.addSubview(titleLabel)
         titleLabel.snp.makeConstraints {
@@ -154,6 +158,10 @@ extension OnBoardingViewController: UIScrollViewDelegate, BottomButtonProtocol {
      * coder : sanghyeon
      */
     private func setupView() {
+        /// 기본 내비게이션 컨트롤러 숨기기
+        self.navigationController?.navigationBar.isHidden = true
+        /// 네비게이션 컨트롤러 스와이프 뒤로가기 제거
+        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
         /// 뷰컨트롤러 배경색 지정
         view.backgroundColor = .white
     }

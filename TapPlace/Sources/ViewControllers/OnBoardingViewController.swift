@@ -15,15 +15,24 @@ class OnBoardingViewController: UIViewController {
      * coder : sanghyeon
      */
     
+    // 버튼 생성
+    let skipButton = BottomButton()
+    let scrollView = UIScrollView()
+    let pageControl = UIPageControl()
+    let images = [UIImage(named: "dog.jpeg"), UIImage(named: "dog2.jpeg"), UIImage(named: "dog3.jpeg")]
+    
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
-        setTestLayout()
+        setLayout()
     }
 }
 
 //MARK: - Layout
-extension OnBoardingViewController: UIScrollViewDelegate, BottomButtonProtocol {
+extension OnBoardingViewController: UIScrollViewDelegate, BottomButtonProtocol{
+    
     func didTapBottomButton() {
         let vc = PickPaymentsViewController()
         vc.modalTransitionStyle = .crossDissolve
@@ -31,10 +40,7 @@ extension OnBoardingViewController: UIScrollViewDelegate, BottomButtonProtocol {
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
-    private func setTestLayout() {
-        
-        let images = [UIImage(named: "dog.jpeg"), UIImage(named: "dog2.jpeg"), UIImage(named: "dog3.jpeg")]
-        
+    private func setLayout() {
         
         let titleLabel: UILabel = {
             let titleLabel = UILabel()
@@ -62,45 +68,36 @@ extension OnBoardingViewController: UIScrollViewDelegate, BottomButtonProtocol {
             return subTitleLabel
         }()
         
+        scrollView.delegate = self
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.isScrollEnabled = true
+        scrollView.isPagingEnabled = true
+        scrollView.showsVerticalScrollIndicator = false
+        scrollView.showsHorizontalScrollIndicator = false
         
-        let scrollView: UIScrollView = {
-            let scrollView = UIScrollView()
-            
-            scrollView.delegate = self
-            
+        
+        
+        for i in 0 ..< images.count {
             let imageView = UIImageView()
-            imageView.contentMode = .scaleAspectFit
-            imageView.frame = CGRect(x: scrollView.layer.position.x, y: scrollView.layer.position.y, width: scrollView.frame.size.width, height: scrollView.frame.size.height)
-            imageView.image = UIImage(named: "dog.jpeg")
+            let xPos = 255 * CGFloat(i) // 이미지의 가로가 255이기 때문에 이미지 갯수에 그 길이를 곱함
+            imageView.frame = CGRect(x: xPos, y: 0, width: 255, height: 255)
+            imageView.image = images[i]
+            imageView.contentMode = .scaleToFill
             scrollView.addSubview(imageView)
-            // 이미지들을 이미지 뷰로 넣음
-            //            for i in 0 ..< images.count {
-            //                let imageView = UIImageView()
-            //                imageView.contentMode = .scaleToFill
-            //                imageView.frame = CGRect(x: scrollView.frame.width, y: scrollView.frame.height, width: scrollView.bounds.width, height: scrollView.bounds.height)
-            //                imageView.image = images[i]
-            //                scrollView.addSubview(imageView)
-            //                scrollView.contentSize.width = imageView.frame.width * CGFloat(i + 1)
-            //            }
-            
-            return scrollView
-        }()
+            scrollView.contentSize.width = imageView.frame.width * CGFloat(i + 1)
+        }
         
+        // 페이지 컨트롤
+        pageControl.backgroundColor = .white
+        pageControl.currentPage = 0
+        pageControl.numberOfPages = images.count
+        pageControl.isUserInteractionEnabled = false
+        pageControl.pageIndicatorTintColor = #colorLiteral(red: 0.8859946132, green: 0.8967292905, blue: 0.9279116988, alpha: 1)
+        pageControl.currentPageIndicatorTintColor = #colorLiteral(red: 0.3751349747, green: 0.5605497956, blue: 0.9886955619, alpha: 1)
+//        pageControl.addTarget(self, action: #selector(pageControlChange(_:)), for: .valueChanged)
         
-        let pageControl: UIPageControl = {
-            let pageControl = UIPageControl()
-            pageControl.backgroundColor = .white
-            pageControl.currentPage = 0
-            pageControl.numberOfPages = images.count
-            pageControl.pageIndicatorTintColor = #colorLiteral(red: 0.8859946132, green: 0.8967292905, blue: 0.9279116988, alpha: 1)
-            pageControl.currentPageIndicatorTintColor = #colorLiteral(red: 0.3751349747, green: 0.5605497956, blue: 0.9886955619, alpha: 1)
-            pageControl.isUserInteractionEnabled = true
-            
-            return pageControl
-        }()
         
         // 건너뛰기 버튼
-        let skipButton = BottomButton()
         skipButton.delegate = self
         
         
@@ -124,7 +121,6 @@ extension OnBoardingViewController: UIScrollViewDelegate, BottomButtonProtocol {
             $0.top.equalTo(subTitleLabel.snp.bottom).offset(48)
             $0.size.equalTo(CGSize(width: 255, height: 255))
             scrollView.layer.cornerRadius = 20
-            
         }
         
         view.addSubview(pageControl)
@@ -141,9 +137,7 @@ extension OnBoardingViewController: UIScrollViewDelegate, BottomButtonProtocol {
         skipButton.backgroundColor = .deactiveGray
         skipButton.setTitle("건너뛰기", for: .normal)
         skipButton.setTitleColor(UIColor.init(hex: 0xAFB4C3), for: .normal)
-        
     }
-    
     /**
      * @ 초기 레이아웃 설정
      * coder : sanghyeon
@@ -156,13 +150,30 @@ extension OnBoardingViewController: UIScrollViewDelegate, BottomButtonProtocol {
         /// 뷰컨트롤러 배경색 지정
         view.backgroundColor = .white
     }
+
     
-    @objc func buttonColorChange(_ sender: UIPageControl, _ skipButton: UIButton) {
-        if sender.currentPage == 3 {
-            skipButton.setTitle("가맹점 찾으러 가기", for: .normal)
+    private func setPageControlSelectedPage(currentPage:Int) {
+        pageControl.currentPage = currentPage
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let value = scrollView.contentOffset.x/scrollView.frame.size.width
+        setPageControlSelectedPage(currentPage: Int(round(value)))
+        
+        if pageControl.currentPage == 2 {
             skipButton.backgroundColor = UIColor.pointBlue
+            skipButton.setTitle("가맹점 찾으러 가기", for: .normal)
+            skipButton.setTitleColor(UIColor.white, for: .normal)
         }
     }
+    
+//    @objc func pageControlChange(_ sender: UIPageControl) {
+//        if sender.currentPage == sender.numberOfPages - 1 {
+//            skipButton.backgroundColor = UIColor.pointBlue
+//            skipButton.setTitle("가맹점 찾으러 가기", for: .normal)
+//            skipButton.setTitleColor(UIColor.white, for: .normal)
+//        }
+//    }
 }
 
 

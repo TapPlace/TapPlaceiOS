@@ -23,7 +23,11 @@ class OnBoardingViewController: UIViewController {
 }
 
 //MARK: - Layout
-extension OnBoardingViewController: UIScrollViewDelegate {
+extension OnBoardingViewController: UIScrollViewDelegate, BottomButtonProtocol {
+    func didTapBottomButton() {
+        
+    }
+    
     private func setTestLayout() {
         
         let images = [UIImage(named: "dog.jpeg"), UIImage(named: "dog2.jpeg"), UIImage(named: "dog3.jpeg")]
@@ -94,14 +98,7 @@ extension OnBoardingViewController: UIScrollViewDelegate {
         }()
         
         // 건너뛰기 버튼
-        let skipButton: UIButton = {
-            let skipButton = UIButton(type: UIButton.ButtonType.system)
-            skipButton.setTitle("건너뛰기", for: .normal)
-            skipButton.titleLabel?.tintColor = .white
-            skipButton.titleLabel?.font = UIFont.systemFont(ofSize: 16)
-            skipButton.backgroundColor = #colorLiteral(red: 0.3751349747, green: 0.5605497956, blue: 0.9886955619, alpha: 1)
-            return skipButton
-        }()
+        let skipButton = BottomButton()
         
         view.addSubview(titleLabel)
         titleLabel.snp.makeConstraints {
@@ -134,9 +131,12 @@ extension OnBoardingViewController: UIScrollViewDelegate {
         
         view.addSubview(skipButton)
         skipButton.snp.makeConstraints {
-            $0.bottom.equalToSuperview()
-            $0.size.equalTo(CGSize(width: self.view.frame.size.width, height: 60))
+            $0.left.right.bottom.equalToSuperview()
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-60)
         }
+        skipButton.backgroundColor = .deactiveGray
+        skipButton.setTitle("건너뛰기", for: .normal)
+        skipButton.setTitleColor(UIColor.init(hex: 0xAFB4C3), for: .normal)
     }
     
 //    func setPageControlSelectedPage(currentPage:Int) {

@@ -8,7 +8,7 @@
 import UIKit
 import AlignedCollectionViewFlowLayout
 
-class PickStoresViewController: UIViewController {
+class PickStoresViewController: CommonPickViewController {
 
     let bottomButton = BottomButton()
     
@@ -29,6 +29,8 @@ class PickStoresViewController: UIViewController {
         super.viewDidLoad()
         setupView()
         // Do any additional setup after loading the view.
+        
+        
     }
     
 

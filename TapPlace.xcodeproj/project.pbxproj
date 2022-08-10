@@ -16,6 +16,7 @@
 		DF2340D128A239FC00A9DAE1 /* PickPaymentsCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF2340D028A239FC00A9DAE1 /* PickPaymentsCollectionReusableView.swift */; };
 		DF2340D328A270C700A9DAE1 /* PaymentModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF2340D228A270C700A9DAE1 /* PaymentModel.swift */; };
 		DF2340D528A291B700A9DAE1 /* PickStoresViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF2340D428A291B700A9DAE1 /* PickStoresViewController.swift */; };
+		DF38177028A46EF100B900B5 /* CommonPickViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF38176F28A46EF100B900B5 /* CommonPickViewController.swift */; };
 		DF826698289CA0EC00272830 /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF826697289CA0EC00272830 /* SplashViewController.swift */; };
 		DF82669A289CA10800272830 /* OnBoardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF826699289CA10800272830 /* OnBoardingViewController.swift */; };
 		DF82669C289CA11700272830 /* PickPaymentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF82669B289CA11700272830 /* PickPaymentsViewController.swift */; };
@@ -56,6 +57,7 @@
 		DF2340D028A239FC00A9DAE1 /* PickPaymentsCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickPaymentsCollectionReusableView.swift; sourceTree = "<group>"; };
 		DF2340D228A270C700A9DAE1 /* PaymentModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentModel.swift; sourceTree = "<group>"; };
 		DF2340D428A291B700A9DAE1 /* PickStoresViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickStoresViewController.swift; sourceTree = "<group>"; };
+		DF38176F28A46EF100B900B5 /* CommonPickViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonPickViewController.swift; sourceTree = "<group>"; };
 		DF49AD8C28A0AB2A004EDC34 /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
 		DF49AD8D28A0AB3F004EDC34 /* Production.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Production.xcconfig; sourceTree = "<group>"; };
 		DF826697289CA0EC00272830 /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
@@ -127,6 +129,14 @@
 			path = Button;
 			sourceTree = "<group>";
 		};
+		DF38176E28A46EE000B900B5 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				DF38176F28A46EF100B900B5 /* CommonPickViewController.swift */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
 		DF49AD8B28A0AB15004EDC34 /* Configurations */ = {
 			isa = PBXGroup;
 			children = (
@@ -190,6 +200,7 @@
 		DFC23FAB289AB69D00EC1090 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				DF38176E28A46EE000B900B5 /* Common */,
 				DFDA43F728A14C56003763AC /* Utils */,
 				DFC23FBC289AB70F00EC1090 /* Cells */,
 				DFC23FB9289AB70300EC1090 /* Extensions */,
@@ -423,6 +434,7 @@
 				DF2340AA28A1D37D00A9DAE1 /* NSMutableAttributedString+Extension.swift in Sources */,
 				DFDA43F928A14C61003763AC /* CommonUtils.swift in Sources */,
 				DF2340D528A291B700A9DAE1 /* PickStoresViewController.swift in Sources */,
+				DF38177028A46EF100B900B5 /* CommonPickViewController.swift in Sources */,
 				DF8266A6289CA18C00272830 /* MyPageViewController.swift in Sources */,
 				DFC23FAF289AB6C900EC1090 /* EmptyModel.swift in Sources */,
 				DF8266A0289CA15100272830 /* PlaceSearchViewController.swift in Sources */,

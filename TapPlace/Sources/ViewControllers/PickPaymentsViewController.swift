@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 import AlignedCollectionViewFlowLayout
 
-class PickPaymentsViewController: UIViewController {
+class PickPaymentsViewController: CommonPickViewController {
     let samplePayments = [
         "etc": ["카카오페이", "네이버페이", "제로페이", "페이코"],
         "applepay": ["VISA", "MASTER CARD", "JCB"],
@@ -80,10 +80,10 @@ extension PickPaymentsViewController: TitleViewProtocol, BottomButtonProtocol {
             for j in 0...samplePayments[samplePaymentsTitle[i]]!.count - 1 {
                 let cell = collectionView.cellForItem(at: IndexPath(row: j, section: i)) as! PickPaymentsCollectionViewCell
                 cell.cellSelected = false
-                cell.itemText.textColor = .disabledTextColor
-                cell.itemFrame.backgroundColor = .clear
-                cell.itemFrame.layer.borderWidth = 1
-                cell.itemFrame.layer.borderColor = UIColor.disabledBorderColor.cgColor
+                cell.itemText.textColor = colorText[0]
+                cell.itemFrame.backgroundColor = colorBackground[0]
+                cell.itemFrame.layer.borderWidth = widthBorder[0]
+                cell.itemFrame.layer.borderColor = colorBorder[0].cgColor
             }
         }
         bottomButtonUpdate()
@@ -152,23 +152,8 @@ extension PickPaymentsViewController: UICollectionViewDelegate, UICollectionView
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print("셀 선택 됨")
         guard let cell = collectionView.cellForItem(at: indexPath) as? PickPaymentsCollectionViewCell else { return }
-        if cell.cellSelected {
-            cell.cellSelected = false
-            cell.itemText.textColor = .disabledTextColor
-            cell.itemFrame.backgroundColor = .clear
-            cell.itemFrame.layer.borderWidth = 1
-            cell.itemFrame.layer.borderColor = UIColor.disabledBorderColor.cgColor
-            let selectedCurrentPayments: [String] = (selectedPayments[samplePaymentsTitle[indexPath.section]] as? [String])!
-            guard let firstIndex = selectedCurrentPayments.firstIndex(of: samplePayments[samplePaymentsTitle[indexPath.section]]![indexPath.row]) else { return }
-            selectedPayments[samplePaymentsTitle[indexPath.section]]!.remove(at: firstIndex)
-        } else {
-            cell.cellSelected = true
-            cell.itemText.textColor = .pointBlue
-            cell.itemFrame.backgroundColor = .activateBackgroundColor
-            cell.itemFrame.layer.borderWidth = 1.5
-            cell.itemFrame.layer.borderColor = UIColor.activateBorderColor.cgColor
-            selectedPayments[samplePaymentsTitle[indexPath.section]]?.append(samplePayments[samplePaymentsTitle[indexPath.section]]![indexPath.row])
-        }
+        
+        selectCellItem(cell, selected: cell.cellSelected, indexPath: indexPath)
         bottomButtonUpdate()
     }
     
@@ -211,6 +196,29 @@ extension PickPaymentsViewController: UICollectionViewDelegate, UICollectionView
         return CGSize(width: labelSize.width + 40, height: 36)
     }
     
+    /**
+     * @ 컬렉션뷰 선택시 UI 변경
+     * coder : sanghyeon
+     */
+    func selectCellItem(_ cell: PickPaymentsCollectionViewCell, selected: Bool, indexPath: IndexPath) {
+        
+        let arrRow = selected ? 0 : 1
+        
+        cell.itemText.textColor = colorText[arrRow]
+        cell.itemFrame.backgroundColor = colorBackground[arrRow]
+        cell.itemFrame.layer.borderWidth = widthBorder[arrRow]
+        cell.itemFrame.layer.borderColor = colorBorder[arrRow].cgColor
+        cell.cellSelected = activeCell[arrRow]
+        
+        
+        if selected {
+            let selectedCurrentPayments: [String] = (selectedPayments[samplePaymentsTitle[indexPath.section]] as? [String])!
+            guard let firstIndex = selectedCurrentPayments.firstIndex(of: samplePayments[samplePaymentsTitle[indexPath.section]]![indexPath.row]) else { return }
+            selectedPayments[samplePaymentsTitle[indexPath.section]]!.remove(at: firstIndex)
+        } else {
+            selectedPayments[samplePaymentsTitle[indexPath.section]]?.append(samplePayments[samplePaymentsTitle[indexPath.section]]![indexPath.row])
+        }
+    }
     
     /**
      * @ 컬렉션뷰 선택시 선택된 항목 유무에 따라 하단 버튼 작동 로직 구현

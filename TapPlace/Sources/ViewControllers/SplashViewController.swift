@@ -30,14 +30,14 @@ class SplashViewController: UIViewController {
         if isFirstLaunch() {
             /// 초기실행일 경우 온보딩 뷰 이동
             print("초기실행!")
-            moveViewController(vc: OnBoardingViewController())
+            moveViewController(OnBoardingViewController(), present: false)
         } else {
             if isPickedPayments() {
                 /// 관심 결제수단 등록 되어있을 경우 메인 뷰컨트롤러 이동
-                moveViewController(vc: MainViewController())
+                moveViewController(MainViewController(), present: true)
             } else {
                 /// 관심 결제수단 등록 되어있지 않을 경우 관심 결제수단 설정 뷰로 이동
-                moveViewController(vc: PickPaymentsViewController())
+                moveViewController(PickPaymentsViewController(), present: false)
             }
         }
     }
@@ -114,9 +114,7 @@ extension SplashViewController {
         if UserDefaults.contains("firstLaunch") {
             let firstLaunch = UserDefaults.standard.bool(forKey: "firstLaunch")
             print("firstLaunch:", firstLaunch)
-            if firstLaunch {
-                return false
-            }
+            return firstLaunch
         }
         return true
     }
@@ -137,13 +135,19 @@ extension SplashViewController {
      * 자연스러운 이동을 위해 3초의 지연 후 이동합니다.
      * coder : sanghyeon
      */
-    private func moveViewController(vc: UIViewController) {
+    private func moveViewController(_ vc: UIViewController, present: Bool) {
         /*
         vc.modalTransitionStyle = .flipHorizontal
         vc.modalPresentationStyle = .fullScreen
          */
         DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1)) {
-            self.navigationController?.pushViewController(vc, animated: true)
+            if present {
+                vc.modalPresentationStyle = .fullScreen
+                vc.modalTransitionStyle = .crossDissolve
+                self.present(vc, animated: true)
+            } else {
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
         }
     }
 }

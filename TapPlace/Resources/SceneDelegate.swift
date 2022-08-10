@@ -18,7 +18,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
 
         let window = UIWindow(windowScene: windowScene)
-        window.rootViewController = SplashViewController()//UINavigationController(rootViewController: PickPaymentsViewController()) 
+        window.rootViewController = UINavigationController(rootViewController: SplashViewController()) 
         window.makeKeyAndVisible()
         self.window = window
     }

@@ -25,6 +25,27 @@ extension UIColor {
     @nonobjc class var pointBlue: UIColor {
         return UIColor(red: 0.31, green: 0.47, blue: 0.98, alpha: 1.00)
     }
+    
+    //MARK: 결제수단, 관심매장 선택창에서 공통으로 쓰이는 색 정의
+    /// 비활성화 프레임 테두리 선
+    @nonobjc class var disabledBorderColor: UIColor {
+        return UIColor.init(hex: 0xDBDEE8, alpha: 0.5)
+    }
+    /// 비활성화 텍스트 색상
+    @nonobjc class var disabledTextColor: UIColor {
+        return UIColor.init(hex: 0xB8BDCC)
+    }
+    /// 활성화 프레임 테두리 선 색상
+    @nonobjc class var activateBorderColor: UIColor {
+        return UIColor.init(hex: 0x4E77FB, alpha: 0.6)
+    }
+    /// 활성화 프레임 배경 색상
+    @nonobjc class var activateBackgroundColor: UIColor {
+        return UIColor.init(hex: 0x4E77FB, alpha: 0.06)
+    }
+    
+    
+    
     /// 비활성화 그레이
     @nonobjc class var deactiveGray: UIColor {
         return UIColor(red: 0.97, green: 0.97, blue: 0.98, alpha: 1.00)

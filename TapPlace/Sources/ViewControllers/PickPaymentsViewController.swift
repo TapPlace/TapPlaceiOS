@@ -23,7 +23,7 @@ class PickPaymentsViewController: UIViewController {
         "contactless": []
     ]
     let samplePaymentsTitle = ["etc", "applepay", "googlepay", "contactless"]
-    let titleView = PickViewControllerTitleView()
+
     /// 결제수단 컬렉션뷰
     let collectionView: UICollectionView = {
         let collectionViewLayout = AlignedCollectionViewFlowLayout()
@@ -46,12 +46,18 @@ class PickPaymentsViewController: UIViewController {
         print(samplePayments.count)
         // Do any additional setup after loading the view.
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
+    }
 }
 //MARK: - Layout
 extension PickPaymentsViewController: TitleViewProtocol, BottomButtonProtocol {
     func didTapBottomButton() {
         if bottomButton.isActive {
             print("액션 실행 가능")
+            let vc = PickStoresViewController()
+            self.navigationController?.pushViewController(vc, animated: true)
         } else {
             print("액션 실행 불가능")
         }
@@ -74,10 +80,10 @@ extension PickPaymentsViewController: TitleViewProtocol, BottomButtonProtocol {
             for j in 0...samplePayments[samplePaymentsTitle[i]]!.count - 1 {
                 let cell = collectionView.cellForItem(at: IndexPath(row: j, section: i)) as! PickPaymentsCollectionViewCell
                 cell.cellSelected = false
-                cell.itemText.textColor = UIColor.init(hex: 0xB8BDCC)
+                cell.itemText.textColor = .disabledTextColor
                 cell.itemFrame.backgroundColor = .clear
                 cell.itemFrame.layer.borderWidth = 1
-                cell.itemFrame.layer.borderColor = UIColor.init(hex: 0xDBDEE8, alpha: 0.5).cgColor
+                cell.itemFrame.layer.borderColor = UIColor.disabledBorderColor.cgColor
             }
         }
         bottomButtonUpdate()
@@ -92,6 +98,7 @@ extension PickPaymentsViewController: TitleViewProtocol, BottomButtonProtocol {
         view.backgroundColor = .white
         self.navigationController?.navigationBar.isHidden = true
         //MARK: 뷰 추가
+        let titleView = PickViewControllerTitleView()
         view.addSubview(titleView)
         view.addSubview(bottomButton)
         view.addSubview(collectionView)
@@ -108,7 +115,7 @@ extension PickPaymentsViewController: TitleViewProtocol, BottomButtonProtocol {
         collectionView.snp.makeConstraints {
             $0.top.equalTo(titleView.snp.bottom)
             $0.bottom.equalTo(bottomButton.snp.top)
-            $0.left.trailing.equalTo(view.safeAreaLayoutGuide)
+            $0.leading.trailing.equalTo(view.safeAreaLayoutGuide)
         }
         bottomButton.backgroundColor = .deactiveGray
         bottomButton.setTitle("선택완료", for: .normal)
@@ -147,19 +154,19 @@ extension PickPaymentsViewController: UICollectionViewDelegate, UICollectionView
         guard let cell = collectionView.cellForItem(at: indexPath) as? PickPaymentsCollectionViewCell else { return }
         if cell.cellSelected {
             cell.cellSelected = false
-            cell.itemText.textColor = UIColor.init(hex: 0xB8BDCC)
+            cell.itemText.textColor = .disabledTextColor
             cell.itemFrame.backgroundColor = .clear
             cell.itemFrame.layer.borderWidth = 1
-            cell.itemFrame.layer.borderColor = UIColor.init(hex: 0xDBDEE8, alpha: 0.5).cgColor
+            cell.itemFrame.layer.borderColor = UIColor.disabledBorderColor.cgColor
             let selectedCurrentPayments: [String] = (selectedPayments[samplePaymentsTitle[indexPath.section]] as? [String])!
             guard let firstIndex = selectedCurrentPayments.firstIndex(of: samplePayments[samplePaymentsTitle[indexPath.section]]![indexPath.row]) else { return }
             selectedPayments[samplePaymentsTitle[indexPath.section]]!.remove(at: firstIndex)
         } else {
             cell.cellSelected = true
             cell.itemText.textColor = .pointBlue
-            cell.itemFrame.backgroundColor = UIColor.init(hex: 0x4E77FB, alpha: 0.06)
+            cell.itemFrame.backgroundColor = .activateBackgroundColor
             cell.itemFrame.layer.borderWidth = 1.5
-            cell.itemFrame.layer.borderColor = UIColor.init(hex: 0x4E77FB, alpha: 0.6).cgColor
+            cell.itemFrame.layer.borderColor = UIColor.activateBorderColor.cgColor
             selectedPayments[samplePaymentsTitle[indexPath.section]]?.append(samplePayments[samplePaymentsTitle[indexPath.section]]![indexPath.row])
         }
         bottomButtonUpdate()
@@ -200,7 +207,8 @@ extension PickPaymentsViewController: UICollectionViewDelegate, UICollectionView
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: CommonUtils().getTextSizeWidth(text: samplePayments[samplePaymentsTitle[indexPath.section]]![indexPath.row]), height: 36)
+        let labelSize = CommonUtils().getTextSizeWidth(text: samplePayments[samplePaymentsTitle[indexPath.section]]![indexPath.row])
+        return CGSize(width: labelSize.width + 40, height: 36)
     }
     
     

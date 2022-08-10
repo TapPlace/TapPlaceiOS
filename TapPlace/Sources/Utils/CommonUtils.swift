@@ -23,7 +23,7 @@ struct CommonUtils {
      * @ 결제수단 선택창 셀 크기 지정을 위해 글자수 기반 사이즈 반환
      * coder : sanghyeon
      */
-    func getTextSizeWidth(text: String) -> CGFloat {
+    func getTextSizeWidth(text: String) -> LabelSize {
         let label: UILabel = {
             let label = UILabel()
             label.text = text
@@ -31,6 +31,11 @@ struct CommonUtils {
             label.sizeToFit()
             return label
         }()
-        return label.frame.width + 40
+        return LabelSize(width: label.frame.width, height: label.frame.height)
     }
+}
+
+struct LabelSize {
+    let width: CGFloat
+    let height: CGFloat
 }

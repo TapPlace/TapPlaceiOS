@@ -94,14 +94,14 @@ class PickViewControllerTitleView: UIView {
     /// 상단 타이틀 > 페이징 뷰 > 페이지 1
     let pageOne: UIView = {
         let pageOne = UIView()
-        pageOne.layer.cornerRadius = pageOne.layer.frame.size.width / 2
+        pageOne.clipsToBounds = true
         pageOne.backgroundColor = UIColor.init(hex: 0xDBDEE8, alpha: 0.3)
         return pageOne
     }()
     /// 상단 타이틀 > 페이징 뷰 > 페이지 2
     let pageTwo: UIView = {
         let pageTwo = UIView()
-        pageTwo.layer.cornerRadius = pageTwo.layer.frame.size.width / 2
+        pageTwo.clipsToBounds = true
         pageTwo.backgroundColor = UIColor.init(hex: 0xDBDEE8, alpha: 0.3)
         return pageTwo
     }()
@@ -168,6 +168,7 @@ class PickViewControllerTitleView: UIView {
         DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(Int(0.1))) {
             self.pageOne.layer.cornerRadius = self.pageOne.frame.size.width / 2
             self.pageTwo.layer.cornerRadius = self.pageTwo.frame.size.width / 2
+            
         }
         
 

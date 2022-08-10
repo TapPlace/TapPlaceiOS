@@ -30,7 +30,7 @@ class SplashViewController: UIViewController {
         if isFirstLaunch() {
             /// 초기실행일 경우 온보딩 뷰 이동
             print("초기실행!")
-            moveViewController(vc: UINavigationController(rootViewController: OnBoardingViewController()))
+            moveViewController(vc: OnBoardingViewController())
         } else {
             if isPickedPayments() {
                 /// 관심 결제수단 등록 되어있을 경우 메인 뷰컨트롤러 이동
@@ -138,10 +138,12 @@ extension SplashViewController {
      * coder : sanghyeon
      */
     private func moveViewController(vc: UIViewController) {
+        /*
         vc.modalTransitionStyle = .flipHorizontal
         vc.modalPresentationStyle = .fullScreen
-        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(3)) {
-            self.present(vc, animated: true)
+         */
+        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1)) {
+            self.navigationController?.pushViewController(vc, animated: true)
         }
     }
 }

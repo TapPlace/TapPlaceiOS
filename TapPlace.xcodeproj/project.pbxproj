@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		A237CEA6BD9B118FC101AE53 /* Pods_TapPlace.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3133928FD2ADCB6663ED1FA0 /* Pods_TapPlace.framework */; };
+		DF1D34B528A364B900BDDA15 /* PickStoresCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF1D34B428A364B900BDDA15 /* PickStoresCollectionViewCell.swift */; };
+		DF1D34B728A3662900BDDA15 /* StoreModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF1D34B628A3662900BDDA15 /* StoreModel.swift */; };
 		DF2340AA28A1D37D00A9DAE1 /* NSMutableAttributedString+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF2340A928A1D37D00A9DAE1 /* NSMutableAttributedString+Extension.swift */; };
 		DF2340CD28A22DF900A9DAE1 /* BottomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF2340CC28A22DF900A9DAE1 /* BottomButton.swift */; };
 		DF2340CF28A2381700A9DAE1 /* PickPaymentsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF2340CE28A2381700A9DAE1 /* PickPaymentsCollectionViewCell.swift */; };
@@ -46,6 +48,8 @@
 /* Begin PBXFileReference section */
 		3133928FD2ADCB6663ED1FA0 /* Pods_TapPlace.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TapPlace.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5857631C0AF0C551FB22305A /* Pods-TapPlace.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TapPlace.release.xcconfig"; path = "Target Support Files/Pods-TapPlace/Pods-TapPlace.release.xcconfig"; sourceTree = "<group>"; };
+		DF1D34B428A364B900BDDA15 /* PickStoresCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickStoresCollectionViewCell.swift; sourceTree = "<group>"; };
+		DF1D34B628A3662900BDDA15 /* StoreModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreModel.swift; sourceTree = "<group>"; };
 		DF2340A928A1D37D00A9DAE1 /* NSMutableAttributedString+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSMutableAttributedString+Extension.swift"; sourceTree = "<group>"; };
 		DF2340CC28A22DF900A9DAE1 /* BottomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomButton.swift; sourceTree = "<group>"; };
 		DF2340CE28A2381700A9DAE1 /* PickPaymentsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickPaymentsCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -220,6 +224,7 @@
 			children = (
 				DFC23FAE289AB6C900EC1090 /* EmptyModel.swift */,
 				DF2340D228A270C700A9DAE1 /* PaymentModel.swift */,
+				DF1D34B628A3662900BDDA15 /* StoreModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -268,6 +273,7 @@
 				DFC23FBD289AB71800EC1090 /* EmptyCell.swift */,
 				DF2340CE28A2381700A9DAE1 /* PickPaymentsCollectionViewCell.swift */,
 				DF2340D028A239FC00A9DAE1 /* PickPaymentsCollectionReusableView.swift */,
+				DF1D34B428A364B900BDDA15 /* PickStoresCollectionViewCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -423,8 +429,10 @@
 				DFC23FBE289AB71800EC1090 /* EmptyCell.swift in Sources */,
 				DF826698289CA0EC00272830 /* SplashViewController.swift in Sources */,
 				DF82669A289CA10800272830 /* OnBoardingViewController.swift in Sources */,
+				DF1D34B528A364B900BDDA15 /* PickStoresCollectionViewCell.swift in Sources */,
 				DF8266A2289CA17700272830 /* DetailPlaceViewController.swift in Sources */,
 				DF2340D128A239FC00A9DAE1 /* PickPaymentsCollectionReusableView.swift in Sources */,
+				DF1D34B728A3662900BDDA15 /* StoreModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

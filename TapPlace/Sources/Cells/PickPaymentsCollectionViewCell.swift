@@ -18,14 +18,14 @@ class PickPaymentsCollectionViewCell: UICollectionViewCell {
         let itemFrame = UIView()
         itemFrame.frame.size.height = 36
         itemFrame.layer.borderWidth = 1
-        itemFrame.layer.borderColor = UIColor.init(hex: 0xDBDEE8, alpha: 0.5).cgColor
+        itemFrame.layer.borderColor = UIColor.disabledBorderColor.cgColor
         itemFrame.layer.cornerRadius = 18
         return itemFrame
     }()
     let itemText: UILabel = {
         let itemText = UILabel()
         itemText.sizeToFit()
-        itemText.textColor = UIColor.init(hex: 0xB8BDCC)
+        itemText.textColor = .disabledTextColor
         itemText.font = .systemFont(ofSize: CommonUtils().resizeFontSize(size: 14), weight: .regular)
         return itemText
     }()

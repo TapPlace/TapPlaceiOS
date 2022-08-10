@@ -9,7 +9,8 @@ target 'TapPlace' do
   pod 'SnapKit', '~> 5.6.0'
   pod 'NMapsMap'
   pod 'Alamofire'
+  pod 'AlignedCollectionViewFlowLayout'
 
   # Pods for TapPlace
-  pod 'NMapsMap'
+
 end

@@ -70,10 +70,9 @@ extension OnBoardingViewController: UIScrollViewDelegate, BottomButtonProtocol {
             
             let imageView = UIImageView()
             imageView.contentMode = .scaleAspectFit
-            imageView.frame = CGRect(x: scrollView.frame.width, y: scrollView.frame.height, width: scrollView.bounds.width, height: scrollView.bounds.height)
+            imageView.frame = CGRect(x: scrollView.layer.position.x, y: scrollView.layer.position.y, width: scrollView.frame.size.width, height: scrollView.frame.size.height)
             imageView.image = UIImage(named: "dog.jpeg")
             scrollView.addSubview(imageView)
-            
             // 이미지들을 이미지 뷰로 넣음
             //            for i in 0 ..< images.count {
             //                let imageView = UIImageView()
@@ -103,6 +102,7 @@ extension OnBoardingViewController: UIScrollViewDelegate, BottomButtonProtocol {
         // 건너뛰기 버튼
         let skipButton = BottomButton()
         skipButton.delegate = self
+        
         
         view.addSubview(titleLabel)
         titleLabel.snp.makeConstraints {
@@ -141,17 +141,8 @@ extension OnBoardingViewController: UIScrollViewDelegate, BottomButtonProtocol {
         skipButton.backgroundColor = .deactiveGray
         skipButton.setTitle("건너뛰기", for: .normal)
         skipButton.setTitleColor(UIColor.init(hex: 0xAFB4C3), for: .normal)
+        
     }
-    
-//    func setPageControlSelectedPage(currentPage:Int) {
-//        pageControl.currentPage = currentPage
-//    }
-    
-//    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-//        let value = scrollView.contentOffset.x/scrollView.frame.size.width
-//        setPageControlSelectedPage(currentPage: Int(round(value)))
-//    }
-    
     
     /**
      * @ 초기 레이아웃 설정
@@ -164,6 +155,13 @@ extension OnBoardingViewController: UIScrollViewDelegate, BottomButtonProtocol {
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
         /// 뷰컨트롤러 배경색 지정
         view.backgroundColor = .white
+    }
+    
+    @objc func buttonColorChange(_ sender: UIPageControl, _ skipButton: UIButton) {
+        if sender.currentPage == 3 {
+            skipButton.setTitle("가맹점 찾으러 가기", for: .normal)
+            skipButton.backgroundColor = UIColor.pointBlue
+        }
     }
 }
 

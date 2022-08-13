@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		A237CEA6BD9B118FC101AE53 /* Pods_TapPlace.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3133928FD2ADCB6663ED1FA0 /* Pods_TapPlace.framework */; };
+		55CBCFD9AFB8567F870CFC5F /* Pods_TapPlace.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FFFD01AEFF3455253C3E138 /* Pods_TapPlace.framework */; };
 		DF1D34B528A364B900BDDA15 /* PickStoresCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF1D34B428A364B900BDDA15 /* PickStoresCollectionViewCell.swift */; };
 		DF1D34B728A3662900BDDA15 /* StoreModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF1D34B628A3662900BDDA15 /* StoreModel.swift */; };
 		DF2340AA28A1D37D00A9DAE1 /* NSMutableAttributedString+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF2340A928A1D37D00A9DAE1 /* NSMutableAttributedString+Extension.swift */; };
@@ -47,8 +47,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		3133928FD2ADCB6663ED1FA0 /* Pods_TapPlace.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TapPlace.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		5857631C0AF0C551FB22305A /* Pods-TapPlace.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TapPlace.release.xcconfig"; path = "Target Support Files/Pods-TapPlace/Pods-TapPlace.release.xcconfig"; sourceTree = "<group>"; };
+		2F0AC997BCBE5EECEE20CD45 /* Pods-TapPlace.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TapPlace.debug.xcconfig"; path = "Target Support Files/Pods-TapPlace/Pods-TapPlace.debug.xcconfig"; sourceTree = "<group>"; };
+		3FFFD01AEFF3455253C3E138 /* Pods_TapPlace.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TapPlace.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		662DBEBE9668E5AAC68748EB /* Pods-TapPlace.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TapPlace.release.xcconfig"; path = "Target Support Files/Pods-TapPlace/Pods-TapPlace.release.xcconfig"; sourceTree = "<group>"; };
 		DF1D34B428A364B900BDDA15 /* PickStoresCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickStoresCollectionViewCell.swift; sourceTree = "<group>"; };
 		DF1D34B628A3662900BDDA15 /* StoreModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreModel.swift; sourceTree = "<group>"; };
 		DF2340A928A1D37D00A9DAE1 /* NSMutableAttributedString+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSMutableAttributedString+Extension.swift"; sourceTree = "<group>"; };
@@ -86,7 +87,6 @@
 		DFDA43F528A14AB3003763AC /* PickViewControllerTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickViewControllerTitleView.swift; sourceTree = "<group>"; };
 		DFDA43F828A14C61003763AC /* CommonUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonUtils.swift; sourceTree = "<group>"; };
 		DFDC182E289FE8A70076EE2E /* UserDefaults+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Extension.swift"; sourceTree = "<group>"; };
-		EE6B55B871920F4FFEBF22CD /* Pods-TapPlace.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TapPlace.debug.xcconfig"; path = "Target Support Files/Pods-TapPlace/Pods-TapPlace.debug.xcconfig"; sourceTree = "<group>"; };
 		F425EEC928A25087002A20FC /* dog.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = dog.jpeg; sourceTree = "<group>"; };
 		F425EECB28A29EEF002A20FC /* dog2.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = dog2.jpeg; sourceTree = "<group>"; };
 		F425EECC28A29EF0002A20FC /* dog3.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = dog3.jpeg; sourceTree = "<group>"; };
@@ -97,7 +97,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A237CEA6BD9B118FC101AE53 /* Pods_TapPlace.framework in Frameworks */,
+				55CBCFD9AFB8567F870CFC5F /* Pods_TapPlace.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -107,16 +107,16 @@
 		01A2DED080638619BC75DAE2 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				EE6B55B871920F4FFEBF22CD /* Pods-TapPlace.debug.xcconfig */,
-				5857631C0AF0C551FB22305A /* Pods-TapPlace.release.xcconfig */,
+				2F0AC997BCBE5EECEE20CD45 /* Pods-TapPlace.debug.xcconfig */,
+				662DBEBE9668E5AAC68748EB /* Pods-TapPlace.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
 		};
-		A026D8A2C2B51A425AC4211E /* Frameworks */ = {
+		0CCD670F065EE7254EDCE07A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				3133928FD2ADCB6663ED1FA0 /* Pods_TapPlace.framework */,
+				3FFFD01AEFF3455253C3E138 /* Pods_TapPlace.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -152,7 +152,7 @@
 				DFC23F94289AB66400EC1090 /* TapPlace */,
 				DFC23F93289AB66400EC1090 /* Products */,
 				01A2DED080638619BC75DAE2 /* Pods */,
-				A026D8A2C2B51A425AC4211E /* Frameworks */,
+				0CCD670F065EE7254EDCE07A /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -304,11 +304,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = DFC23FA6289AB66600EC1090 /* Build configuration list for PBXNativeTarget "TapPlace" */;
 			buildPhases = (
-				F15BE6A5233B1B090D8DF854 /* [CP] Check Pods Manifest.lock */,
+				7DD79DF42FC6070301FCABEF /* [CP] Check Pods Manifest.lock */,
 				DFC23F8E289AB66400EC1090 /* Sources */,
 				DFC23F8F289AB66400EC1090 /* Frameworks */,
 				DFC23F90289AB66400EC1090 /* Resources */,
-				388E841DD0ABCCA24C04B45F /* [CP] Embed Pods Frameworks */,
+				1B63AABEF56873C0664088BB /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -368,7 +368,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		388E841DD0ABCCA24C04B45F /* [CP] Embed Pods Frameworks */ = {
+		1B63AABEF56873C0664088BB /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -385,7 +385,7 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-TapPlace/Pods-TapPlace-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		F15BE6A5233B1B090D8DF854 /* [CP] Check Pods Manifest.lock */ = {
+		7DD79DF42FC6070301FCABEF /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -584,7 +584,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 5NACCZGM3F;
+				DEVELOPMENT_TEAM = BFTA9SX898;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TapPlace/Info.plist;
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "위치정보 제공을 허용하시겠습니까?";
@@ -614,7 +614,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 5NACCZGM3F;
+				DEVELOPMENT_TEAM = BFTA9SX898;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TapPlace/Info.plist;
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "위치정보 제공을 허용하시겠습니까?";

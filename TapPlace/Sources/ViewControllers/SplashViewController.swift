@@ -24,6 +24,7 @@ class SplashViewController: UIViewController {
         super.viewDidLoad()
         setupView()
         setTestLayout()
+        print("사용자 디바이스 고유 값:", CommonUtils.getDeviceUUID())
     }
     
     override func viewDidAppear(_ animated: Bool) {

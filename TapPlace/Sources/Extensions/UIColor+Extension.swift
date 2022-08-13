@@ -43,7 +43,18 @@ extension UIColor {
     @nonobjc class var activateBackgroundColor: UIColor {
         return UIColor.init(hex: 0x4E77FB, alpha: 0.06)
     }
-    
+    /// 비활성화 이미지 TintColor
+    @nonobjc class var disabledImageColor: UIColor {
+        return UIColor.init(hex: 0xDBDEE8, alpha: 0.6)
+    }
+    /// 탭바 선택 TintColor
+    @nonobjc class var tabBarTintColor: UIColor {
+        return .pointBlue
+    }
+    /// 탭바 미선택 TintColor
+    @nonobjc class var tabBarUnTintColor: UIColor {
+        return UIColor(red: 0.86, green: 0.87, blue: 0.91, alpha: 1.00)
+    }
     
     
     /// 비활성화 그레이

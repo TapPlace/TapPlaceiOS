@@ -10,20 +10,7 @@ import AlignedCollectionViewFlowLayout
 
 class PickStoresViewController: CommonPickViewController {
 
-    let bottomButton = BottomButton()
-    
-    /// 관심 매장 컬렉션뷰
-    let collectionView: UICollectionView = {
-        let collectionViewLayout = AlignedCollectionViewFlowLayout()
-        collectionViewLayout.scrollDirection = .vertical
-        collectionViewLayout.minimumInteritemSpacing = 15
-        collectionViewLayout.minimumLineSpacing = 15
-        collectionViewLayout.horizontalAlignment = .left
-        //collectionViewLayout.headerReferenceSize = .init(width: 100, height: 40)
-        let collectionView = UICollectionView(frame: CGRect(x: 0, y: 0, width: 0, height: 0), collectionViewLayout: collectionViewLayout)
-        collectionView.backgroundColor = .white
-        return collectionView
-    }()
+    var favoriteStores = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -54,6 +41,13 @@ extension PickStoresViewController: TitleViewProtocol, BottomButtonProtocol {
     
     func didTapTitleViewClearButton() {
         print("초기화 버튼 눌림")
+        for i in 0...StoreModel.storeList.count - 1 {
+            var indexPath = IndexPath(row: i, section: 0)
+            guard let cell = collectionView.cellForItem(at: indexPath) as? PickStoresCollectionViewCell else { return }
+            selectCellItem(cell, selected: true, indexPath: indexPath)
+        }
+        favoriteStores = 0
+        bottomButtonUpdate()
     }
     
     /**
@@ -61,39 +55,18 @@ extension PickStoresViewController: TitleViewProtocol, BottomButtonProtocol {
      * coder : sanghyeon
      */
     private func setupView() {
-        /// 뷰컨트롤러 배경색 지정
-        view.backgroundColor = .white
-        //MARK: 뷰 추가
-        let titleView = PickViewControllerTitleView()
-        bottomButton.delegate = self
-        view.addSubview(titleView)
-        view.addSubview(bottomButton)
-        view.addSubview(collectionView)
-        //MARK: 뷰 제약
-        titleView.snp.makeConstraints {
-            $0.top.leading.trailing.equalTo(view.safeAreaLayoutGuide)
-            $0.height.equalTo(230)
-        }
-        titleView.titleViewText.text = "관심 매장 선택"
-        titleView.currentPage = 2
-        titleView.descLabel.text = "선호하는 매장을 선택하면,\n해당 매장의 간편결제 여부를 알려드릴게요."
+        //MARK: 델리게이트
         titleView.delegate = self
-        
-        bottomButton.snp.makeConstraints {
-            $0.left.right.bottom.equalToSuperview()
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-60)
-        }
-        bottomButton.backgroundColor = .deactiveGray
-        bottomButton.setTitle("선택완료", for: .normal)
-        bottomButton.setTitleColor(UIColor.init(hex: 0xAFB4C3), for: .normal)
-        
-        collectionView.snp.makeConstraints {
-            $0.top.equalTo(titleView.snp.bottom)
-            $0.bottom.equalTo(bottomButton.snp.top)
-            $0.leading.trailing.equalTo(view.safeAreaLayoutGuide)
-        }
+        bottomButton.delegate = self
         collectionView.delegate = self
         collectionView.dataSource = self
+        
+        //MARK: 공통 뷰에서 추가된 타이틀뷰 및 하단버튼 설정
+        titleView.titleViewText.text = "관심 매장 선택"
+        titleView.descLabel.text = "선호하는 매장을 선택하면,\n해당 매장의 간편결제 여부를 알려드릴게요."
+        titleView.currentPage = 2
+        
+        //MARK: 컬렉션뷰 설정
         collectionView.contentInset = UIEdgeInsets(top: 0, left: 20, bottom: 20, right: 20)
         collectionView.register(PickStoresCollectionViewCell.self, forCellWithReuseIdentifier: "storesItem")
     }
@@ -107,8 +80,24 @@ extension PickStoresViewController: UICollectionViewDelegate, UICollectionViewDa
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "storesItem", for: indexPath) as! PickStoresCollectionViewCell
-        
+        cell.imageView.image = UIImage(named: "storeCafe")!.withRenderingMode(.alwaysTemplate)
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print("셀 선택 됨")
+        guard let cell = collectionView.cellForItem(at: indexPath) as? PickStoresCollectionViewCell else { return }
+        
+        
+        selectCellItem(cell, selected: cell.cellSelected, indexPath: indexPath)
+        print("cell.cellSelected:", cell.cellSelected)
+        if cell.cellSelected {
+            favoriteStores += 1
+        } else {
+            favoriteStores -= 1
+        }
+
+        bottomButtonUpdate()
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -116,6 +105,49 @@ extension PickStoresViewController: UICollectionViewDelegate, UICollectionViewDa
         return CGSize(width: cellWidth / 3, height: cellWidth / 3)
     }
     
+    /**
+     * @ 컬렉션뷰 선택시 UI 변경
+     * coder : sanghyeon
+     */
+    func selectCellItem(_ cell: PickStoresCollectionViewCell, selected: Bool, indexPath: IndexPath) {
+        UIView.animate(withDuration: 0.2, delay: 0, animations: {
+            let arrRow = selected ? 0 : 1
+            cell.imageView.tintColor = self.colorImage[arrRow]
+            cell.itemFrame.backgroundColor = self.colorBackground[arrRow]
+            cell.itemFrame.layer.borderWidth = self.widthBorder[arrRow]
+            cell.itemFrame.layer.borderColor = self.colorBorder[arrRow].cgColor
+            cell.itemText.textColor = self.colorText[arrRow]
+            cell.cellSelected = self.activeCell[arrRow]
+            
+            if selected {
+                
+            } else {
+                
+            }
+        })
+    }
     
+    
+    
+    
+    /**
+     * @ 컬렉션뷰 선택시 선택된 항목 유무에 따라 하단 버튼 작동 로직 구현
+     * coder : sanghyeon
+     */
+    func bottomButtonUpdate() {
+        var selectedCount = favoriteStores
+        
+        print("selectedCount:", selectedCount)
+        
+        if selectedCount > 0 {
+            bottomButton.backgroundColor = .pointBlue
+            bottomButton.setTitleColor(.white, for: .normal)
+            bottomButton.isActive = true
+        } else {
+            bottomButton.backgroundColor = .deactiveGray
+            bottomButton.setTitleColor(UIColor.init(hex: 0xAFB4C3), for: .normal)
+            bottomButton.isActive = false
+        }
+    }
     
 }

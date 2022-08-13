@@ -9,7 +9,7 @@ import UIKit
 import AlignedCollectionViewFlowLayout
 import NMapsMap
 
-class MainViewController: UIViewController {
+class MainViewController: CommonTabBarViewController {
 
     let sampleStores = ["카페/디저트", "음식점", "편의점", "마트", "주유소", "기타1", "기타2"]
     
@@ -30,7 +30,9 @@ class MainViewController: UIViewController {
         super.viewDidLoad()
         setupView()
         setTestLayout()
+        
     }
+    
     
 }
 //MARK: - Layout

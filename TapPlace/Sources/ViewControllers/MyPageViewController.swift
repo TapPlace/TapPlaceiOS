@@ -11,7 +11,6 @@ class MyPageViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.tabBarController?.tabBar.isHidden = true
         // Do any additional setup after loading the view.
     }
     

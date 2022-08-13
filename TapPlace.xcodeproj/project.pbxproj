@@ -18,6 +18,10 @@
 		DF2340D528A291B700A9DAE1 /* PickStoresViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF2340D428A291B700A9DAE1 /* PickStoresViewController.swift */; };
 		DF38177028A46EF100B900B5 /* CommonPickViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF38176F28A46EF100B900B5 /* CommonPickViewController.swift */; };
 		DF38177828A4E28200B900B5 /* PaymentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF38177728A4E28200B900B5 /* PaymentViewModel.swift */; };
+		DF4BD37A28A76BA000C4C5B4 /* CommonTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF4BD37928A76BA000C4C5B4 /* CommonTabBarViewController.swift */; };
+		DF4BD37C28A76F8100C4C5B4 /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF4BD37B28A76F8100C4C5B4 /* UIImage+Extension.swift */; };
+		DF51DCC228A7779400D0AE1E /* MoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF51DCC128A7779400D0AE1E /* MoreViewController.swift */; };
+		DF51DCC428A7C7CE00D0AE1E /* CustomTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF51DCC328A7C7CE00D0AE1E /* CustomTabBar.swift */; };
 		DF826698289CA0EC00272830 /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF826697289CA0EC00272830 /* SplashViewController.swift */; };
 		DF82669A289CA10800272830 /* OnBoardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF826699289CA10800272830 /* OnBoardingViewController.swift */; };
 		DF82669C289CA11700272830 /* PickPaymentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF82669B289CA11700272830 /* PickPaymentsViewController.swift */; };
@@ -65,6 +69,10 @@
 		DF38177728A4E28200B900B5 /* PaymentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentViewModel.swift; sourceTree = "<group>"; };
 		DF49AD8C28A0AB2A004EDC34 /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
 		DF49AD8D28A0AB3F004EDC34 /* Production.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Production.xcconfig; sourceTree = "<group>"; };
+		DF4BD37928A76BA000C4C5B4 /* CommonTabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonTabBarViewController.swift; sourceTree = "<group>"; };
+		DF4BD37B28A76F8100C4C5B4 /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
+		DF51DCC128A7779400D0AE1E /* MoreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreViewController.swift; sourceTree = "<group>"; };
+		DF51DCC328A7C7CE00D0AE1E /* CustomTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBar.swift; sourceTree = "<group>"; };
 		DF826697289CA0EC00272830 /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
 		DF826699289CA10800272830 /* OnBoardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardingViewController.swift; sourceTree = "<group>"; };
 		DF82669B289CA11700272830 /* PickPaymentsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickPaymentsViewController.swift; sourceTree = "<group>"; };
@@ -141,6 +149,7 @@
 			isa = PBXGroup;
 			children = (
 				DF38176F28A46EF100B900B5 /* CommonPickViewController.swift */,
+				DF4BD37928A76BA000C4C5B4 /* CommonTabBarViewController.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -235,6 +244,7 @@
 				DF8266A3289CA18300272830 /* AddPlaceViewController.swift */,
 				DF8266A5289CA18C00272830 /* MyPageViewController.swift */,
 				DFF7BEDD28A68CDD00289F39 /* TabBarViewController.swift */,
+				DF51DCC128A7779400D0AE1E /* MoreViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -273,6 +283,7 @@
 				DF2340CB28A22DDB00A9DAE1 /* Button */,
 				DFC23FB7289AB6FF00EC1090 /* EmptyView.swift */,
 				DFDA43F528A14AB3003763AC /* PickViewControllerTitleView.swift */,
+				DF51DCC328A7C7CE00D0AE1E /* CustomTabBar.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -285,6 +296,7 @@
 				DFDA43F328A14821003763AC /* UIColor+Extension.swift */,
 				DF2340A928A1D37D00A9DAE1 /* NSMutableAttributedString+Extension.swift */,
 				DFF7BED928A67DFE00289F39 /* CALayer+Extension.swift */,
+				DF4BD37B28A76F8100C4C5B4 /* UIImage+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -433,6 +445,7 @@
 				DFC23F96289AB66400EC1090 /* AppDelegate.swift in Sources */,
 				DF8266A4289CA18300272830 /* AddPlaceViewController.swift in Sources */,
 				DF2340CD28A22DF900A9DAE1 /* BottomButton.swift in Sources */,
+				DF4BD37A28A76BA000C4C5B4 /* CommonTabBarViewController.swift in Sources */,
 				DFC23FB2289AB6E500EC1090 /* EmptyViewModel.swift in Sources */,
 				DFDA43F428A14821003763AC /* UIColor+Extension.swift in Sources */,
 				DFC23FBB289AB70C00EC1090 /* EmptyExtension.swift in Sources */,
@@ -441,6 +454,7 @@
 				DF2340D328A270C700A9DAE1 /* PaymentModel.swift in Sources */,
 				DF8266A8289F1D0D00272830 /* PlaceDataService.swift in Sources */,
 				DFC23FB8289AB6FF00EC1090 /* EmptyView.swift in Sources */,
+				DF51DCC428A7C7CE00D0AE1E /* CustomTabBar.swift in Sources */,
 				DFDC182F289FE8A70076EE2E /* UserDefaults+Extension.swift in Sources */,
 				DF2340CF28A2381700A9DAE1 /* PickPaymentsCollectionViewCell.swift in Sources */,
 				DF2340AA28A1D37D00A9DAE1 /* NSMutableAttributedString+Extension.swift in Sources */,
@@ -451,6 +465,7 @@
 				DF38177028A46EF100B900B5 /* CommonPickViewController.swift in Sources */,
 				DF8266A6289CA18C00272830 /* MyPageViewController.swift in Sources */,
 				DFC23FAF289AB6C900EC1090 /* EmptyModel.swift in Sources */,
+				DF51DCC228A7779400D0AE1E /* MoreViewController.swift in Sources */,
 				DF8266A0289CA15100272830 /* PlaceSearchViewController.swift in Sources */,
 				DFC23FBE289AB71800EC1090 /* EmptyCell.swift in Sources */,
 				DF826698289CA0EC00272830 /* SplashViewController.swift in Sources */,
@@ -459,6 +474,7 @@
 				DF38177828A4E28200B900B5 /* PaymentViewModel.swift in Sources */,
 				DF1D34B528A364B900BDDA15 /* PickStoresCollectionViewCell.swift in Sources */,
 				DF8266A2289CA17700272830 /* DetailPlaceViewController.swift in Sources */,
+				DF4BD37C28A76F8100C4C5B4 /* UIImage+Extension.swift in Sources */,
 				DF2340D128A239FC00A9DAE1 /* PickPaymentsCollectionReusableView.swift in Sources */,
 				DF1D34B728A3662900BDDA15 /* StoreModel.swift in Sources */,
 			);

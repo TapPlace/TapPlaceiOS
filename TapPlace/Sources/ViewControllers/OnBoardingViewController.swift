@@ -15,13 +15,16 @@ class OnBoardingViewController: UIViewController {
      * coder : sanghyeon
      */
     
-    // 버튼 생성
+    
+    let titleLabel = UILabel()
+    let subTitleLabel = UILabel()
     let skipButton = BottomButton()
     let scrollView = UIScrollView()
     let pageControl = UIPageControl()
+    
+    let titleArray = ["빠르게 찾는 내 주변\n간편결제 가맹점", "22222", "33333"] // 메인 타이틀
+    let subTitleArray = ["간편결제가 필요한 순간,\n흩어져 있던 내 주변 가맹점들을\n간편하게 확인해보세요", "2222", "3333"]
     let images = [UIImage(named: "dog.jpeg"), UIImage(named: "dog2.jpeg"), UIImage(named: "dog3.jpeg")]
-    
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -49,32 +52,23 @@ extension OnBoardingViewController: UIScrollViewDelegate, BottomButtonProtocol{
     
     private func setLayout() {
         
-        let titleLabel: UILabel = {
-            let titleLabel = UILabel()
-            
-            titleLabel.text = "빠르게 찾는 내 주변\n간편결제 가맹점"
-            titleLabel.numberOfLines = 2
-            titleLabel.textAlignment = .center
-            titleLabel.textColor = .black
-            titleLabel.font = .boldSystemFont(ofSize: 27)
-            titleLabel.sizeToFit()
-            
-            return titleLabel
-        }()
+        // 메인타이틀
+        titleLabel.text = "빠르게 찾는 내 주변\n간편결제 가맹점"
+        titleLabel.numberOfLines = 2
+        titleLabel.textAlignment = .center
+        titleLabel.textColor = .black
+        titleLabel.font = .boldSystemFont(ofSize: 27)
+        titleLabel.sizeToFit()
         
-        let subTitleLabel: UILabel = {
-            let subTitleLabel = UILabel()
-            
-            subTitleLabel.text = "간편결제가 필요한 순간,\n흩어져 있던 내 주변 가맹점들을\n간편하게 확인해보세요"
-            subTitleLabel.numberOfLines = 3
-            subTitleLabel.textAlignment = .center
-            subTitleLabel.textColor = .lightGray
-            subTitleLabel.font = .systemFont(ofSize: 14)
-            subTitleLabel.sizeToFit()
-            
-            return subTitleLabel
-        }()
+        // 서브타이틀
+        subTitleLabel.text = "간편결제가 필요한 순간,\n흩어져 있던 내 주변 가맹점들을\n간편하게 확인해보세요"
+        subTitleLabel.numberOfLines = 3
+        subTitleLabel.textAlignment = .center
+        subTitleLabel.textColor = .lightGray
+        subTitleLabel.font = .systemFont(ofSize: 14)
+        subTitleLabel.sizeToFit()
         
+        // 스크롤 뷰
         scrollView.delegate = self
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.isScrollEnabled = true
@@ -83,7 +77,7 @@ extension OnBoardingViewController: UIScrollViewDelegate, BottomButtonProtocol{
         scrollView.showsHorizontalScrollIndicator = false
         
         
-        
+        // 이미지뷰 셋팅
         for i in 0 ..< images.count {
             let imageView = UIImageView()
             let xPos = 255 * CGFloat(i) // 이미지의 가로가 255이기 때문에 이미지 갯수에 그 길이를 곱함
@@ -101,8 +95,6 @@ extension OnBoardingViewController: UIScrollViewDelegate, BottomButtonProtocol{
         pageControl.isUserInteractionEnabled = false
         pageControl.pageIndicatorTintColor = #colorLiteral(red: 0.8859946132, green: 0.8967292905, blue: 0.9279116988, alpha: 1)
         pageControl.currentPageIndicatorTintColor = #colorLiteral(red: 0.3751349747, green: 0.5605497956, blue: 0.9886955619, alpha: 1)
-//        pageControl.addTarget(self, action: #selector(pageControlChange(_:)), for: .valueChanged)
-        
         
         // 건너뛰기 버튼
         skipButton.delegate = self
@@ -110,7 +102,7 @@ extension OnBoardingViewController: UIScrollViewDelegate, BottomButtonProtocol{
         
         view.addSubview(titleLabel)
         titleLabel.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(80)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(80)
             $0.left.equalToSuperview().offset(83)
             $0.right.equalToSuperview().offset(-83)
         }
@@ -141,10 +133,12 @@ extension OnBoardingViewController: UIScrollViewDelegate, BottomButtonProtocol{
             $0.left.right.bottom.equalToSuperview()
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-60)
         }
+        
         skipButton.backgroundColor = .deactiveGray
         skipButton.setTitle("건너뛰기", for: .normal)
         skipButton.setTitleColor(UIColor.init(hex: 0xAFB4C3), for: .normal)
     }
+    
     /**
      * @ 초기 레이아웃 설정
      * coder : sanghyeon
@@ -157,15 +151,20 @@ extension OnBoardingViewController: UIScrollViewDelegate, BottomButtonProtocol{
         /// 뷰컨트롤러 배경색 지정
         view.backgroundColor = .white
     }
-
     
-    private func setPageControlSelectedPage(currentPage:Int) {
-        pageControl.currentPage = currentPage
+    // 레이아웃 변화(라벨, 페이지 컨트롤)
+    private func changeLayout(currentPage:Int) {
+        DispatchQueue.main.async {
+            self.pageControl.currentPage = currentPage
+            self.titleLabel.text = self.titleArray[currentPage]
+            self.subTitleLabel.text = self.subTitleArray[currentPage]
+        }
     }
     
+    // scrollView를 스크롤했을 때 이벤트 메소드
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let value = scrollView.contentOffset.x/scrollView.frame.size.width
-        setPageControlSelectedPage(currentPage: Int(round(value)))
+        changeLayout(currentPage: Int(round(value)))
         
         if pageControl.currentPage == 2 {
             skipButton.backgroundColor = UIColor.pointBlue
@@ -173,14 +172,4 @@ extension OnBoardingViewController: UIScrollViewDelegate, BottomButtonProtocol{
             skipButton.setTitleColor(UIColor.white, for: .normal)
         }
     }
-    
-//    @objc func pageControlChange(_ sender: UIPageControl) {
-//        if sender.currentPage == sender.numberOfPages - 1 {
-//            skipButton.backgroundColor = UIColor.pointBlue
-//            skipButton.setTitle("가맹점 찾으러 가기", for: .normal)
-//            skipButton.setTitleColor(UIColor.white, for: .normal)
-//        }
-//    }
 }
-
-

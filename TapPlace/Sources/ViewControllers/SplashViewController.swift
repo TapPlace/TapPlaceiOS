@@ -24,6 +24,7 @@ class SplashViewController: UIViewController {
         super.viewDidLoad()
         setupView()
         setTestLayout()
+        print("사용자 디바이스 고유 값:", CommonUtils.getDeviceUUID())
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -34,7 +35,8 @@ class SplashViewController: UIViewController {
         } else {
             if isPickedPayments() {
                 /// 관심 결제수단 등록 되어있을 경우 메인 뷰컨트롤러 이동
-                moveViewController(MainViewController(), present: true)
+
+                moveViewController(TabBarViewController(), present: true)
             } else {
                 /// 관심 결제수단 등록 되어있지 않을 경우 관심 결제수단 설정 뷰로 이동
                 moveViewController(PickPaymentsViewController(), present: false)
@@ -124,7 +126,7 @@ extension SplashViewController {
      * coder : sanghyeon
      */
     private func isPickedPayments() -> Bool {
-        let sampleFavoritePayments:[String] = []
+        let sampleFavoritePayments:[String] = ["D"]
         if sampleFavoritePayments.count > 0 {
             return true
         }

@@ -9,6 +9,7 @@ import UIKit
 
 class PickStoresCollectionViewCell: UICollectionViewCell {
 
+    var cellSelected: Bool = false
     let itemFrame: UIView = {
         let itemFrame = UIView()
         itemFrame.layer.borderWidth = 1
@@ -31,7 +32,8 @@ class PickStoresCollectionViewCell: UICollectionViewCell {
     }()
     let imageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.backgroundColor = .disabledBorderColor
+        imageView.backgroundColor = .clear
+        imageView.tintColor = .disabledImageColor
         return imageView
     }()
     
@@ -67,7 +69,6 @@ class PickStoresCollectionViewCell: UICollectionViewCell {
         
         DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(Int(0.1))) {
             let imageSize = self.frame.size.height - labelSize.height - 50
-            print("imageSize:", imageSize)
             self.imageView.snp.makeConstraints {
                 $0.bottom.equalTo(self.itemText.snp.top).offset(-15)
                 $0.width.height.equalTo(imageSize)

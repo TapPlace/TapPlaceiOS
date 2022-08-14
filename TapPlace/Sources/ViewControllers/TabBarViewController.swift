@@ -48,6 +48,7 @@ class TabBarViewController: UITabBarController {
 
         tabBar.tintColor = .tabBarTintColor
         tabBar.unselectedItemTintColor = .tabBarUnTintColor
+        tabBar.backgroundColor = .white
         
         tabBar.addSubview(tempView)
         tabBar.addSubview(floatingButton)

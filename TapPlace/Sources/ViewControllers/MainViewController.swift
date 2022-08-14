@@ -8,8 +8,38 @@
 import UIKit
 import AlignedCollectionViewFlowLayout
 import NMapsMap
+import CoreLocation
 
 class MainViewController: UIViewController {
+    
+    var listButton: MapFloatingButton = MapFloatingButton() {
+        willSet {
+            listButton = newValue
+        }
+    }
+    
+    var locationButton: MapFloatingButton = MapFloatingButton() {
+        willSet {
+            locationButton = newValue
+        }
+    }
+    
+    var naverMapView: NMFMapView = NMFMapView() {
+        willSet {
+            naverMapView = newValue
+        }
+    }
+    
+    private let locationManager = CLLocationManager()
+    var circleOverlay: NMFCircleOverlay = NMFCircleOverlay() {
+        willSet {
+            circleOverlay = newValue
+        }
+    }
+    
+    var currentLocation: NMGLatLng?
+    var cameraLocation: NMGLatLng?
+
 
     let sampleStores = ["카페/디저트", "음식점", "편의점", "마트", "주유소", "기타1", "기타2"]
     
@@ -29,28 +59,22 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
-        setTestLayout()
+        setupNaverMap()
         
     }
     
     
 }
 //MARK: - Layout
-extension MainViewController {
-    /**
-     * @ 테스트모드 레이아웃, 추후 작업시 삭제 요망
-     * coder : sanghyeon
-     */
-    private func setTestLayout() {
-        let testLabel: UILabel = {
-            let testLabel = UILabel()
-            testLabel.text = "MainVC"
-            testLabel.sizeToFit()
-            return testLabel
-        }()
-        view.addSubview(testLabel)
-        testLabel.snp.makeConstraints {
-            $0.centerX.centerY.equalToSuperview()
+extension MainViewController: MapFloatingButtonProtocol {
+    @objc func didTapMapFloatingButton(_ sender: UIButton) {
+        if sender == listButton {
+            print("리스트 버튼 클릭")
+        } else if sender == locationButton {
+            getUserCurrentLocation()
+            guard let location = currentLocation else { return }
+            moveCamera(location: location)
+            showInMapViewTracking()
         }
     }
     /**
@@ -72,19 +96,8 @@ extension MainViewController {
         view.backgroundColor = .white
         self.navigationController?.navigationBar.isHidden = true
         
-        /// 지도 뷰
-        let mapView: UIView = {
-            let mapView = UIView()
-            mapView.backgroundColor = .disabledBorderColor
-            return mapView
-        }()
-        view.addSubview(mapView)
-        mapView.snp.makeConstraints {
-            $0.top.leading.trailing.equalToSuperview()
-            $0.bottom.equalTo(view.safeAreaLayoutGuide)
-        }
-        
-        /// 검색창
+        //MARK: ViewDefine
+        let safeArea = view.safeAreaLayoutGuide
         let searchBar: UIView = {
             let searchBar = UIView()
             searchBar.backgroundColor = .white
@@ -108,13 +121,33 @@ extension MainViewController {
             searchButton.contentHorizontalAlignment = .left
             return searchButton
         }()
+        listButton = MapFloatingButton()
+        locationButton = MapFloatingButton()
+        
+        //MARK: ViewPropertyManual
+        listButton.backgroundColor = .white
+        listButton.layer.cornerRadius = 20
+        listButton.clipsToBounds = true
+        listButton.iconName = "list.bullet"
+        listButton.clipsToBounds = true
+        locationButton.backgroundColor = .white
+        locationButton.layer.cornerRadius = 20
+        locationButton.clipsToBounds = true
+        locationButton.iconName = "location"
+        
+        //MARK: AddSubView
         view.addSubview(searchBar)
         searchBar.addSubview(searchIcon)
         searchBar.addSubview(searchButton)
+        view.addSubview(collectionView)
+        view.addSubview(listButton)
+        view.addSubview(locationButton)
+        
+        //MARK: ViewContraints
         searchBar.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide).offset(10)
-            $0.leading.equalTo(view.safeAreaLayoutGuide).offset(20)
-            $0.trailing.equalTo(view.safeAreaLayoutGuide).offset(-20)
+            $0.top.equalTo(safeArea).offset(10)
+            $0.leading.equalTo(safeArea).offset(20)
+            $0.trailing.equalTo(safeArea).offset(-20)
             $0.height.equalTo(50)
         }
         searchIcon.snp.makeConstraints {
@@ -126,16 +159,35 @@ extension MainViewController {
             $0.top.bottom.trailing.equalTo(searchBar)
             $0.leading.equalTo(searchIcon.snp.trailing).offset(10)
         }
-        searchButton.addTarget(self, action: #selector(didTapSearchButton), for: .touchUpInside)
-        /// 스토어 선택 컬렉션뷰
-        view.addSubview(collectionView)
         collectionView.snp.makeConstraints {
             $0.top.equalTo(searchBar.snp.bottom).offset(10)
-            $0.leading.trailing.equalTo(view.safeAreaLayoutGuide)
+            $0.leading.trailing.equalTo(safeArea)
             $0.height.equalTo(40)
         }
+        listButton.snp.makeConstraints {
+            $0.bottom.equalTo(safeArea).offset(-40)
+            $0.leading.equalTo(safeArea).offset(20)
+            $0.width.height.equalTo(40)
+        }
+        locationButton.snp.makeConstraints {
+            $0.bottom.equalTo(safeArea).offset(-40)
+            $0.trailing.equalTo(safeArea).offset(-20)
+            $0.width.height.equalTo(40)
+        }
+        
+        
+        //MARK: ViewAddTarget
+        searchButton.addTarget(self, action: #selector(didTapSearchButton), for: .touchUpInside)
+        listButton.addTarget(self, action: #selector(didTapMapFloatingButton(_:)), for: .touchUpInside)
+        locationButton.addTarget(self, action: #selector(didTapMapFloatingButton(_:)), for: .touchUpInside)
+        
+        
+        //MARK: Delegate
         collectionView.delegate = self
         collectionView.dataSource = self
+        listButton.delegate = self
+        locationButton.delegate = self
+        
         collectionView.register(StoreTabCollectionViewCell.self, forCellWithReuseIdentifier: "storeTabItem")
         collectionView.contentInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
     }
@@ -150,6 +202,107 @@ extension MainViewController {
     }
     
 
+}
+//MARK: - NaverMap
+extension MainViewController: CLLocationManagerDelegate {
+    /**
+     * @ 네이버맵 세팅
+     * coder : sanghyeon
+     */
+    func setupNaverMap() {
+        //MARK: NaverMapViewDefine
+        naverMapView = NMFMapView(frame: view.frame)
+        
+        //MARK: NaverMapViewAddSubView
+        view.addSubview(naverMapView)
+        view.sendSubviewToBack(naverMapView)
+        
+        //MARK: LocationAuthRequest
+        locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+        locationManager.delegate = self
+        locationManager.requestWhenInUseAuthorization()
+        
+        //MARK: GetUserCurrentLocation & MoveCamera
+        getUserCurrentLocation()
+        guard let location = currentLocation else { return }
+        moveCamera(location: location)
+        showInMapViewTracking()
+    }
+    /**
+     * @ 사용자 현재 위치 가져오기
+     * coder : sanghyeon
+     */
+    func getUserCurrentLocation() {
+        guard let result = locationManager.location?.coordinate else { return }
+        currentLocation = NMGLatLng(from: result)
+        dump(currentLocation)
+    }
+    /**
+     * @ 네이버지도 카메라 이동
+     * coder : sanghyeon
+     */
+    func moveCamera(location: NMGLatLng) {
+        let cameraUpdate = NMFCameraUpdate(scrollTo: location)
+        cameraUpdate.animation = .easeIn
+        cameraUpdate.animationDuration = 1
+        naverMapView.moveCamera(cameraUpdate)
+    }
+    /**
+     * @ 트래킹 표시 및 반경 오버레이
+     * coder : sanghyeon
+     */
+    func showInMapViewTracking() {
+        getUserCurrentLocation()
+        guard let location = currentLocation else { return }
+        
+        /// 트래킹
+        let locationOverlay = naverMapView.locationOverlay
+        locationOverlay.location = location
+        locationOverlay.circleOutlineWidth = 0
+        locationOverlay.hidden = false
+        locationOverlay.subIcon = nil
+
+        /// 반경
+        circleOverlay.mapView = nil
+        circleOverlay = NMFCircleOverlay(location, radius: 1000)
+        circleOverlay.fillColor = .pointBlue.withAlphaComponent(0.1)
+        circleOverlay.outlineWidth = 1
+        circleOverlay.outlineColor = .pointBlue
+        circleOverlay.mapView = naverMapView
+    }
+    /**
+     * @ 지도에 마커 추가
+     * coder : sanghyeon
+     */
+    func addMarker(markers: [NMFMarker]) {
+        
+    }
+    /**
+     * @ 위치권한 설정
+     * coder : sanghyeon
+     */
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        switch status {
+        case .authorizedAlways, .authorizedWhenInUse:
+            print("GPS 권한 설정됨")
+            self.locationManager.startUpdatingLocation() // 중요!
+        case .restricted, .notDetermined:
+            print("GPS 권한 설정되지 않음")
+            getLocationUsagePermission()
+        case .denied:
+            print("GPS 권한 요청 거부됨")
+            getLocationUsagePermission()
+        default:
+            print("GPS: Default")
+        }
+    }
+    /**
+     * @ 위치권한 요청
+     * coder : sanghyeon
+     */
+    func getLocationUsagePermission() {
+          self.locationManager.requestWhenInUseAuthorization()
+      }
 }
 //MARK: - CollectionView
 extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {

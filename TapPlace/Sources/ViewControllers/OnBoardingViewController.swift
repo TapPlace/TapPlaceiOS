@@ -36,11 +36,14 @@ class OnBoardingViewController: UIViewController {
 //MARK: - Layout
 extension OnBoardingViewController: UIScrollViewDelegate, BottomButtonProtocol{
     
+    
     func didTapBottomButton() {
         guard let buttonText = skipButton.titleLabel?.text else { return }
         if buttonText == "건너뛰기" {
-            UIView.animate(withDuration: 0.5, animations: {
+            UIView.animate(withDuration: 0.1, animations: {
                 self.scrollView.contentOffset = CGPoint(x: 255 * (self.images.count - 1), y: 0)
+                self.pageControl.currentPage = 2
+                self.checkLastPage(self.pageControl.currentPage)
             })
         } else {
             let vc = PickPaymentsViewController()
@@ -161,15 +164,21 @@ extension OnBoardingViewController: UIScrollViewDelegate, BottomButtonProtocol{
         }
     }
     
-    // scrollView를 스크롤했을 때 이벤트 메소드
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let value = scrollView.contentOffset.x/scrollView.frame.size.width
-        changeLayout(currentPage: Int(round(value)))
-        
+    
+    // 마지막 페이지인지 체킹하는 함수
+    func checkLastPage(_ currentPage: Int) {
         if pageControl.currentPage == 2 {
             skipButton.backgroundColor = UIColor.pointBlue
             skipButton.setTitle("가맹점 찾으러 가기", for: .normal)
             skipButton.setTitleColor(UIColor.white, for: .normal)
         }
+    }
+    
+    
+    // scrollView를 스크롤했을 때 이벤트 메소드
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let value = scrollView.contentOffset.x/scrollView.frame.size.width
+        changeLayout(currentPage: Int(round(value)))
+        checkLastPage(self.pageControl.currentPage)
     }
 }

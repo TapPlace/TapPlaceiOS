@@ -12,13 +12,13 @@ import CoreLocation
 
 class MainViewController: UIViewController {
     
-    var listButton: MapFloatingButton = MapFloatingButton() {
+    var listButton: MapButton = MapButton() {
         willSet {
             listButton = newValue
         }
     }
     
-    var locationButton: MapFloatingButton = MapFloatingButton() {
+    var locationButton: MapButton = MapButton() {
         willSet {
             locationButton = newValue
         }
@@ -30,11 +30,29 @@ class MainViewController: UIViewController {
         }
     }
     
+    var naverMapMarker: NMFMarker = NMFMarker() {
+        willSet {
+            naverMapMarker = newValue
+        }
+    }
+    
     private let locationManager = CLLocationManager()
     var circleOverlay: NMFCircleOverlay = NMFCircleOverlay() {
         willSet {
             circleOverlay = newValue
         }
+    }
+    
+    /**
+     * @ 더미데이터
+     * coder : sanghyeon
+     */
+    struct DummyData {
+        static let markers: [NMGLatLng] = [
+            NMGLatLng(lat: 35.97411, lng: 126.68252),
+            NMGLatLng(lat: 35.97727, lng: 126.68345),
+            NMGLatLng(lat: 35.97827, lng: 126.67731)
+        ]
     }
     
     var currentLocation: NMGLatLng?
@@ -66,17 +84,18 @@ class MainViewController: UIViewController {
     
 }
 //MARK: - Layout
-extension MainViewController: MapFloatingButtonProtocol {
-    @objc func didTapMapFloatingButton(_ sender: UIButton) {
-        if sender == listButton {
+extension MainViewController: MapButtonProtocol {
+    @objc func didTapMapButton(_ sender: MapButton) {
+        print("맵버튼 터치")
+        if sender == listButton.button {
             print("리스트 버튼 클릭")
-        } else if sender == locationButton {
+        } else if sender == locationButton.button {
             getUserCurrentLocation()
             guard let location = currentLocation else { return }
             moveCamera(location: location)
             showInMapViewTracking()
         }
-    }
+    } // Function: 맵뷰버튼 클릭 이벤트    
     /**
      * @ 검색창 클릭시 액션
      * coder : sanghyeon
@@ -86,7 +105,7 @@ extension MainViewController: MapFloatingButtonProtocol {
         vc.modalTransitionStyle = .crossDissolve
         vc.modalPresentationStyle = .fullScreen
         self.present(vc, animated: true)
-    }
+    } // Function: 서치바 클릭 이벤트
     /**
      * @ 초기 레이아웃 설정
      * coder : sanghyeon
@@ -121,19 +140,14 @@ extension MainViewController: MapFloatingButtonProtocol {
             searchButton.contentHorizontalAlignment = .left
             return searchButton
         }()
-        listButton = MapFloatingButton()
-        locationButton = MapFloatingButton()
+        listButton = MapButton()
+        locationButton = MapButton()
         
         //MARK: ViewPropertyManual
-        listButton.backgroundColor = .white
-        listButton.layer.cornerRadius = 20
-        listButton.clipsToBounds = true
         listButton.iconName = "list.bullet"
-        listButton.clipsToBounds = true
-        locationButton.backgroundColor = .white
-        locationButton.layer.cornerRadius = 20
-        locationButton.clipsToBounds = true
+        listButton.layer.applySketchShadow(color: .black, alpha: 0.12, x: 0, y: 1, blur: 8, spread: 0)
         locationButton.iconName = "location"
+        locationButton.layer.applySketchShadow(color: .black, alpha: 0.12, x: 0, y: 1, blur: 8, spread: 0)
         
         //MARK: AddSubView
         view.addSubview(searchBar)
@@ -174,13 +188,13 @@ extension MainViewController: MapFloatingButtonProtocol {
             $0.trailing.equalTo(safeArea).offset(-20)
             $0.width.height.equalTo(40)
         }
-        
+
         
         //MARK: ViewAddTarget
         searchButton.addTarget(self, action: #selector(didTapSearchButton), for: .touchUpInside)
-        listButton.addTarget(self, action: #selector(didTapMapFloatingButton(_:)), for: .touchUpInside)
-        locationButton.addTarget(self, action: #selector(didTapMapFloatingButton(_:)), for: .touchUpInside)
-        
+        //listButton.button.addTarget(self, action: #selector(testTap(_:)), for: .touchUpInside)
+        //locationButton.button.addTarget(self, action: #selector(didTapMapButton), for: .touchUpInside)
+//
         
         //MARK: Delegate
         collectionView.delegate = self
@@ -190,7 +204,7 @@ extension MainViewController: MapFloatingButtonProtocol {
         
         collectionView.register(StoreTabCollectionViewCell.self, forCellWithReuseIdentifier: "storeTabItem")
         collectionView.contentInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
-    }
+    } // Function: 레이아웃 설정
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -218,7 +232,7 @@ extension MainViewController: CLLocationManagerDelegate {
         view.sendSubviewToBack(naverMapView)
         
         //MARK: LocationAuthRequest
-        locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
         
@@ -227,6 +241,10 @@ extension MainViewController: CLLocationManagerDelegate {
         guard let location = currentLocation else { return }
         moveCamera(location: location)
         showInMapViewTracking()
+        
+        //MARK: [DEBUG]
+        // 마커 추가 예제
+        addMarker(markers: DummyData.markers)
     }
     /**
      * @ 사용자 현재 위치 가져오기
@@ -242,7 +260,7 @@ extension MainViewController: CLLocationManagerDelegate {
      * coder : sanghyeon
      */
     func moveCamera(location: NMGLatLng) {
-        let cameraUpdate = NMFCameraUpdate(scrollTo: location)
+        let cameraUpdate = NMFCameraUpdate(scrollTo: location, zoomTo: 14.0)
         cameraUpdate.animation = .easeIn
         cameraUpdate.animationDuration = 1
         naverMapView.moveCamera(cameraUpdate)
@@ -274,8 +292,17 @@ extension MainViewController: CLLocationManagerDelegate {
      * @ 지도에 마커 추가
      * coder : sanghyeon
      */
-    func addMarker(markers: [NMFMarker]) {
-        
+    func addMarker(markers: [NMGLatLng]) {
+        if markers.count <= 0 {
+            print("addMarker called(), no data")
+            return
+        }
+        naverMapMarker.mapView = nil
+        for markerRow in markers {
+            naverMapMarker = NMFMarker(position: markerRow)
+            naverMapMarker.isHideCollidedMarkers = true
+            naverMapMarker.mapView = naverMapView
+        }
     }
     /**
      * @ 위치권한 설정

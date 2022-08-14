@@ -19,12 +19,9 @@ class SearchingViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let searchController = UISearchController(searchResultsController: nil)
-        self.navigationItem.searchController = searchController
-        
 //        self.recordTableView.dataSource = self
 //        self.recordTableView.delegate = self
-        
+//        
     
     }
 }
@@ -32,13 +29,33 @@ class SearchingViewController: UIViewController {
 
 extension SearchingViewController {
     
-    private func layout() {
+    private func setLayout() {
         
+        // 검색바
         let searchBar: UISearchBar = {
             let searchBar = UISearchBar()
-            searchBar.setImage(UIImage(systemName: "chevron.left"), for: UISearchBar.Icon.search, state: .normal)
+            searchBar.searchTextField.font = UIFont.systemFont(ofSize: 16)
+            searchBar.placeholder = "가맹점을 찾아보세요"
+            searchBar.searchTextField.backgroundColor = UIColor.clear
+            self.navigationItem.titleView = searchBar
+            searchBar.setImage(UIImage(), for: UISearchBar.Icon.search, state: .normal)
+            self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "chevron.left"), style: .plain, target: self, action: #selector(popViewController))
+            self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "xmark"), style: .plain, target: self, action: #selector(hideSearch))
             return searchBar
         }()
+        
+        //테이블 뷰
+        
+        
+    }
+    
+    // 메인 화면으로 돌아가는 함수
+    @objc func popViewController() {
+        self.navigationController?.popViewController(animated: false)
+    }
+    
+    // 이전 검색어 숨기는 함수
+    @objc func hideSearch() {
         
     }
     

@@ -19,6 +19,11 @@ class SearchingViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        /// 임시코드, 함수안에 넣어주세요.
+        view.backgroundColor = .white
+
+
+        
         let searchController = UISearchController(searchResultsController: nil)
         self.navigationItem.searchController = searchController
         

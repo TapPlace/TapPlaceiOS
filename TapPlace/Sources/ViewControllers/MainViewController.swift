@@ -54,6 +54,16 @@ extension MainViewController {
         }
     }
     /**
+     * @ 검색창 클릭시 액션
+     * coder : sanghyeon
+     */
+    @objc func didTapSearchButton() {
+        let vc = SearchingViewController()
+        vc.modalTransitionStyle = .crossDissolve
+        vc.modalPresentationStyle = .fullScreen
+        self.present(vc, animated: true)
+    }
+    /**
      * @ 초기 레이아웃 설정
      * coder : sanghyeon
      */
@@ -116,7 +126,7 @@ extension MainViewController {
             $0.top.bottom.trailing.equalTo(searchBar)
             $0.leading.equalTo(searchIcon.snp.trailing).offset(10)
         }
-
+        searchButton.addTarget(self, action: #selector(didTapSearchButton), for: .touchUpInside)
         /// 스토어 선택 컬렉션뷰
         view.addSubview(collectionView)
         collectionView.snp.makeConstraints {
@@ -128,6 +138,15 @@ extension MainViewController {
         collectionView.dataSource = self
         collectionView.register(StoreTabCollectionViewCell.self, forCellWithReuseIdentifier: "storeTabItem")
         collectionView.contentInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        self.tabBarController?.tabBar.isHidden = false
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
     }
     
 

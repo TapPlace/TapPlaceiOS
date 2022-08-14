@@ -50,6 +50,7 @@
 		F425EECA28A25087002A20FC /* dog.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = F425EEC928A25087002A20FC /* dog.jpeg */; };
 		F425EECD28A29EF0002A20FC /* dog2.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = F425EECB28A29EEF002A20FC /* dog2.jpeg */; };
 		F425EECE28A29EF0002A20FC /* dog3.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = F425EECC28A29EF0002A20FC /* dog3.jpeg */; };
+		F4551D3A28A8B651003B93F4 /* SearchingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4551D3928A8B651003B93F4 /* SearchingViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -99,10 +100,10 @@
 		DFF7BED928A67DFE00289F39 /* CALayer+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CALayer+Extension.swift"; sourceTree = "<group>"; };
 		DFF7BEDB28A685F500289F39 /* StoreTabCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreTabCollectionViewCell.swift; sourceTree = "<group>"; };
 		DFF7BEDD28A68CDD00289F39 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
-		EE6B55B871920F4FFEBF22CD /* Pods-TapPlace.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TapPlace.debug.xcconfig"; path = "Target Support Files/Pods-TapPlace/Pods-TapPlace.debug.xcconfig"; sourceTree = "<group>"; };
 		F425EEC928A25087002A20FC /* dog.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = dog.jpeg; sourceTree = "<group>"; };
 		F425EECB28A29EEF002A20FC /* dog2.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = dog2.jpeg; sourceTree = "<group>"; };
 		F425EECC28A29EF0002A20FC /* dog3.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = dog3.jpeg; sourceTree = "<group>"; };
+		F4551D3928A8B651003B93F4 /* SearchingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchingViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -241,6 +242,7 @@
 				DF8266A5289CA18C00272830 /* MyPageViewController.swift */,
 				DFF7BEDD28A68CDD00289F39 /* TabBarViewController.swift */,
 				DF51DCC128A7779400D0AE1E /* MoreViewController.swift */,
+				F4551D3928A8B651003B93F4 /* SearchingViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -440,6 +442,7 @@
 				DFC23F96289AB66400EC1090 /* AppDelegate.swift in Sources */,
 				DF8266A4289CA18300272830 /* AddPlaceViewController.swift in Sources */,
 				DF2340CD28A22DF900A9DAE1 /* BottomButton.swift in Sources */,
+				F4551D3A28A8B651003B93F4 /* SearchingViewController.swift in Sources */,
 				DFC23FB2289AB6E500EC1090 /* EmptyViewModel.swift in Sources */,
 				DFDA43F428A14821003763AC /* UIColor+Extension.swift in Sources */,
 				DFC23FBB289AB70C00EC1090 /* EmptyExtension.swift in Sources */,

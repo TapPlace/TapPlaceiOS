@@ -7,6 +7,8 @@
 
 import UIKit
 
+
+
 class TabBarViewController: UITabBarController {
     struct ViewControllers {
         let controller: UIViewController
@@ -47,8 +49,8 @@ class TabBarViewController: UITabBarController {
         tabBar.tintColor = .tabBarTintColor
         tabBar.unselectedItemTintColor = .tabBarUnTintColor
         
-        self.tabBar.addSubview(tempView)
-        tempView.addSubview(floatingButton)
+        tabBar.addSubview(tempView)
+        tabBar.addSubview(floatingButton)
         
         if #available(iOS 13.0, *) {
             let window = UIApplication.shared.windows.first

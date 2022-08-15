@@ -19,6 +19,12 @@ class SearchingViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+
+        /// 임시코드, 함수안에 넣어주세요.
+        view.backgroundColor = .white
+        self.navigationItem.title = "ㅇㅇㅇㅇ"
+
+
 //        self.recordTableView.dataSource = self
 //        self.recordTableView.delegate = self
 //        
@@ -43,6 +49,8 @@ extension SearchingViewController {
             self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "xmark"), style: .plain, target: self, action: #selector(hideSearch))
             return searchBar
         }()
+        
+        view.addSubview(searchBar)
         
         //테이블 뷰
         

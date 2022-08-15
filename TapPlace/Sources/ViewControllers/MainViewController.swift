@@ -9,6 +9,7 @@ import UIKit
 import AlignedCollectionViewFlowLayout
 import NMapsMap
 import CoreLocation
+import SnapKit
 
 class MainViewController: UIViewController {
     
@@ -42,6 +43,16 @@ class MainViewController: UIViewController {
             circleOverlay = newValue
         }
     }
+    
+    let overlayCenterPick: UIView = {
+        let overlayCenterPick = UIView()
+        overlayCenterPick.layer.borderColor = UIColor.red.cgColor
+        overlayCenterPick.layer.borderWidth = 2
+        overlayCenterPick.isHidden = true
+        return overlayCenterPick
+    }()
+    let researchButton = ResearchButton()
+
     
     /**
      * @ 더미데이터
@@ -84,7 +95,15 @@ class MainViewController: UIViewController {
     
 }
 //MARK: - Layout
-extension MainViewController: MapButtonProtocol {
+extension MainViewController: MapButtonProtocol, ResearchButtonProtocol {
+    func didTapResearchButton() {
+        print("재검색 버튼 터치")
+        guard let camLocation = cameraLocation else { return }
+        showInMapViewTracking(location: camLocation)
+        print("현재위치: \(currentLocation!), 카메라위치: \(camLocation)")
+        showResearchElement(hide: true)
+    }
+    
     @objc func didTapMapButton(_ sender: MapButton) {
         print("맵버튼 터치")
         if sender == listButton.button {
@@ -93,7 +112,8 @@ extension MainViewController: MapButtonProtocol {
             getUserCurrentLocation()
             guard let location = currentLocation else { return }
             moveCamera(location: location)
-            showInMapViewTracking()
+            showInMapViewTracking(location: location)
+            showResearchElement(hide: true)
         }
     } // Function: 맵뷰버튼 클릭 이벤트    
     /**
@@ -148,6 +168,9 @@ extension MainViewController: MapButtonProtocol {
         listButton.layer.applySketchShadow(color: .black, alpha: 0.12, x: 0, y: 1, blur: 8, spread: 0)
         locationButton.iconName = "location"
         locationButton.layer.applySketchShadow(color: .black, alpha: 0.12, x: 0, y: 1, blur: 8, spread: 0)
+        overlayCenterPick.isHidden = true
+        researchButton.isHidden = true
+        researchButton.layer.applySketchShadow(color: .black, alpha: 0.12, x: 0, y: 1, blur: 8, spread: 0)
         
         //MARK: AddSubView
         view.addSubview(searchBar)
@@ -156,6 +179,8 @@ extension MainViewController: MapButtonProtocol {
         view.addSubview(collectionView)
         view.addSubview(listButton)
         view.addSubview(locationButton)
+        view.addSubview(overlayCenterPick)
+        view.addSubview(researchButton)
         
         //MARK: ViewContraints
         searchBar.snp.makeConstraints {
@@ -188,6 +213,16 @@ extension MainViewController: MapButtonProtocol {
             $0.trailing.equalTo(safeArea).offset(-20)
             $0.width.height.equalTo(40)
         }
+        overlayCenterPick.snp.makeConstraints {
+            $0.center.equalToSuperview()
+            $0.width.height.equalTo(20)
+        }
+        researchButton.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.centerY.equalTo(listButton)
+            $0.width.equalTo(150)
+            $0.height.equalTo(30)
+        }
 
         
         //MARK: ViewAddTarget
@@ -201,6 +236,7 @@ extension MainViewController: MapButtonProtocol {
         collectionView.dataSource = self
         listButton.delegate = self
         locationButton.delegate = self
+        researchButton.delegate = self
         
         collectionView.register(StoreTabCollectionViewCell.self, forCellWithReuseIdentifier: "storeTabItem")
         collectionView.contentInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
@@ -218,7 +254,7 @@ extension MainViewController: MapButtonProtocol {
 
 }
 //MARK: - NaverMap
-extension MainViewController: CLLocationManagerDelegate {
+extension MainViewController: CLLocationManagerDelegate, NMFMapViewCameraDelegate {
     /**
      * @ 네이버맵 세팅
      * coder : sanghyeon
@@ -240,7 +276,10 @@ extension MainViewController: CLLocationManagerDelegate {
         getUserCurrentLocation()
         guard let location = currentLocation else { return }
         moveCamera(location: location)
-        showInMapViewTracking()
+        showInMapViewTracking(location: location)
+        
+        //MARK: - NaverMapViewDelegate
+        naverMapView.addCameraDelegate(delegate: self)
         
         //MARK: [DEBUG]
         // 마커 추가 예제
@@ -269,13 +308,12 @@ extension MainViewController: CLLocationManagerDelegate {
      * @ 트래킹 표시 및 반경 오버레이
      * coder : sanghyeon
      */
-    func showInMapViewTracking() {
+    func showInMapViewTracking(location: NMGLatLng) {
         getUserCurrentLocation()
-        guard let location = currentLocation else { return }
-        
+        guard let trackingLocation = currentLocation else { return }
         /// 트래킹
         let locationOverlay = naverMapView.locationOverlay
-        locationOverlay.location = location
+        locationOverlay.location = trackingLocation
         locationOverlay.circleOutlineWidth = 0
         locationOverlay.hidden = false
         locationOverlay.subIcon = nil
@@ -304,6 +342,22 @@ extension MainViewController: CLLocationManagerDelegate {
             naverMapMarker.mapView = naverMapView
         }
     }
+//MARK: Camera
+    func mapView(_ mapView: NMFMapView, cameraIsChangingByReason reason: Int) {
+        let camPosition = naverMapView.cameraPosition
+        //dump(camPosition)
+        
+    }
+    func mapViewCameraIdle(_ mapView: NMFMapView) {
+        let camPosition = naverMapView.cameraPosition
+        cameraLocation = camPosition.target
+    }
+    func mapView(_ mapView: NMFMapView, cameraDidChangeByReason reason: Int, animated: Bool) {
+        if reason != -1 { return }
+        showResearchElement(hide: false)
+    }
+    
+//MARK: Auth
     /**
      * @ 위치권한 설정
      * coder : sanghyeon
@@ -328,8 +382,21 @@ extension MainViewController: CLLocationManagerDelegate {
      * coder : sanghyeon
      */
     func getLocationUsagePermission() {
-          self.locationManager.requestWhenInUseAuthorization()
-      }
+        self.locationManager.requestWhenInUseAuthorization()
+    }
+    /**
+     * @ 재검색 관련 UI 토글
+     * coder : sanghyeon
+     */
+    func showResearchElement(hide: Bool) {
+        if hide {
+            overlayCenterPick.isHidden = true
+            researchButton.isHidden = true
+        } else {
+            self.overlayCenterPick.isHidden = false
+            self.researchButton.isHidden = false
+        }
+    }
 }
 //MARK: - CollectionView
 extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {

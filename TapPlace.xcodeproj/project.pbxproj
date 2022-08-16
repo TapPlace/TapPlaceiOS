@@ -57,6 +57,7 @@
 		F425EECD28A29EF0002A20FC /* dog2.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = F425EECB28A29EEF002A20FC /* dog2.jpeg */; };
 		F425EECE28A29EF0002A20FC /* dog3.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = F425EECC28A29EF0002A20FC /* dog3.jpeg */; };
 		F4551D3A28A8B651003B93F4 /* SearchingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4551D3928A8B651003B93F4 /* SearchingViewController.swift */; };
+		F4551D3C28A9F9C6003B93F4 /* SearchingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4551D3B28A9F9C6003B93F4 /* SearchingTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -116,6 +117,7 @@
 		F425EECB28A29EEF002A20FC /* dog2.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = dog2.jpeg; sourceTree = "<group>"; };
 		F425EECC28A29EF0002A20FC /* dog3.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = dog3.jpeg; sourceTree = "<group>"; };
 		F4551D3928A8B651003B93F4 /* SearchingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchingViewController.swift; sourceTree = "<group>"; };
+		F4551D3B28A9F9C6003B93F4 /* SearchingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchingTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -324,6 +326,7 @@
 				DF2340D028A239FC00A9DAE1 /* PickPaymentsCollectionReusableView.swift */,
 				DF1D34B428A364B900BDDA15 /* PickStoresCollectionViewCell.swift */,
 				DFF7BEDB28A685F500289F39 /* StoreTabCollectionViewCell.swift */,
+				F4551D3B28A9F9C6003B93F4 /* SearchingTableViewCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -474,6 +477,7 @@
 				DFDC182F289FE8A70076EE2E /* UserDefaults+Extension.swift in Sources */,
 				DF2340CF28A2381700A9DAE1 /* PickPaymentsCollectionViewCell.swift in Sources */,
 				DF2340AA28A1D37D00A9DAE1 /* NSMutableAttributedString+Extension.swift in Sources */,
+				F4551D3C28A9F9C6003B93F4 /* SearchingTableViewCell.swift in Sources */,
 				DFF7BEDE28A68CDD00289F39 /* TabBarViewController.swift in Sources */,
 				DFE5F6AC28A8D36A000511E9 /* Constants.swift in Sources */,
 				DFDA43F928A14C61003763AC /* CommonUtils.swift in Sources */,

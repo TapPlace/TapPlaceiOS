@@ -31,6 +31,7 @@ class MainViewController: UIViewController {
             circleOverlay = newValue
         }
     }
+    
     let overlayCenterPick: UIView = {
         let overlayCenterPick = UIView()
         overlayCenterPick.layer.borderColor = UIColor.red.cgColor
@@ -41,6 +42,7 @@ class MainViewController: UIViewController {
     let locationManager = CLLocationManager()
     let researchButton = ResearchButton()
     let bottomSheet = MainBottomSheetView()
+    let detailOverView = DetailOverView()
 
     
     /**
@@ -59,14 +61,14 @@ class MainViewController: UIViewController {
     var cameraLocation: NMGLatLng?
 
 
-    let sampleStores = ["카페/디저트", "음식점", "편의점", "마트", "주유소", "기타1", "기타2"]
-    
+    let storeLists = StoreModel.lists
+
     let collectionView: UICollectionView = {
-        let collectionViewLayout = AlignedCollectionViewFlowLayout()
+        let collectionViewLayout = UICollectionViewFlowLayout()
         collectionViewLayout.scrollDirection = .horizontal
         collectionViewLayout.minimumInteritemSpacing = 10
         collectionViewLayout.minimumLineSpacing = 10
-        collectionViewLayout.horizontalAlignment = .left
+        //collectionViewLayout.horizontalAlignment = .left
         //collectionViewLayout.headerReferenceSize = .init(width: 100, height: 40)
         let collectionView = UICollectionView(frame: CGRect(x: 0, y: 0, width: 0, height: 0), collectionViewLayout: collectionViewLayout)
         collectionView.backgroundColor = .clear
@@ -78,9 +80,7 @@ class MainViewController: UIViewController {
         super.viewDidLoad()
         setupView()
         setupNaverMap()
-        
     }
-    
     
 }
 //MARK: - Layout
@@ -147,7 +147,7 @@ extension MainViewController: MapButtonProtocol, ResearchButtonProtocol {
             searchButton.setTitle("가맹점을 찾아보세요", for: .normal)
             searchButton.setTitleColor(UIColor.init(hex: 0x000000, alpha: 0.3), for: .normal)
             searchButton.setTitleColor(UIColor.init(hex: 0x000000, alpha: 0.1), for: .highlighted)
-            searchButton.titleLabel?.font = .systemFont(ofSize: CommonUtils().resizeFontSize(size: 16), weight: .regular)
+            searchButton.titleLabel?.font = .systemFont(ofSize: CommonUtils.resizeFontSize(size: 16), weight: .regular)
             searchButton.contentHorizontalAlignment = .left
             return searchButton
         }()
@@ -238,39 +238,6 @@ extension MainViewController: MapButtonProtocol, ResearchButtonProtocol {
         collectionView.register(StoreTabCollectionViewCell.self, forCellWithReuseIdentifier: "storeTabItem")
         collectionView.contentInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
     } // Function: 레이아웃 설정
-    
-    /**
-     * @ 탭바 처리
-     * coder : sanghyeon
-     */
-//    func showTabBar(hide: Bool) {
-//        guard let tabBar = tabBarController as? TabBarViewController else { return }
-//        if hide {
-//            self.tabBarController?.tabBar.isHidden = true
-//            print("플로팅버튼 없앱니다.")
-//            tabBar.floatingButton.isHidden = true
-//        } else {
-//            self.tabBarController?.tabBar.isHidden = false
-//            print("플로팅버튼 없앱니다.")
-//            tabBar.floatingButton.isHidden = false
-//        }
-//    }
-//
-//    override func viewDidLayoutSubviews() {
-//        super.viewDidLayoutSubviews()
-//    }
-//
-//    override func viewWillDisappear(_ animated: Bool) {
-//        super.viewWillDisappear(animated)
-//        print("뷰 사라집니다.")
-//        showTabBar(hide: true)
-//    }
-//    override func viewWillAppear(_ animated: Bool) {
-//        super.viewWillAppear(animated)
-//        print("뷰 나타납니다.")
-//        showTabBar(hide: false)
-//    }
-
 }
 //MARK: - NaverMap
 extension MainViewController: CLLocationManagerDelegate, NMFMapViewCameraDelegate {
@@ -336,7 +303,7 @@ extension MainViewController: CLLocationManagerDelegate, NMFMapViewCameraDelegat
         locationOverlay.circleOutlineWidth = 0
         locationOverlay.hidden = false
         locationOverlay.subIcon = nil
-
+        
         /// 반경
         circleOverlay.mapView = nil
         circleOverlay = NMFCircleOverlay(location, radius: 1000)
@@ -361,7 +328,7 @@ extension MainViewController: CLLocationManagerDelegate, NMFMapViewCameraDelegat
             naverMapMarker.mapView = naverMapView
         }
     }
-//MARK: Camera
+    //MARK: Camera
     func mapView(_ mapView: NMFMapView, cameraIsChangingByReason reason: Int) {
         //let camPosition = naverMapView.cameraPosition
         //dump(camPosition)
@@ -376,7 +343,7 @@ extension MainViewController: CLLocationManagerDelegate, NMFMapViewCameraDelegat
         showResearchElement(hide: false)
     }
     
-//MARK: Auth
+    //MARK: Auth
     /**
      * @ 위치권한 설정
      * coder : sanghyeon
@@ -416,22 +383,61 @@ extension MainViewController: CLLocationManagerDelegate, NMFMapViewCameraDelegat
             self.researchButton.isHidden = false
         }
     }
+    /**
+     * @ 상세뷰 오버 뷰
+     * coder : sanghyeon
+     */
+    func showDetailOverView(hide: Bool) {
+        guard let tabBar = self.tabBarController as? TabBarViewController else { return }
+        if hide {
+            detailOverView.removeFromSuperview()
+            detailOverView.snp.removeConstraints()
+            locationButton.snp.remakeConstraints {
+                $0.bottom.equalTo(view.safeAreaLayoutGuide).offset(-40)
+                $0.trailing.equalTo(view.safeAreaLayoutGuide).offset(-20)
+                $0.width.height.equalTo(40)
+            }
+            tabBar.showTabBar(hide: false)
+        } else {
+            /* 나중에 함수화 */
+            view.addSubview(detailOverView)
+            detailOverView.snp.makeConstraints {
+                $0.leading.trailing.bottom.equalToSuperview()
+                $0.height.equalTo(300)
+            }
+            detailOverView.layer.applySketchShadow(color: .black, alpha: 0.12, x: 0, y: 0, blur: 14, spread: 0)
+            locationButton.snp.remakeConstraints {
+                $0.bottom.equalTo(detailOverView.snp.top).offset(-20)
+                $0.trailing.equalTo(view.safeAreaLayoutGuide).offset(-20)
+                $0.width.height.equalTo(40)
+            }
+            tabBar.showTabBar(hide: true)
+        }
+    }
 }
 //MARK: - CollectionView
 extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return sampleStores.count
+        return storeLists.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "storeTabItem", for: indexPath) as! StoreTabCollectionViewCell
-        cell.itemText.text = sampleStores[indexPath.row]
+        if let icon = UIImage(systemName: storeLists[indexPath.row].image) {
+            cell.icon = icon
+        }
+        cell.itemText.text = storeLists[indexPath.row].title
         return cell
         
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let labelSize = CommonUtils().getTextSizeWidth(text: sampleStores[indexPath.row])
-        return CGSize(width: labelSize.width + 20, height: 28)
+        let labelSize = CommonUtils.getTextSizeWidth(text: storeLists[indexPath.row].title)
+        if let cell = collectionView.cellForItem(at: indexPath) as? StoreTabCollectionViewCell {
+            print("셀 사이즈 구하기")
+            let cellWidth: CGFloat = cell.itemFrame.frame.width
+            return CGSize(width: cellWidth, height: 28)
+        }
+        return CGSize(width: labelSize.width + 45, height: 28)
     }
 }

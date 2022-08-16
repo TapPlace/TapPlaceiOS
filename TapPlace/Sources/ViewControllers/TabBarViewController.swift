@@ -150,7 +150,23 @@ class TabBarViewController: UITabBarController {
     @objc private func menuButtonAction(sender: UIButton) {
         print("플로팅버튼 눌림")
     }
-
+    
+    /**
+     * @ 탭바 처리
+     * coder : sanghyeon
+     */
+    func showTabBar(hide: Bool) {
+        if hide {
+            self.tabBar.isHidden = true
+            self.floatingButton.isHidden = true
+        } else {
+            self.tabBar.isHidden = false
+            self.floatingButton.isHidden = false
+        }
+        let currentFrame = view.frame
+        view.frame = currentFrame.insetBy(dx: 0, dy: 1)
+        view.frame = currentFrame
+    }
 }
 
 

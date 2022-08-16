@@ -26,7 +26,7 @@ class PickPaymentsCollectionViewCell: UICollectionViewCell {
         let itemText = UILabel()
         itemText.sizeToFit()
         itemText.textColor = .disabledTextColor
-        itemText.font = .systemFont(ofSize: CommonUtils().resizeFontSize(size: 14), weight: .regular)
+        itemText.font = .systemFont(ofSize: CommonUtils.resizeFontSize(size: 14), weight: .regular)
         return itemText
     }()
 

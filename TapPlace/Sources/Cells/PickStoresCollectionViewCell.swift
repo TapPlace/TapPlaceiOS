@@ -27,7 +27,7 @@ class PickStoresCollectionViewCell: UICollectionViewCell {
         itemText.text = "카페/디저트"
         itemText.sizeToFit()
         itemText.textColor = .disabledTextColor
-        itemText.font = .systemFont(ofSize: CommonUtils().resizeFontSize(size: 14), weight: .regular)
+        itemText.font = .systemFont(ofSize: CommonUtils.resizeFontSize(size: 14), weight: .regular)
         return itemText
     }()
     let imageView: UIImageView = {
@@ -41,7 +41,7 @@ class PickStoresCollectionViewCell: UICollectionViewCell {
         super.init(frame: .zero)
         
         guard let text = itemText.text else { return }
-        let labelSize = CommonUtils().getTextSizeWidth(text: text)
+        let labelSize = CommonUtils.getTextSizeWidth(text: text)
         
         addSubview(itemFrame)
         addSubview(itemWrap)

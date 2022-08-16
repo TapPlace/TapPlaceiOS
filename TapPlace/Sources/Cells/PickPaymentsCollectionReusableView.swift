@@ -12,7 +12,7 @@ class PickPaymentsCollectionReusableView: UICollectionReusableView {
     private let titleText: UILabel = {
         let titleText = UILabel()
         titleText.textColor = UIColor.init(hex: 0x000000, alpha: 0.6)
-        titleText.font = .systemFont(ofSize: CommonUtils().resizeFontSize(size: 16), weight: .regular)
+        titleText.font = .systemFont(ofSize: CommonUtils.resizeFontSize(size: 16), weight: .regular)
         return titleText
     }()
     

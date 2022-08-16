@@ -95,6 +95,87 @@ class MainBottomSheetView: PassThroughView {
             $0.top.equalToSuperview().inset(Const.barViewTopSpacing)
             $0.size.equalTo(Const.barViewSize)
         }
+        
+        
+        let containerView: UIView = {
+            let containerView = UIView()
+            return containerView
+        }()
+        let locationView: UIView = {
+            let locationView = UIView()
+            return locationView
+        }()
+        let locationLabel: UILabel = {
+            let locationLabel = UILabel()
+            locationLabel.text = "강서구 등촌3동 주변"
+            locationLabel.sizeToFit()
+            locationLabel.textColor = .black
+            locationLabel.font = .systemFont(ofSize: CommonUtils.resizeFontSize(size: 15), weight: .semibold)
+            return locationLabel
+        }()
+        let distanceLabel: UILabel = {
+            let distanceLabel = UILabel()
+            distanceLabel.text = "1km"
+            distanceLabel.sizeToFit()
+            distanceLabel.textColor = .black
+            distanceLabel.font = locationLabel.font
+            return distanceLabel
+        }()
+        let locationArrowImage: UIImageView = {
+            let locationArrowImage = UIImageView()
+            locationArrowImage.image = UIImage(systemName: "chevron.down")
+            locationArrowImage.tintColor = .black
+            locationArrowImage.contentMode = .scaleAspectFit
+            return locationArrowImage
+        }()
+        let locationButton: UIButton = {
+            let locationButton = UIButton()
+            return locationButton
+        }()
+        
+        
+        addSubview(containerView)
+        containerView.addSubview(locationView)
+        locationView.addSubview(locationLabel)
+        locationView.addSubview(distanceLabel)
+        locationView.addSubview(locationArrowImage)
+        locationView.addSubview(locationButton)
+        
+        containerView.snp.makeConstraints {
+            $0.top.equalTo(barView.snp.bottom).offset(16)
+            $0.leading.trailing.equalToSuperview().inset(20)
+        }
+        locationView.snp.makeConstraints {
+            $0.top.bottom.leading.equalTo(locationLabel)
+            $0.trailing.equalTo(locationArrowImage)
+        }
+        locationLabel.snp.makeConstraints {
+            $0.top.leading.equalTo(containerView)
+        }
+        distanceLabel.snp.makeConstraints {
+            $0.centerY.equalTo(locationLabel)
+            $0.height.equalTo(locationLabel)
+            $0.leading.equalTo(locationLabel.snp.trailing).offset(5)
+        }
+        locationArrowImage.snp.makeConstraints {
+            $0.centerY.equalTo(distanceLabel)
+            $0.leading.equalTo(distanceLabel.snp.trailing).offset(5)
+            $0.height.equalTo(distanceLabel)
+        }
+        locationButton.snp.makeConstraints {
+            $0.edges.equalTo(locationView)
+        }
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
     }
     
     // MARK: Methods

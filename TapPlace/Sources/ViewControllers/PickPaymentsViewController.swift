@@ -50,7 +50,7 @@ extension PickPaymentsViewController: TitleViewProtocol, BottomButtonProtocol {
     
     func didTapTitleViewSkipButton() {
         print("스킵 버튼 눌림")
-        let vc = PickStoresViewController()
+        let vc = MainViewController()
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -149,7 +149,7 @@ extension PickPaymentsViewController: UICollectionViewDelegate, UICollectionView
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let labelSize = CommonUtils().getTextSizeWidth(text: samplePayments[samplePaymentsTitle[indexPath.section]]![indexPath.row])
+        let labelSize = CommonUtils.getTextSizeWidth(text: samplePayments[samplePaymentsTitle[indexPath.section]]![indexPath.row])
         return CGSize(width: labelSize.width + 40, height: 36)
     }
     

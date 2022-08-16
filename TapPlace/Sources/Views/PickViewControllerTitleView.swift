@@ -59,7 +59,7 @@ class PickViewControllerTitleView: UIView {
         titleViewText.sizeToFit()
         titleViewText.text = ""
         titleViewText.textColor = .black
-        titleViewText.font = .systemFont(ofSize: CommonUtils().resizeFontSize(size: 18), weight: .regular)
+        titleViewText.font = .systemFont(ofSize: CommonUtils.resizeFontSize(size: 18), weight: .regular)
         return titleViewText
     }()
     /// 상단 타이틀 > 뷰 > Skip 버튼
@@ -67,7 +67,7 @@ class PickViewControllerTitleView: UIView {
         let skipButton = UIButton()
         skipButton.setTitle("다음에 할게요", for: .normal)
         skipButton.setTitleColor(UIColor.pointBlue, for: .normal)
-        skipButton.titleLabel?.font = .systemFont(ofSize: CommonUtils().resizeFontSize(size: 14), weight: .regular)
+        skipButton.titleLabel?.font = .systemFont(ofSize: CommonUtils.resizeFontSize(size: 14), weight: .regular)
         return skipButton
     }()
     /// 상단 타이틀 > 진행바 뷰
@@ -109,14 +109,14 @@ class PickViewControllerTitleView: UIView {
     let pageLabelOne: UILabel = {
         let pageLabelOne = UILabel()
         pageLabelOne.sizeToFit()
-        pageLabelOne.font = .systemFont(ofSize: CommonUtils().resizeFontSize(size: 16), weight: .bold)
+        pageLabelOne.font = .systemFont(ofSize: CommonUtils.resizeFontSize(size: 16), weight: .bold)
         return pageLabelOne
     }()
     /// 상단 타이틀 > 페이징 뷰 > 페이지 > 텍스트 2
     let pageLabelTwo: UILabel = {
         let pageLabelTwo = UILabel()
         pageLabelTwo.sizeToFit()
-        pageLabelTwo.font = .systemFont(ofSize: CommonUtils().resizeFontSize(size: 16), weight: .bold)
+        pageLabelTwo.font = .systemFont(ofSize: CommonUtils.resizeFontSize(size: 16), weight: .bold)
         return pageLabelTwo
     }()
     /// 스택뷰 여백
@@ -133,7 +133,7 @@ class PickViewControllerTitleView: UIView {
         descLabel.numberOfLines = 0
         descLabel.text = ""
         descLabel.textColor = UIColor(hex: 0x000000, alpha: 0.5)
-        descLabel.font = .systemFont(ofSize: CommonUtils().resizeFontSize(size: 16), weight: .regular)
+        descLabel.font = .systemFont(ofSize: CommonUtils.resizeFontSize(size: 16), weight: .regular)
         return descLabel
     }()
     /// 초기화 버튼 이미지
@@ -149,7 +149,7 @@ class PickViewControllerTitleView: UIView {
         let clearButtonText = UILabel()
         clearButtonText.text = "초기화"
         clearButtonText.textColor = UIColor(hex: 0x000000, alpha: 0.35)
-        clearButtonText.font = .systemFont(ofSize: CommonUtils().resizeFontSize(size: 16), weight: .regular)
+        clearButtonText.font = .systemFont(ofSize: CommonUtils.resizeFontSize(size: 16), weight: .regular)
         return clearButtonText
     }()
     /// 초기화 버튼

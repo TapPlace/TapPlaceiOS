@@ -8,6 +8,11 @@
 import UIKit
 
 class StoreTabCollectionViewCell: UICollectionViewCell {
+    var icon: UIImage = UIImage() {
+        willSet {
+            itemIcon.image = newValue.withAlignmentRectInsets(UIEdgeInsets(top: -7, left: 0, bottom: -7, right: 0))
+        }
+    }
     let itemFrame: UIView = {
         let itemFrame = UIView()
         itemFrame.backgroundColor = .white
@@ -15,11 +20,18 @@ class StoreTabCollectionViewCell: UICollectionViewCell {
         itemFrame.layer.applySketchShadow(color: .black, alpha: 0.12, x: 0, y: 2, blur: 8, spread: 0)
         return itemFrame
     }()
+    let itemIcon: UIImageView = {
+        let itemIcon = UIImageView()
+        itemIcon.image = UIImage(systemName: "apple.logo")
+        itemIcon.tintColor = .black
+        itemIcon.contentMode = .scaleAspectFit
+        return itemIcon
+    }()
     let itemText: UILabel = {
         let itemText = UILabel()
         itemText.text = ""
         itemText.sizeToFit()
-        itemText.font = .systemFont(ofSize: CommonUtils().resizeFontSize(size: 14), weight: .regular)
+        itemText.font = .systemFont(ofSize: CommonUtils.resizeFontSize(size: 14), weight: .regular)
         itemText.layer.opacity = 0.7
         return itemText
     }()
@@ -29,17 +41,24 @@ class StoreTabCollectionViewCell: UICollectionViewCell {
         
 
         addSubview(itemFrame)
+        itemFrame.addSubview(itemIcon)
         itemFrame.addSubview(itemText)
         
         
         itemFrame.snp.makeConstraints {
             $0.top.equalToSuperview()
-            $0.leading.equalTo(itemText).offset(-10)
+            $0.leading.equalTo(itemIcon).offset(-10)
             $0.trailing.equalTo(itemText).offset(10)
             $0.height.equalTo(28)
         }
+        itemIcon.snp.makeConstraints {
+            $0.centerY.equalTo(itemFrame)
+            $0.top.bottom.equalTo(itemFrame)
+        }
         itemText.snp.makeConstraints {
-            $0.centerX.centerY.equalTo(itemFrame)
+            $0.leading.equalTo(itemIcon.snp.trailing).offset(3)
+            $0.centerY.equalTo(itemIcon)
+        
         }
     }
     

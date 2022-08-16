@@ -14,18 +14,17 @@ struct StoreModel {
 }
 
 extension StoreModel {
-    static let storeList = [
-        StoreModel(id: "a", title: "카페/디저트", image: ""),
-        StoreModel(id: "b", title: "식당", image: ""),
-        StoreModel(id: "c", title: "도서", image: ""),
-        StoreModel(id: "d", title: "편의점/마트", image: ""),
-        StoreModel(id: "e", title: "패션/쇼핑", image: ""),
-        StoreModel(id: "f", title: "뷰티/미용", image: ""),
-        StoreModel(id: "a", title: "카페/디저트", image: ""),
-        StoreModel(id: "b", title: "식당", image: ""),
-        StoreModel(id: "c", title: "도서", image: ""),
-        StoreModel(id: "d", title: "편의점/마트", image: ""),
-        StoreModel(id: "e", title: "패션/쇼핑", image: ""),
-        StoreModel(id: "f", title: "뷰티/미용", image: "")
+    static let lists = [
+        StoreModel(id: "MT1", title: "대형마트", image: ""),
+        StoreModel(id: "CS2", title: "식당", image: ""),
+        StoreModel(id: "PK6", title: "주차장", image: ""),
+        StoreModel(id: "OL7", title: "주유소/충전소", image: "car.fill"),
+        StoreModel(id: "PO3", title: "공공기관", image: ""),
+        StoreModel(id: "AD5", title: "숙박", image: ""),
+        StoreModel(id: "FD6", title: "음식점", image: ""),
+        StoreModel(id: "CE7", title: "카페", image: ""),
+        StoreModel(id: "HP8", title: "병원", image: ""),
+        StoreModel(id: "PM9", title: "약국", image: ""),
+        StoreModel(id: "", title: "기타", image: "")
     ]
 }

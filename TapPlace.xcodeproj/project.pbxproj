@@ -29,6 +29,10 @@
 		DF8266A4289CA18300272830 /* AddPlaceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF8266A3289CA18300272830 /* AddPlaceViewController.swift */; };
 		DF8266A6289CA18C00272830 /* MyPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF8266A5289CA18C00272830 /* MyPageViewController.swift */; };
 		DF8266A8289F1D0D00272830 /* PlaceDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF8266A7289F1D0D00272830 /* PlaceDataService.swift */; };
+		DF9EAF8528AA00F5001B3D74 /* ResearchButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF9EAF8428AA00F5001B3D74 /* ResearchButton.swift */; };
+		DF9EAF8728AA2743001B3D74 /* MainBottomSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF9EAF8628AA2743001B3D74 /* MainBottomSheetView.swift */; };
+		DF9EAF8928AA2996001B3D74 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF9EAF8828AA2996001B3D74 /* UIView+Extension.swift */; };
+		DFA2875328AB074A00DD9F63 /* PassThroughView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFA2875228AB074A00DD9F63 /* PassThroughView.swift */; };
 		DFC23F96289AB66400EC1090 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFC23F95289AB66400EC1090 /* AppDelegate.swift */; };
 		DFC23F98289AB66400EC1090 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFC23F97289AB66400EC1090 /* SceneDelegate.swift */; };
 		DFC23F9A289AB66400EC1090 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFC23F99289AB66400EC1090 /* ViewController.swift */; };
@@ -83,6 +87,10 @@
 		DF8266A3289CA18300272830 /* AddPlaceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPlaceViewController.swift; sourceTree = "<group>"; };
 		DF8266A5289CA18C00272830 /* MyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewController.swift; sourceTree = "<group>"; };
 		DF8266A7289F1D0D00272830 /* PlaceDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceDataService.swift; sourceTree = "<group>"; };
+		DF9EAF8428AA00F5001B3D74 /* ResearchButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResearchButton.swift; sourceTree = "<group>"; };
+		DF9EAF8628AA2743001B3D74 /* MainBottomSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainBottomSheetView.swift; sourceTree = "<group>"; };
+		DF9EAF8828AA2996001B3D74 /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
+		DFA2875228AB074A00DD9F63 /* PassThroughView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassThroughView.swift; sourceTree = "<group>"; };
 		DFC23F92289AB66400EC1090 /* TapPlace.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TapPlace.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DFC23F95289AB66400EC1090 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DFC23F97289AB66400EC1090 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -146,6 +154,7 @@
 			children = (
 				DF2340CC28A22DF900A9DAE1 /* BottomButton.swift */,
 				DFE5F6AF28A9385C000511E9 /* MapButton.swift */,
+				DF9EAF8428AA00F5001B3D74 /* ResearchButton.swift */,
 			);
 			path = Button;
 			sourceTree = "<group>";
@@ -289,6 +298,8 @@
 				DF2340CB28A22DDB00A9DAE1 /* Button */,
 				DFC23FB7289AB6FF00EC1090 /* EmptyView.swift */,
 				DFDA43F528A14AB3003763AC /* PickViewControllerTitleView.swift */,
+				DF9EAF8628AA2743001B3D74 /* MainBottomSheetView.swift */,
+				DFA2875228AB074A00DD9F63 /* PassThroughView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -302,6 +313,7 @@
 				DF2340A928A1D37D00A9DAE1 /* NSMutableAttributedString+Extension.swift */,
 				DFF7BED928A67DFE00289F39 /* CALayer+Extension.swift */,
 				DF4BD37B28A76F8100C4C5B4 /* UIImage+Extension.swift */,
+				DF9EAF8828AA2996001B3D74 /* UIView+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -452,6 +464,7 @@
 				DF8266A4289CA18300272830 /* AddPlaceViewController.swift in Sources */,
 				DF2340CD28A22DF900A9DAE1 /* BottomButton.swift in Sources */,
 				F4551D3A28A8B651003B93F4 /* SearchingViewController.swift in Sources */,
+				DF9EAF8928AA2996001B3D74 /* UIView+Extension.swift in Sources */,
 				DFC23FB2289AB6E500EC1090 /* EmptyViewModel.swift in Sources */,
 				DFDA43F428A14821003763AC /* UIColor+Extension.swift in Sources */,
 				DFC23FBB289AB70C00EC1090 /* EmptyExtension.swift in Sources */,
@@ -479,7 +492,10 @@
 				DF826698289CA0EC00272830 /* SplashViewController.swift in Sources */,
 				DF82669A289CA10800272830 /* OnBoardingViewController.swift in Sources */,
 				DFF7BEDC28A685F500289F39 /* StoreTabCollectionViewCell.swift in Sources */,
+				DFA2875328AB074A00DD9F63 /* PassThroughView.swift in Sources */,
 				DF38177828A4E28200B900B5 /* PaymentViewModel.swift in Sources */,
+				DF9EAF8528AA00F5001B3D74 /* ResearchButton.swift in Sources */,
+				DF9EAF8728AA2743001B3D74 /* MainBottomSheetView.swift in Sources */,
 				DF1D34B528A364B900BDDA15 /* PickStoresCollectionViewCell.swift in Sources */,
 				DF8266A2289CA17700272830 /* DetailPlaceViewController.swift in Sources */,
 				DF4BD37C28A76F8100C4C5B4 /* UIImage+Extension.swift in Sources */,

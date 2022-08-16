@@ -60,7 +60,7 @@ class TabBarViewController: UITabBarController {
             print("top : \(String(describing: top))")
             print("bottom : \(String(describing: bottom))")
             let tabBarHeight = self.tabBar.frame.height
-            guard let safeAreaHeight = bottom else { return }
+            //guard let safeAreaHeight = bottom else { return }
             print("tabBarHeight:", tabBarHeight)
             tempViewHeight = tabBarHeight
         }

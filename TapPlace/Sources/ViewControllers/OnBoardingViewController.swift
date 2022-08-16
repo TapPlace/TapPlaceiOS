@@ -53,6 +53,8 @@ extension OnBoardingViewController: UIScrollViewDelegate, BottomButtonProtocol{
         }
     }
     
+    
+    // 레이아웃
     private func setLayout() {
         
         // 메인타이틀

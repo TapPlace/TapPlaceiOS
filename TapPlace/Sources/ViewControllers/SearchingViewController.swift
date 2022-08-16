@@ -11,49 +11,62 @@ import UIKit
 
 
 // MARK: - 검색화면
-class SearchingViewController: UIViewController {
+class SearchingViewController: UISearchController {
     
-    let recordTableView = UITableView()
-    
+    // 더미 데이터
+    let searchingData = ["세븐 일레븐 등촌 3호점", "BBQ 등촌행복점", "세븐 일레븐 등촌 3호점", "BBQ 등촌행복점"]
+    let img = [
+        UIImage(systemName: "fork.knife.circle.fill"),
+        UIImage(systemName: "fork.knife.circle.fill"),
+        UIImage(systemName: "fork.knife.circle.fill"),
+        UIImage(systemName: "fork.knife.circle.fill")
+    ]
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-
-        /// 임시코드, 함수안에 넣어주세요.
-        view.backgroundColor = .white
-        self.navigationItem.title = "ㅇㅇㅇㅇ"
-
-
-//        self.recordTableView.dataSource = self
-//        self.recordTableView.delegate = self
-//        
+        setupView()
+        configure()
+        setLayout()
+    }
     
+    private let searchingTableView: UITableView = {
+         let searchingTableView = UITableView()
+         searchingTableView.translatesAutoresizingMaskIntoConstraints = false
+         searchingTableView.register(SearchingTableViewCell.self, forCellReuseIdentifier: SearchingTableViewCell.identifier)
+         return searchingTableView
+    }()
+    
+    private func configure() {
+        self.searchingTableView.dataSource = self
+        self.searchingTableView.delegate = self
+        searchingTableView.rowHeight = 54 // 셀 높이
     }
 }
 
 
 extension SearchingViewController {
     
+    private func setupView() {
+        view.backgroundColor = .white
+    }
+    
+    
     private func setLayout() {
+        let safeArea = view.safeAreaLayoutGuide
         
-        // 검색바
-        let searchBar: UISearchBar = {
-            let searchBar = UISearchBar()
-            searchBar.searchTextField.font = UIFont.systemFont(ofSize: 16)
-            searchBar.placeholder = "가맹점을 찾아보세요"
-            searchBar.searchTextField.backgroundColor = UIColor.clear
-            self.navigationItem.titleView = searchBar
-            searchBar.setImage(UIImage(), for: UISearchBar.Icon.search, state: .normal)
-            self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "chevron.left"), style: .plain, target: self, action: #selector(popViewController))
-            self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "xmark"), style: .plain, target: self, action: #selector(hideSearch))
-            return searchBar
+        let searchView: UIView = {
+            let searchView = UIView()
+            return searchView
         }()
         
-        view.addSubview(searchBar)
-        
-        //테이블 뷰
-        
+        // 테이블 뷰 추가
+        view.addSubview(searchingTableView)
+        searchingTableView.snp.makeConstraints {
+            $0.top.equalTo(self.view.snp_topMargin)
+            $0.leading.equalTo(safeArea)
+            $0.trailing.equalTo(safeArea)
+            $0.bottom.equalTo(safeArea)
+        }
         
     }
     
@@ -69,14 +82,17 @@ extension SearchingViewController {
     
 }
 
-//extension SearchingViewController: UITableViewDelegate, UITableViewDataSource {
-//
-//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        return 0
-//    }
-//
-//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        return cell
-//    }
-//
-//}
+extension SearchingViewController: UITableViewDelegate, UITableViewDataSource {
+
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return searchingData.count
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: SearchingTableViewCell.identifier, for: indexPath) as! SearchingTableViewCell
+        cell.img.image = self.img[indexPath.row] ?? UIImage(systemName: "")
+        cell.label.text = self.searchingData[indexPath.row] ?? ""
+        return cell
+    }
+}

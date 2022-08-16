@@ -13,37 +13,24 @@ import SnapKit
 
 class MainViewController: UIViewController {
     
-    var listButton: MapButton = MapButton() {
-        willSet {
-            listButton = newValue
-        }
-    }
-    
-    var locationButton: MapButton = MapButton() {
-        willSet {
-            locationButton = newValue
-        }
-    }
-    
+    let listButton = MapButton()
+    let locationButton = MapButton()
+
     var naverMapView: NMFMapView = NMFMapView() {
         willSet {
             naverMapView = newValue
         }
     }
-    
     var naverMapMarker: NMFMarker = NMFMarker() {
         willSet {
             naverMapMarker = newValue
         }
     }
-    
-    private let locationManager = CLLocationManager()
     var circleOverlay: NMFCircleOverlay = NMFCircleOverlay() {
         willSet {
             circleOverlay = newValue
         }
     }
-    
     let overlayCenterPick: UIView = {
         let overlayCenterPick = UIView()
         overlayCenterPick.layer.borderColor = UIColor.red.cgColor
@@ -51,7 +38,9 @@ class MainViewController: UIViewController {
         overlayCenterPick.isHidden = true
         return overlayCenterPick
     }()
+    let locationManager = CLLocationManager()
     let researchButton = ResearchButton()
+    let bottomSheet = MainBottomSheetView()
 
     
     /**
@@ -108,6 +97,7 @@ extension MainViewController: MapButtonProtocol, ResearchButtonProtocol {
         print("맵버튼 터치")
         if sender == listButton.button {
             print("리스트 버튼 클릭")
+            self.bottomSheet.updateConstraint(offset: 0.8 * UIScreen.main.bounds.height)
         } else if sender == locationButton.button {
             getUserCurrentLocation()
             guard let location = currentLocation else { return }
@@ -122,9 +112,10 @@ extension MainViewController: MapButtonProtocol, ResearchButtonProtocol {
      */
     @objc func didTapSearchButton() {
         let vc = SearchingViewController()
-        vc.modalTransitionStyle = .crossDissolve
-        vc.modalPresentationStyle = .fullScreen
-        self.present(vc, animated: true)
+//        vc.modalTransitionStyle = .crossDissolve
+//        vc.modalPresentationStyle = .fullScreen
+//        self.present(vc, animated: true)
+        self.navigationController?.pushViewController(vc, animated: true)
     } // Function: 서치바 클릭 이벤트
     /**
      * @ 초기 레이아웃 설정
@@ -160,8 +151,8 @@ extension MainViewController: MapButtonProtocol, ResearchButtonProtocol {
             searchButton.contentHorizontalAlignment = .left
             return searchButton
         }()
-        listButton = MapButton()
-        locationButton = MapButton()
+
+
         
         //MARK: ViewPropertyManual
         listButton.iconName = "list.bullet"
@@ -171,6 +162,7 @@ extension MainViewController: MapButtonProtocol, ResearchButtonProtocol {
         overlayCenterPick.isHidden = true
         researchButton.isHidden = true
         researchButton.layer.applySketchShadow(color: .black, alpha: 0.12, x: 0, y: 1, blur: 8, spread: 0)
+        bottomSheet.layer.applySketchShadow(color: .black, alpha: 0.12, x: 0, y: 0, blur: 20, spread: 0)
         
         //MARK: AddSubView
         view.addSubview(searchBar)
@@ -181,6 +173,7 @@ extension MainViewController: MapButtonProtocol, ResearchButtonProtocol {
         view.addSubview(locationButton)
         view.addSubview(overlayCenterPick)
         view.addSubview(researchButton)
+        view.addSubview(bottomSheet)
         
         //MARK: ViewContraints
         searchBar.snp.makeConstraints {
@@ -223,6 +216,10 @@ extension MainViewController: MapButtonProtocol, ResearchButtonProtocol {
             $0.width.equalTo(150)
             $0.height.equalTo(30)
         }
+        
+        bottomSheet.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
 
         
         //MARK: ViewAddTarget
@@ -242,13 +239,36 @@ extension MainViewController: MapButtonProtocol, ResearchButtonProtocol {
         collectionView.contentInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
     } // Function: 레이아웃 설정
     
+    /**
+     * @ 탭바 처리
+     * coder : sanghyeon
+     */
+    func showTabBar(hide: Bool) {
+        guard let tabBar = tabBarController as? TabBarViewController else { return }
+        if hide {
+            self.tabBarController?.tabBar.isHidden = true
+            print("플로팅버튼 없앱니다.")
+            tabBar.floatingButton.isHidden = true
+        } else {
+            self.tabBarController?.tabBar.isHidden = false
+            print("플로팅버튼 없앱니다.")
+            tabBar.floatingButton.isHidden = false
+        }
+    }
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        self.tabBarController?.tabBar.isHidden = false
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        print("뷰 사라집니다.")
+        showTabBar(hide: true)
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        print("뷰 나타납니다.")
+        showTabBar(hide: false)
     }
     
 
@@ -344,7 +364,7 @@ extension MainViewController: CLLocationManagerDelegate, NMFMapViewCameraDelegat
     }
 //MARK: Camera
     func mapView(_ mapView: NMFMapView, cameraIsChangingByReason reason: Int) {
-        let camPosition = naverMapView.cameraPosition
+        //let camPosition = naverMapView.cameraPosition
         //dump(camPosition)
         
     }
@@ -366,7 +386,7 @@ extension MainViewController: CLLocationManagerDelegate, NMFMapViewCameraDelegat
         switch status {
         case .authorizedAlways, .authorizedWhenInUse:
             print("GPS 권한 설정됨")
-            self.locationManager.startUpdatingLocation() // 중요!
+            self.locationManager.startUpdatingLocation()
         case .restricted, .notDetermined:
             print("GPS 권한 설정되지 않음")
             getLocationUsagePermission()

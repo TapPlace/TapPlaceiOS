@@ -243,34 +243,33 @@ extension MainViewController: MapButtonProtocol, ResearchButtonProtocol {
      * @ 탭바 처리
      * coder : sanghyeon
      */
-    func showTabBar(hide: Bool) {
-        guard let tabBar = tabBarController as? TabBarViewController else { return }
-        if hide {
-            self.tabBarController?.tabBar.isHidden = true
-            print("플로팅버튼 없앱니다.")
-            tabBar.floatingButton.isHidden = true
-        } else {
-            self.tabBarController?.tabBar.isHidden = false
-            print("플로팅버튼 없앱니다.")
-            tabBar.floatingButton.isHidden = false
-        }
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        print("뷰 사라집니다.")
-        showTabBar(hide: true)
-    }
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        print("뷰 나타납니다.")
-        showTabBar(hide: false)
-    }
-    
+//    func showTabBar(hide: Bool) {
+//        guard let tabBar = tabBarController as? TabBarViewController else { return }
+//        if hide {
+//            self.tabBarController?.tabBar.isHidden = true
+//            print("플로팅버튼 없앱니다.")
+//            tabBar.floatingButton.isHidden = true
+//        } else {
+//            self.tabBarController?.tabBar.isHidden = false
+//            print("플로팅버튼 없앱니다.")
+//            tabBar.floatingButton.isHidden = false
+//        }
+//    }
+//
+//    override func viewDidLayoutSubviews() {
+//        super.viewDidLayoutSubviews()
+//    }
+//
+//    override func viewWillDisappear(_ animated: Bool) {
+//        super.viewWillDisappear(animated)
+//        print("뷰 사라집니다.")
+//        showTabBar(hide: true)
+//    }
+//    override func viewWillAppear(_ animated: Bool) {
+//        super.viewWillAppear(animated)
+//        print("뷰 나타납니다.")
+//        showTabBar(hide: false)
+//    }
 
 }
 //MARK: - NaverMap

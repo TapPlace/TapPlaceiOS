@@ -11,7 +11,7 @@ import UIKit
 
 
 // MARK: - 검색화면
-class SearchingViewController: UISearchController {
+class SearchingViewController: UIViewController {
     
     // 더미 데이터
     let searchingData = ["세븐 일레븐 등촌 3호점", "BBQ 등촌행복점", "세븐 일레븐 등촌 3호점", "BBQ 등촌행복점"]

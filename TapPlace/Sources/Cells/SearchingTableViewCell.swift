@@ -23,7 +23,7 @@ class SearchingTableViewCell: UITableViewCell {
     let label: UILabel = {
         let label = UILabel()
         label.text = ""
-        label.textColor = UIColor.gray
+        label.textColor = UIColor.init(red: 0, green: 0, blue: 0, alpha: 0.7)
         label.font = .systemFont(ofSize: 15)
         label.sizeToFit()
         return label
@@ -47,7 +47,7 @@ class SearchingTableViewCell: UITableViewCell {
             $0.width.equalTo(20)
             $0.height.equalTo(20)
             $0.top.equalTo(contentView.safeAreaLayoutGuide).offset(16)
-            $0.leading.equalTo(contentView.safeAreaLayoutGuide).offset(22)
+            $0.leading.equalTo(contentView.safeAreaLayoutGuide).offset(20)
             $0.bottom.equalTo(contentView.safeAreaLayoutGuide).offset(-18)
         }
         

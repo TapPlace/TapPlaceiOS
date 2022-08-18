@@ -25,7 +25,7 @@ class ResearchButton: UIView {
         buttonTitle.sizeToFit()
         buttonTitle.textColor = .pointBlue
         buttonTitle.text = "현 지도에서 검색"
-        buttonTitle.font = .systemFont(ofSize: CommonUtils().resizeFontSize(size: 14), weight: .regular)
+        buttonTitle.font = .systemFont(ofSize: CommonUtils.resizeFontSize(size: 14), weight: .regular)
         return buttonTitle
     }()
     

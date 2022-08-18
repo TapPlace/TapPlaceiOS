@@ -10,6 +10,7 @@ target 'TapPlace' do
   pod 'NMapsMap'
   pod 'Alamofire'
   pod 'AlignedCollectionViewFlowLayout'
+  pod 'FloatingPanel'
 
   # Pods for TapPlace
 

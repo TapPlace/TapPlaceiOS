@@ -10,8 +10,12 @@ import AlignedCollectionViewFlowLayout
 import NMapsMap
 import CoreLocation
 import SnapKit
+import FloatingPanel
 
-class MainViewController: UIViewController {
+class MainViewController: UIViewController, AroundPlaceVCProtocol {
+    
+    var fpc: FloatingPanelController!
+    var isHiddenFloatingPanel = true
     
     let listButton = MapButton()
     let locationButton = MapButton()
@@ -31,6 +35,7 @@ class MainViewController: UIViewController {
             circleOverlay = newValue
         }
     }
+    
     let overlayCenterPick: UIView = {
         let overlayCenterPick = UIView()
         overlayCenterPick.layer.borderColor = UIColor.red.cgColor
@@ -40,7 +45,8 @@ class MainViewController: UIViewController {
     }()
     let locationManager = CLLocationManager()
     let researchButton = ResearchButton()
-    let bottomSheet = MainBottomSheetView()
+    let detailOverView = DetailOverView()
+
 
     
     /**
@@ -59,14 +65,14 @@ class MainViewController: UIViewController {
     var cameraLocation: NMGLatLng?
 
 
-    let sampleStores = ["카페/디저트", "음식점", "편의점", "마트", "주유소", "기타1", "기타2"]
-    
+    let storeLists = StoreModel.lists
+
     let collectionView: UICollectionView = {
-        let collectionViewLayout = AlignedCollectionViewFlowLayout()
+        let collectionViewLayout = UICollectionViewFlowLayout()
         collectionViewLayout.scrollDirection = .horizontal
         collectionViewLayout.minimumInteritemSpacing = 10
         collectionViewLayout.minimumLineSpacing = 10
-        collectionViewLayout.horizontalAlignment = .left
+        //collectionViewLayout.horizontalAlignment = .left
         //collectionViewLayout.headerReferenceSize = .init(width: 100, height: 40)
         let collectionView = UICollectionView(frame: CGRect(x: 0, y: 0, width: 0, height: 0), collectionViewLayout: collectionViewLayout)
         collectionView.backgroundColor = .clear
@@ -74,15 +80,74 @@ class MainViewController: UIViewController {
         return collectionView
     }()
     
+    //MARK: ViewLifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
         setupNaverMap()
-        
+        setupFloatingPanel()
     }
     
+}
+
+//MARK: - TEST Floating Panel
+extension MainViewController: FloatingPanelControllerDelegate { // 플로팅 패널
+    /**
+     * @ 플로팅패널 설정
+     * coder : sanghyeon
+     */
+    func setupFloatingPanel() {
+        fpc = FloatingPanelController()
+        fpc.delegate = self
+        let contentVC = AroundPlaceViewController()
+        fpc.set(contentViewController: contentVC)
+        //fpc.surfaceView.grabberHandle.isHidden = true
+        fpc.surfaceView.grabberHandlePadding = 10.0
+        fpc.surfaceView.grabberHandleSize = .init(width: 44.0, height: 4.0)
+        fpc.addPanel(toParent: self)
+        
+        // Create a new appearance.
+        let appearance = SurfaceAppearance()
+
+        // Define corner radius and background color
+        appearance.cornerRadius = 20.0
+        appearance.backgroundColor = .white
+
+        // Set the new appearance
+        fpc.surfaceView.appearance = appearance
+    }
+    
+    /**
+     * @ 플로팅패널 보이기
+     * coder : sanghyeon
+     */
+    func showFloatingPanel(type: FloatingPanelState = .half) {
+        fpc.move(to: type, animated: true)
+    }
+    func floatingPanel(_ vc: FloatingPanelController, layoutFor newCollection: UITraitCollection) -> FloatingPanelLayout {
+            return MainFloatingPanelLayout()
+    }
     
 }
+
+class MainFloatingPanelLayout: FloatingPanelLayout {
+    let position: FloatingPanelPosition = .bottom
+    let initialState: FloatingPanelState = .hidden
+    var anchors: [FloatingPanel.FloatingPanelState : FloatingPanel.FloatingPanelLayoutAnchoring]{
+        return [
+            .full: FloatingPanelLayoutAnchor(absoluteInset: 110.0, edge: .top, referenceGuide: .safeArea),
+            .half: FloatingPanelLayoutAnchor(fractionalInset: 0.29, edge: .bottom, referenceGuide: .safeArea),
+            .hidden: FloatingPanelLayoutAnchor(absoluteInset: 0, edge: .bottom, referenceGuide: .safeArea),
+        ]
+    }
+    func backdropAlpha(for state: FloatingPanelState) -> CGFloat {
+        switch state {
+        case .full: return 0.7
+        default: return 0.0
+        }
+    }
+}
+
 //MARK: - Layout
 extension MainViewController: MapButtonProtocol, ResearchButtonProtocol {
     func didTapResearchButton() {
@@ -97,7 +162,8 @@ extension MainViewController: MapButtonProtocol, ResearchButtonProtocol {
         print("맵버튼 터치")
         if sender == listButton.button {
             print("리스트 버튼 클릭")
-            self.bottomSheet.updateConstraint(offset: 0.8 * UIScreen.main.bounds.height)
+            showFloatingPanel()
+            
         } else if sender == locationButton.button {
             getUserCurrentLocation()
             guard let location = currentLocation else { return }
@@ -147,7 +213,7 @@ extension MainViewController: MapButtonProtocol, ResearchButtonProtocol {
             searchButton.setTitle("가맹점을 찾아보세요", for: .normal)
             searchButton.setTitleColor(UIColor.init(hex: 0x000000, alpha: 0.3), for: .normal)
             searchButton.setTitleColor(UIColor.init(hex: 0x000000, alpha: 0.1), for: .highlighted)
-            searchButton.titleLabel?.font = .systemFont(ofSize: CommonUtils().resizeFontSize(size: 16), weight: .regular)
+            searchButton.titleLabel?.font = .systemFont(ofSize: CommonUtils.resizeFontSize(size: 16), weight: .regular)
             searchButton.contentHorizontalAlignment = .left
             return searchButton
         }()
@@ -162,7 +228,7 @@ extension MainViewController: MapButtonProtocol, ResearchButtonProtocol {
         overlayCenterPick.isHidden = true
         researchButton.isHidden = true
         researchButton.layer.applySketchShadow(color: .black, alpha: 0.12, x: 0, y: 1, blur: 8, spread: 0)
-        bottomSheet.layer.applySketchShadow(color: .black, alpha: 0.12, x: 0, y: 0, blur: 20, spread: 0)
+        
         
         //MARK: AddSubView
         view.addSubview(searchBar)
@@ -173,7 +239,6 @@ extension MainViewController: MapButtonProtocol, ResearchButtonProtocol {
         view.addSubview(locationButton)
         view.addSubview(overlayCenterPick)
         view.addSubview(researchButton)
-        view.addSubview(bottomSheet)
         
         //MARK: ViewContraints
         searchBar.snp.makeConstraints {
@@ -216,10 +281,6 @@ extension MainViewController: MapButtonProtocol, ResearchButtonProtocol {
             $0.width.equalTo(150)
             $0.height.equalTo(30)
         }
-        
-        bottomSheet.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
 
         
         //MARK: ViewAddTarget
@@ -234,6 +295,7 @@ extension MainViewController: MapButtonProtocol, ResearchButtonProtocol {
         listButton.delegate = self
         locationButton.delegate = self
         researchButton.delegate = self
+        AroundPlaceViewController.delegate = self
         
         collectionView.register(StoreTabCollectionViewCell.self, forCellWithReuseIdentifier: "storeTabItem")
         collectionView.contentInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
@@ -336,7 +398,7 @@ extension MainViewController: CLLocationManagerDelegate, NMFMapViewCameraDelegat
         locationOverlay.circleOutlineWidth = 0
         locationOverlay.hidden = false
         locationOverlay.subIcon = nil
-
+        
         /// 반경
         circleOverlay.mapView = nil
         circleOverlay = NMFCircleOverlay(location, radius: 1000)
@@ -361,7 +423,7 @@ extension MainViewController: CLLocationManagerDelegate, NMFMapViewCameraDelegat
             naverMapMarker.mapView = naverMapView
         }
     }
-//MARK: Camera
+    //MARK: Camera
     func mapView(_ mapView: NMFMapView, cameraIsChangingByReason reason: Int) {
         //let camPosition = naverMapView.cameraPosition
         //dump(camPosition)
@@ -376,7 +438,7 @@ extension MainViewController: CLLocationManagerDelegate, NMFMapViewCameraDelegat
         showResearchElement(hide: false)
     }
     
-//MARK: Auth
+    //MARK: Auth
     /**
      * @ 위치권한 설정
      * coder : sanghyeon
@@ -416,22 +478,56 @@ extension MainViewController: CLLocationManagerDelegate, NMFMapViewCameraDelegat
             self.researchButton.isHidden = false
         }
     }
+    /**
+     * @ 상세뷰 오버 뷰
+     * coder : sanghyeon
+     */
+    func showDetailOverView(hide: Bool) {
+        guard let tabBar = self.tabBarController as? TabBarViewController else { return }
+        if hide {
+            detailOverView.removeFromSuperview()
+            detailOverView.snp.removeConstraints()
+            locationButton.snp.remakeConstraints {
+                $0.bottom.equalTo(view.safeAreaLayoutGuide).offset(-40)
+                $0.trailing.equalTo(view.safeAreaLayoutGuide).offset(-20)
+                $0.width.height.equalTo(40)
+            }
+            tabBar.showTabBar(hide: false)
+        } else {
+            /* 나중에 함수화 */
+            view.addSubview(detailOverView)
+            detailOverView.snp.makeConstraints {
+                $0.leading.trailing.bottom.equalToSuperview()
+                $0.height.equalTo(300)
+            }
+            detailOverView.layer.applySketchShadow(color: .black, alpha: 0.12, x: 0, y: 0, blur: 14, spread: 0)
+            locationButton.snp.remakeConstraints {
+                $0.bottom.equalTo(detailOverView.snp.top).offset(-20)
+                $0.trailing.equalTo(view.safeAreaLayoutGuide).offset(-20)
+                $0.width.height.equalTo(40)
+            }
+            tabBar.showTabBar(hide: true)
+        }
+    }
 }
 //MARK: - CollectionView
 extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return sampleStores.count
+        return storeLists.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "storeTabItem", for: indexPath) as! StoreTabCollectionViewCell
-        cell.itemText.text = sampleStores[indexPath.row]
+        if let icon = UIImage(systemName: storeLists[indexPath.row].image) {
+            cell.icon = icon
+        }
+        cell.itemText.text = storeLists[indexPath.row].title
         return cell
         
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let labelSize = CommonUtils().getTextSizeWidth(text: sampleStores[indexPath.row])
-        return CGSize(width: labelSize.width + 20, height: 28)
+        let labelSize = CommonUtils.getTextSizeWidth(text: storeLists[indexPath.row].title)
+        return CGSize(width: labelSize.width + 35, height: 28)
     }
 }

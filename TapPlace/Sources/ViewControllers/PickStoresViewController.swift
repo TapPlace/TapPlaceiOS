@@ -4,7 +4,7 @@
 //
 //  Created by 박상현 on 2022/08/09.
 //
-
+/**
 import UIKit
 import AlignedCollectionViewFlowLayout
 
@@ -151,3 +151,4 @@ extension PickStoresViewController: UICollectionViewDelegate, UICollectionViewDa
     }
     
 }
+*/

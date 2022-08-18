@@ -25,7 +25,7 @@ class TabBarViewController: UITabBarController {
     let floatingButton: UIButton = {
         let floatingButton = UIButton()
         floatingButton.backgroundColor = .pointBlue
-        floatingButton.layer.cornerRadius = 35
+        floatingButton.layer.cornerRadius = 25
         floatingButton.layer.shadowColor = UIColor.black.cgColor
         floatingButton.layer.shadowRadius = 3
         floatingButton.layer.shadowOpacity = 0.3
@@ -101,7 +101,7 @@ class TabBarViewController: UITabBarController {
         floatingButton.snp.makeConstraints {
             $0.centerX.equalTo(indicatorView)
             $0.centerY.equalTo(indicatorView)
-            $0.width.height.equalTo(70)
+            $0.width.height.equalTo(50)
         }
 
         floatingButton.addTarget(self, action: #selector(menuButtonAction(sender:)), for: .touchUpInside)
@@ -150,7 +150,23 @@ class TabBarViewController: UITabBarController {
     @objc private func menuButtonAction(sender: UIButton) {
         print("플로팅버튼 눌림")
     }
-
+    
+    /**
+     * @ 탭바 처리
+     * coder : sanghyeon
+     */
+    func showTabBar(hide: Bool) {
+        if hide {
+            self.tabBar.isHidden = true
+            self.floatingButton.isHidden = true
+        } else {
+            self.tabBar.isHidden = false
+            self.floatingButton.isHidden = false
+        }
+        let currentFrame = view.frame
+        view.frame = currentFrame.insetBy(dx: 0, dy: 1)
+        view.frame = currentFrame
+    }
 }
 
 

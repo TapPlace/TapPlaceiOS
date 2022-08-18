@@ -21,27 +21,30 @@ struct CommonUtils {
      * 13Pro 해상도 기준 390
      * coder : sanghyeon
      */
-    func resizeFontSize(size: CGFloat) -> CGFloat {
+    static func resizeFontSize(size: CGFloat) -> CGFloat {
+        let standatdScreenSize: CGRect = CGRect(x: 0, y: 0, width: 375, height: 812)
         let screenSize: CGRect = UIScreen.main.bounds
         let screenWidth = screenSize.width
-        let sizeFormatter = size/390
-        return screenWidth * sizeFormatter
+        let sizeFormatter = size/375
+        return screenWidth < standatdScreenSize.width ? screenWidth * sizeFormatter : size
     }
     
     /**
      * @ 결제수단 선택창 셀 크기 지정을 위해 글자수 기반 사이즈 반환
      * coder : sanghyeon
      */
-    func getTextSizeWidth(text: String) -> LabelSize {
+    static func getTextSizeWidth(text: String) -> LabelSize {
         let label: UILabel = {
             let label = UILabel()
             label.text = text
-            label.font = .systemFont(ofSize: CommonUtils().resizeFontSize(size: 14), weight: .regular)
+            label.font = .systemFont(ofSize: CommonUtils.resizeFontSize(size: 14), weight: .regular)
             label.sizeToFit()
             return label
         }()
         return LabelSize(width: label.frame.width, height: label.frame.height)
     }
+    
+
 }
 
 struct LabelSize {

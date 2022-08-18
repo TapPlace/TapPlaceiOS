@@ -322,17 +322,6 @@ extension MainViewController: MapButtonProtocol, ResearchButtonProtocol {
         super.viewDidLayoutSubviews()
     }
 
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        print("뷰 사라집니다.")
-        showTabBar(hide: true)
-    }
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        print("뷰 나타납니다.")
-        showTabBar(hide: false)
-    }
-
 }
 //MARK: - NaverMap
 extension MainViewController: CLLocationManagerDelegate, NMFMapViewCameraDelegate {

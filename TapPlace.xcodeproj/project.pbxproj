@@ -280,7 +280,6 @@
 		DFC23FAC289AB6AA00EC1090 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				DFECC8C828AC95C300DC64FD /* Main */,
 				DFC23F99289AB66400EC1090 /* ViewController.swift */,
 				DF826697289CA0EC00272830 /* SplashViewController.swift */,
 				DF826699289CA10800272830 /* OnBoardingViewController.swift */,
@@ -366,9 +365,8 @@
 				DF2340D028A239FC00A9DAE1 /* PickPaymentsCollectionReusableView.swift */,
 				DF1D34B428A364B900BDDA15 /* PickStoresCollectionViewCell.swift */,
 				DFF7BEDB28A685F500289F39 /* StoreTabCollectionViewCell.swift */,
-				F4551D3B28A9F9C6003B93F4 /* SearchTableViewCell.swift */,
 				F449AEB528ADD205008E0417 /* SearchingActionTableViewCell.swift */,
-				F4551D3B28A9F9C6003B93F4 /* SearchingTableViewCell.swift */,
+				F4551D3B28A9F9C6003B93F4 /* SearchTableViewCell.swift */,
 				DFECC8CD28ACD9CF00DC64FD /* AroundStoreTableViewCell.swift */,
 			);
 			path = Cells;
@@ -380,13 +378,6 @@
 				DFDA43F828A14C61003763AC /* CommonUtils.swift */,
 			);
 			path = Utils;
-			sourceTree = "<group>";
-		};
-		DFECC8C828AC95C300DC64FD /* Main */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Main;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

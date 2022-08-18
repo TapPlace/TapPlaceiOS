@@ -12,7 +12,6 @@ import UIKit
 
 // MARK: - 검색화면
 class SearchingViewController: UIViewController {
-    
     // 더미 데이터
     var searchingData = ["세븐 일레븐 등촌 3호점", "BBQ 등촌행복점", "세븐 일레븐 등촌 3호점", "BBQ 등촌행복점"]
     var img = [
@@ -92,19 +91,7 @@ extension SearchingViewController: UITextFieldDelegate, SearchContentButtonProto
         view.backgroundColor = .white
     }
     
-    // 탭바 없애기
-    func showTabBar(hide: Bool) {
-        guard let tabBar = tabBarController as? TabBarViewController else { return }
-        if hide {
-            self.tabBarController?.tabBar.isHidden = true
-            print("플로팅버튼 없앱니다.")
-            tabBar.floatingButton.isHidden = true
-        } else {
-            self.tabBarController?.tabBar.isHidden = false
-            print("플로팅버튼 없앱니다.")
-            tabBar.floatingButton.isHidden = false
-        }
-    }
+
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -112,13 +99,17 @@ extension SearchingViewController: UITextFieldDelegate, SearchContentButtonProto
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        // 탭바
+        guard let tabBar = tabBarController as? TabBarViewController else { return }
         print("뷰 사라집니다.")
-        showTabBar(hide: false)
+        tabBar.showTabBar(hide: false)
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        // 탭바
+        guard let tabBar = tabBarController as? TabBarViewController else { return }
         print("뷰 나타납니다.")
-        showTabBar(hide: true)
+        tabBar.showTabBar(hide: true)
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {

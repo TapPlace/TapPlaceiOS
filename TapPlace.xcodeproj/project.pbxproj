@@ -288,6 +288,8 @@
 				DFF7BEDD28A68CDD00289F39 /* TabBarViewController.swift */,
 				DF51DCC128A7779400D0AE1E /* MoreViewController.swift */,
 				F4551D3928A8B651003B93F4 /* SearchingViewController.swift */,
+				DF82669D289CA12800272830 /* MainViewController.swift */,
+				DFECC8C928AC95E800DC64FD /* AroundPlaceViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -376,8 +378,6 @@
 		DFECC8C828AC95C300DC64FD /* Main */ = {
 			isa = PBXGroup;
 			children = (
-				DF82669D289CA12800272830 /* MainViewController.swift */,
-				DFECC8C928AC95E800DC64FD /* AroundPlaceViewController.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";

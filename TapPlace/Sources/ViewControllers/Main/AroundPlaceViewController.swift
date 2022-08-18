@@ -14,8 +14,6 @@ protocol AroundPlaceVCProtocol {
 
 class AroundPlaceViewController: UIViewController, AroundFilterButtonProtocol {
     static var delegate: AroundPlaceVCProtocol?
-    let mainVC = MainViewController.callFunc()
-    
     
     func didTapAroundFilterButton(_ sender: AroundFilterButton) {
         AroundPlaceViewController.delegate?.showFloatingPanel(type: .full)

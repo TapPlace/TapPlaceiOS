@@ -13,12 +13,6 @@ import SnapKit
 import FloatingPanel
 
 class MainViewController: UIViewController, AroundPlaceVCProtocol {
-    class callFunc {
-        let vc = MainViewController()
-        func showFullFloatingPanel() {
-            vc.fpc?.move(to: .full, animated: true)
-        }
-    }
     
     var fpc: FloatingPanelController!
     var isHiddenFloatingPanel = true

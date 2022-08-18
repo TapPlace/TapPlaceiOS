@@ -22,10 +22,11 @@ struct CommonUtils {
      * coder : sanghyeon
      */
     static func resizeFontSize(size: CGFloat) -> CGFloat {
+        let standatdScreenSize: CGRect = CGRect(x: 0, y: 0, width: 375, height: 812)
         let screenSize: CGRect = UIScreen.main.bounds
         let screenWidth = screenSize.width
-        let sizeFormatter = size/390
-        return screenWidth * sizeFormatter
+        let sizeFormatter = size/375
+        return screenWidth < standatdScreenSize.width ? screenWidth * sizeFormatter : size
     }
     
     /**

@@ -53,7 +53,7 @@ class StoreTabCollectionViewCell: UICollectionViewCell {
         }
         itemIcon.snp.makeConstraints {
             $0.centerY.equalTo(itemFrame)
-            $0.top.bottom.equalTo(itemFrame)
+            $0.width.equalTo(15)
         }
         itemText.snp.makeConstraints {
             $0.leading.equalTo(itemIcon.snp.trailing).offset(3)
@@ -65,4 +65,12 @@ class StoreTabCollectionViewCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    static func fittingSize(availableHeight: CGFloat, name: String?) -> CGSize {
+        let cell = StoreTabCollectionViewCell()
+        
+        let targetSize = CGSize(width: UIView.layoutFittingCompressedSize.width, height: availableHeight)
+        return cell.itemFrame.systemLayoutSizeFitting(targetSize, withHorizontalFittingPriority: .fittingSizeLevel, verticalFittingPriority: .required)
+    }
+    
 }

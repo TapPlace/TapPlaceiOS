@@ -10,8 +10,18 @@ import AlignedCollectionViewFlowLayout
 import NMapsMap
 import CoreLocation
 import SnapKit
+import FloatingPanel
 
-class MainViewController: UIViewController {
+class MainViewController: UIViewController, AroundPlaceVCProtocol {
+    class callFunc {
+        let vc = MainViewController()
+        func showFullFloatingPanel() {
+            vc.fpc?.move(to: .full, animated: true)
+        }
+    }
+    
+    var fpc: FloatingPanelController!
+    var isHiddenFloatingPanel = true
     
     let listButton = MapButton()
     let locationButton = MapButton()
@@ -41,8 +51,8 @@ class MainViewController: UIViewController {
     }()
     let locationManager = CLLocationManager()
     let researchButton = ResearchButton()
-    let bottomSheet = MainBottomSheetView()
     let detailOverView = DetailOverView()
+
 
     
     /**
@@ -76,13 +86,74 @@ class MainViewController: UIViewController {
         return collectionView
     }()
     
+    //MARK: ViewLifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
         setupNaverMap()
+        setupFloatingPanel()
     }
     
 }
+
+//MARK: - TEST Floating Panel
+extension MainViewController: FloatingPanelControllerDelegate { // 플로팅 패널
+    /**
+     * @ 플로팅패널 설정
+     * coder : sanghyeon
+     */
+    func setupFloatingPanel() {
+        fpc = FloatingPanelController()
+        fpc.delegate = self
+        let contentVC = AroundPlaceViewController()
+        fpc.set(contentViewController: contentVC)
+        //fpc.surfaceView.grabberHandle.isHidden = true
+        fpc.surfaceView.grabberHandlePadding = 10.0
+        fpc.surfaceView.grabberHandleSize = .init(width: 44.0, height: 4.0)
+        fpc.addPanel(toParent: self)
+        
+        // Create a new appearance.
+        let appearance = SurfaceAppearance()
+
+        // Define corner radius and background color
+        appearance.cornerRadius = 20.0
+        appearance.backgroundColor = .white
+
+        // Set the new appearance
+        fpc.surfaceView.appearance = appearance
+    }
+    
+    /**
+     * @ 플로팅패널 보이기
+     * coder : sanghyeon
+     */
+    func showFloatingPanel(type: FloatingPanelState = .half) {
+        fpc.move(to: type, animated: true)
+    }
+    func floatingPanel(_ vc: FloatingPanelController, layoutFor newCollection: UITraitCollection) -> FloatingPanelLayout {
+            return MainFloatingPanelLayout()
+    }
+    
+}
+
+class MainFloatingPanelLayout: FloatingPanelLayout {
+    let position: FloatingPanelPosition = .bottom
+    let initialState: FloatingPanelState = .hidden
+    var anchors: [FloatingPanel.FloatingPanelState : FloatingPanel.FloatingPanelLayoutAnchoring]{
+        return [
+            .full: FloatingPanelLayoutAnchor(absoluteInset: 110.0, edge: .top, referenceGuide: .safeArea),
+            .half: FloatingPanelLayoutAnchor(fractionalInset: 0.29, edge: .bottom, referenceGuide: .safeArea),
+            .hidden: FloatingPanelLayoutAnchor(absoluteInset: 0, edge: .bottom, referenceGuide: .safeArea),
+        ]
+    }
+    func backdropAlpha(for state: FloatingPanelState) -> CGFloat {
+        switch state {
+        case .full: return 0.7
+        default: return 0.0
+        }
+    }
+}
+
 //MARK: - Layout
 extension MainViewController: MapButtonProtocol, ResearchButtonProtocol {
     func didTapResearchButton() {
@@ -97,7 +168,8 @@ extension MainViewController: MapButtonProtocol, ResearchButtonProtocol {
         print("맵버튼 터치")
         if sender == listButton.button {
             print("리스트 버튼 클릭")
-            self.bottomSheet.updateConstraint(offset: 0.8 * UIScreen.main.bounds.height)
+            showFloatingPanel()
+            
         } else if sender == locationButton.button {
             getUserCurrentLocation()
             guard let location = currentLocation else { return }
@@ -162,7 +234,7 @@ extension MainViewController: MapButtonProtocol, ResearchButtonProtocol {
         overlayCenterPick.isHidden = true
         researchButton.isHidden = true
         researchButton.layer.applySketchShadow(color: .black, alpha: 0.12, x: 0, y: 1, blur: 8, spread: 0)
-        bottomSheet.layer.applySketchShadow(color: .black, alpha: 0.12, x: 0, y: 0, blur: 20, spread: 0)
+        
         
         //MARK: AddSubView
         view.addSubview(searchBar)
@@ -173,7 +245,6 @@ extension MainViewController: MapButtonProtocol, ResearchButtonProtocol {
         view.addSubview(locationButton)
         view.addSubview(overlayCenterPick)
         view.addSubview(researchButton)
-        view.addSubview(bottomSheet)
         
         //MARK: ViewContraints
         searchBar.snp.makeConstraints {
@@ -216,10 +287,6 @@ extension MainViewController: MapButtonProtocol, ResearchButtonProtocol {
             $0.width.equalTo(150)
             $0.height.equalTo(30)
         }
-        
-        bottomSheet.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
 
         
         //MARK: ViewAddTarget
@@ -234,6 +301,7 @@ extension MainViewController: MapButtonProtocol, ResearchButtonProtocol {
         listButton.delegate = self
         locationButton.delegate = self
         researchButton.delegate = self
+        AroundPlaceViewController.delegate = self
         
         collectionView.register(StoreTabCollectionViewCell.self, forCellWithReuseIdentifier: "storeTabItem")
         collectionView.contentInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
@@ -433,11 +501,6 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let labelSize = CommonUtils.getTextSizeWidth(text: storeLists[indexPath.row].title)
-        if let cell = collectionView.cellForItem(at: indexPath) as? StoreTabCollectionViewCell {
-            print("셀 사이즈 구하기")
-            let cellWidth: CGFloat = cell.itemFrame.frame.width
-            return CGSize(width: cellWidth, height: 28)
-        }
-        return CGSize(width: labelSize.width + 45, height: 28)
+        return CGSize(width: labelSize.width + 35, height: 28)
     }
 }

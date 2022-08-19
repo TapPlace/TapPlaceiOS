@@ -55,13 +55,6 @@ class AroundStoreTableViewCell: UITableViewCell {
         let containerView = UIView()
         return containerView
     }()
-    let brandImage: UIImageView = {
-        let brandImage = UIImageView()
-        brandImage.backgroundColor = UIColor.init(hex: 0xdbdee8, alpha: 0.3)
-        brandImage.layer.cornerRadius = 8
-        brandImage.clipsToBounds = true
-        return brandImage
-    }()
     let storeLabel: UILabel = {
         let storeLabel = UILabel()
         storeLabel.sizeToFit()
@@ -102,23 +95,17 @@ class AroundStoreTableViewCell: UITableViewCell {
     
     func setupCell() {
         addSubview(containerView)
-        containerView.addSubview(brandImage)
         containerView.addSubview(storeLabel)
         containerView.addSubview(storeDetailLabel)
         containerView.addSubview(brandStackView)
-        
         
         containerView.snp.makeConstraints {
             $0.top.leading.trailing.equalToSuperview()
             $0.bottom.equalTo(brandStackView)
         }
-        brandImage.snp.makeConstraints {
-            $0.width.height.equalTo(68)
-            $0.top.leading.equalTo(containerView)
-        }
         storeLabel.snp.makeConstraints {
-            $0.leading.equalTo(brandImage.snp.trailing).offset(16)
-            $0.top.equalTo(brandImage)
+            $0.leading.equalTo(containerView)
+            $0.top.equalTo(containerView)
         }
         storeDetailLabel.snp.makeConstraints {
             $0.leading.equalTo(storeLabel)

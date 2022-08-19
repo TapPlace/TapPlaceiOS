@@ -176,6 +176,7 @@
 		DF1CD4AB28AF1D30000D23E4 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				DF38176F28A46EF100B900B5 /* CommonPickViewController.swift */,
 				DFF7BEDD28A68CDD00289F39 /* TabBarViewController.swift */,
 			);
 			path = Common;
@@ -219,14 +220,6 @@
 				DFECC8CB28AC9F1200DC64FD /* AroundFilterButton.swift */,
 			);
 			path = Button;
-			sourceTree = "<group>";
-		};
-		DF38176E28A46EE000B900B5 /* Common */ = {
-			isa = PBXGroup;
-			children = (
-				DF38176F28A46EF100B900B5 /* CommonPickViewController.swift */,
-			);
-			path = Common;
 			sourceTree = "<group>";
 		};
 		DF49AD8B28A0AB15004EDC34 /* Configurations */ = {
@@ -302,7 +295,6 @@
 		DFC23FAB289AB69D00EC1090 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				DF38176E28A46EE000B900B5 /* Common */,
 				DFDA43F728A14C56003763AC /* Utils */,
 				DFC23FBC289AB70F00EC1090 /* Cells */,
 				DFC23FB9289AB70300EC1090 /* Extensions */,
@@ -714,6 +706,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -749,6 +742,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

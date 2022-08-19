@@ -99,12 +99,11 @@ extension MainViewController: FloatingPanelControllerDelegate { // 플로팅 패
     func setupFloatingPanel() {
         fpc = FloatingPanelController()
         fpc.delegate = self
-        let contentVC = AroundPlaceViewController()
-        fpc.set(contentViewController: contentVC)
         //fpc.surfaceView.grabberHandle.isHidden = true
         fpc.surfaceView.grabberHandlePadding = 10.0
         fpc.surfaceView.grabberHandleSize = .init(width: 44.0, height: 4.0)
-        fpc.addPanel(toParent: self)
+        fpc.backdropView.dismissalTapGestureRecognizer.isEnabled = true
+        
         
         // Create a new appearance.
         let appearance = SurfaceAppearance()
@@ -116,16 +115,25 @@ extension MainViewController: FloatingPanelControllerDelegate { // 플로팅 패
         // Set the new appearance
         fpc.surfaceView.appearance = appearance
     }
-    
+    func floatingPanel(_ vc: FloatingPanelController, layoutFor newCollection: UITraitCollection) -> FloatingPanelLayout {
+            return MainFloatingPanelLayout()
+    }
     /**
      * @ 플로팅패널 보이기
      * coder : sanghyeon
      */
     func showFloatingPanel(type: FloatingPanelState = .half) {
+        let contentVC = AroundPlaceViewController()
+        fpc.set(contentViewController: contentVC)
+        fpc.addPanel(toParent: self)
         fpc.move(to: type, animated: true)
     }
-    func floatingPanel(_ vc: FloatingPanelController, layoutFor newCollection: UITraitCollection) -> FloatingPanelLayout {
-            return MainFloatingPanelLayout()
+    /**
+     * @ 그래버 숨기기
+     * coder : sanghyeon
+     */
+    func hideGrabber(hide: Bool = false) {
+        fpc.surfaceView.grabberHandle.isHidden = hide
     }
     
 }
@@ -234,7 +242,7 @@ extension MainViewController: MapButtonProtocol, ResearchButtonProtocol {
         view.addSubview(searchBar)
         searchBar.addSubview(searchIcon)
         searchBar.addSubview(searchButton)
-        view.addSubview(collectionView)
+//        view.addSubview(collectionView)
         view.addSubview(listButton)
         view.addSubview(locationButton)
         view.addSubview(overlayCenterPick)
@@ -256,11 +264,11 @@ extension MainViewController: MapButtonProtocol, ResearchButtonProtocol {
             $0.top.bottom.trailing.equalTo(searchBar)
             $0.leading.equalTo(searchIcon.snp.trailing).offset(10)
         }
-        collectionView.snp.makeConstraints {
-            $0.top.equalTo(searchBar.snp.bottom).offset(10)
-            $0.leading.trailing.equalTo(safeArea)
-            $0.height.equalTo(40)
-        }
+//        collectionView.snp.makeConstraints {
+//            $0.top.equalTo(searchBar.snp.bottom).offset(10)
+//            $0.leading.trailing.equalTo(safeArea)
+//            $0.height.equalTo(40)
+//        }
         listButton.snp.makeConstraints {
             $0.bottom.equalTo(safeArea).offset(-40)
             $0.leading.equalTo(safeArea).offset(20)
@@ -290,33 +298,17 @@ extension MainViewController: MapButtonProtocol, ResearchButtonProtocol {
 //
         
         //MARK: Delegate
-        collectionView.delegate = self
-        collectionView.dataSource = self
+//        collectionView.delegate = self
+//        collectionView.dataSource = self
         listButton.delegate = self
         locationButton.delegate = self
         researchButton.delegate = self
         AroundPlaceViewController.delegate = self
         
-        collectionView.register(StoreTabCollectionViewCell.self, forCellWithReuseIdentifier: "storeTabItem")
-        collectionView.contentInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
+//        collectionView.register(StoreTabCollectionViewCell.self, forCellWithReuseIdentifier: "storeTabItem")
+//        collectionView.contentInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
     } // Function: 레이아웃 설정
     
-    /**
-     * @ 탭바 처리
-     * coder : sanghyeon
-     */
-    func showTabBar(hide: Bool) {
-        guard let tabBar = tabBarController as? TabBarViewController else { return }
-        if hide {
-            self.tabBarController?.tabBar.isHidden = true
-            print("플로팅버튼 없앱니다.")
-            tabBar.floatingButton.isHidden = true
-        } else {
-            self.tabBarController?.tabBar.isHidden = false
-            print("플로팅버튼 없앱니다.")
-            tabBar.floatingButton.isHidden = false
-        }
-    }
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -348,7 +340,7 @@ extension MainViewController: CLLocationManagerDelegate, NMFMapViewCameraDelegat
         moveCamera(location: location)
         showInMapViewTracking(location: location)
         
-        //MARK: - NaverMapViewDelegate
+        //MARK: NaverMapViewDelegate
         naverMapView.addCameraDelegate(delegate: self)
         
         //MARK: [DEBUG]
@@ -400,6 +392,7 @@ extension MainViewController: CLLocationManagerDelegate, NMFMapViewCameraDelegat
      * @ 지도에 마커 추가
      * coder : sanghyeon
      */
+    
     func addMarker(markers: [NMGLatLng]) {
         if markers.count <= 0 {
             print("addMarker called(), no data")

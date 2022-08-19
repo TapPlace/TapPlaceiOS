@@ -10,6 +10,7 @@ import FloatingPanel
 
 protocol AroundPlaceVCProtocol {
     func showFloatingPanel(type: FloatingPanelState)
+    func hideGrabber(hide: Bool)
 }
 
 class AroundPlaceViewController: UIViewController, AroundFilterButtonProtocol {
@@ -17,6 +18,7 @@ class AroundPlaceViewController: UIViewController, AroundFilterButtonProtocol {
     
     func didTapAroundFilterButton(_ sender: AroundFilterButton) {
         AroundPlaceViewController.delegate?.showFloatingPanel(type: .full)
+        AroundPlaceViewController.delegate?.hideGrabber(hide: true)
     }
     
     let containerView: UIView = {

@@ -26,8 +26,6 @@
 		DF82669E289CA12800272830 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF82669D289CA12800272830 /* MainViewController.swift */; };
 		DF8266A8289F1D0D00272830 /* PlaceDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF8266A7289F1D0D00272830 /* PlaceDataService.swift */; };
 		DF9EAF8528AA00F5001B3D74 /* ResearchButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF9EAF8428AA00F5001B3D74 /* ResearchButton.swift */; };
-		DF9EAF8728AA2743001B3D74 /* MainBottomSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF9EAF8628AA2743001B3D74 /* MainBottomSheetView.swift */; };
-		DFA2875328AB074A00DD9F63 /* PassThroughView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFA2875228AB074A00DD9F63 /* PassThroughView.swift */; };
 		DFA2875728AB684200DD9F63 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFA2875628AB684200DD9F63 /* UIView+Extension.swift */; };
 		DFA2875928AB94C700DD9F63 /* DetailOverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFA2875828AB94C700DD9F63 /* DetailOverView.swift */; };
 		DFA2875B28ABA8D400DD9F63 /* DetailToolBarButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFA2875A28ABA8D400DD9F63 /* DetailToolBarButton.swift */; };
@@ -86,8 +84,6 @@
 		DF82669D289CA12800272830 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		DF8266A7289F1D0D00272830 /* PlaceDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceDataService.swift; sourceTree = "<group>"; };
 		DF9EAF8428AA00F5001B3D74 /* ResearchButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResearchButton.swift; sourceTree = "<group>"; };
-		DF9EAF8628AA2743001B3D74 /* MainBottomSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainBottomSheetView.swift; sourceTree = "<group>"; };
-		DFA2875228AB074A00DD9F63 /* PassThroughView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassThroughView.swift; sourceTree = "<group>"; };
 		DFA2875628AB684200DD9F63 /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		DFA2875828AB94C700DD9F63 /* DetailOverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailOverView.swift; sourceTree = "<group>"; };
 		DFA2875A28ABA8D400DD9F63 /* DetailToolBarButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailToolBarButton.swift; sourceTree = "<group>"; };
@@ -210,16 +206,58 @@
 			path = Main;
 			sourceTree = "<group>";
 		};
-		DF2340CB28A22DDB00A9DAE1 /* Button */ = {
+		DF1CD4AF28AF7194000D23E4 /* Intro */ = {
+			isa = PBXGroup;
+			children = (
+				DFDA43F528A14AB3003763AC /* PickViewControllerTitleView.swift */,
+			);
+			path = Intro;
+			sourceTree = "<group>";
+		};
+		DF1CD4B028AF71D9000D23E4 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				DF1CD4B428AF7259000D23E4 /* AroundPlace */,
+				DF1CD4B328AF721F000D23E4 /* Search */,
+				DFE5F6AF28A9385C000511E9 /* MapButton.swift */,
+				DF9EAF8428AA00F5001B3D74 /* ResearchButton.swift */,
+				DFA2875828AB94C700DD9F63 /* DetailOverView.swift */,
+				DFECC8CF28ACFFE000DC64FD /* BrandIconImageView.swift */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
+		DF1CD4B128AF71FE000D23E4 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				DF1CD4B228AF7205000D23E4 /* Button */,
+				DF4A14A128ABBAEF0068D1AD /* VerticalAlignLabel.swift */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
+		DF1CD4B228AF7205000D23E4 /* Button */ = {
 			isa = PBXGroup;
 			children = (
 				DF2340CC28A22DF900A9DAE1 /* BottomButton.swift */,
-				DFE5F6AF28A9385C000511E9 /* MapButton.swift */,
-				DF9EAF8428AA00F5001B3D74 /* ResearchButton.swift */,
-				F449AEB228ACEABE008E0417 /* SearchContentButton.swift */,
-				DFECC8CB28AC9F1200DC64FD /* AroundFilterButton.swift */,
 			);
 			path = Button;
+			sourceTree = "<group>";
+		};
+		DF1CD4B328AF721F000D23E4 /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				F449AEB228ACEABE008E0417 /* SearchContentButton.swift */,
+			);
+			path = Search;
+			sourceTree = "<group>";
+		};
+		DF1CD4B428AF7259000D23E4 /* AroundPlace */ = {
+			isa = PBXGroup;
+			children = (
+				DFECC8CB28AC9F1200DC64FD /* AroundFilterButton.swift */,
+			);
+			path = AroundPlace;
 			sourceTree = "<group>";
 		};
 		DF49AD8B28A0AB15004EDC34 /* Configurations */ = {
@@ -349,14 +387,10 @@
 		DFC23FB6289AB6F400EC1090 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				DF1CD4B128AF71FE000D23E4 /* Common */,
+				DF1CD4AF28AF7194000D23E4 /* Intro */,
+				DF1CD4B028AF71D9000D23E4 /* Main */,
 				DF4A14A528ABDB7B0068D1AD /* CustomToolBar */,
-				DF2340CB28A22DDB00A9DAE1 /* Button */,
-				DFDA43F528A14AB3003763AC /* PickViewControllerTitleView.swift */,
-				DF9EAF8628AA2743001B3D74 /* MainBottomSheetView.swift */,
-				DFA2875228AB074A00DD9F63 /* PassThroughView.swift */,
-				DFA2875828AB94C700DD9F63 /* DetailOverView.swift */,
-				DF4A14A128ABBAEF0068D1AD /* VerticalAlignLabel.swift */,
-				DFECC8CF28ACFFE000DC64FD /* BrandIconImageView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -546,13 +580,11 @@
 				DFECC8CE28ACD9CF00DC64FD /* AroundStoreTableViewCell.swift in Sources */,
 				DFF7BEDC28A685F500289F39 /* StoreTabCollectionViewCell.swift in Sources */,
 				F449AEB328ACEABE008E0417 /* SearchContentButton.swift in Sources */,
-				DFA2875328AB074A00DD9F63 /* PassThroughView.swift in Sources */,
 				DFECC8CC28AC9F1200DC64FD /* AroundFilterButton.swift in Sources */,
 				DF38177828A4E28200B900B5 /* PaymentViewModel.swift in Sources */,
 				DFECC8D028ACFFE000DC64FD /* BrandIconImageView.swift in Sources */,
 				DF4A14A228ABBAEF0068D1AD /* VerticalAlignLabel.swift in Sources */,
 				DF9EAF8528AA00F5001B3D74 /* ResearchButton.swift in Sources */,
-				DF9EAF8728AA2743001B3D74 /* MainBottomSheetView.swift in Sources */,
 				DF4BD37C28A76F8100C4C5B4 /* UIImage+Extension.swift in Sources */,
 				DF4A14A428ABBEF50068D1AD /* CustomToolBar.swift in Sources */,
 				DF2340D128A239FC00A9DAE1 /* PickPaymentsCollectionReusableView.swift in Sources */,

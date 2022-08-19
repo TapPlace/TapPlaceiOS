@@ -17,14 +17,17 @@ class AroundPlaceViewController: UIViewController, AroundFilterButtonProtocol {
     static var delegate: AroundPlaceVCProtocol?
     
     func didTapAroundFilterButton(_ sender: AroundFilterButton) {
+        aroundContainerView.removeFromSuperview()
         AroundPlaceViewController.delegate?.showFloatingPanel(type: .full)
         AroundPlaceViewController.delegate?.hideGrabber(hide: true)
+
+        
     }
     
-    let containerView: UIView = {
-        let containerView = UIView()
-        containerView.backgroundColor = .clear
-        return containerView
+    let aroundContainerView: UIView = {
+        let aroundContainerView = UIView()
+        aroundContainerView.backgroundColor = .clear
+        return aroundContainerView
     }()
     let pickStoreButton = AroundFilterButton()
     let pickPaymemtButton = AroundFilterButton()
@@ -32,7 +35,7 @@ class AroundPlaceViewController: UIViewController, AroundFilterButtonProtocol {
         let tableView = UITableView()
         tableView.backgroundColor = .white
         tableView.separatorColor = .white
-        tableView.rowHeight = 90
+        tableView.rowHeight = 85
         tableView.register(AroundStoreTableViewCell.self, forCellReuseIdentifier: AroundStoreTableViewCell.cellId)
         return tableView
     }()
@@ -99,20 +102,20 @@ extension AroundPlaceViewController {
         
         
         //MARK: AddSubView
-        view.addSubview(containerView)
-        containerView.addSubview(locationView)
+        view.addSubview(aroundContainerView)
+        aroundContainerView.addSubview(locationView)
         locationView.addSubview(locationLabel)
         locationView.addSubview(distanceLabel)
         locationView.addSubview(locationArrowImage)
         locationView.addSubview(locationButton)
-        containerView.addSubview(pickStoreButton)
-        containerView.addSubview(pickPaymemtButton)
-        containerView.addSubview(separatorLine)
-        containerView.addSubview(tableView)
+        aroundContainerView.addSubview(pickStoreButton)
+        aroundContainerView.addSubview(pickPaymemtButton)
+        aroundContainerView.addSubview(separatorLine)
+        aroundContainerView.addSubview(tableView)
         
         
         //MARK: ViewContraints
-        containerView.snp.makeConstraints {
+        aroundContainerView.snp.makeConstraints {
             $0.leading.trailing.equalTo(safeArea).inset(20)
             $0.top.bottom.equalTo(safeArea).inset(20)
         }
@@ -121,7 +124,7 @@ extension AroundPlaceViewController {
             $0.trailing.equalTo(locationArrowImage)
         }
         locationLabel.snp.makeConstraints {
-            $0.top.leading.equalTo(containerView)
+            $0.top.leading.equalTo(aroundContainerView)
         }
         distanceLabel.snp.makeConstraints {
             $0.centerY.equalTo(locationLabel)
@@ -139,7 +142,7 @@ extension AroundPlaceViewController {
         pickStoreButton.snp.makeConstraints {
             $0.top.equalTo(locationView.snp.bottom).offset(10)
             $0.width.equalTo(pickStoreButton.buttonFrame)
-            $0.leading.equalTo(containerView)
+            $0.leading.equalTo(aroundContainerView)
         }
         pickPaymemtButton.snp.makeConstraints {
             $0.leading.equalTo(pickStoreButton.snp.trailing).offset(5)
@@ -148,12 +151,12 @@ extension AroundPlaceViewController {
         }
         separatorLine.snp.makeConstraints {
             $0.top.equalTo(pickStoreButton.snp.bottom).offset(15)
-            $0.leading.trailing.equalTo(containerView)
+            $0.leading.trailing.equalTo(aroundContainerView)
             $0.height.equalTo(1)
         }
         tableView.snp.makeConstraints {
             $0.top.equalTo(separatorLine).offset(15)
-            $0.leading.trailing.bottom.equalTo(containerView)
+            $0.leading.trailing.bottom.equalTo(aroundContainerView)
         }
         
         
@@ -183,7 +186,7 @@ extension AroundPlaceViewController: UITableViewDelegate, UITableViewDataSource 
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: AroundStoreTableViewCell.cellId, for: indexPath) as! AroundStoreTableViewCell
-        cell.setAttributedString(distance: "50m", paySuccess: "90", payFail: "10")
+        cell.setAttributedString(distance: "50m", address: "서울특별시 강서구 양천로 677")
         cell.payLists = ["applelogo", "cart.fill", "trash.fill"]
         cell.selectionStyle = .none
         return cell

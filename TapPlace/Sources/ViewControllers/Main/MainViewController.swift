@@ -99,16 +99,12 @@ extension MainViewController: FloatingPanelControllerDelegate { // 플로팅 패
     func setupFloatingPanel() {
         fpc = FloatingPanelController()
         fpc.delegate = self
-        //fpc.surfaceView.grabberHandle.isHidden = true
         fpc.surfaceView.grabberHandlePadding = 10.0
         fpc.surfaceView.grabberHandleSize = .init(width: 44.0, height: 4.0)
         fpc.backdropView.dismissalTapGestureRecognizer.isEnabled = true
         
-        
         // Create a new appearance.
         let appearance = SurfaceAppearance()
-
-        // Define corner radius and background color
         appearance.cornerRadius = 20.0
         appearance.backgroundColor = .white
 
@@ -128,9 +124,14 @@ extension MainViewController: FloatingPanelControllerDelegate { // 플로팅 패
      * coder : sanghyeon
      */
     func showFloatingPanel(type: FloatingPanelState = .half) {
-        let contentVC = AroundPlaceViewController()
-        fpc.set(contentViewController: contentVC)
-        fpc.addPanel(toParent: self)
+        /// addPanel의 경우 뷰컨을 새로 로드하기 때문에, removesubview한게 사라짐
+        /// 그래서 상태에 따라서 addpanel및 set을 따로 줌
+        if fpc.state == type { return }
+        if fpc.state == .hidden {
+            let contentVC = AroundPlaceViewController()
+            fpc.addPanel(toParent: self)
+            fpc.set(contentViewController: contentVC)
+        }
         fpc.move(to: type, animated: true)
     }
     /**

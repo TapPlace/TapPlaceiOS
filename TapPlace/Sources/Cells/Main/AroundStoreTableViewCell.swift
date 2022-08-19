@@ -11,21 +11,21 @@ class AroundStoreTableViewCell: UITableViewCell {
 
     static let cellId = "aroundStoreItem"
     
-    var distance: String = "알 수 없음"  {
-        willSet {
-            distance = newValue
-        }
-    }
-    var paySuccess: String = "알 수 없음"  {
-        willSet {
-            paySuccess = newValue
-        }
-    }
-    var payFail: String = "알 수 없음"  {
-        willSet {
-            payFail = newValue
-        }
-    }
+//    var distance: String = "알 수 없음"  {
+//        willSet {
+//            distance = newValue
+//        }
+//    }
+//    var address: String = "알 수 없음"  {
+//        willSet {
+//            paySuccess = newValue
+//        }
+//    }
+//    var payFail: String = "알 수 없음"  {
+//        willSet {
+//            payFail = newValue
+//        }
+//    }
     var payLists: [String] = [] {
         willSet {
             payLists = newValue
@@ -33,13 +33,13 @@ class AroundStoreTableViewCell: UITableViewCell {
         }
     }
     
-    func setAttributedString(distance: String, paySuccess: String, payFail: String) {
-        var storeDetailText = "#STORE \u{2022} 결제성공 #PAY_SUCCESS% \u{2022} 결제실패 #PAY_FAIL%"
+    func setAttributedString(distance: String, address: String) {
+        var storeDetailText = "#STORE \u{2022} #ADDRESS"
         storeDetailText = storeDetailText.replacingOccurrences(of: "#STORE", with: distance)
-        storeDetailText = storeDetailText.replacingOccurrences(of: "#PAY_SUCCESS", with: paySuccess)
-        storeDetailText = storeDetailText.replacingOccurrences(of: "#PAY_FAIL", with: payFail)
+        storeDetailText = storeDetailText.replacingOccurrences(of: "#ADDRESS", with: address)
+        //storeDetailText = storeDetailText.replacingOccurrences(of: "#PAY_FAIL", with: payFail)
         let attributedString = NSMutableAttributedString(string: storeDetailText)
-        attributedString.addAttribute(.foregroundColor, value: UIColor.pointBlue, range: (storeDetailText as NSString).range(of: paySuccess + "%"))
+        //attributedString.addAttribute(.foregroundColor, value: UIColor.pointBlue, range: (storeDetailText as NSString).range(of: paySuccess + "%"))
         storeDetailLabel.attributedText = attributedString
     }
     func addPayBrand(pays: [String]) {
@@ -100,8 +100,10 @@ class AroundStoreTableViewCell: UITableViewCell {
         containerView.addSubview(brandStackView)
         
         containerView.snp.makeConstraints {
-            $0.top.leading.trailing.equalToSuperview()
+            $0.top.equalTo(storeLabel)
             $0.bottom.equalTo(brandStackView)
+            $0.leading.centerY.equalToSuperview()
+            
         }
         storeLabel.snp.makeConstraints {
             $0.leading.equalTo(containerView)
@@ -112,7 +114,7 @@ class AroundStoreTableViewCell: UITableViewCell {
             $0.top.equalTo(storeLabel.snp.bottom).offset(4)
         }
         brandStackView.snp.makeConstraints {
-            $0.top.equalTo(storeDetailLabel.snp.bottom).offset(12)
+            $0.top.equalTo(storeDetailLabel.snp.bottom).offset(5)
             $0.leading.equalTo(storeDetailLabel)
             $0.height.equalTo(24)
             $0.trailing.equalTo(containerView)

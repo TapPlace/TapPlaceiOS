@@ -118,6 +118,11 @@ extension MainViewController: FloatingPanelControllerDelegate { // 플로팅 패
     func floatingPanel(_ vc: FloatingPanelController, layoutFor newCollection: UITraitCollection) -> FloatingPanelLayout {
             return MainFloatingPanelLayout()
     }
+    func floatingPanelDidChangeState(_ fpc: FloatingPanelController) {
+        if fpc.state == .hidden {
+            fpc.surfaceView.grabberHandle.isHidden = false
+        }
+    }
     /**
      * @ 플로팅패널 보이기
      * coder : sanghyeon

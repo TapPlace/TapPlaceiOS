@@ -30,6 +30,7 @@ class AroundPlaceViewController: UIViewController, AroundFilterButtonProtocol {
     let pickPaymemtButton = AroundFilterButton()
     let tableView: UITableView = {
         let tableView = UITableView()
+        tableView.backgroundColor = .white
         tableView.separatorColor = .white
         tableView.rowHeight = 90
         tableView.register(AroundStoreTableViewCell.self, forCellReuseIdentifier: AroundStoreTableViewCell.cellId)

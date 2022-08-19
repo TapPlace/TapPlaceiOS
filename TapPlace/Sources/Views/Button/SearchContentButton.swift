@@ -17,7 +17,7 @@ class SearchContentButton: UIButton {
   
     override init(frame: CGRect) {
         super.init(frame: frame)
-        addTarget(self, action: #selector(tapButton(_:)), for: .touchUpInside)
+        addTarget(self, action: #selector(tapButton(_:)), for: .touchUpInside) 
     }
     
     required init?(coder: NSCoder) {

@@ -11,21 +11,6 @@ class AroundStoreTableViewCell: UITableViewCell {
 
     static let cellId = "aroundStoreItem"
     
-//    var distance: String = "알 수 없음"  {
-//        willSet {
-//            distance = newValue
-//        }
-//    }
-//    var address: String = "알 수 없음"  {
-//        willSet {
-//            paySuccess = newValue
-//        }
-//    }
-//    var payFail: String = "알 수 없음"  {
-//        willSet {
-//            payFail = newValue
-//        }
-//    }
     var payLists: [String] = [] {
         willSet {
             payLists = newValue
@@ -33,7 +18,7 @@ class AroundStoreTableViewCell: UITableViewCell {
         }
     }
     
-    func setAttributedString(distance: String, address: String) {
+    func setAttributedString(store: String, distance: String, address: String, isBookmark: Bool = false) {
         var storeDetailText = "#STORE \u{2022} #ADDRESS"
         storeDetailText = storeDetailText.replacingOccurrences(of: "#STORE", with: distance)
         storeDetailText = storeDetailText.replacingOccurrences(of: "#ADDRESS", with: address)
@@ -41,6 +26,8 @@ class AroundStoreTableViewCell: UITableViewCell {
         let attributedString = NSMutableAttributedString(string: storeDetailText)
         //attributedString.addAttribute(.foregroundColor, value: UIColor.pointBlue, range: (storeDetailText as NSString).range(of: paySuccess + "%"))
         storeDetailLabel.attributedText = attributedString
+        storeLabel.text = store
+        if isBookmark { bookmarkButton.tintColor = .pointBlue }
     }
     func addPayBrand(pays: [String]) {
         var paysImages: [UIImageView] = []
@@ -58,7 +45,7 @@ class AroundStoreTableViewCell: UITableViewCell {
     let storeLabel: UILabel = {
         let storeLabel = UILabel()
         storeLabel.sizeToFit()
-        storeLabel.text = "세븐일레븐 염창점"
+        storeLabel.text = "가맹점 이름"
         storeLabel.textColor = .black
         storeLabel.font = .systemFont(ofSize: CommonUtils.resizeFontSize(size: 16), weight: .regular)
         return storeLabel
@@ -68,6 +55,12 @@ class AroundStoreTableViewCell: UITableViewCell {
         storeDetailLabel.font = .systemFont(ofSize: CommonUtils.resizeFontSize(size: 12), weight: .regular)
         storeDetailLabel.textColor = UIColor.init(hex: 0x9a9fb0)
         return storeDetailLabel
+    }()
+    let bookmarkButton: UIButton = {
+        let bookmarkButton = UIButton()
+        bookmarkButton.setImage(UIImage(systemName: "bookmark.fill"), for: .normal)
+        bookmarkButton.tintColor = UIColor.init(hex: 0xdbdee8)
+        return bookmarkButton
     }()
     let brandStackView: UIStackView = {
         let brandStackView = UIStackView()
@@ -97,12 +90,13 @@ class AroundStoreTableViewCell: UITableViewCell {
         addSubview(containerView)
         containerView.addSubview(storeLabel)
         containerView.addSubview(storeDetailLabel)
+        containerView.addSubview(bookmarkButton)
         containerView.addSubview(brandStackView)
         
         containerView.snp.makeConstraints {
-            $0.top.equalTo(storeLabel)
-            $0.bottom.equalTo(brandStackView)
-            $0.leading.centerY.equalToSuperview()
+            //$0.bottom.equalTo(brandStackView)
+            $0.leading.centerY.trailing.equalToSuperview()
+            $0.top.bottom.equalToSuperview().inset(15)
             
         }
         storeLabel.snp.makeConstraints {
@@ -113,11 +107,15 @@ class AroundStoreTableViewCell: UITableViewCell {
             $0.leading.equalTo(storeLabel)
             $0.top.equalTo(storeLabel.snp.bottom).offset(4)
         }
+        bookmarkButton.snp.makeConstraints {
+            $0.trailing.equalToSuperview()
+            $0.centerY.equalTo(containerView)
+        }
         brandStackView.snp.makeConstraints {
-            $0.top.equalTo(storeDetailLabel.snp.bottom).offset(5)
-            $0.leading.equalTo(storeDetailLabel)
+            $0.top.equalTo(storeDetailLabel.snp.bottom).offset(10)
             $0.height.equalTo(24)
-            $0.trailing.equalTo(containerView)
+            $0.leading.trailing.equalTo(containerView)
+            $0.bottom.equalTo(containerView)
         }
     }
     

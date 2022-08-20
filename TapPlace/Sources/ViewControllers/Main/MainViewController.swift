@@ -12,7 +12,8 @@ import CoreLocation
 import SnapKit
 import FloatingPanel
 
-class MainViewController: CommonViewController, AroundPlaceControllerProtocol {
+
+class MainViewController: CommonViewController {
     
     var fpc: FloatingPanelController!
     var isHiddenFloatingPanel = true
@@ -130,6 +131,7 @@ extension MainViewController: FloatingPanelControllerDelegate { // 플로팅 패
         if fpc.state == .hidden {
             let contentVC = AroundPlaceViewController()
             fpc.addPanel(toParent: self)
+            fpc.track(scrollView: contentVC.aroundPlaceListView.tableView)
             fpc.set(contentViewController: contentVC)
         }
         fpc.move(to: type, animated: true)
@@ -306,20 +308,13 @@ extension MainViewController: MapButtonProtocol, ResearchButtonProtocol {
         
         //MARK: ViewAddTarget
         searchButton.addTarget(self, action: #selector(didTapSearchButton), for: .touchUpInside)
-        //listButton.button.addTarget(self, action: #selector(testTap(_:)), for: .touchUpInside)
-        //locationButton.button.addTarget(self, action: #selector(didTapMapButton), for: .touchUpInside)
-//
         
         //MARK: Delegate
-//        collectionView.delegate = self
-//        collectionView.dataSource = self
         listButton.delegate = self
         locationButton.delegate = self
         researchButton.delegate = self
-        AroundPlaceListView.delegate = self
         
-//        collectionView.register(StoreTabCollectionViewCell.self, forCellWithReuseIdentifier: "storeTabItem")
-//        collectionView.contentInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
+
     } // Function: 레이아웃 설정
     
 

@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		55CBCFD9AFB8567F870CFC5F /* Pods_TapPlace.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FFFD01AEFF3455253C3E138 /* Pods_TapPlace.framework */; };
+		DF1CD4B628AF7388000D23E4 /* AroundPlaceListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF1CD4B528AF7388000D23E4 /* AroundPlaceListView.swift */; };
+		DF1CD4B828AF7BEC000D23E4 /* AroundPlaceFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF1CD4B728AF7BEC000D23E4 /* AroundPlaceFilterView.swift */; };
 		DF1D34B728A3662900BDDA15 /* StoreModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF1D34B628A3662900BDDA15 /* StoreModel.swift */; };
 		DF2340AA28A1D37D00A9DAE1 /* NSMutableAttributedString+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF2340A928A1D37D00A9DAE1 /* NSMutableAttributedString+Extension.swift */; };
 		DF2340CD28A22DF900A9DAE1 /* BottomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF2340CC28A22DF900A9DAE1 /* BottomButton.swift */; };
@@ -40,6 +42,7 @@
 		DFDA43F428A14821003763AC /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFDA43F328A14821003763AC /* UIColor+Extension.swift */; };
 		DFDA43F628A14AB3003763AC /* PickViewControllerTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFDA43F528A14AB3003763AC /* PickViewControllerTitleView.swift */; };
 		DFDA43F928A14C61003763AC /* CommonUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFDA43F828A14C61003763AC /* CommonUtils.swift */; };
+		DFDBB83528B094FE008D2E09 /* CommonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFDBB83428B094FE008D2E09 /* CommonViewController.swift */; };
 		DFDC182F289FE8A70076EE2E /* UserDefaults+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFDC182E289FE8A70076EE2E /* UserDefaults+Extension.swift */; };
 		DFE5F6AC28A8D36A000511E9 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFE5F6AB28A8D36A000511E9 /* Constants.swift */; };
 		DFE5F6B028A9385C000511E9 /* MapButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFE5F6AF28A9385C000511E9 /* MapButton.swift */; };
@@ -64,6 +67,8 @@
 		2F0AC997BCBE5EECEE20CD45 /* Pods-TapPlace.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TapPlace.debug.xcconfig"; path = "Target Support Files/Pods-TapPlace/Pods-TapPlace.debug.xcconfig"; sourceTree = "<group>"; };
 		3FFFD01AEFF3455253C3E138 /* Pods_TapPlace.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TapPlace.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		662DBEBE9668E5AAC68748EB /* Pods-TapPlace.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TapPlace.release.xcconfig"; path = "Target Support Files/Pods-TapPlace/Pods-TapPlace.release.xcconfig"; sourceTree = "<group>"; };
+		DF1CD4B528AF7388000D23E4 /* AroundPlaceListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AroundPlaceListView.swift; sourceTree = "<group>"; };
+		DF1CD4B728AF7BEC000D23E4 /* AroundPlaceFilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AroundPlaceFilterView.swift; sourceTree = "<group>"; };
 		DF1D34B628A3662900BDDA15 /* StoreModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreModel.swift; sourceTree = "<group>"; };
 		DF2340A928A1D37D00A9DAE1 /* NSMutableAttributedString+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSMutableAttributedString+Extension.swift"; sourceTree = "<group>"; };
 		DF2340CC28A22DF900A9DAE1 /* BottomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomButton.swift; sourceTree = "<group>"; };
@@ -100,6 +105,7 @@
 		DFDA43F328A14821003763AC /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		DFDA43F528A14AB3003763AC /* PickViewControllerTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickViewControllerTitleView.swift; sourceTree = "<group>"; };
 		DFDA43F828A14C61003763AC /* CommonUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonUtils.swift; sourceTree = "<group>"; };
+		DFDBB83428B094FE008D2E09 /* CommonViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonViewController.swift; sourceTree = "<group>"; };
 		DFDC182E289FE8A70076EE2E /* UserDefaults+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Extension.swift"; sourceTree = "<group>"; };
 		DFE5F6AB28A8D36A000511E9 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		DFE5F6AF28A9385C000511E9 /* MapButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapButton.swift; sourceTree = "<group>"; };
@@ -174,6 +180,7 @@
 			children = (
 				DF38176F28A46EF100B900B5 /* CommonPickViewController.swift */,
 				DFF7BEDD28A68CDD00289F39 /* TabBarViewController.swift */,
+				DFDBB83428B094FE008D2E09 /* CommonViewController.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -256,6 +263,8 @@
 			isa = PBXGroup;
 			children = (
 				DFECC8CB28AC9F1200DC64FD /* AroundFilterButton.swift */,
+				DF1CD4B528AF7388000D23E4 /* AroundPlaceListView.swift */,
+				DF1CD4B728AF7BEC000D23E4 /* AroundPlaceFilterView.swift */,
 			);
 			path = AroundPlace;
 			sourceTree = "<group>";
@@ -547,6 +556,7 @@
 				DFDA43F628A14AB3003763AC /* PickViewControllerTitleView.swift in Sources */,
 				DF82669C289CA11700272830 /* PickPaymentsViewController.swift in Sources */,
 				DF82669E289CA12800272830 /* MainViewController.swift in Sources */,
+				DF1CD4B628AF7388000D23E4 /* AroundPlaceListView.swift in Sources */,
 				DFA2875728AB684200DD9F63 /* UIView+Extension.swift in Sources */,
 				DFECC8D228AD129300DC64FD /* UIStackView+Extension.swift in Sources */,
 				DFA2875B28ABA8D400DD9F63 /* DetailToolBarButton.swift in Sources */,
@@ -587,6 +597,8 @@
 				DF9EAF8528AA00F5001B3D74 /* ResearchButton.swift in Sources */,
 				DF4BD37C28A76F8100C4C5B4 /* UIImage+Extension.swift in Sources */,
 				DF4A14A428ABBEF50068D1AD /* CustomToolBar.swift in Sources */,
+				DF1CD4B828AF7BEC000D23E4 /* AroundPlaceFilterView.swift in Sources */,
+				DFDBB83528B094FE008D2E09 /* CommonViewController.swift in Sources */,
 				DF2340D128A239FC00A9DAE1 /* PickPaymentsCollectionReusableView.swift in Sources */,
 				DF1D34B728A3662900BDDA15 /* StoreModel.swift in Sources */,
 			);

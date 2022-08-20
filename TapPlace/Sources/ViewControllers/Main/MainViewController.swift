@@ -198,7 +198,7 @@ extension MainViewController: MapButtonProtocol, ResearchButtonProtocol {
      * coder : sanghyeon
      */
     @objc func didTapSearchButton() {
-        let vc = SearchingViewController()
+        let vc = SearchViewController()
 //        vc.modalTransitionStyle = .crossDissolve
 //        vc.modalPresentationStyle = .fullScreen
 //        self.present(vc, animated: true)

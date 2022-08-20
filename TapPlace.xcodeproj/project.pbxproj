@@ -54,12 +54,15 @@
 		DFF7BEDA28A67DFE00289F39 /* CALayer+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFF7BED928A67DFE00289F39 /* CALayer+Extension.swift */; };
 		DFF7BEDC28A685F500289F39 /* StoreTabCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFF7BEDB28A685F500289F39 /* StoreTabCollectionViewCell.swift */; };
 		DFF7BEDE28A68CDD00289F39 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFF7BEDD28A68CDD00289F39 /* TabBarViewController.swift */; };
+		F41A51E828B0865D00FE546B /* SearchEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41A51E728B0865D00FE546B /* SearchEditViewController.swift */; };
+		F41A51EA28B08D3C00FE546B /* SearchEditTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41A51E928B08D3C00FE546B /* SearchEditTableViewCell.swift */; };
+		F41A51EC28B0919D00FE546B /* NavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41A51EB28B0919D00FE546B /* NavigationBar.swift */; };
 		F425EECA28A25087002A20FC /* dog.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = F425EEC928A25087002A20FC /* dog.jpeg */; };
 		F425EECD28A29EF0002A20FC /* dog2.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = F425EECB28A29EEF002A20FC /* dog2.jpeg */; };
 		F425EECE28A29EF0002A20FC /* dog3.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = F425EECC28A29EF0002A20FC /* dog3.jpeg */; };
 		F449AEB328ACEABE008E0417 /* SearchContentButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F449AEB228ACEABE008E0417 /* SearchContentButton.swift */; };
 		F449AEB628ADD205008E0417 /* SearchingActionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F449AEB528ADD205008E0417 /* SearchingActionTableViewCell.swift */; };
-		F4551D3A28A8B651003B93F4 /* SearchingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4551D3928A8B651003B93F4 /* SearchingViewController.swift */; };
+		F4551D3A28A8B651003B93F4 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4551D3928A8B651003B93F4 /* SearchViewController.swift */; };
 		F4551D3C28A9F9C6003B93F4 /* SearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4551D3B28A9F9C6003B93F4 /* SearchTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
@@ -117,12 +120,15 @@
 		DFF7BED928A67DFE00289F39 /* CALayer+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CALayer+Extension.swift"; sourceTree = "<group>"; };
 		DFF7BEDB28A685F500289F39 /* StoreTabCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreTabCollectionViewCell.swift; sourceTree = "<group>"; };
 		DFF7BEDD28A68CDD00289F39 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
+		F41A51E728B0865D00FE546B /* SearchEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchEditViewController.swift; sourceTree = "<group>"; };
+		F41A51E928B08D3C00FE546B /* SearchEditTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchEditTableViewCell.swift; sourceTree = "<group>"; };
+		F41A51EB28B0919D00FE546B /* NavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationBar.swift; sourceTree = "<group>"; };
 		F425EEC928A25087002A20FC /* dog.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = dog.jpeg; sourceTree = "<group>"; };
 		F425EECB28A29EEF002A20FC /* dog2.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = dog2.jpeg; sourceTree = "<group>"; };
 		F425EECC28A29EF0002A20FC /* dog3.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = dog3.jpeg; sourceTree = "<group>"; };
 		F449AEB228ACEABE008E0417 /* SearchContentButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchContentButton.swift; sourceTree = "<group>"; };
 		F449AEB528ADD205008E0417 /* SearchingActionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchingActionTableViewCell.swift; sourceTree = "<group>"; };
-		F4551D3928A8B651003B93F4 /* SearchingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchingViewController.swift; sourceTree = "<group>"; };
+		F4551D3928A8B651003B93F4 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		F4551D3B28A9F9C6003B93F4 /* SearchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -169,8 +175,9 @@
 			isa = PBXGroup;
 			children = (
 				DF82669D289CA12800272830 /* MainViewController.swift */,
-				F4551D3928A8B651003B93F4 /* SearchingViewController.swift */,
+				F4551D3928A8B651003B93F4 /* SearchViewController.swift */,
 				DFECC8C928AC95E800DC64FD /* AroundPlaceViewController.swift */,
+				F41A51E728B0865D00FE546B /* SearchEditViewController.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -208,6 +215,7 @@
 				DFF7BEDB28A685F500289F39 /* StoreTabCollectionViewCell.swift */,
 				F449AEB528ADD205008E0417 /* SearchingActionTableViewCell.swift */,
 				F4551D3B28A9F9C6003B93F4 /* SearchTableViewCell.swift */,
+				F41A51E928B08D3C00FE546B /* SearchEditTableViewCell.swift */,
 				DFECC8CD28ACD9CF00DC64FD /* AroundStoreTableViewCell.swift */,
 			);
 			path = Main;
@@ -255,6 +263,7 @@
 			isa = PBXGroup;
 			children = (
 				F449AEB228ACEABE008E0417 /* SearchContentButton.swift */,
+				F41A51EB28B0919D00FE546B /* NavigationBar.swift */,
 			);
 			path = Search;
 			sourceTree = "<group>";
@@ -553,6 +562,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F41A51E828B0865D00FE546B /* SearchEditViewController.swift in Sources */,
 				DFDA43F628A14AB3003763AC /* PickViewControllerTitleView.swift in Sources */,
 				DF82669C289CA11700272830 /* PickPaymentsViewController.swift in Sources */,
 				DF82669E289CA12800272830 /* MainViewController.swift in Sources */,
@@ -562,7 +572,7 @@
 				DFA2875B28ABA8D400DD9F63 /* DetailToolBarButton.swift in Sources */,
 				DFC23F96289AB66400EC1090 /* AppDelegate.swift in Sources */,
 				DF2340CD28A22DF900A9DAE1 /* BottomButton.swift in Sources */,
-				F4551D3A28A8B651003B93F4 /* SearchingViewController.swift in Sources */,
+				F4551D3A28A8B651003B93F4 /* SearchViewController.swift in Sources */,
 				DFC23FB2289AB6E500EC1090 /* EmptyViewModel.swift in Sources */,
 				DFDA43F428A14821003763AC /* UIColor+Extension.swift in Sources */,
 				DFC23FBB289AB70C00EC1090 /* EmptyExtension.swift in Sources */,
@@ -580,6 +590,7 @@
 				DFDA43F928A14C61003763AC /* CommonUtils.swift in Sources */,
 				DFF7BEDA28A67DFE00289F39 /* CALayer+Extension.swift in Sources */,
 				DF38177028A46EF100B900B5 /* CommonPickViewController.swift in Sources */,
+				F41A51EA28B08D3C00FE546B /* SearchEditTableViewCell.swift in Sources */,
 				DFC23FAF289AB6C900EC1090 /* EmptyModel.swift in Sources */,
 				DF51DCC228A7779400D0AE1E /* MoreViewController.swift in Sources */,
 				DFA2875928AB94C700DD9F63 /* DetailOverView.swift in Sources */,
@@ -587,6 +598,7 @@
 				F449AEB628ADD205008E0417 /* SearchingActionTableViewCell.swift in Sources */,
 				DF826698289CA0EC00272830 /* SplashViewController.swift in Sources */,
 				DF82669A289CA10800272830 /* OnBoardingViewController.swift in Sources */,
+				F41A51EC28B0919D00FE546B /* NavigationBar.swift in Sources */,
 				DFECC8CE28ACD9CF00DC64FD /* AroundStoreTableViewCell.swift in Sources */,
 				DFF7BEDC28A685F500289F39 /* StoreTabCollectionViewCell.swift in Sources */,
 				F449AEB328ACEABE008E0417 /* SearchContentButton.swift in Sources */,
@@ -740,7 +752,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 5NACCZGM3F;
+				DEVELOPMENT_TEAM = BFTA9SX898;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TapPlace/Info.plist;
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "사용자 주변의 간편결제 가맹점을 불러올 수 있도록, 현재 위치를 가져옵니다.";
@@ -757,7 +769,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = kr.co.tapplace.TapPlaceiOS;
+				PRODUCT_BUNDLE_IDENTIFIER = kr.co.tapplace.TapPlaceiOS1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -776,7 +788,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 5NACCZGM3F;
+				DEVELOPMENT_TEAM = BFTA9SX898;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TapPlace/Info.plist;
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "사용자 주변의 간편결제 가맹점을 불러올 수 있도록, 현재 위치를 가져옵니다.";
@@ -793,7 +805,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = kr.co.tapplace.TapPlaceiOS;
+				PRODUCT_BUNDLE_IDENTIFIER = kr.co.tapplace.TapPlaceiOS1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;

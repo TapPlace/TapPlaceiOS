@@ -11,7 +11,7 @@ import UIKit
 
 
 // MARK: - 검색화면
-class SearchingViewController: UIViewController {
+class SearchViewController: UIViewController {
     // 더미 데이터
     var searchingData = ["세븐 일레븐 등촌 3호점", "BBQ 등촌행복점", "세븐 일레븐 등촌 3호점", "BBQ 등촌행복점"]
     var img = [
@@ -21,6 +21,8 @@ class SearchingViewController: UIViewController {
         UIImage(systemName: "fork.knife.circle.fill")
     ]
     
+    let navigationBar = NavigationBar() // 커스텀 네비게이션 바
+    let searchField = UITextField()  // 검색 필드
     let recentSearchButton = SearchContentButton() // 최근 검색어 버튼
     let favoriteSearchButton = SearchContentButton() // 즐겨찾는 가맹점 버튼
     
@@ -30,6 +32,8 @@ class SearchingViewController: UIViewController {
         setupView()
         configureTableView()
         setLayout()
+        navigationBar.delegate = self
+        searchField.delegate = self
     }
     
     // 검색 테이블 뷰
@@ -41,32 +45,17 @@ class SearchingViewController: UIViewController {
         return searchTableView
     }()
     
-    // 텍스트 필드가 활성화 됬을 때 테이블 뷰
-    private lazy var searchActionTableView: UITableView = {
-        let searchActionTableView = UITableView()
-        searchActionTableView.translatesAutoresizingMaskIntoConstraints = false
-        searchActionTableView.register(SearchActionTabelViewCell.self, forCellReuseIdentifier: SearchActionTabelViewCell.identifier)
-        return searchActionTableView
-    }()
-    
-    
+    // 테이블 뷰 구성
     private func configureTableView() {
         self.searchTableView.dataSource = self
         self.searchTableView.delegate = self
         self.searchTableView.backgroundColor = .white
-        //        searchTableView.rowHeight = 54 // 셀 높이
-        
-        
-        self.searchActionTableView.dataSource = self
-        self.searchActionTableView.delegate = self
-        self.searchActionTableView.backgroundColor = .white
-        searchActionTableView.rowHeight = 72
+        self.searchTableView.keyboardDismissMode = .onDrag // 테이블 뷰 스크롤시 키보드 내리기
     }
 }
 
-
 // MARK: - UI
-extension SearchingViewController: UITextFieldDelegate, SearchContentButtonProtocol {
+extension SearchViewController: SearchContentButtonProtocol {
     func didTapButton(_ sender: SearchContentButton) {
         if sender.tag == 1 {
             DispatchQueue.main.async {
@@ -85,13 +74,9 @@ extension SearchingViewController: UITextFieldDelegate, SearchContentButtonProto
         }
     }
     
-    
-    
     private func setupView() {
         view.backgroundColor = .white
     }
-    
-
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -104,6 +89,7 @@ extension SearchingViewController: UITextFieldDelegate, SearchContentButtonProto
         print("뷰 사라집니다.")
         tabBar.showTabBar(hide: false)
     }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         // 탭바
@@ -112,42 +98,31 @@ extension SearchingViewController: UITextFieldDelegate, SearchContentButtonProto
         tabBar.showTabBar(hide: true)
     }
     
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        DispatchQueue.main.async {
-            
-        }
-        return false
-    }
-    
     // 레이아웃 구성
     private func setLayout() {
         let safeArea = view.safeAreaLayoutGuide
         
         // 상단 검색 뷰
-        let searchView: UIView = {
-            let searchView = UIView()
-            searchView.backgroundColor = .white
-            return searchView
-        }()
+//        let navigationBar: UIView = {
+//            let navigationBar = UIView()
+//            navigationBar.backgroundColor = .white
+//            return navigationBar
+//        }()
+//
+        
         
         // 뒤로가기 버튼
-        let backButton: UIButton = {
-            let backButton = UIButton()
-            backButton.setImage(UIImage(systemName: "chevron.left"), for: .normal)
-            backButton.tintColor = .gray
-            backButton.addTarget(self, action: #selector(moveMainController(_:)), for: .touchUpInside)
-            return backButton
-        }()
-        
-        // 검색 필드
-        let searchField: UITextField = {
-            let searchField = UITextField()
-            searchField.font = UIFont(name: "AppleSDGothicNeoM00", size: 16)
-            searchField.placeholder = "등록하려는 가맹점을 찾아보세요."
-            searchField.clearButtonMode = .always
-            searchField.delegate = self
-            return searchField
-        }()
+//        let backButton: UIButton = {
+//            let backButton = UIButton()
+//            backButton.setImage(UIImage(systemName: "chevron.left"), for: .normal)
+//            backButton.tintColor = .gray
+//            backButton.addTarget(self, action: #selector(moveMainVC(_:)), for: .touchUpInside)
+//            return backButton
+//        }()
+//
+        searchField.font = UIFont(name: "AppleSDGothicNeoM00", size: 16)
+        searchField.placeholder = "등록하려는 가맹점을 찾아보세요."
+        searchField.clearButtonMode = .always
         
         // 선
         let lineView: UIView = {
@@ -184,41 +159,40 @@ extension SearchingViewController: UITextFieldDelegate, SearchContentButtonProto
             editButton.setTitle("편집", for: .normal)
             editButton.titleLabel?.font = UIFont.systemFont(ofSize: 14)
             editButton.setTitleColor(UIColor(red: 0, green: 0, blue: 0, alpha: 0.5), for: .normal)
+            editButton.addTarget(self, action: #selector(moveSearchEditVC(_:)), for: .touchUpInside)
             return editButton
         }()
         
         
         // 상단 뷰 AutoLayout
-        view.addSubview(searchView)
-        searchView.snp.makeConstraints {
-            $0.top.equalTo(safeArea)
-            $0.leading.equalTo(safeArea)
-            $0.trailing.equalTo(safeArea)
+        view.addSubview(navigationBar)
+        navigationBar.snp.makeConstraints {
+            $0.top.leading.trailing.equalTo(safeArea)
             $0.width.equalTo(self.view.frame.width)
             $0.height.equalTo(60)
         }
         
         // 뒤로가기 버튼 AutoLayout
-        searchView.addSubview(backButton)
-        backButton.snp.makeConstraints {
-            $0.top.equalTo(searchView.snp.top).offset(24)
-            $0.leading.equalTo(searchView.snp.leading).offset(16)
-            $0.width.equalTo(25)
-            $0.height.equalTo(25)
-        }
+//        navigationBar.addSubview(backButton)
+//        backButton.snp.makeConstraints {
+//            $0.top.equalTo(navigationBar.snp.top).offset(24)
+//            $0.leading.equalTo(navigationBar.snp.leading).offset(16)
+//            $0.width.height.equalTo(25)
+//        }
         
         // 검색 텍스트필드 AutoLayout
-        searchView.addSubview(searchField)
+        navigationBar.addSubview(searchField)
         searchField.snp.makeConstraints {
-            $0.top.equalTo(searchView.snp.top).offset(25)
-            $0.leading.equalTo(backButton.snp.trailing).offset(8)
-            $0.trailing.equalTo(searchView.snp.trailing).offset(-20)
+            $0.top.equalTo(navigationBar.snp.top).offset(25)
+//            $0.leading.equalTo(backButton.snp.trailing).offset(8)
+            $0.leading.equalTo(navigationBar.snp.leading).offset(40)
+            $0.trailing.equalTo(navigationBar.snp.trailing).offset(-20)
         }
         
         // 라인 AutoLayout
-        searchView.addSubview(lineView)
+        navigationBar.addSubview(lineView)
         lineView.snp.makeConstraints {
-            $0.top.equalTo(searchView.snp.bottom)
+            $0.top.equalTo(navigationBar.snp.bottom)
             $0.width.equalTo(self.view.frame.width)
             $0.height.equalTo(1)
         }
@@ -227,7 +201,7 @@ extension SearchingViewController: UITextFieldDelegate, SearchContentButtonProto
         view.addSubview(bottomView)
         bottomView.snp.makeConstraints {
             $0.top.equalTo(lineView.snp.bottom)
-            $0.width.equalTo(self.view.frame.width)
+            $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(60)
         }
         
@@ -261,20 +235,24 @@ extension SearchingViewController: UITextFieldDelegate, SearchContentButtonProto
         view.addSubview(searchTableView)
         searchTableView.snp.makeConstraints {
             $0.top.equalTo(bottomView.snp.bottom)
-            $0.leading.equalTo(safeArea)
-            $0.trailing.equalTo(safeArea)
-            $0.bottom.equalTo(safeArea)
+            $0.leading.trailing.bottom.equalTo(safeArea)
         }
     }
     
-    // main으로 이동
-    @objc func moveMainController(_ sender: UIButton) {
+    // < 클릭시 main으로 이동
+    @objc func moveMainVC(_ sender: UIButton) {
         self.navigationController?.popViewController(animated: true)
+    }
+    
+    // 편집 버튼 클릭시 편집 화면으로 이동
+    @objc func moveSearchEditVC(_ sender: UIButton) {
+        let vc = SearchEditViewController()
+        self.navigationController?.pushViewController(vc, animated: true)
     }
 }
 
 // MARK: - 테이블 뷰 셀에 대한 설정
-extension SearchingViewController: UITableViewDelegate, UITableViewDataSource {
+extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return searchingData.count
     }
@@ -297,11 +275,31 @@ extension SearchingViewController: UITableViewDelegate, UITableViewDataSource {
     }
 }
 
+
+extension SearchViewController: BackButtonProtocol {
+    func popViewVC() {
+        self.navigationController?.popViewController(animated: false)
+    }
+}
+
+
 // MARK: - 최근 검색어 삭제
-extension SearchingViewController: XBtnProtocol {
+extension SearchViewController: XBtnProtocol {
     func deleteCell(index: Int) {
         self.searchingData.remove(at: index)
         self.img.remove(at: index)
         self.searchTableView.reloadData()
+    }
+}
+
+// MARK: - 검색 텍스트 필드 Delegeate
+extension SearchViewController: UITextFieldDelegate {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder() // 키보드에서 Reuturn 클릭시 TextField 비활성화
+        return true
     }
 }

@@ -11,6 +11,7 @@ target 'TapPlace' do
   pod 'Alamofire'
   pod 'AlignedCollectionViewFlowLayout'
   pod 'FloatingPanel'
+  pod 'IQKeyboardManagerSwift'
 
   # Pods for TapPlace
 

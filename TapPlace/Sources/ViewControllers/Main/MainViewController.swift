@@ -12,7 +12,7 @@ import CoreLocation
 import SnapKit
 import FloatingPanel
 
-class MainViewController: UIViewController, AroundPlaceVCProtocol {
+class MainViewController: CommonViewController, AroundPlaceControllerProtocol {
     
     var fpc: FloatingPanelController!
     var isHiddenFloatingPanel = true
@@ -90,7 +90,7 @@ class MainViewController: UIViewController, AroundPlaceVCProtocol {
     
 }
 
-//MARK: - TEST Floating Panel
+//MARK: - Floating Panel
 extension MainViewController: FloatingPanelControllerDelegate { // 플로팅 패널
     /**
      * @ 플로팅패널 설정
@@ -140,6 +140,13 @@ extension MainViewController: FloatingPanelControllerDelegate { // 플로팅 패
      */
     func hideGrabber(hide: Bool = false) {
         fpc.surfaceView.grabberHandle.isHidden = hide
+    }
+    
+    func floatingPanelWillEndDragging(_ fpc: FloatingPanelController, withVelocity velocity: CGPoint, targetState: UnsafeMutablePointer<FloatingPanelState>) {
+        if targetState.pointee == .hidden {
+            guard let tabBar = self.tabBarController as? TabBarViewController else { return }
+            tabBar.showTabBar(hide: false)
+        }
     }
     
 }
@@ -309,7 +316,7 @@ extension MainViewController: MapButtonProtocol, ResearchButtonProtocol {
         listButton.delegate = self
         locationButton.delegate = self
         researchButton.delegate = self
-        AroundPlaceViewController.delegate = self
+        AroundPlaceListView.delegate = self
         
 //        collectionView.register(StoreTabCollectionViewCell.self, forCellWithReuseIdentifier: "storeTabItem")
 //        collectionView.contentInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)

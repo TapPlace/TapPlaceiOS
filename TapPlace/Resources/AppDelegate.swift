@@ -7,6 +7,7 @@
 
 import UIKit
 import NMapsMap
+import IQKeyboardManagerSwift
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -19,6 +20,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             NMFAuthManager.shared().clientId = cliendId
             print("Naver Client ID:", cliendId)
         }
+        
+        IQKeyboardManager.shared.enable = true
+        IQKeyboardManager.shared.enableAutoToolbar = false
+        IQKeyboardManager.shared.shouldResignOnTouchOutside = true
+        
+        
         return true
     }
 

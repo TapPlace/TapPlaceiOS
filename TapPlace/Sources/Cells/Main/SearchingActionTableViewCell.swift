@@ -5,7 +5,6 @@
 //  Created by 이상준 on 2022/08/18.
 //
 
-import Foundation
 import UIKit
 
 class SearchActionTabelViewCell: UITableViewCell {

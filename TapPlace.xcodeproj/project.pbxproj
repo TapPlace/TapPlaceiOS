@@ -61,6 +61,7 @@
 		F449AEB628ADD205008E0417 /* SearchingActionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F449AEB528ADD205008E0417 /* SearchingActionTableViewCell.swift */; };
 		F4551D3A28A8B651003B93F4 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4551D3928A8B651003B93F4 /* SearchViewController.swift */; };
 		F4551D3C28A9F9C6003B93F4 /* SearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4551D3B28A9F9C6003B93F4 /* SearchTableViewCell.swift */; };
+		F4C6C8BD28B0A89B00FAF10A /* EditButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C6C8BC28B0A89B00FAF10A /* EditButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -124,6 +125,7 @@
 		F449AEB528ADD205008E0417 /* SearchingActionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchingActionTableViewCell.swift; sourceTree = "<group>"; };
 		F4551D3928A8B651003B93F4 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		F4551D3B28A9F9C6003B93F4 /* SearchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTableViewCell.swift; sourceTree = "<group>"; };
+		F4C6C8BC28B0A89B00FAF10A /* EditButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -257,6 +259,7 @@
 			children = (
 				F449AEB228ACEABE008E0417 /* SearchContentButton.swift */,
 				F41A51EB28B0919D00FE546B /* NavigationBar.swift */,
+				F4C6C8BC28B0A89B00FAF10A /* EditButton.swift */,
 			);
 			path = Search;
 			sourceTree = "<group>";
@@ -562,6 +565,7 @@
 				DFA2875B28ABA8D400DD9F63 /* DetailToolBarButton.swift in Sources */,
 				DFC23F96289AB66400EC1090 /* AppDelegate.swift in Sources */,
 				DF2340CD28A22DF900A9DAE1 /* BottomButton.swift in Sources */,
+				F4C6C8BD28B0A89B00FAF10A /* EditButton.swift in Sources */,
 				F4551D3A28A8B651003B93F4 /* SearchViewController.swift in Sources */,
 				DFC23FB2289AB6E500EC1090 /* EmptyViewModel.swift in Sources */,
 				DFDA43F428A14821003763AC /* UIColor+Extension.swift in Sources */,

@@ -12,7 +12,15 @@ import FloatingPanel
 
 
 
-class AroundPlaceViewController: UIViewController {
+class AroundPlaceViewController: UIViewController, AroundPlaceControllerProtocol, AroundDistanceFilterProtocol {
+    func setDistanceLabel() {
+        aroundPlaceListView.distanceLabel.text = DistancelModel.getDistance(distance: DistancelModel.selectedDistance)
+    }
+    
+    func presentViewController(_ vc: UIViewController) {
+        self.present(vc, animated: true)
+    }
+    
 
     let aroundPlaceListView = AroundPlaceListView()
     
@@ -20,7 +28,12 @@ class AroundPlaceViewController: UIViewController {
         super.viewDidLoad()
         setupView()
     }
-
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        print("현재 설정된 반경:", DistancelModel.getDistance(distance: DistancelModel.selectedDistance))
+        aroundPlaceListView.distanceLabel.text = DistancelModel.getDistance(distance: DistancelModel.selectedDistance)
+    }
 }
 
 extension AroundPlaceViewController {
@@ -49,6 +62,8 @@ extension AroundPlaceViewController {
         
         
         //MARK: Delegate
+        AroundDistanceFilterViewController.delegate = self
+        aroundPlaceListView.delegate = self
 
         
     }

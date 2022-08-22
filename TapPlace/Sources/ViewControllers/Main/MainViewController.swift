@@ -47,7 +47,17 @@ class MainViewController: CommonViewController {
     let locationManager = CLLocationManager()
     let researchButton = ResearchButton()
     let detailOverView = DetailOverView()
-
+    let collectionView: UICollectionView = {
+        let collectionViewLayout = UICollectionViewFlowLayout()
+        collectionViewLayout.scrollDirection = .horizontal
+        collectionViewLayout.minimumInteritemSpacing = 5
+        collectionViewLayout.minimumLineSpacing = 0
+        let collectionView = UICollectionView(frame: CGRect(x: 0, y: 0, width: 0, height: 0), collectionViewLayout: collectionViewLayout)
+        collectionView.contentInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
+        collectionView.backgroundColor = .clear
+        collectionView.showsHorizontalScrollIndicator = false
+        return collectionView
+    }()
 
     
     /**
@@ -68,18 +78,7 @@ class MainViewController: CommonViewController {
 
     let storeLists = StoreModel.lists
 
-    let collectionView: UICollectionView = {
-        let collectionViewLayout = UICollectionViewFlowLayout()
-        collectionViewLayout.scrollDirection = .horizontal
-        collectionViewLayout.minimumInteritemSpacing = 10
-        collectionViewLayout.minimumLineSpacing = 10
-        //collectionViewLayout.horizontalAlignment = .left
-        //collectionViewLayout.headerReferenceSize = .init(width: 100, height: 40)
-        let collectionView = UICollectionView(frame: CGRect(x: 0, y: 0, width: 0, height: 0), collectionViewLayout: collectionViewLayout)
-        collectionView.backgroundColor = .clear
-        collectionView.showsHorizontalScrollIndicator = false
-        return collectionView
-    }()
+
     
     //MARK: ViewLifeCycle
     override func viewDidLoad() {
@@ -103,6 +102,7 @@ extension MainViewController: FloatingPanelControllerDelegate { // 플로팅 패
         fpc.surfaceView.grabberHandlePadding = 10.0
         fpc.surfaceView.grabberHandleSize = .init(width: 44.0, height: 4.0)
         fpc.backdropView.dismissalTapGestureRecognizer.isEnabled = true
+        fpc.contentMode = .fitToBounds
         
         // Create a new appearance.
         let appearance = SurfaceAppearance()
@@ -257,7 +257,7 @@ extension MainViewController: MapButtonProtocol, ResearchButtonProtocol {
         view.addSubview(searchBar)
         searchBar.addSubview(searchIcon)
         searchBar.addSubview(searchButton)
-//        view.addSubview(collectionView)
+        view.addSubview(collectionView)
         view.addSubview(listButton)
         view.addSubview(locationButton)
         view.addSubview(overlayCenterPick)
@@ -279,11 +279,11 @@ extension MainViewController: MapButtonProtocol, ResearchButtonProtocol {
             $0.top.bottom.trailing.equalTo(searchBar)
             $0.leading.equalTo(searchIcon.snp.trailing).offset(10)
         }
-//        collectionView.snp.makeConstraints {
-//            $0.top.equalTo(searchBar.snp.bottom).offset(10)
-//            $0.leading.trailing.equalTo(safeArea)
-//            $0.height.equalTo(40)
-//        }
+        collectionView.snp.makeConstraints {
+            $0.top.equalTo(searchBar.snp.bottom).offset(10)
+            $0.leading.trailing.equalTo(safeArea)
+            $0.height.equalTo(40)
+        }
         listButton.snp.makeConstraints {
             $0.bottom.equalTo(safeArea).offset(-40)
             $0.leading.equalTo(safeArea).offset(20)
@@ -306,13 +306,16 @@ extension MainViewController: MapButtonProtocol, ResearchButtonProtocol {
         }
 
         
-        //MARK: ViewAddTarget
+        //MARK: ViewAddTarget & Register
         searchButton.addTarget(self, action: #selector(didTapSearchButton), for: .touchUpInside)
+        collectionView.register(StoreTabCollectionViewCell.self, forCellWithReuseIdentifier: StoreTabCollectionViewCell.cellId)
         
         //MARK: Delegate
         listButton.delegate = self
         locationButton.delegate = self
         researchButton.delegate = self
+        collectionView.delegate = self
+        collectionView.dataSource = self
         
 
     } // Function: 레이아웃 설정
@@ -507,17 +510,20 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "storeTabItem", for: indexPath) as! StoreTabCollectionViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: StoreTabCollectionViewCell.cellId, for: indexPath) as! StoreTabCollectionViewCell
         if let icon = UIImage(systemName: storeLists[indexPath.row].image) {
             cell.icon = icon
         }
         cell.itemText.text = storeLists[indexPath.row].title
+        cell.storeId = storeLists[indexPath.row].id
         return cell
         
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let labelSize = CommonUtils.getTextSizeWidth(text: storeLists[indexPath.row].title)
+
+        
         return CGSize(width: labelSize.width + 35, height: 28)
     }
 }

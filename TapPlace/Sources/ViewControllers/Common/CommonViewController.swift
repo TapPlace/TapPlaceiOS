@@ -13,5 +13,7 @@ class CommonViewController: UIViewController {
         super.viewDidLoad()
         guard let customTabBar = tabBarController as? TabBarViewController else { return }
         tabBar = customTabBar
+        
+
     }
 }

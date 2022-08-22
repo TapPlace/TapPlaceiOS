@@ -12,6 +12,7 @@ import UIKit
 
 // MARK: - 검색화면
 class SearchViewController: UIViewController {
+    
     // 더미 데이터
     var searchingData = ["세븐 일레븐 등촌 3호점", "BBQ 등촌행복점", "세븐 일레븐 등촌 3호점", "BBQ 등촌행복점"]
     var img = [
@@ -275,7 +276,7 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     }
 }
 
-
+// MARK: - 네비게이션 바 backbutton 프로토콜 구현
 extension SearchViewController: BackButtonProtocol {
     func popViewVC() {
         self.navigationController?.popViewController(animated: false)

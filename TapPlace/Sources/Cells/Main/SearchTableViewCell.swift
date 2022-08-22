@@ -58,6 +58,7 @@ class SearchTableViewCell: UITableViewCell {
     }
     
     private func autoLayout() {
+        
         img.snp.makeConstraints {
             $0.width.equalTo(20)
             $0.height.equalTo(20)
@@ -75,8 +76,7 @@ class SearchTableViewCell: UITableViewCell {
         deleteButton.snp.makeConstraints {
             $0.top.equalTo(contentView.safeAreaLayoutGuide).offset(16)
             $0.trailing.equalTo(contentView.safeAreaLayoutGuide).offset(-20)
-            $0.width.equalTo(20)
-            $0.height.equalTo(20)
+            $0.width.height.equalTo(20)
         }
     }
     

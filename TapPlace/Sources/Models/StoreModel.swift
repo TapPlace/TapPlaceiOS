@@ -7,6 +7,7 @@
 
 import Foundation
 
+//MARK: - 스토어 카테고리 모델
 struct StoreModel {
     let id: String
     let title: String

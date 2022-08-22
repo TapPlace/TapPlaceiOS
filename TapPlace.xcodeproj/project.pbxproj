@@ -38,6 +38,8 @@
 		DFC23FB2289AB6E500EC1090 /* EmptyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFC23FB1289AB6E400EC1090 /* EmptyViewModel.swift */; };
 		DFC23FB5289AB6F000EC1090 /* EmptyNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFC23FB4289AB6F000EC1090 /* EmptyNetwork.swift */; };
 		DFC23FBB289AB70C00EC1090 /* EmptyExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFC23FBA289AB70C00EC1090 /* EmptyExtension.swift */; };
+		DFCB0B2228B3369200BF9BE7 /* AroundDistanceFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFCB0B2128B3369200BF9BE7 /* AroundDistanceFilterViewController.swift */; };
+		DFCB0B2428B3A61300BF9BE7 /* AroundModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFCB0B2328B3A61300BF9BE7 /* AroundModel.swift */; };
 		DFDA43F428A14821003763AC /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFDA43F328A14821003763AC /* UIColor+Extension.swift */; };
 		DFDA43F628A14AB3003763AC /* PickViewControllerTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFDA43F528A14AB3003763AC /* PickViewControllerTitleView.swift */; };
 		DFDA43F928A14C61003763AC /* CommonUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFDA43F828A14C61003763AC /* CommonUtils.swift */; };
@@ -105,6 +107,8 @@
 		DFC23FB1289AB6E400EC1090 /* EmptyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyViewModel.swift; sourceTree = "<group>"; };
 		DFC23FB4289AB6F000EC1090 /* EmptyNetwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyNetwork.swift; sourceTree = "<group>"; };
 		DFC23FBA289AB70C00EC1090 /* EmptyExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyExtension.swift; sourceTree = "<group>"; };
+		DFCB0B2128B3369200BF9BE7 /* AroundDistanceFilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AroundDistanceFilterViewController.swift; sourceTree = "<group>"; };
+		DFCB0B2328B3A61300BF9BE7 /* AroundModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AroundModel.swift; sourceTree = "<group>"; };
 		DFDA43F328A14821003763AC /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		DFDA43F528A14AB3003763AC /* PickViewControllerTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickViewControllerTitleView.swift; sourceTree = "<group>"; };
 		DFDA43F828A14C61003763AC /* CommonUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonUtils.swift; sourceTree = "<group>"; };
@@ -178,8 +182,9 @@
 			children = (
 				DF82669D289CA12800272830 /* MainViewController.swift */,
 				F4551D3928A8B651003B93F4 /* SearchViewController.swift */,
-				DFECC8C928AC95E800DC64FD /* AroundPlaceViewController.swift */,
 				F41A51E728B0865D00FE546B /* SearchEditViewController.swift */,
+				DFECC8C928AC95E800DC64FD /* AroundPlaceViewController.swift */,
+				DFCB0B2128B3369200BF9BE7 /* AroundDistanceFilterViewController.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -383,6 +388,7 @@
 				DFC23FAE289AB6C900EC1090 /* EmptyModel.swift */,
 				DF2340D228A270C700A9DAE1 /* PaymentModel.swift */,
 				DF1D34B628A3662900BDDA15 /* StoreModel.swift */,
+				DFCB0B2328B3A61300BF9BE7 /* AroundModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -569,6 +575,7 @@
 				DFDA43F628A14AB3003763AC /* PickViewControllerTitleView.swift in Sources */,
 				DF82669C289CA11700272830 /* PickPaymentsViewController.swift in Sources */,
 				DF82669E289CA12800272830 /* MainViewController.swift in Sources */,
+				DFCB0B2228B3369200BF9BE7 /* AroundDistanceFilterViewController.swift in Sources */,
 				DFA2875728AB684200DD9F63 /* UIView+Extension.swift in Sources */,
 				DFECC8D228AD129300DC64FD /* UIStackView+Extension.swift in Sources */,
 				DFA2875B28ABA8D400DD9F63 /* DetailToolBarButton.swift in Sources */,
@@ -579,6 +586,7 @@
 				DFC23FB2289AB6E500EC1090 /* EmptyViewModel.swift in Sources */,
 				DFDA43F428A14821003763AC /* UIColor+Extension.swift in Sources */,
 				DFC23FBB289AB70C00EC1090 /* EmptyExtension.swift in Sources */,
+				DFCB0B2428B3A61300BF9BE7 /* AroundModel.swift in Sources */,
 				DFC23F98289AB66400EC1090 /* SceneDelegate.swift in Sources */,
 				DFDBB83728B0BB69008D2E09 /* AroundPlaceListView.swift in Sources */,
 				DFC23FB5289AB6F000EC1090 /* EmptyNetwork.swift in Sources */,

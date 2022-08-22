@@ -13,7 +13,28 @@ protocol PickPaymentsProtocol {
 
 class PickPaymentsCollectionViewCell: UICollectionViewCell {
     var delegate: PickPaymentsProtocol?
-    var cellSelected: Bool = false
+    
+    //MARK: 컬렉션뷰 UI에 사용될 색깔 배열 지정 (true/false 순서)
+    let colorBorder: [UIColor] = [.disabledBorderColor, .activateBorderColor]
+    let widthBorder: [CGFloat] = [1, 1.5]
+    let colorBackground: [UIColor] = [.clear, .activateBackgroundColor]
+    let colorText: [UIColor] = [.disabledTextColor, .pointBlue]
+    let activeCell: [Bool] = [false, true]
+    let colorImage: [UIColor] = [.disabledImageColor, .pointBlue]
+    
+    var cellSelected: Bool = false {
+        willSet {
+            let arrRow = newValue ? 1 : 0
+            UIView.animate(withDuration: 0.2, delay: 0, animations: {
+                self.itemText.textColor = self.colorText[arrRow]
+                self.itemFrame.backgroundColor = self.colorBackground[arrRow]
+                self.itemFrame.layer.borderWidth = self.widthBorder[arrRow]
+                self.itemFrame.layer.borderColor = self.colorBorder[arrRow].cgColor
+            })
+        }
+    }
+    var cellVariable: String = "1000"
+    
     let itemFrame: UIView = {
         let itemFrame = UIView()
         itemFrame.frame.size.height = 36

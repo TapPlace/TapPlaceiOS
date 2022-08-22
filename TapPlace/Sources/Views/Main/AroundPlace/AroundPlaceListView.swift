@@ -7,7 +7,12 @@
 
 import UIKit
 
+protocol AroundPlaceControllerProtocol {
+    func presentViewController(_ vc: UIViewController)
+}
+
 class AroundPlaceListView: UIView {
+    var delegate: AroundPlaceControllerProtocol?
 
     let containerView: UIView = {
         let containerView = UIView()
@@ -23,7 +28,7 @@ class AroundPlaceListView: UIView {
     }()
     let distanceLabel: UILabel = {
         let distanceLabel = UILabel()
-        distanceLabel.text = "1km"
+        distanceLabel.text = DistancelModel.getDistance(distance: DistancelModel.selectedDistance)
         distanceLabel.font = .systemFont(ofSize: CommonUtils.resizeFontSize(size: 15), weight: .regular)
         distanceLabel.textColor = .black
         distanceLabel.sizeToFit()
@@ -76,7 +81,7 @@ extension AroundPlaceListView {
         }()
         let separatorLine: UIView = {
             let separatorLine = UIView()
-            separatorLine.backgroundColor = UIColor.init(hex: 0xdbdee8)
+            separatorLine.backgroundColor = UIColor.init(hex: 0xdbdee8, alpha: 0.4)
             return separatorLine
         }()
         let tableWrapView: UIView = {
@@ -160,10 +165,19 @@ extension AroundPlaceListView {
         
         //MARK: ViewAddTarget & Register
         tableView.register(AroundStoreTableViewCell.self, forCellReuseIdentifier: AroundStoreTableViewCell.cellId)
+        addressButton.addTarget(self, action: #selector(didTapAddressButton), for: .touchUpInside)
         
         //MARK: Delegate
         tableView.delegate = self
         tableView.dataSource = self
+    }
+    
+    /**
+     * @ 위치 버튼 클릭
+     * coder : sanghyeon
+     */
+    @objc func didTapAddressButton() {
+        delegate?.presentViewController(AroundDistanceFilterViewController())
     }
 }
 

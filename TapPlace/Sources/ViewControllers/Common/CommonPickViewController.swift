@@ -12,13 +12,7 @@ import AlignedCollectionViewFlowLayout
 class CommonPickViewController: UIViewController {
 
     
-    //MARK: 컬렉션뷰 UI에 사용될 색깔 배열 지정 (true/false 순서)
-    let colorBorder: [UIColor] = [.disabledBorderColor, .activateBorderColor]
-    let widthBorder: [CGFloat] = [1, 1.5]
-    let colorBackground: [UIColor] = [.clear, .activateBackgroundColor]
-    let colorText: [UIColor] = [.disabledTextColor, .pointBlue]
-    let activeCell: [Bool] = [false, true]
-    let colorImage: [UIColor] = [.disabledImageColor, .pointBlue]
+
     
     //MARK: 뷰 요소 선언
     let titleView = PickViewControllerTitleView()

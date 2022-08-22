@@ -61,7 +61,7 @@ extension PickPaymentsViewController: TitleViewProtocol, BottomButtonProtocol {
             for j in 0...samplePayments[samplePaymentsTitle[i]]!.count - 1 {
                 var indexPath = IndexPath(row: j, section: i)
                 let cell = collectionView.cellForItem(at: indexPath) as! PickPaymentsCollectionViewCell
-                selectCellItem(cell, selected: true, indexPath: indexPath)
+                cell.cellSelected = false
             }
         }
         favoritePayments = 0
@@ -99,7 +99,7 @@ extension PickPaymentsViewController: UICollectionViewDelegate, UICollectionView
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "paymentsItem", for: indexPath) as! PickPaymentsCollectionViewCell
         cell.itemText.text = samplePayments[samplePaymentsTitle[indexPath.section]]![indexPath.row]
-        
+        cell.cellVariable = samplePayments[samplePaymentsTitle[indexPath.section]]![indexPath.row]
         return cell
     }
     
@@ -109,19 +109,25 @@ extension PickPaymentsViewController: UICollectionViewDelegate, UICollectionView
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print("셀 선택 됨")
+        if favoritePayments >= 5 {
+            print("5개가 이미 선택 됨.")
+            return
+        }
         guard let cell = collectionView.cellForItem(at: indexPath) as? PickPaymentsCollectionViewCell else { return }
         
         UIView.animate(withDuration: 0.5, delay: 0, animations: {
-            self.selectCellItem(cell, selected: cell.cellSelected, indexPath: indexPath)
+            
             print("cell.cellSelected:", cell.cellSelected)
             if cell.cellSelected {
-                self.favoritePayments += 1
-            } else {
+                print("셀 꺼짐")
+                cell.cellSelected = false
                 self.favoritePayments -= 1
+            } else {
+                cell.cellSelected = true
+                self.favoritePayments += 1
             }
         })
-        
-        
+        print(cell.cellVariable)
         bottomButtonUpdate()
     }
     
@@ -159,18 +165,7 @@ extension PickPaymentsViewController: UICollectionViewDelegate, UICollectionView
      */
     func selectCellItem(_ cell: PickPaymentsCollectionViewCell, selected: Bool, indexPath: IndexPath) {
         UIView.animate(withDuration: 0.2, delay: 0, animations: {
-            let arrRow = selected ? 0 : 1
-            cell.itemText.textColor = self.colorText[arrRow]
-            cell.itemFrame.backgroundColor = self.colorBackground[arrRow]
-            cell.itemFrame.layer.borderWidth = self.widthBorder[arrRow]
-            cell.itemFrame.layer.borderColor = self.colorBorder[arrRow].cgColor
-            cell.cellSelected = self.activeCell[arrRow]
-            
-            if selected {
-                
-            } else {
-                
-            }
+
         })
     }
     

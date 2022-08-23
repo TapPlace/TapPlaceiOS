@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SearchEditViewController: UIViewController {
+class SearchEditViewController: CommonViewController {
     
     // 더미 데이터
     var searchingData = ["세븐 일레븐 등촌 3호점", "BBQ 등촌행복점", "세븐 일레븐 등촌 3호점", "BBQ 등촌행복점"]
@@ -18,13 +18,20 @@ class SearchEditViewController: UIViewController {
         UIImage(systemName: "fork.knife.circle.fill")
     ]
     
+    var chooseItem = 0
+    
     let navigationBar = NavigationBar() // 커스텀 네비게이션 바
+    let leftBtn = EditButton() // 전체 선택 버튼
+    let rightBtn = EditButton() // 삭제 버튼
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
         configureTableView()
         setLayout()
+        navigationBar.delegate = self
+        leftBtn.delegate = self
+        rightBtn.delegate = self
     }
     
     private lazy var editTableView: UITableView = {
@@ -61,25 +68,15 @@ extension SearchEditViewController {
             return titleLabel
         }()
         
-        let leftBtn: EditButton = {
-            let leftBtn = EditButton()
-            leftBtn.backgroundColor = .white
-            leftBtn.titleLabel?.font = UIFont(name: "AppleSDGothicNeoSB00-Regular", size: 16)
-            leftBtn.setTitle("전체선택", for: .normal)
-            leftBtn.setTitleColor(UIColor(red: 0.722, green: 0.741, blue: 0.8, alpha: 1), for: .normal)
-            leftBtn.layer.backgroundColor = UIColor(red: 247, green: 248, blue: 250, alpha: 1).cgColor
-            return leftBtn
-        }()
+        leftBtn.backgroundColor = .white
+        leftBtn.titleLabel?.font = UIFont(name: "AppleSDGothicNeoSB00-Regular", size: 16)
+        leftBtn.setTitle("전체선택", for: .normal)
+        leftBtn.setTitleColor(UIColor(red: 0.722, green: 0.741, blue: 0.8, alpha: 1), for: .normal)
         
-        let rightBtn: EditButton = {
-            let rightBtn = EditButton()
-            rightBtn.backgroundColor = .white
-            rightBtn.titleLabel?.font = UIFont(name: "AppleSDGothicNeoSB00-Regular", size: 16)
-            rightBtn.setTitle("삭제", for: .normal)
-            rightBtn.setTitleColor(UIColor(red: 0.722, green: 0.741, blue: 0.8, alpha: 1), for: .normal)
-            rightBtn.layer.backgroundColor = UIColor(red: 0.969, green: 0.973, blue: 0.98, alpha: 1).cgColor
-            return rightBtn
-        }()
+        rightBtn.backgroundColor =  UIColor(red: 0.969, green: 0.973, blue: 0.98, alpha: 1)
+        rightBtn.titleLabel?.font = UIFont(name: "AppleSDGothicNeoSB00-Regular", size: 16)
+        rightBtn.setTitle("삭제", for: .normal)
+        rightBtn.setTitleColor(UIColor(red: 0.722, green: 0.741, blue: 0.8, alpha: 1), for: .normal)
         
         view.addSubview(navigationBar)
         navigationBar.snp.makeConstraints {
@@ -114,7 +111,7 @@ extension SearchEditViewController {
             $0.width.equalTo(self.view.frame.width / 2)
         }
     }
-        
+    
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -123,20 +120,38 @@ extension SearchEditViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         // 탭바
-        guard let tabBar = tabBarController as? TabBarViewController else { return }
         print("뷰 사라집니다.")
-        tabBar.showTabBar(hide: false)
+        tabBar?.showTabBar(hide: false)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         // 탭바
-        guard let tabBar = tabBarController as? TabBarViewController else { return }
         print("뷰 나타납니다.")
-        tabBar.showTabBar(hide: true)
+        tabBar?.showTabBar(hide: true)
     }
 }
 
+
+// MARK: - 네비게이션 바 backbutton 프로토콜 구현
+extension SearchEditViewController: BackButtonProtocol {
+    func popViewVC() {
+        self.navigationController?.popViewController(animated: true)
+    }
+}
+
+// MARK: - 하단 전체선택 삭제 버튼 프로토콜 구현
+extension SearchEditViewController: EditButtonProtocol {
+    func didTapButton(_ sender: EditButton) {
+        if sender == leftBtn {
+            
+        } else {
+            
+        }
+    }
+}
+
+// MARK: - 테이블 뷰 데이터 소스, 델리게이트 설정
 extension SearchEditViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         searchingData.count
@@ -144,8 +159,8 @@ extension SearchEditViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: SearchEditTableViewCell.identifier, for: indexPath) as! SearchEditTableViewCell
-        cell.backgroundColor = .white
         
+        cell.backgroundColor = .white
         cell.checkButton.setImage(UIImage(systemName: "checkmark.circle"), for: .normal)
         cell.img.image = self.img[indexPath.row] ?? UIImage(systemName: "")
         cell.label.text = self.searchingData[indexPath.row]
@@ -155,14 +170,21 @@ extension SearchEditViewController: UITableViewDataSource, UITableViewDelegate {
         return cell
     }
     
+    // 테이블 뷰 셀의 높이
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 54
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    }
 }
 
-// MARK: - Cell 체크 프로토콜
+// MARK: - Cell 체크 버튼 프로토콜
 extension SearchEditViewController: CheckButtonProtocol {
     func check(index: Int) {
-        
+        chooseItem += 1
+        rightBtn.backgroundColor = UIColor.pointBlue
+        rightBtn.setTitleColor(.white, for: .normal)
+        rightBtn.setTitle("삭제\(chooseItem)", for: .normal)
     }
 }

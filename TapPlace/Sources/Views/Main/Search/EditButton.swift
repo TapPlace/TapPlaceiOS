@@ -8,18 +8,14 @@
 import Foundation
 import UIKit
 
-protocol ChooseBtnProtocol {
-    func choose(_ sender: EditButton)
-}
-
-protocol DeleteBtnProtocol {
-    func delete(_ sender: EditButton)
+protocol EditButtonProtocol {
+    func didTapButton(_ sender: EditButton)
 }
 
 class EditButton: UIButton {
     
-    var chooseDelegate: ChooseBtnProtocol?
-    var deleteDelegate: DeleteBtnProtocol?
+    var delegate: EditButtonProtocol?
+    
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -32,12 +28,6 @@ class EditButton: UIButton {
 
 extension EditButton {
     func choose(_ sender: EditButton) {
-        chooseDelegate?.choose(sender)
-    }
-}
-
-extension EditButton {
-    func delete(_ sender: EditButton) {
-        deleteDelegate?.delete(sender)
+        delegate?.didTapButton(sender)
     }
 }

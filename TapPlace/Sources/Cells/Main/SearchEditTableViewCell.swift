@@ -79,7 +79,7 @@ class SearchEditTableViewCell: UITableViewCell {
         }
     }
     
-    @objc func choose(_ sender: UIButton) {
+    @objc func choose(_ sender: Any) {
         delegate?.check(index: (index?.row)!)
 
         if checkButton.backgroundColor == .white {

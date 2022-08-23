@@ -36,6 +36,10 @@ class NavigationBar: UIView {
         
         
         addSubview(navigationBar)
+        navigationBar.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+        
         navigationBar.addSubview(backButton)
         backButton.snp.makeConstraints {
             $0.top.equalTo(navigationBar.snp.top).offset(24)

@@ -91,7 +91,11 @@ class MainViewController: CommonViewController {
 }
 
 //MARK: - Floating Panel
-extension MainViewController: FloatingPanelControllerDelegate { // 플로팅 패널
+extension MainViewController: FloatingPanelControllerDelegate, AroundPlaceMainControllerProtocol {
+    func expendFloatingPanel() {
+        fpc.move(to: .full, animated: true)
+    }
+    // 플로팅 패널
     /**
      * @ 플로팅패널 설정
      * coder : sanghyeon
@@ -133,6 +137,7 @@ extension MainViewController: FloatingPanelControllerDelegate { // 플로팅 패
             fpc.addPanel(toParent: self)
             fpc.track(scrollView: contentVC.aroundPlaceListView.tableView)
             fpc.set(contentViewController: contentVC)
+            contentVC.aroundPlaceListView.mainDelegate = self
         }
         fpc.move(to: type, animated: true)
     }

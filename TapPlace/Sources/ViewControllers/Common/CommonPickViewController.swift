@@ -37,10 +37,7 @@ class CommonPickViewController: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        DispatchQueue.main.asyncAfter(deadline: .now()) {
-            self.titleView.pageOne.layer.cornerRadius = self.titleView.pageOne.frame.size.width / 2
-            self.titleView.pageTwo.layer.cornerRadius = self.titleView.pageTwo.frame.size.width / 2
-        }
+
     }
 }
 
@@ -62,11 +59,13 @@ extension CommonPickViewController {
         //MARK: 뷰 제약
         titleView.snp.makeConstraints {
             $0.top.leading.trailing.equalTo(view.safeAreaLayoutGuide)
-            $0.height.equalTo(230)
+            $0.height.equalTo(180)
         }
         bottomButton.snp.makeConstraints {
-            $0.left.right.bottom.equalToSuperview()
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-60)
+            $0.left.right.equalToSuperview()
+            $0.bottom.equalTo(view.safeAreaLayoutGuide)
+            //$0.top.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-60)
+            $0.height.equalTo(56)
         }
         collectionView.snp.makeConstraints {
             $0.top.equalTo(titleView.snp.bottom)
@@ -74,7 +73,6 @@ extension CommonPickViewController {
             $0.leading.trailing.equalTo(view.safeAreaLayoutGuide)
         }
         
-        titleView.skipButton.isHidden = true
         
         bottomButton.backgroundColor = .deactiveGray
         bottomButton.setTitle("선택완료", for: .normal)

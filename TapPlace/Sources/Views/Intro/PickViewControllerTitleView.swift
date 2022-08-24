@@ -18,36 +18,6 @@ class PickViewControllerTitleView: UIView {
     let attributedString = NSMutableAttributedString(string: "")
     let imageAttachment = NSTextAttachment()
     
-    /// 현재 페이지에 따른 뷰 변화
-    var currentPage: CGFloat = 1 {
-        willSet {
-            DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(Int(0.1))) {
-                self.progressBar.snp.updateConstraints {
-                    $0.width.equalTo(self.frame.size.width * (0.5 * newValue))
-                }
-                if newValue == 1 {
-                    /// 현재 페이지가 1일 경우
-                    self.pageOne.backgroundColor = .pointBlue
-                    self.pageLabelOne.textColor = .white
-                    self.pageLabelOne.text = "1"
-                    self.pageLabelTwo.textColor = UIColor(hex: 0xCDD2DF)
-                    self.pageLabelTwo.text = "2"
-                } else {
-                    /// 현재 페이지가 2일 경우
-                    self.imageAttachment.image = UIImage(systemName: "checkmark")?.withTintColor(.white)
-                    
-                    self.attributedString.append(NSAttributedString(attachment: self.imageAttachment))
-                    self.pageLabelOne.attributedText = self.attributedString
-                    
-                    self.pageOne.backgroundColor = .pointBlue
-                    self.pageLabelOne.textColor = .white
-                    self.pageTwo.backgroundColor = .pointBlue
-                    self.pageLabelTwo.textColor = .white
-                    self.pageLabelTwo.text = "2"
-                }
-            }
-        }
-    }
     /// 상단 타이틀 > 뷰
     let titleView: UIView = {
         let titleView = UIView()
@@ -62,63 +32,7 @@ class PickViewControllerTitleView: UIView {
         titleViewText.font = .systemFont(ofSize: CommonUtils.resizeFontSize(size: 18), weight: .regular)
         return titleViewText
     }()
-    /// 상단 타이틀 > 뷰 > Skip 버튼
-    let skipButton: UIButton = {
-        let skipButton = UIButton()
-        skipButton.setTitle("다음에 할게요", for: .normal)
-        skipButton.setTitleColor(UIColor.pointBlue, for: .normal)
-        skipButton.titleLabel?.font = .systemFont(ofSize: CommonUtils.resizeFontSize(size: 14), weight: .regular)
-        return skipButton
-    }()
-    /// 상단 타이틀 > 진행바 뷰
-    let progressView: UIView = {
-        let progressView = UIView()
-        progressView.backgroundColor = UIColor.init(hex: 0xDBDEE8, alpha: 0.4)
-        return progressView
-    }()
-    /// 상단 타이틀 > 진행바 뷰 > 진행바
-    let progressBar: UIView = {
-        let progressBar = UIView()
-        progressBar.backgroundColor = .pointBlue
-        return progressBar
-    }()
-    /// 상단 타이틀 > 페이징 뷰
-    let pagingView: UIStackView = {
-        let pagingView = UIStackView()
-        pagingView.axis = .horizontal
-        pagingView.distribution = .fill
-        pagingView.alignment = .leading
-        pagingView.spacing = 10
-        return pagingView
-    }()
-    /// 상단 타이틀 > 페이징 뷰 > 페이지 1
-    let pageOne: UIView = {
-        let pageOne = UIView()
-        pageOne.clipsToBounds = true
-        pageOne.backgroundColor = UIColor.init(hex: 0xDBDEE8, alpha: 0.3)
-        return pageOne
-    }()
-    /// 상단 타이틀 > 페이징 뷰 > 페이지 2
-    let pageTwo: UIView = {
-        let pageTwo = UIView()
-        pageTwo.clipsToBounds = true
-        pageTwo.backgroundColor = UIColor.init(hex: 0xDBDEE8, alpha: 0.3)
-        return pageTwo
-    }()
-    /// 상단 타이틀 > 페이징 뷰 > 페이지 > 텍스트 1
-    let pageLabelOne: UILabel = {
-        let pageLabelOne = UILabel()
-        pageLabelOne.sizeToFit()
-        pageLabelOne.font = .systemFont(ofSize: CommonUtils.resizeFontSize(size: 16), weight: .bold)
-        return pageLabelOne
-    }()
-    /// 상단 타이틀 > 페이징 뷰 > 페이지 > 텍스트 2
-    let pageLabelTwo: UILabel = {
-        let pageLabelTwo = UILabel()
-        pageLabelTwo.sizeToFit()
-        pageLabelTwo.font = .systemFont(ofSize: CommonUtils.resizeFontSize(size: 16), weight: .bold)
-        return pageLabelTwo
-    }()
+
     /// 스택뷰 여백
     let spacer: UIView = {
         let spacer = UIView()
@@ -162,14 +76,8 @@ class PickViewControllerTitleView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         drawingView()
-        skipButton.addTarget(delegate, action: #selector(didTapSkipButton), for: .touchUpInside)
         clearButton.addTarget(delegate, action: #selector(didTapClearButton), for: .touchUpInside)
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(Int(0.1))) {
-            self.pageOne.layer.cornerRadius = self.pageOne.frame.size.width / 2
-            self.pageTwo.layer.cornerRadius = self.pageTwo.frame.size.width / 2
-            
-        }
+
         
 
     }
@@ -200,15 +108,6 @@ extension PickViewControllerTitleView {
         /// 뷰 추가
         addSubview(titleView)
         titleView.addSubview(titleViewText)
-        titleView.addSubview(skipButton)
-        addSubview(progressView)
-        progressView.addSubview(progressBar)
-        addSubview(pagingView)
-        pagingView.addArrangedSubview(pageOne)
-        pagingView.addArrangedSubview(pageTwo)
-        pagingView.addArrangedSubview(spacer)
-        pageOne.addSubview(pageLabelOne)
-        pageTwo.addSubview(pageLabelTwo)
         addSubview(descLabel)
         addSubview(clearButtonIcon)
         addSubview(clearButtonText)
@@ -222,44 +121,13 @@ extension PickViewControllerTitleView {
             $0.centerY.equalTo(titleView).offset(-5)
             $0.leading.equalToSuperview().offset(20)
         }
-        skipButton.snp.makeConstraints {
-            $0.centerY.equalTo(titleViewText)
-            $0.trailing.equalToSuperview().offset(-20)
-        }
-        progressView.snp.makeConstraints {
-            $0.leading.trailing.equalToSuperview()
-            $0.top.equalTo(titleView.snp.bottom)
-            $0.height.equalTo(2)
-        }
-        progressBar.snp.makeConstraints {
-            $0.top.leading.bottom.equalTo(progressView)
-            $0.width.equalTo(50)
-        }
-        pagingView.snp.makeConstraints {
-            $0.top.equalTo(progressView.snp.bottom).offset(25)
-            $0.leading.equalTo(titleViewText)
-            $0.trailing.equalToSuperview()
-            $0.height.equalTo(30)
-        }
-        pageOne.snp.makeConstraints {
-            $0.width.height.equalTo(pagingView.snp.height)
-        }
-        pageLabelOne.snp.makeConstraints {
-            $0.centerX.centerY.equalTo(pageOne)
-        }
-        pageTwo.snp.makeConstraints {
-            $0.width.height.equalTo(pagingView.snp.height)
-        }
-        pageLabelTwo.snp.makeConstraints {
-            $0.centerX.centerY.equalTo(pageTwo)
-        }
         descLabel.snp.makeConstraints {
-            $0.leading.equalTo(pagingView)
-            $0.top.equalTo(pagingView.snp.bottom).offset(25)
+            $0.leading.equalTo(titleViewText)
+            $0.top.equalTo(titleView.snp.bottom).offset(25)
         }
         clearButtonIcon.snp.makeConstraints {
             $0.top.equalTo(descLabel.snp.bottom).offset(25)
-            $0.leading.equalTo(pagingView)
+            $0.leading.equalTo(descLabel)
             $0.width.height.equalTo(15)
         }
         clearButtonText.snp.makeConstraints {

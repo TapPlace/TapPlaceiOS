@@ -14,7 +14,15 @@ class SearchEditTableViewCell: UITableViewCell {
     static let identifier = "SearchEditCell"
     var delegate: CheckButtonProtocol?
     var index: IndexPath?
+    let checkButtonColor: [UIColor] = [.white, .pointBlue]
     
+    // 셀 선택 여부
+    var cellSeclected: Bool = false {
+        willSet {
+            let arrRow = newValue ? 1 : 0
+            self.checkButton.backgroundColor = self.checkButtonColor[arrRow]
+        }
+    }
     
     // 테이블 뷰 안 버튼
     let checkButton: UIButton = {
@@ -79,14 +87,14 @@ class SearchEditTableViewCell: UITableViewCell {
         }
     }
     
-    @objc func choose(_ sender: Any) {
+    @objc func choose(_ sender: Any) { 
         delegate?.check(index: (index?.row)!)
 
-        if checkButton.backgroundColor == .white {
-            checkButton.backgroundColor = UIColor(red: 0.306, green: 0.467, blue: 0.984, alpha: 1)
-        } else {
-            checkButton.backgroundColor = .white
-        }
+//        if checkButton.backgroundColor == .white {
+//            checkButton.backgroundColor = UIColor(red: 0.306, green: 0.467, blue: 0.984, alpha: 1)
+//        } else {
+//            checkButton.backgroundColor = .white
+//        }
     }
     
     required init?(coder: NSCoder) {

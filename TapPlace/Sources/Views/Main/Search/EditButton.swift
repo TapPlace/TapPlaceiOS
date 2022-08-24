@@ -19,6 +19,7 @@ class EditButton: UIButton {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        addTarget(self, action: #selector(didTapThisButton), for: .touchUpInside)
     }
     
     required init?(coder: NSCoder) {
@@ -27,7 +28,7 @@ class EditButton: UIButton {
 }
 
 extension EditButton {
-    func choose(_ sender: EditButton) {
+    @objc func didTapThisButton(_ sender: EditButton) {
         delegate?.didTapButton(sender)
     }
 }

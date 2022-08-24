@@ -157,7 +157,6 @@ extension SearchViewController: SearchContentButtonProtocol {
         navigationBar.addSubview(searchField)
         searchField.snp.makeConstraints {
             $0.top.equalTo(navigationBar.snp.top).offset(25)
-//            $0.leading.equalTo(backButton.snp.trailing).offset(8)
             $0.leading.equalTo(navigationBar.snp.leading).offset(40)
             $0.trailing.equalTo(navigationBar.snp.trailing).offset(-20)
         }
@@ -222,14 +221,14 @@ extension SearchViewController: SearchContentButtonProtocol {
 // MARK: - 테이블 뷰 셀에 대한 설정
 extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return searchingData.count
+        RecentSearchModel.list.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: SearchTableViewCell.identifier, for: indexPath) as! SearchTableViewCell
         cell.backgroundColor = .white
-        cell.img.image = self.img[indexPath.row] ?? UIImage(systemName: "")
-        cell.label.text = self.searchingData[indexPath.row]
+        cell.img.image = RecentSearchModel.list[indexPath.row].image
+        cell.label.text = RecentSearchModel.list[indexPath.row].storeName
         cell.deleteButton.setImage(UIImage(systemName: "xmark"), for: .normal)
         cell.index = indexPath
         cell.delegate = self

@@ -11,7 +11,7 @@ import UIKit
 
 
 // MARK: - 검색화면
-class SearchViewController: UIViewController {
+class SearchViewController: CommonViewController {
     
     // 더미 데이터
     var searchingData = ["세븐 일레븐 등촌 3호점", "BBQ 등촌행복점", "세븐 일레븐 등촌 3호점", "BBQ 등촌행복점"]
@@ -86,41 +86,21 @@ extension SearchViewController: SearchContentButtonProtocol {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         // 탭바
-        guard let tabBar = tabBarController as? TabBarViewController else { return }
         print("뷰 사라집니다.")
-        tabBar.showTabBar(hide: false)
+        tabBar?.showTabBar(hide: false)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         // 탭바
-        guard let tabBar = tabBarController as? TabBarViewController else { return }
         print("뷰 나타납니다.")
-        tabBar.showTabBar(hide: true)
+        tabBar?.showTabBar(hide: true)
     }
     
     // 레이아웃 구성
     private func setLayout() {
         let safeArea = view.safeAreaLayoutGuide
         
-        // 상단 검색 뷰
-//        let navigationBar: UIView = {
-//            let navigationBar = UIView()
-//            navigationBar.backgroundColor = .white
-//            return navigationBar
-//        }()
-//
-        
-        
-        // 뒤로가기 버튼
-//        let backButton: UIButton = {
-//            let backButton = UIButton()
-//            backButton.setImage(UIImage(systemName: "chevron.left"), for: .normal)
-//            backButton.tintColor = .gray
-//            backButton.addTarget(self, action: #selector(moveMainVC(_:)), for: .touchUpInside)
-//            return backButton
-//        }()
-//
         searchField.font = UIFont(name: "AppleSDGothicNeoM00", size: 16)
         searchField.placeholder = "등록하려는 가맹점을 찾아보세요."
         searchField.clearButtonMode = .always
@@ -173,19 +153,10 @@ extension SearchViewController: SearchContentButtonProtocol {
             $0.height.equalTo(60)
         }
         
-        // 뒤로가기 버튼 AutoLayout
-//        navigationBar.addSubview(backButton)
-//        backButton.snp.makeConstraints {
-//            $0.top.equalTo(navigationBar.snp.top).offset(24)
-//            $0.leading.equalTo(navigationBar.snp.leading).offset(16)
-//            $0.width.height.equalTo(25)
-//        }
-        
         // 검색 텍스트필드 AutoLayout
         navigationBar.addSubview(searchField)
         searchField.snp.makeConstraints {
             $0.top.equalTo(navigationBar.snp.top).offset(25)
-//            $0.leading.equalTo(backButton.snp.trailing).offset(8)
             $0.leading.equalTo(navigationBar.snp.leading).offset(40)
             $0.trailing.equalTo(navigationBar.snp.trailing).offset(-20)
         }
@@ -240,11 +211,6 @@ extension SearchViewController: SearchContentButtonProtocol {
         }
     }
     
-    // < 클릭시 main으로 이동
-    @objc func moveMainVC(_ sender: UIButton) {
-        self.navigationController?.popViewController(animated: true)
-    }
-    
     // 편집 버튼 클릭시 편집 화면으로 이동
     @objc func moveSearchEditVC(_ sender: UIButton) {
         let vc = SearchEditViewController()
@@ -255,14 +221,14 @@ extension SearchViewController: SearchContentButtonProtocol {
 // MARK: - 테이블 뷰 셀에 대한 설정
 extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return searchingData.count
+        RecentSearchModel.list.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: SearchTableViewCell.identifier, for: indexPath) as! SearchTableViewCell
         cell.backgroundColor = .white
-        cell.img.image = self.img[indexPath.row] ?? UIImage(systemName: "")
-        cell.label.text = self.searchingData[indexPath.row]
+        cell.img.image = RecentSearchModel.list[indexPath.row].image
+        cell.label.text = RecentSearchModel.list[indexPath.row].storeName
         cell.deleteButton.setImage(UIImage(systemName: "xmark"), for: .normal)
         cell.index = indexPath
         cell.delegate = self
@@ -279,7 +245,7 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
 // MARK: - 네비게이션 바 backbutton 프로토콜 구현
 extension SearchViewController: BackButtonProtocol {
     func popViewVC() {
-        self.navigationController?.popViewController(animated: false)
+        self.navigationController?.popViewController(animated: true)
     }
 }
 

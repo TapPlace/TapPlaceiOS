@@ -22,8 +22,8 @@ class OnBoardingViewController: UIViewController {
     let scrollView = UIScrollView()
     let pageControl = UIPageControl()
     
-    let titleArray = ["빠르게 찾는 내 주변\n간편결제 가맹점", "22222", "33333"] // 메인 타이틀
-    let subTitleArray = ["간편결제가 필요한 순간,\n흩어져 있던 내 주변 가맹점들을\n간편하게 확인해보세요", "2222", "3333"]
+    let titleArray = ["빠르게 찾는 내 주변\n간편결제 가맹점", "어디서든 쉽게\n새로운 가맹점 등록", "피드백으로 확인하는\n결제 수단 사용 여부"] // 메인 타이틀
+    let subTitleArray = ["간편결제가 필요한 순간,\n흩어져 있던 내 주변 가맹점들을\n간편하게 확인해보세요", "언제 어디서든\n새로운 가맹점을 발견하면\n손쉽게 등록할 수 있어요", "직접 이용했던 사용자들의 피드백으로\n원하는 결제 수단의 사용 여부를\n더 정확히 알 수 있어요"]
     let images = [UIImage(named: "dog.jpeg"), UIImage(named: "dog2.jpeg"), UIImage(named: "dog3.jpeg")]
     
     override func viewDidLoad() {

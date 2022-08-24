@@ -23,8 +23,8 @@ class BottomButton: UIButton {
 }
 extension BottomButton {
     func drawButton() {
-        self.contentVerticalAlignment = .top
-        self.contentEdgeInsets.top = 18
+        self.contentVerticalAlignment = .center
+        //self.contentEdgeInsets.top = 18
     }
     @objc func didTapThisButton() {
         delegate?.didTapBottomButton()

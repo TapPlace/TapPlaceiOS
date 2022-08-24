@@ -142,7 +142,7 @@ extension SplashViewController {
         vc.modalTransitionStyle = .flipHorizontal
         vc.modalPresentationStyle = .fullScreen
          */
-        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1)) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(3)) {
             if present {
                 vc.modalPresentationStyle = .fullScreen
                 vc.modalTransitionStyle = .crossDissolve

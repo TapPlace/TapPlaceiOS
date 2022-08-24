@@ -10,9 +10,12 @@ import FloatingPanel
 
 
 
-
-
 class AroundPlaceViewController: UIViewController, AroundPlaceControllerProtocol, AroundDistanceFilterProtocol {
+    func showFilterView() {
+        let vc = AroundFilterViewController()
+        self.present(vc, animated: true)
+    }
+    
     func setDistanceLabel() {
         aroundPlaceListView.distanceLabel.text = DistancelModel.getDistance(distance: DistancelModel.selectedDistance)
     }
@@ -22,7 +25,9 @@ class AroundPlaceViewController: UIViewController, AroundPlaceControllerProtocol
     }
     
 
+
     let aroundPlaceListView = AroundPlaceListView()
+    lazy var aroundPlaceFilterView = AroundPlaceFilterView()
     
     override func viewDidLoad() {
         super.viewDidLoad()

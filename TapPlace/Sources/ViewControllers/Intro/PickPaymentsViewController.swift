@@ -82,7 +82,6 @@ extension PickPaymentsViewController: TitleViewProtocol, BottomButtonProtocol {
         //MARK: 공통 뷰에서 추가된 타이틀뷰 및 하단버튼 설정
         titleView.titleViewText.text = "결제수단 설정"
         titleView.descLabel.text = "선택한 결제수단의 가맹점을 우선적으로 찾아드려요.\n설정에서 언제든지 수정할 수 있어요."
-        titleView.currentPage = 1
 
         //MARK: 컬렉션뷰 설정
         collectionView.contentInset = UIEdgeInsets(top: 0, left: 20, bottom: 20, right: 20)

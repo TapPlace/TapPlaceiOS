@@ -8,7 +8,6 @@
 import UIKit
 
 protocol TermsItemProtocol {
-    func didTapCheckButton(_ sender: UIView)
     func didTapLinkButton(_ sender: UIView)
 }
 
@@ -17,12 +16,13 @@ class TermsItemView: UIView {
 
     var checked: Bool = false {
         willSet {
+            print("새로 바뀔 bool:", newValue)
             if newValue {
-                checkButton.setImage(UIImage(systemName: "checkmark.circle.fill"), for: .normal)
-                checkButton.tintColor = .pointBlue
+                checkImageView.image = UIImage(systemName: "checkmark.circle.fill")
+                checkImageView.tintColor = .pointBlue
             } else {
-                checkButton.setImage(UIImage(systemName: "checkmark.circle"), for: .normal)
-                checkButton.tintColor = UIColor.init(hex: 0xE6E6E6)
+                checkImageView.image = UIImage(systemName: "checkmark.circle")
+                checkImageView.tintColor = UIColor.init(hex: 0xE6E6E6)
             }
         }
     }
@@ -57,11 +57,10 @@ class TermsItemView: UIView {
         }
     }
     
-    let checkButton: UIButton = {
-        let checkButton = UIButton()
-        checkButton.setImage(UIImage(systemName: "checkmark.circle"), for: .normal)
-        checkButton.tintColor = UIColor.init(hex: 0xE6E6E6)
-        return checkButton
+    let checkImageView: UIImageView = {
+        let checkImageView = UIImageView()
+
+        return checkImageView
     }()
     let requireLabel: UILabel = {
         let requireLabel = UILabel()
@@ -121,7 +120,7 @@ extension TermsItemView {
         
         //MARK: AddSubView
         addSubview(containerView)
-        containerView.addSubview(checkButton)
+        containerView.addSubview(checkImageView)
         containerView.addSubview(requireLabel)
         containerView.addSubview(titleLabel)
         containerView.addSubview(linkButton)
@@ -131,13 +130,13 @@ extension TermsItemView {
         containerView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
-        checkButton.snp.makeConstraints {
-            $0.width.height.equalTo(50)
+        checkImageView.snp.makeConstraints {
+            $0.width.height.equalTo(25)
             $0.leading.equalTo(containerView)
-            $0.top.bottom.equalTo(containerView)
+            $0.centerY.equalTo(containerView)
         }
         requireLabel.snp.makeConstraints {
-            $0.leading.equalTo(checkButton.snp.trailing).offset(2)
+            $0.leading.equalTo(checkImageView.snp.trailing).offset(10)
             $0.centerY.equalTo(containerView)
         }
         titleLabel.snp.makeConstraints {
@@ -150,14 +149,9 @@ extension TermsItemView {
         }
         
         //MARK: ViewAddTarget
-        checkButton.addTarget(self, action: #selector(didTapCheckButton(_:)), for: .touchUpInside)
-        
+
         
         //MARK: Delegate
     }
     
-    @objc func didTapCheckButton(_ sender: UIButton) {
-        print(sender)
-        delegate?.didTapCheckButton(sender)
-    }
 }

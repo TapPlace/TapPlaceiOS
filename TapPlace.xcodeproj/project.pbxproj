@@ -27,6 +27,11 @@
 		DF82669C289CA11700272830 /* PickPaymentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF82669B289CA11700272830 /* PickPaymentsViewController.swift */; };
 		DF82669E289CA12800272830 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF82669D289CA12800272830 /* MainViewController.swift */; };
 		DF8266A8289F1D0D00272830 /* PlaceDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF8266A7289F1D0D00272830 /* PlaceDataService.swift */; };
+		DF9BE0A428B6E8B9009E075D /* TermsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF9BE0A328B6E8B9009E075D /* TermsViewController.swift */; };
+		DF9BE0A628B6EEEA009E075D /* UILabel+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF9BE0A528B6EEEA009E075D /* UILabel+Extension.swift */; };
+		DF9BE0A828B71711009E075D /* TermsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF9BE0A728B71711009E075D /* TermsModel.swift */; };
+		DF9BE0AA28B7187B009E075D /* TermsItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF9BE0A928B7187B009E075D /* TermsItemView.swift */; };
+		DF9BE0AE28B7271F009E075D /* TermsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF9BE0AD28B7271F009E075D /* TermsTableViewCell.swift */; };
 		DF9EAF8528AA00F5001B3D74 /* ResearchButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF9EAF8428AA00F5001B3D74 /* ResearchButton.swift */; };
 		DFA2875728AB684200DD9F63 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFA2875628AB684200DD9F63 /* UIView+Extension.swift */; };
 		DFA2875928AB94C700DD9F63 /* DetailOverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFA2875828AB94C700DD9F63 /* DetailOverView.swift */; };
@@ -97,6 +102,11 @@
 		DF82669B289CA11700272830 /* PickPaymentsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickPaymentsViewController.swift; sourceTree = "<group>"; };
 		DF82669D289CA12800272830 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		DF8266A7289F1D0D00272830 /* PlaceDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceDataService.swift; sourceTree = "<group>"; };
+		DF9BE0A328B6E8B9009E075D /* TermsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsViewController.swift; sourceTree = "<group>"; };
+		DF9BE0A528B6EEEA009E075D /* UILabel+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Extension.swift"; sourceTree = "<group>"; };
+		DF9BE0A728B71711009E075D /* TermsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsModel.swift; sourceTree = "<group>"; };
+		DF9BE0A928B7187B009E075D /* TermsItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsItemView.swift; sourceTree = "<group>"; };
+		DF9BE0AD28B7271F009E075D /* TermsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsTableViewCell.swift; sourceTree = "<group>"; };
 		DF9EAF8428AA00F5001B3D74 /* ResearchButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResearchButton.swift; sourceTree = "<group>"; };
 		DFA2875628AB684200DD9F63 /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		DFA2875828AB94C700DD9F63 /* DetailOverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailOverView.swift; sourceTree = "<group>"; };
@@ -180,6 +190,7 @@
 				DF826699289CA10800272830 /* OnBoardingViewController.swift */,
 				DF82669B289CA11700272830 /* PickPaymentsViewController.swift */,
 				F49D36E128B62952000D025D /* PrivacyViewController.swift */,
+				DF9BE0A328B6E8B9009E075D /* TermsViewController.swift */,
 			);
 			path = Intro;
 			sourceTree = "<group>";
@@ -220,6 +231,7 @@
 			children = (
 				DF2340CE28A2381700A9DAE1 /* PickPaymentsCollectionViewCell.swift */,
 				DF2340D028A239FC00A9DAE1 /* PickPaymentsCollectionReusableView.swift */,
+				DF9BE0AD28B7271F009E075D /* TermsTableViewCell.swift */,
 			);
 			path = Intro;
 			sourceTree = "<group>";
@@ -240,6 +252,7 @@
 			isa = PBXGroup;
 			children = (
 				DFDA43F528A14AB3003763AC /* PickViewControllerTitleView.swift */,
+				DF9BE0A928B7187B009E075D /* TermsItemView.swift */,
 			);
 			path = Intro;
 			sourceTree = "<group>";
@@ -262,6 +275,7 @@
 			children = (
 				DF1CD4B228AF7205000D23E4 /* Button */,
 				DF4A14A128ABBAEF0068D1AD /* VerticalAlignLabel.swift */,
+				F41A51EB28B0919D00FE546B /* NavigationBar.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -278,7 +292,6 @@
 			isa = PBXGroup;
 			children = (
 				F449AEB228ACEABE008E0417 /* SearchContentButton.swift */,
-				F41A51EB28B0919D00FE546B /* NavigationBar.swift */,
 				F4C6C8BC28B0A89B00FAF10A /* EditButton.swift */,
 			);
 			path = Search;
@@ -398,6 +411,7 @@
 				DF1D34B628A3662900BDDA15 /* StoreModel.swift */,
 				DFCB0B2328B3A61300BF9BE7 /* AroundModel.swift */,
 				F49D36DF28B6227D000D025D /* SearchModel.swift */,
+				DF9BE0A728B71711009E075D /* TermsModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -442,6 +456,7 @@
 				DF4BD37B28A76F8100C4C5B4 /* UIImage+Extension.swift */,
 				DFA2875628AB684200DD9F63 /* UIView+Extension.swift */,
 				DFECC8D128AD129300DC64FD /* UIStackView+Extension.swift */,
+				DF9BE0A528B6EEEA009E075D /* UILabel+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -587,10 +602,12 @@
 				DF82669E289CA12800272830 /* MainViewController.swift in Sources */,
 				DFCB0B2228B3369200BF9BE7 /* AroundDistanceFilterViewController.swift in Sources */,
 				DFA2875728AB684200DD9F63 /* UIView+Extension.swift in Sources */,
+				DF9BE0A628B6EEEA009E075D /* UILabel+Extension.swift in Sources */,
 				DFECC8D228AD129300DC64FD /* UIStackView+Extension.swift in Sources */,
 				DFA2875B28ABA8D400DD9F63 /* DetailToolBarButton.swift in Sources */,
 				DFC23F96289AB66400EC1090 /* AppDelegate.swift in Sources */,
 				DF5FFCF428B4FC1F00BEFFA3 /* AroundFilterViewController.swift in Sources */,
+				DF9BE0A428B6E8B9009E075D /* TermsViewController.swift in Sources */,
 				DF2340CD28A22DF900A9DAE1 /* BottomButton.swift in Sources */,
 				F4C6C8BD28B0A89B00FAF10A /* EditButton.swift in Sources */,
 				F4551D3A28A8B651003B93F4 /* SearchViewController.swift in Sources */,
@@ -599,6 +616,7 @@
 				DFC23FBB289AB70C00EC1090 /* EmptyExtension.swift in Sources */,
 				DFCB0B2428B3A61300BF9BE7 /* AroundModel.swift in Sources */,
 				DFC23F98289AB66400EC1090 /* SceneDelegate.swift in Sources */,
+				DF9BE0AE28B7271F009E075D /* TermsTableViewCell.swift in Sources */,
 				DFDBB83728B0BB69008D2E09 /* AroundPlaceListView.swift in Sources */,
 				DFC23FB5289AB6F000EC1090 /* EmptyNetwork.swift in Sources */,
 				DF2340D328A270C700A9DAE1 /* PaymentModel.swift in Sources */,
@@ -614,6 +632,7 @@
 				DFDA43F928A14C61003763AC /* CommonUtils.swift in Sources */,
 				DFF7BEDA28A67DFE00289F39 /* CALayer+Extension.swift in Sources */,
 				DF38177028A46EF100B900B5 /* CommonPickViewController.swift in Sources */,
+				DF9BE0AA28B7187B009E075D /* TermsItemView.swift in Sources */,
 				F41A51EA28B08D3C00FE546B /* SearchEditTableViewCell.swift in Sources */,
 				DFC23FAF289AB6C900EC1090 /* EmptyModel.swift in Sources */,
 				DF51DCC228A7779400D0AE1E /* MoreViewController.swift in Sources */,
@@ -630,6 +649,7 @@
 				DF38177828A4E28200B900B5 /* PaymentViewModel.swift in Sources */,
 				DFECC8D028ACFFE000DC64FD /* BrandIconImageView.swift in Sources */,
 				DF4A14A228ABBAEF0068D1AD /* VerticalAlignLabel.swift in Sources */,
+				DF9BE0A828B71711009E075D /* TermsModel.swift in Sources */,
 				DF9EAF8528AA00F5001B3D74 /* ResearchButton.swift in Sources */,
 				DF4BD37C28A76F8100C4C5B4 /* UIImage+Extension.swift in Sources */,
 				DF4A14A428ABBEF50068D1AD /* CustomToolBar.swift in Sources */,
@@ -776,7 +796,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = BFTA9SX898;
+				DEVELOPMENT_TEAM = 5NACCZGM3F;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TapPlace/Info.plist;
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "사용자 주변의 간편결제 가맹점을 불러올 수 있도록, 현재 위치를 가져옵니다.";
@@ -793,7 +813,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = kr.co.tapplace.TapPlaceiOS1;
+				PRODUCT_BUNDLE_IDENTIFIER = kr.co.tapplace.TapPlaceiOS;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;

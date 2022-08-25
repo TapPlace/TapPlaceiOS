@@ -11,6 +11,8 @@ class TermsViewController: UIViewController {
 
     let navigationBar = NavigationBar()
     let allTermsCheck = TermsItemView()
+    var termsChecked: Int = 0
+    var requireChecked: Int = 0
     let tableView: UITableView = {
         let tableView = UITableView()
         tableView.separatorStyle = .none
@@ -70,6 +72,7 @@ extension TermsViewController: BackButtonProtocol, BottomButtonProtocol {
         navigationBar.title = "약관동의"
         allTermsCheck.require = nil
         allTermsCheck.titleText = "모두 확인 및 동의합니다."
+        allTermsCheck.checked = false
         bottomButton.backgroundColor = .deactiveGray
         bottomButton.setTitle("동의 후 계속", for: .normal)
         bottomButton.setTitleColor(UIColor.init(hex: 0xAFB4C3), for: .normal)
@@ -136,9 +139,9 @@ extension TermsViewController: BackButtonProtocol, BottomButtonProtocol {
 }
 //MARK: - TableView
 extension TermsViewController: UITableViewDelegate, UITableViewDataSource, TermsItemProtocol {
-    func didTapCheckButton(_ sender: UIView) {
+    func didTapCheckButton(_ sender: UIView, index: Int) {
         print("델리게이트 호출")
-        print(sender)
+
     }
     
     func didTapLinkButton(_ sender: UIView) {
@@ -153,10 +156,27 @@ extension TermsViewController: UITableViewDelegate, UITableViewDataSource, Terms
         guard let cell = tableView.dequeueReusableCell(withIdentifier: TermsTableViewCell.cellId, for: indexPath) as? TermsTableViewCell else { return UITableViewCell() }
         cell.selectionStyle = .none
         cell.contentView.isUserInteractionEnabled = false
-        cell.cellView.require = TermsModel.lists[indexPath.row].require
-        cell.cellView.titleText = TermsModel.lists[indexPath.row].title
-        cell.cellView.link = TermsModel.lists[indexPath.row].link
+        cell.checked = false
+        cell.cellTermsView = cell.cellView
+        print("생성된 셀의 셀뷰:",cell.cellView)
+        print("생성된 셀의 셀뷰 변수:",cell.cellTermsView)
+        cell.require = TermsModel.lists[indexPath.row].require
+        cell.titleText = TermsModel.lists[indexPath.row].title
+        cell.link = TermsModel.lists[indexPath.row].link
+        cell.cellView.delegate = self
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: TermsTableViewCell.cellId, for: indexPath) as? TermsTableViewCell else { return }
+        print("선택된 셀의 cellView:", cell.cellView)
+        print("현재 셀 title:", cell.titleText)
+        print("현재 셀 checked:", cell.checked)
+        if cell.checked {
+            cell.checked = false
+        } else {
+            cell.checked = true
+        }
     }
     
 

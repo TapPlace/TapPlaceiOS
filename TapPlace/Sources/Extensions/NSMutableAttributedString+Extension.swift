@@ -25,15 +25,6 @@ extension NSMutableAttributedString {
 
         let attachment = NSTextAttachment()
         attachment.image = image.withRenderingMode(.alwaysTemplate)
-        //Uncomment to set size of image.
-        //P.S. font.capHeight sets height of image equal to font size.
-        //let imageSize = size ?? CGSize.init(width: font.capHeight, height: font.capHeight)
-        //attachment.bounds = CGRect(
-        //    x: 0,
-        //    y: 0,
-        //    width: imageSize.width,
-        //    height: imageSize.height
-        //)
         let attachmentString = NSMutableAttributedString(attachment: attachment)
         attachmentString.addAttributes(
             textAttributes,
@@ -43,5 +34,19 @@ extension NSMutableAttributedString {
             )
         )
         self.append(attachmentString)
+    }
+
+    func bold(string: String, fontSize: CGFloat, color: UIColor = .black) -> NSMutableAttributedString {
+        let font = UIFont.boldSystemFont(ofSize: fontSize)
+        let attributes: [NSAttributedString.Key: Any] = [.font: font, .foregroundColor: color]
+        self.append(NSAttributedString(string: string, attributes: attributes))
+        return self
+    }
+
+    func regular(string: String, fontSize: CGFloat, color: UIColor = .black) -> NSMutableAttributedString {
+        let font = UIFont.systemFont(ofSize: fontSize)
+        let attributes: [NSAttributedString.Key: Any] = [.font: font, .foregroundColor: color]
+        self.append(NSAttributedString(string: string, attributes: attributes))
+        return self
     }
 }

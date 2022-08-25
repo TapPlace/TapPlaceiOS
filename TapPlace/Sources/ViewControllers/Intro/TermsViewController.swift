@@ -11,14 +11,18 @@ class TermsViewController: UIViewController {
 
     let navigationBar = NavigationBar()
     let allTermsCheck = TermsItemView()
-    var termsChecked: Int = 0
-    var requireChecked: Int = 0
+    
+    var allTermsLists: [TermsModel] = TermsModel.lists
+
     let tableView: UITableView = {
         let tableView = UITableView()
         tableView.separatorStyle = .none
         tableView.isScrollEnabled = false
         return tableView
     }()
+    let bottomButton = BottomButton()
+    
+    
     
     
     override func viewDidLoad() {
@@ -30,6 +34,7 @@ class TermsViewController: UIViewController {
 
 extension TermsViewController: BackButtonProtocol, BottomButtonProtocol {
     func didTapBottomButton() {
+
         let vc = PrivacyViewController()
         self.navigationController?.pushViewController(vc, animated: true)
     }
@@ -45,7 +50,6 @@ extension TermsViewController: BackButtonProtocol, BottomButtonProtocol {
     func setupView() {
         //MARK: ViewDefine
         let safeArea = view.safeAreaLayoutGuide
-        let bottomButton = BottomButton()
         let descLabel: UILabel = {
             let descLabel = UILabel()
             descLabel.sizeToFit()
@@ -71,9 +75,6 @@ extension TermsViewController: BackButtonProtocol, BottomButtonProtocol {
         //MARK: ViewPropertyManual
         view.backgroundColor = .white
         navigationBar.title = "약관동의"
-        allTermsCheck.require = nil
-        allTermsCheck.titleText = "모두 확인 및 동의합니다."
-        allTermsCheck.checked = false
         bottomButton.backgroundColor = .deactiveGray
         bottomButton.setTitle("동의 후 계속", for: .normal)
         bottomButton.setTitleColor(UIColor.init(hex: 0xAFB4C3), for: .normal)
@@ -84,8 +85,6 @@ extension TermsViewController: BackButtonProtocol, BottomButtonProtocol {
         view.addSubview(navigationBar)
         view.addSubview(descLabel)
         view.addSubview(termsWrapView)
-        termsWrapView.addSubview(allTermsCheck)
-        termsWrapView.addSubview(separatorLine)
         termsWrapView.addSubview(tableView)
         view.addSubview(bottomButton)
         
@@ -106,25 +105,14 @@ extension TermsViewController: BackButtonProtocol, BottomButtonProtocol {
             $0.top.equalTo(descLabel.snp.bottom).offset(10)
             $0.bottom.equalTo(bottomButton.snp.top).offset(-30)
         }
-        allTermsCheck.snp.makeConstraints {
-            $0.bottom.equalTo(termsWrapView)
-            $0.height.equalTo(50)
-            $0.leading.trailing.equalTo(termsWrapView)
-        }
-        separatorLine.snp.makeConstraints {
-            $0.leading.trailing.equalTo(termsWrapView)
-            $0.top.equalTo(allTermsCheck)
-            $0.height.equalTo(1)
-        }
         tableView.snp.makeConstraints {
-            $0.leading.trailing.equalTo(termsWrapView)
-            $0.bottom.equalTo(separatorLine.snp.top)
-            $0.height.equalTo(150)
+            $0.bottom.leading.trailing.equalTo(termsWrapView)
+            $0.height.equalTo(UInt(allTermsLists.count * 50))
         }
         bottomButton.snp.makeConstraints {
-            $0.bottom.equalTo(safeArea)
+            $0.bottom.equalToSuperview()
             $0.leading.trailing.equalTo(safeArea)
-            $0.height.equalTo(56)
+            $0.top.equalTo(safeArea.snp.bottom).offset(-50)
         }
         
         //MARK: ViewAddTarget
@@ -150,36 +138,41 @@ extension TermsViewController: UITableViewDelegate, UITableViewDataSource, Terms
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return TermsModel.lists.count
+        return allTermsLists.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: TermsTableViewCell.cellId, for: indexPath) as? TermsTableViewCell else { return UITableViewCell() }
         cell.selectionStyle = .none
         cell.contentView.isUserInteractionEnabled = false
-        cell.checked = false
-        cell.cellTermsView = cell.cellView
-        print("생성된 셀의 셀뷰:",cell.cellView)
-        print("생성된 셀의 셀뷰 변수:",cell.cellTermsView)
-        cell.require = TermsModel.lists[indexPath.row].require
-        cell.titleText = TermsModel.lists[indexPath.row].title
-        cell.link = TermsModel.lists[indexPath.row].link
-        cell.cellView.delegate = self
+        let term = allTermsLists[indexPath.row]
+        cell.setInitCell(isTerm: term.isTerm, require: term.require, title: term.title, link: term.link)
+        cell.setCheck()
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: TermsTableViewCell.cellId, for: indexPath) as? TermsTableViewCell else { return }
-        print("선택된 셀의 cellView:", cell.cellView)
-        print("현재 셀 title:", cell.titleText)
-        print("현재 셀 checked:", cell.checked)
-        if cell.checked {
-            cell.checked = false
-        } else {
-            cell.checked = true
-        }
+        guard let cell = tableView.cellForRow(at: indexPath) as? TermsTableViewCell else { return }
+        allTermsLists[indexPath.row].checked.toggle()
+        let targetTerm = allTermsLists[indexPath.row]
+        cell.setCheck(check: targetTerm.checked)
+        bottomButtonUpdate()
     }
     
-
+    func bottomButtonUpdate() {
+//        let selectedCount = requireChecked
+//
+//        print("selectedCount:", selectedCount)
+//
+//        if selectedCount >= 2 {
+//            bottomButton.backgroundColor = .pointBlue
+//            bottomButton.setTitleColor(.white, for: .normal)
+//            bottomButton.isActive = true
+//        } else {
+//            bottomButton.backgroundColor = .deactiveGray
+//            bottomButton.setTitleColor(UIColor.init(hex: 0xAFB4C3), for: .normal)
+//            bottomButton.isActive = false
+//        }
+    }
     
 }

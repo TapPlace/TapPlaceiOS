@@ -135,7 +135,7 @@ extension OnBoardingViewController: UIScrollViewDelegate, BottomButtonProtocol{
         view.addSubview(skipButton)
         skipButton.snp.makeConstraints {
             $0.left.right.bottom.equalToSuperview()
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-60)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-50)
         }
         
         skipButton.backgroundColor = .deactiveGray

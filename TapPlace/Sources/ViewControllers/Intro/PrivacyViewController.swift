@@ -178,7 +178,7 @@ extension PrivacyViewController {
         view.addSubview(bottomButton)
         bottomButton.snp.makeConstraints {
             $0.left.right.bottom.equalToSuperview()
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-60)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-50)
         }
     }
     

@@ -9,14 +9,18 @@ import Foundation
 
 struct TermsModel {
     let title: String
-    let require: Bool
+    let isTerm: Bool
+    let require: Bool?
     let link: String
+    var checked: Bool
 }
 
 extension TermsModel {
     static let lists: [TermsModel] = [
-        TermsModel(title: "서비스 이용약관", require: true, link: "/"),
-        TermsModel(title: "개인정보 수집 및 이용동의", require: true, link: "/"),
-        TermsModel(title: "마케팅 정보 수신 동의", require: false, link: "/")
+        TermsModel(title: "서비스 이용약관", isTerm: true, require: true, link: "/", checked: false),
+        TermsModel(title: "개인정보 수집 및 이용동의", isTerm: true, require: true, link: "/", checked: false),
+        TermsModel(title: "마케팅 정보 수신 동의", isTerm: true, require: false, link: "/", checked: false),
+        TermsModel(title: "모두 확인 및 동의합니다.", isTerm: false, require: nil, link: "", checked: false)
     ]
+    
 }

@@ -23,6 +23,7 @@ class SearchEditViewController: CommonViewController {
         navigationBar.delegate = self
         leftBtn.delegate = self
         rightBtn.delegate = self
+        
     }
     
     private lazy var editTableView: UITableView = {
@@ -109,15 +110,17 @@ extension SearchEditViewController {
         
         view.addSubview(leftBtn)
         leftBtn.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-55)
-            $0.leading.bottom.equalToSuperview()
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-50)
+            $0.leading.equalToSuperview()
+            $0.bottom.equalTo(safeArea)
             $0.width.equalTo(self.view.frame.width / 2)
         }
         
         view.addSubview(rightBtn)
         rightBtn.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-55)
-            $0.trailing.bottom.equalToSuperview()
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-50)
+            $0.trailing.equalToSuperview()
+            $0.bottom.equalTo(safeArea)
             $0.width.equalTo(self.view.frame.width / 2)
         }
     }

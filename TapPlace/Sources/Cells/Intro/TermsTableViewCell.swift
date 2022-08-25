@@ -10,34 +10,89 @@ import UIKit
 class TermsTableViewCell: UITableViewCell {
     static let cellId = "termsItem"
     
-    var cellTermsView: TermsItemView?
-    
-    var checked: Bool = false {
-        willSet {
-            cellView.checked = newValue
+    func setInitCell(isTerm: Bool, require: Bool?, title: String, link: String) {
+        //MARK: 약관에 대한 선택 항목인가?
+        if !isTerm {
+            let separatorLine: UIView = {
+                let separatorLine = UIView()
+                separatorLine.backgroundColor = UIColor.init(hex: 0xdbdee8, alpha: 0.4)
+                return separatorLine
+            }()
+            containerView.addSubview(separatorLine)
+            separatorLine.snp.makeConstraints {
+                $0.top.leading.trailing.equalTo(containerView)
+                $0.height.equalTo(1)
+            }
+        }
+        //MARK: 타이틀 설정
+        titleLabel.text = title
+        //MARK: 필수 항목인가?
+        guard let require = require else { return }
+        if require {
+            requireLabel.text = "[필수]"
+            requireLabel.textColor = .pointBlue
+        } else {
+            requireLabel.text = "[선택]"
+            requireLabel.textColor = .black
+        }
+        //MARK: 링크가 있는가? 없으면 링크버튼 숨김
+        if link == "" {
+            linkButton.isHidden = true
         }
     }
     
-    var require: Bool? = nil {
-        willSet {
-            cellView.require = newValue
+    func setCheck(check: Bool = false) {
+        if check {
+            checkImageView.image = UIImage(systemName: "checkmark.circle.fill")
+            checkImageView.tintColor = .pointBlue
+        } else {
+            checkImageView.image = UIImage(systemName: "checkmark.circle")
+            checkImageView.tintColor = UIColor.init(hex: 0xE6E6E6)
         }
     }
     
-    var link: String? = "" {
-        willSet {
-            cellView.link = newValue
-        }
-    }
     
-    var titleText: String = "TitleLabel" {
-        willSet {
-            cellView.titleText = newValue
-        }
-    }
     
-    let cellView = TermsItemView()
+    
+    let containerView: UIView = {
+        let containerView = UIView()
+        return containerView
+    }()
+    let checkImageView: UIImageView = {
+        let checkImageView = UIImageView()
 
+        return checkImageView
+    }()
+    let requireLabel: UILabel = {
+        let requireLabel = UILabel()
+        requireLabel.sizeToFit()
+        requireLabel.font = .systemFont(ofSize: CommonUtils.resizeFontSize(size: 15), weight: .regular)
+        requireLabel.textColor = .pointBlue
+        requireLabel.text = ""
+        return requireLabel
+    }()
+    let titleLabel: UILabel = {
+        let titleLabel = UILabel()
+        titleLabel.sizeToFit()
+        titleLabel.font = .systemFont(ofSize: CommonUtils.resizeFontSize(size: 15), weight: .regular)
+        titleLabel.textColor = .black
+        titleLabel.text = "Title Label"
+        return titleLabel
+    }()
+    let linkButton: UIButton = {
+        let linkButton = UIButton()
+        linkButton.titleLabel?.font = .systemFont(ofSize: CommonUtils.resizeFontSize(size: 15))
+        let text = "보기"
+        linkButton.setTitle(text, for: .normal)
+        let attributeString = NSMutableAttributedString(string: text)
+        attributeString.addAttribute(.underlineStyle , value: 1, range: NSRange.init(location: 0, length: text.count))
+        linkButton.titleLabel?.attributedText = attributeString
+        linkButton.tintColor = UIColor.init(hex: 0xCCCCCC)
+        return linkButton
+    }()
+
+    
+    
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super .init(style: style, reuseIdentifier: reuseIdentifier)
@@ -49,12 +104,55 @@ class TermsTableViewCell: UITableViewCell {
     }
     
     func setupCell() {
+
+        //MARK: ViewDefine
+
         
         
-        addSubview(cellView)
+        //MARK: ViewPropertyManual
         
-        cellView.snp.makeConstraints {
+        
+        //MARK: AddSubView
+        addSubview(containerView)
+        containerView.addSubview(checkImageView)
+        containerView.addSubview(requireLabel)
+        containerView.addSubview(titleLabel)
+        containerView.addSubview(linkButton)
+        
+        
+        //MARK: ViewContraints
+        containerView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
+        checkImageView.snp.makeConstraints {
+            $0.width.height.equalTo(25)
+            $0.leading.equalTo(containerView)
+            $0.centerY.equalTo(containerView)
+        }
+        requireLabel.snp.makeConstraints {
+            $0.leading.equalTo(checkImageView.snp.trailing).offset(10)
+            $0.centerY.equalTo(containerView)
+        }
+        titleLabel.snp.makeConstraints {
+            $0.leading.equalTo(requireLabel.snp.trailing).offset(5)
+            $0.centerY.equalTo(requireLabel)
+        }
+        linkButton.snp.makeConstraints {
+            $0.trailing.equalTo(containerView)
+            $0.width.height.equalTo(40)
+            $0.centerY.equalTo(containerView)
+        }
+        
+        //MARK: ViewAddTarget
+
+        
+        //MARK: Delegate
+        
+        
+        
+        
+        
+        
+        
     }
 }

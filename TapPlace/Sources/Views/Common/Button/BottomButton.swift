@@ -14,6 +14,13 @@ protocol BottomButtonProtocol {
 class BottomButton: UIButton {
     var isActive: Bool = false
     var delegate: BottomButtonProtocol?
+    var isFill: Bool = true {
+        willSet {
+            if newValue == false {
+                self.contentEdgeInsets.top = 0
+            }
+        }
+    }
     override func draw(_ rect: CGRect) {
         super.draw(rect)
         drawButton()
@@ -24,7 +31,7 @@ class BottomButton: UIButton {
 extension BottomButton {
     func drawButton() {
         self.contentVerticalAlignment = .center
-        //self.contentEdgeInsets.top = 18
+        self.contentEdgeInsets.top = -18
     }
     @objc func didTapThisButton() {
         delegate?.didTapBottomButton()

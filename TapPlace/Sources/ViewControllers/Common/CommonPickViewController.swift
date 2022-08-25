@@ -64,7 +64,7 @@ extension CommonPickViewController {
         bottomButton.snp.makeConstraints {
             $0.left.right.equalToSuperview()
             $0.bottom.equalTo(view.safeAreaLayoutGuide)
-            //$0.top.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-60)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-60)
             $0.height.equalTo(56)
         }
         collectionView.snp.makeConstraints {

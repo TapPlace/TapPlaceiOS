@@ -9,4 +9,5 @@ import Foundation
 
 struct Constants {
     static let naverClientId = Bundle.main.infoDictionary?["NAVER_CLIENT_ID"] as? String
+    static let tapplaceBaseUrl = "https://tapplace.co.kr"
 }

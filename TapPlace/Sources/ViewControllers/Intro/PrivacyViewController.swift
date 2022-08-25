@@ -41,6 +41,7 @@ extension PrivacyViewController {
             topLabel.sizeToFit()
             topLabel.numberOfLines = 2
             topLabel.text = "생년월일과 성별을\n입력해주세요."
+            topLabel.lineHeight(height: 7)
             topLabel.textColor = .init(hex: 0x4D4D4D)
             topLabel.font = .boldSystemFont(ofSize: CommonUtils.resizeFontSize(size: 23))
             return topLabel
@@ -123,7 +124,7 @@ extension PrivacyViewController {
         navigationBar.snp.makeConstraints {
             $0.top.leading.trailing.equalTo(safeArea)
             $0.width.equalTo(self.view.frame.width)
-            $0.height.equalTo(50)
+            $0.height.equalTo(60)
         }
         
         view.addSubview(topLabel)
@@ -223,5 +224,9 @@ extension PrivacyViewController: UITextFieldDelegate {
 extension PrivacyViewController: BottomButtonProtocol {
     func didTapBottomButton() {
         print("눌림")
+        let vc = TabBarViewController()
+        vc.modalTransitionStyle = .crossDissolve
+        vc.modalPresentationStyle = .fullScreen
+        self.present(vc, animated: true)
     }
 }

@@ -30,7 +30,8 @@ class TermsViewController: UIViewController {
 
 extension TermsViewController: BackButtonProtocol, BottomButtonProtocol {
     func didTapBottomButton() {
-        
+        let vc = PrivacyViewController()
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     func popViewVC() {

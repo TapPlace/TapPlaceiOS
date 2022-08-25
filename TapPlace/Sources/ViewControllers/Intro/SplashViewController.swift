@@ -31,12 +31,11 @@ class SplashViewController: UIViewController {
         if isFirstLaunch() {
             /// 초기실행일 경우 온보딩 뷰 이동
             print("초기실행!")
-            moveViewController(OnBoardingViewController(), present: false)
+            moveViewController(PrivacyViewController(), present: false)
         } else {
             if isPickedPayments() {
                 /// 관심 결제수단 등록 되어있을 경우 메인 뷰컨트롤러 이동
-
-                moveViewController(TabBarViewController(), present: true)
+                moveViewController(PrivacyViewController(), present: true)
             } else {
                 /// 관심 결제수단 등록 되어있지 않을 경우 관심 결제수단 설정 뷰로 이동
                 moveViewController(PickPaymentsViewController(), present: false)

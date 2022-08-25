@@ -13,20 +13,25 @@ import UIKit
 // MARK: - 검색화면
 class SearchViewController: CommonViewController {
     
-    // 더미 데이터
-    var searchingData = ["세븐 일레븐 등촌 3호점", "BBQ 등촌행복점", "세븐 일레븐 등촌 3호점", "BBQ 등촌행복점"]
-    var img = [
-        UIImage(systemName: "fork.knife.circle.fill"),
-        UIImage(systemName: "fork.knife.circle.fill"),
-        UIImage(systemName: "fork.knife.circle.fill"),
-        UIImage(systemName: "fork.knife.circle.fill")
-    ]
-    
     let navigationBar = NavigationBar() // 커스텀 네비게이션 바
     let searchField = UITextField()  // 검색 필드
     let recentSearchButton = SearchContentButton() // 최근 검색어 버튼
     let favoriteSearchButton = SearchContentButton() // 즐겨찾는 가맹점 버튼
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.searchField.becomeFirstResponder()
+        // 탭바
+        print("뷰 나타납니다.")
+        tabBar?.showTabBar(hide: true)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        // 탭바
+        print("뷰 사라집니다.")
+        tabBar?.showTabBar(hide: false)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -81,20 +86,6 @@ extension SearchViewController: SearchContentButtonProtocol {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        // 탭바
-        print("뷰 사라집니다.")
-        tabBar?.showTabBar(hide: false)
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        // 탭바
-        print("뷰 나타납니다.")
-        tabBar?.showTabBar(hide: true)
     }
     
     // 레이아웃 구성
@@ -253,8 +244,7 @@ extension SearchViewController: BackButtonProtocol {
 // MARK: - 최근 검색어 삭제
 extension SearchViewController: XBtnProtocol {
     func deleteCell(index: Int) {
-        self.searchingData.remove(at: index)
-        self.img.remove(at: index)
+        RecentSearchModel.list.remove(at: index)
         self.searchTableView.reloadData()
     }
 }

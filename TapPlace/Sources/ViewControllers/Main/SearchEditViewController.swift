@@ -25,6 +25,7 @@ class SearchEditViewController: CommonViewController {
         rightBtn.delegate = self
     }
     
+    // lazy 사용이유: 참조되는 시점에 맞추어 초기화되어 메모리의 낭비를 줄일 수 있음
     private lazy var editTableView: UITableView = {
         let editTableView = UITableView()
         editTableView.translatesAutoresizingMaskIntoConstraints = false

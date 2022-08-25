@@ -67,6 +67,7 @@
 		F4551D3A28A8B651003B93F4 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4551D3928A8B651003B93F4 /* SearchViewController.swift */; };
 		F4551D3C28A9F9C6003B93F4 /* SearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4551D3B28A9F9C6003B93F4 /* SearchTableViewCell.swift */; };
 		F49D36E028B6227D000D025D /* SearchModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49D36DF28B6227D000D025D /* SearchModel.swift */; };
+		F49D36E228B62952000D025D /* PrivacyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49D36E128B62952000D025D /* PrivacyViewController.swift */; };
 		F4C6C8BD28B0A89B00FAF10A /* EditButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C6C8BC28B0A89B00FAF10A /* EditButton.swift */; };
 /* End PBXBuildFile section */
 
@@ -137,6 +138,7 @@
 		F4551D3928A8B651003B93F4 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		F4551D3B28A9F9C6003B93F4 /* SearchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTableViewCell.swift; sourceTree = "<group>"; };
 		F49D36DF28B6227D000D025D /* SearchModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchModel.swift; sourceTree = "<group>"; };
+		F49D36E128B62952000D025D /* PrivacyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyViewController.swift; sourceTree = "<group>"; };
 		F4C6C8BC28B0A89B00FAF10A /* EditButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -175,6 +177,7 @@
 				DF826697289CA0EC00272830 /* SplashViewController.swift */,
 				DF826699289CA10800272830 /* OnBoardingViewController.swift */,
 				DF82669B289CA11700272830 /* PickPaymentsViewController.swift */,
+				F49D36E128B62952000D025D /* PrivacyViewController.swift */,
 			);
 			path = Intro;
 			sourceTree = "<group>";
@@ -577,6 +580,7 @@
 				F41A51E828B0865D00FE546B /* SearchEditViewController.swift in Sources */,
 				DFDA43F628A14AB3003763AC /* PickViewControllerTitleView.swift in Sources */,
 				DF82669C289CA11700272830 /* PickPaymentsViewController.swift in Sources */,
+				F49D36E228B62952000D025D /* PrivacyViewController.swift in Sources */,
 				DF82669E289CA12800272830 /* MainViewController.swift in Sources */,
 				DFCB0B2228B3369200BF9BE7 /* AroundDistanceFilterViewController.swift in Sources */,
 				DFA2875728AB684200DD9F63 /* UIView+Extension.swift in Sources */,

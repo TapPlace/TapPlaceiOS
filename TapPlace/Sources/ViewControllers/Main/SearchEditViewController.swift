@@ -142,7 +142,6 @@ extension SearchEditViewController {
     }
 }
 
-
 // MARK: - 네비게이션 바 backbutton 프로토콜 구현
 extension SearchEditViewController: BackButtonProtocol {
     func popViewVC() {
@@ -184,7 +183,6 @@ extension SearchEditViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: SearchEditTableViewCell.identifier, for: indexPath) as! SearchEditTableViewCell
-        
         cell.selectionStyle = .none
         cell.backgroundColor = .white
         cell.checkButton.setImage(UIImage(systemName: "checkmark.circle"), for: .normal)

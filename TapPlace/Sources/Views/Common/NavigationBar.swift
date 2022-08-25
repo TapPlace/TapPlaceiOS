@@ -18,7 +18,7 @@ class NavigationBar: UIView {
         let backButton = UIButton()
         backButton.setImage(UIImage(systemName: "chevron.left"), for: .normal)
         backButton.tintColor = .gray
-        backButton.addTarget(self, action: #selector(moveMainVC), for: .touchUpInside)
+        backButton.addTarget(self, action: #selector(popVC), for: .touchUpInside)
         return backButton
     }()
     
@@ -74,7 +74,7 @@ class NavigationBar: UIView {
 }
 
 extension NavigationBar {
-    @objc func moveMainVC() {
+    @objc func popVC() {
         delegate?.popViewVC()
     }
 }

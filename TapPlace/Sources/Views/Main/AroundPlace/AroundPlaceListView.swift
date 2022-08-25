@@ -9,11 +9,17 @@ import UIKit
 
 protocol AroundPlaceControllerProtocol {
     func presentViewController(_ vc: UIViewController)
+    func showFilterView()
+}
+
+protocol AroundPlaceMainControllerProtocol {
+    func expendFloatingPanel()
 }
 
 class AroundPlaceListView: UIView {
     var delegate: AroundPlaceControllerProtocol?
-
+    var mainDelegate: AroundPlaceMainControllerProtocol?
+    
     let containerView: UIView = {
         let containerView = UIView()
         return containerView
@@ -84,6 +90,10 @@ extension AroundPlaceListView {
             separatorLine.backgroundColor = UIColor.init(hex: 0xdbdee8, alpha: 0.4)
             return separatorLine
         }()
+        let filterButton: UIButton = {
+            let filterButton = UIButton()
+            return filterButton
+        }()
         let tableWrapView: UIView = {
             let tableWrapView = UIView()
             tableWrapView.backgroundColor = .pointBlue
@@ -106,6 +116,7 @@ extension AroundPlaceListView {
         titleView.addSubview(addressButton)
         titleView.addSubview(storeButton)
         titleView.addSubview(paymentButton)
+        titleView.addSubview(filterButton)
         titleView.addSubview(separatorLine)
         containerView.addSubview(tableWrapView)
         tableWrapView.addSubview(tableView)
@@ -149,6 +160,10 @@ extension AroundPlaceListView {
             $0.width.equalTo(paymentButton.buttonFrame)
             $0.height.equalTo(storeButton)
         }
+        filterButton.snp.makeConstraints {
+            $0.top.leading.equalTo(storeButton)
+            $0.trailing.bottom.equalTo(paymentButton)
+        }
         separatorLine.snp.makeConstraints {
             $0.top.equalTo(storeButton.snp.bottom).offset(15)
             $0.leading.trailing.equalTo(titleView)
@@ -166,6 +181,7 @@ extension AroundPlaceListView {
         //MARK: ViewAddTarget & Register
         tableView.register(AroundStoreTableViewCell.self, forCellReuseIdentifier: AroundStoreTableViewCell.cellId)
         addressButton.addTarget(self, action: #selector(didTapAddressButton), for: .touchUpInside)
+        filterButton.addTarget(self, action: #selector(didTapFilterButton), for: .touchUpInside)
         
         //MARK: Delegate
         tableView.delegate = self
@@ -178,6 +194,14 @@ extension AroundPlaceListView {
      */
     @objc func didTapAddressButton() {
         delegate?.presentViewController(AroundDistanceFilterViewController())
+    }
+    /**
+     * @ 필터버튼 클릭
+     * coder : sanghyeon
+     */
+    @objc func didTapFilterButton() {
+        delegate?.presentViewController(AroundFilterViewController())
+        mainDelegate?.expendFloatingPanel()
     }
 }
 

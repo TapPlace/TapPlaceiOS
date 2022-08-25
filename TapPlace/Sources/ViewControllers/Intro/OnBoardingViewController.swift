@@ -56,6 +56,7 @@ extension OnBoardingViewController: UIScrollViewDelegate, BottomButtonProtocol{
     
     // 레이아웃
     private func setLayout() {
+        let safeArea = view.safeAreaLayoutGuide
         
         // 메인타이틀
         titleLabel.text = "빠르게 찾는 내 주변\n간편결제 가맹점"
@@ -107,16 +108,14 @@ extension OnBoardingViewController: UIScrollViewDelegate, BottomButtonProtocol{
         
         view.addSubview(titleLabel)
         titleLabel.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(80)
-            $0.left.equalToSuperview().offset(83)
-            $0.right.equalToSuperview().offset(-83)
+            $0.top.equalTo(safeArea).offset(80)
+            $0.leading.trailing.equalTo(safeArea).inset(20)
         }
         
         view.addSubview(subTitleLabel)
         subTitleLabel.snp.makeConstraints {
             $0.top.equalTo(titleLabel.snp.bottom).offset(16)
-            $0.left.equalToSuperview().offset(101)
-            $0.right.equalToSuperview().offset(-101)
+            $0.leading.trailing.equalTo(safeArea).inset(20)
         }
         
         view.addSubview(scrollView)

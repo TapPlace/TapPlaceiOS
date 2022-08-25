@@ -46,7 +46,7 @@ extension OnBoardingViewController: UIScrollViewDelegate, BottomButtonProtocol{
                 self.checkLastPage(self.pageControl.currentPage)
             })
         } else {
-            let vc = PickPaymentsViewController()
+            let vc = TermsViewController()
             vc.modalTransitionStyle = .crossDissolve
             vc.modalPresentationStyle = .fullScreen
             self.navigationController?.pushViewController(vc, animated: true)

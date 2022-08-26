@@ -127,6 +127,7 @@ extension TermsViewController: UITableViewDelegate, UITableViewDataSource, Terms
         guard let targetCell = tableView.cellForRow(at: IndexPath(row: targetIndex, section: 0)) as? TermsTableViewCell else { return }
         allTermsLists[targetIndex] = term
         targetCell.setCheck(check: term.checked)
+        allCheckTermsCell()
         bottomButtonUpdate()
         
         /// 모두 동의일 경우 다음 약관 표시 로직

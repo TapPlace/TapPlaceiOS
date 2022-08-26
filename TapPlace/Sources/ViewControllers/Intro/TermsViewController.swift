@@ -13,6 +13,7 @@ class TermsViewController: UIViewController {
     let allTermsCheck = TermsItemView()
     
     var allTermsLists: [TermsModel] = TermsModel.lists
+    var isAllCheck: Bool = false
 
     let tableView: UITableView = {
         let tableView = UITableView()
@@ -70,9 +71,7 @@ extension TermsViewController: BackButtonProtocol, BottomButtonProtocol {
         //MARK: ViewPropertyManual
         view.backgroundColor = .white
         navigationBar.title = "약관동의"
-        bottomButton.backgroundColor = .deactiveGray
-        bottomButton.setTitle("동의 후 계속", for: .normal)
-        bottomButton.setTitleColor(UIColor.init(hex: 0xAFB4C3), for: .normal)
+        bottomButton.setButtonStyle(title: "동의 후 계속", type: .disabled, fill: true)
         tableView.register(TermsTableViewCell.self, forCellReuseIdentifier: TermsTableViewCell.cellId)
         
         
@@ -122,7 +121,25 @@ extension TermsViewController: BackButtonProtocol, BottomButtonProtocol {
     }
 }
 //MARK: - TableView
-extension TermsViewController: UITableViewDelegate, UITableViewDataSource, TermsItemProtocol {
+extension TermsViewController: UITableViewDelegate, UITableViewDataSource, TermsItemProtocol, TermsProtocol {
+    func checkReceiveTerm(term: TermsModel, currentTermIndex: Int) {
+        guard let targetIndex = allTermsLists.firstIndex(where: { $0.title == term.title }) else { return }
+        guard let targetCell = tableView.cellForRow(at: IndexPath(row: targetIndex, section: 0)) as? TermsTableViewCell else { return }
+        allTermsLists[targetIndex] = term
+        targetCell.setCheck(check: term.checked)
+        bottomButtonUpdate()
+        
+        /// 모두 동의일 경우 다음 약관 표시 로직
+        if isAllCheck {
+            guard let nonCheckRequireTerm = allTermsLists.firstIndex(where: {$0.require == true && $0.read == false && $0.checked == false }) else { return }
+            DispatchQueue.main.async {
+                self.pushTermVC(self.allTermsLists[nonCheckRequireTerm], index: nonCheckRequireTerm)
+            }
+        }
+        
+        
+    }
+    
     func didTapCheckButton(_ sender: UIView, index: Int) {
         print("델리게이트 호출")
 
@@ -148,24 +165,38 @@ extension TermsViewController: UITableViewDelegate, UITableViewDataSource, Terms
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let cell = tableView.cellForRow(at: indexPath) as? TermsTableViewCell else { return }
-        allTermsLists[indexPath.row].checked.toggle()
         let targetTerm = allTermsLists[indexPath.row]
-        if targetTerm.link != "" {
-            let vc = TermsWebViewViewController()
-            vc.term = targetTerm
-            vc.modalTransitionStyle = .crossDissolve
-            vc.modalPresentationStyle = .fullScreen
-            self.present(vc, animated: true)
+        guard let targetIndex = allTermsLists.firstIndex(where: { $0.title == targetTerm.title }) else { return }
+        
+        /// 이미 체크된 항목의 경우 별도의 로직 없이 체크만 해제함
+        if targetTerm.checked {
+            allTermsLists[targetIndex].checked.toggle()
+            allTermsLists[targetIndex].read.toggle()
+            cell.setCheck(check: allTermsLists[targetIndex].checked)
+            bottomButtonUpdate()
+            return
         }
         
-//        cell.setCheck(check: targetTerm.checked)
-//
-//        if targetTerm.isTerm == false {
-//            for i in 0...allTermsLists.count - 1 {
-//                allTermsLists[i].checked = targetTerm.checked ? true : false
-//            }
-//            tableView.reloadData()
-//        }
+        allTermsLists[indexPath.row].checked.toggle()
+        
+        if targetTerm.link != "" && targetTerm.isTerm {
+            pushTermVC(targetTerm, index: targetIndex)
+        } else if targetTerm.isTerm {
+            cell.setCheck(check: allTermsLists[targetIndex].checked)
+        }
+        
+        /// 모두 동의 버튼 눌렀을 경우
+        if targetTerm.isTerm == false {
+            isAllCheck = true
+            allTermsLists.enumerated().forEach {
+                if $1.require != true {
+                    allTermsLists[$0].read = true
+                    allTermsLists[$0].checked = true
+                }
+            }
+            tableView.reloadData()
+            pushTermVC(allTermsLists[0], index: 0)
+        }
         bottomButtonUpdate()
     }
     
@@ -183,6 +214,14 @@ extension TermsViewController: UITableViewDelegate, UITableViewDataSource, Terms
             bottomButton.setTitleColor(UIColor.init(hex: 0xAFB4C3), for: .normal)
             bottomButton.isActive = false
         }
+    }
+    
+    func pushTermVC(_ term: TermsModel, index: Int) {
+        let vc = TermsWebViewViewController()
+        vc.termIndex = index
+        vc.term = term
+        vc.delegate = self
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
 }

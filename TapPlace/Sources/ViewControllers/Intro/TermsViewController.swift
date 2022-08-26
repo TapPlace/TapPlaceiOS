@@ -168,11 +168,13 @@ extension TermsViewController: UITableViewDelegate, UITableViewDataSource, Terms
         let targetTerm = allTermsLists[indexPath.row]
         guard let targetIndex = allTermsLists.firstIndex(where: { $0.title == targetTerm.title }) else { return }
         
+        
         /// 이미 체크된 항목의 경우 별도의 로직 없이 체크만 해제함
         if targetTerm.checked {
             allTermsLists[targetIndex].checked.toggle()
             allTermsLists[targetIndex].read.toggle()
             cell.setCheck(check: allTermsLists[targetIndex].checked)
+            allCheckTermsCell()
             bottomButtonUpdate()
             return
         }
@@ -197,6 +199,7 @@ extension TermsViewController: UITableViewDelegate, UITableViewDataSource, Terms
             tableView.reloadData()
             pushTermVC(allTermsLists[0], index: 0)
         }
+        allCheckTermsCell()
         bottomButtonUpdate()
     }
     
@@ -213,6 +216,18 @@ extension TermsViewController: UITableViewDelegate, UITableViewDataSource, Terms
             bottomButton.backgroundColor = .deactiveGray
             bottomButton.setTitleColor(UIColor.init(hex: 0xAFB4C3), for: .normal)
             bottomButton.isActive = false
+        }
+    }
+    
+    func allCheckTermsCell() {
+        /// 체크 항목에 따라 모두동의 버튼 변경
+        let allCheckTermsIndexPath = IndexPath(row: allTermsLists.count - 1, section: 0)
+        guard let allCheckTermsCell = tableView.cellForRow(at: allCheckTermsIndexPath) as? TermsTableViewCell else { return }
+        print(allTermsLists.filter({$0.isTerm == true}).count == allTermsLists.filter({$0.isTerm == true && $0.checked}).count)
+        if allTermsLists.filter({$0.isTerm == true}).count == allTermsLists.filter({$0.isTerm == true && $0.checked}).count {
+            allCheckTermsCell.setCheck(check: true)
+        } else {
+            allCheckTermsCell.setCheck(check: false)
         }
     }
     

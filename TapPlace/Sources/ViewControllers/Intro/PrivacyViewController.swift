@@ -12,6 +12,7 @@ class PrivacyViewController: UIViewController {
     
     let navigationBar = NavigationBar()
     let bottomButton = BottomButton()
+    let birthInputField = UITextField() // 생년월일 입력 필드
     let maleButton = UIButton() // 남성 버튼
     let femaleButton = UIButton() // 여성 버튼
     
@@ -20,6 +21,8 @@ class PrivacyViewController: UIViewController {
         setLayout()
         navigationBar.delegate = self
         bottomButton.delegate = self
+        birthInputField.delegate = self
+        birthInputField.keyboardType = .numberPad
     }
 }
 
@@ -66,12 +69,8 @@ extension PrivacyViewController {
             return birthLabel
         }()
         
-        let birthInputField: UITextField = {
-            let birthInputField = UITextField()
-            birthInputField.placeholder = "8자리 입력"
-            birthInputField.font = .systemFont(ofSize: CommonUtils.resizeFontSize(size: 15))
-            return birthInputField
-        }()
+        birthInputField.placeholder = "8자리 입력"
+        birthInputField.font = .systemFont(ofSize: CommonUtils.resizeFontSize(size: 15))
         
         // 선
         let lineView: UIView = {
@@ -79,6 +78,7 @@ extension PrivacyViewController {
             lineView.backgroundColor = .init(hex: 0xDBDEE8)
             return lineView
         }()
+        
         
         let genderLabel: UILabel = {
             let genderLabel = UILabel()
@@ -217,7 +217,16 @@ extension PrivacyViewController: BackButtonProtocol {
 
 // MARK: - 생년월일 텍스트 필드에 대한 프로토콜 구현
 extension PrivacyViewController: UITextFieldDelegate {
-    
+    // 생년월일 입력필드 8자리 제한
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        guard let textFieldText = textField.text,
+            let rangeOfTextToReplace = Range(range, in: textFieldText) else {
+                return false
+        }
+        let substringToReplace = textFieldText[rangeOfTextToReplace]
+        let count = textFieldText.count - substringToReplace.count + string.count
+        return count <= 8
+    }
 }
 
 

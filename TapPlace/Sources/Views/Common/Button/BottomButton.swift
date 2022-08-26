@@ -12,15 +12,36 @@ protocol BottomButtonProtocol {
 }
 
 class BottomButton: UIButton {
-    var isActive: Bool = false
-    var delegate: BottomButtonProtocol?
-    var isFill: Bool = true {
-        willSet {
-            if newValue == false {
-                self.contentEdgeInsets.top = 0
-            }
+    
+    enum ButtonStyle {
+        case activate
+        case disabled
+    }
+    
+    func setButtonStyle(title: String, type: ButtonStyle, fill: Bool) {
+        self.setTitle(title, for: .normal)
+        if type == .activate {
+            self.backgroundColor = .pointBlue
+            self.setTitleColor(.white, for: .normal)
+            self.isActive = true
+        } else {
+            self.backgroundColor = .deactiveGray
+            self.setTitleColor(UIColor.init(hex: 0xAFB4C3), for: .normal)
+            self.isActive = false
+        }
+        
+        if fill {
+            self.contentEdgeInsets.top = -18
+        } else {
+            self.contentEdgeInsets.top = 0
         }
     }
+    
+    
+    var isActive: Bool = false
+    var delegate: BottomButtonProtocol?
+    
+    
     override func draw(_ rect: CGRect) {
         super.draw(rect)
         drawButton()

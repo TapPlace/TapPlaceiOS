@@ -138,9 +138,7 @@ extension OnBoardingViewController: UIScrollViewDelegate, BottomButtonProtocol{
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-50)
         }
         
-        skipButton.backgroundColor = .deactiveGray
-        skipButton.setTitle("건너뛰기", for: .normal)
-        skipButton.setTitleColor(UIColor.init(hex: 0xAFB4C3), for: .normal)
+        skipButton.setButtonStyle(title: "건너뛰기", type: .disabled, fill: true)
     }
     
     /**
@@ -169,9 +167,7 @@ extension OnBoardingViewController: UIScrollViewDelegate, BottomButtonProtocol{
     // 마지막 페이지인지 체킹하는 함수
     func checkLastPage(_ currentPage: Int) {
         if pageControl.currentPage == 2 {
-            skipButton.backgroundColor = UIColor.pointBlue
-            skipButton.setTitle("가맹점 찾으러 가기", for: .normal)
-            skipButton.setTitleColor(UIColor.white, for: .normal)
+            skipButton.setButtonStyle(title: "가맹점 찾으러 가기", type: .activate, fill: true)
         }
     }
     

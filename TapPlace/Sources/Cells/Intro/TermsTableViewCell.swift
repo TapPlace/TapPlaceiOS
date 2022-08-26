@@ -13,11 +13,6 @@ class TermsTableViewCell: UITableViewCell {
     func setInitCell(isTerm: Bool, require: Bool?, title: String, link: String) {
         //MARK: 약관에 대한 선택 항목인가?
         if !isTerm {
-            let separatorLine: UIView = {
-                let separatorLine = UIView()
-                separatorLine.backgroundColor = UIColor.init(hex: 0xdbdee8, alpha: 0.4)
-                return separatorLine
-            }()
             containerView.addSubview(separatorLine)
             separatorLine.snp.makeConstraints {
                 $0.top.leading.trailing.equalTo(containerView)
@@ -90,7 +85,11 @@ class TermsTableViewCell: UITableViewCell {
         linkButton.tintColor = UIColor.init(hex: 0xCCCCCC)
         return linkButton
     }()
-
+    let separatorLine: UIView = {
+        let separatorLine = UIView()
+        separatorLine.backgroundColor = UIColor.init(hex: 0xdbdee8, alpha: 0.4)
+        return separatorLine
+    }()
     
     
     
@@ -148,11 +147,12 @@ class TermsTableViewCell: UITableViewCell {
         
         //MARK: Delegate
         
-        
-        
-        
-        
-        
-        
+
+    }
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        separatorLine.backgroundColor = .clear
+        requireLabel.text = ""
+        titleLabel.text = "Title Label"
     }
 }

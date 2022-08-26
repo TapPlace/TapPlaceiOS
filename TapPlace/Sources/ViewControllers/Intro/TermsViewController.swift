@@ -34,7 +34,7 @@ class TermsViewController: UIViewController {
 
 extension TermsViewController: BackButtonProtocol, BottomButtonProtocol {
     func didTapBottomButton() {
-
+        if bottomButton.isActive == false { return }
         let vc = PrivacyViewController()
         self.navigationController?.pushViewController(vc, animated: true)
     }
@@ -63,11 +63,6 @@ extension TermsViewController: BackButtonProtocol, BottomButtonProtocol {
         let termsWrapView: UIView = {
             let termsWrapView = UIView()
             return termsWrapView
-        }()
-        let separatorLine: UIView = {
-            let separatorLine = UIView()
-            separatorLine.backgroundColor = UIColor.init(hex: 0xDBDEE8, alpha: 0.4)
-            return separatorLine
         }()
         
         
@@ -147,7 +142,7 @@ extension TermsViewController: UITableViewDelegate, UITableViewDataSource, Terms
         cell.contentView.isUserInteractionEnabled = false
         let term = allTermsLists[indexPath.row]
         cell.setInitCell(isTerm: term.isTerm, require: term.require, title: term.title, link: term.link)
-        cell.setCheck()
+        cell.setCheck(check: term.checked)
         return cell
     }
     
@@ -155,24 +150,39 @@ extension TermsViewController: UITableViewDelegate, UITableViewDataSource, Terms
         guard let cell = tableView.cellForRow(at: indexPath) as? TermsTableViewCell else { return }
         allTermsLists[indexPath.row].checked.toggle()
         let targetTerm = allTermsLists[indexPath.row]
-        cell.setCheck(check: targetTerm.checked)
+        if targetTerm.link != "" {
+            let vc = TermsWebViewViewController()
+            vc.term = targetTerm
+            vc.modalTransitionStyle = .crossDissolve
+            vc.modalPresentationStyle = .fullScreen
+            self.present(vc, animated: true)
+        }
+        
+//        cell.setCheck(check: targetTerm.checked)
+//
+//        if targetTerm.isTerm == false {
+//            for i in 0...allTermsLists.count - 1 {
+//                allTermsLists[i].checked = targetTerm.checked ? true : false
+//            }
+//            tableView.reloadData()
+//        }
         bottomButtonUpdate()
     }
     
     func bottomButtonUpdate() {
-//        let selectedCount = requireChecked
-//
-//        print("selectedCount:", selectedCount)
-//
-//        if selectedCount >= 2 {
-//            bottomButton.backgroundColor = .pointBlue
-//            bottomButton.setTitleColor(.white, for: .normal)
-//            bottomButton.isActive = true
-//        } else {
-//            bottomButton.backgroundColor = .deactiveGray
-//            bottomButton.setTitleColor(UIColor.init(hex: 0xAFB4C3), for: .normal)
-//            bottomButton.isActive = false
-//        }
+        let requireTerms = allTermsLists.filter({ $0.require == true })
+        let checkedRequire = allTermsLists.filter { $0.checked == true && $0.require == true && $0.read == true }
+        let isRequireChecked = requireTerms.count == checkedRequire.count
+
+        if isRequireChecked {
+            bottomButton.backgroundColor = .pointBlue
+            bottomButton.setTitleColor(.white, for: .normal)
+            bottomButton.isActive = true
+        } else {
+            bottomButton.backgroundColor = .deactiveGray
+            bottomButton.setTitleColor(UIColor.init(hex: 0xAFB4C3), for: .normal)
+            bottomButton.isActive = false
+        }
     }
     
 }

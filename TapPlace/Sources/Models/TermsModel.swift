@@ -13,6 +13,7 @@ struct TermsModel {
     let require: Bool?
     let link: String
     var checked: Bool
+    var read: Bool = false
 }
 
 extension TermsModel {

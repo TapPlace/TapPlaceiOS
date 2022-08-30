@@ -62,10 +62,8 @@ extension CommonPickViewController {
             $0.height.equalTo(180)
         }
         bottomButton.snp.makeConstraints {
-            $0.left.right.equalToSuperview()
-            $0.bottom.equalTo(view.safeAreaLayoutGuide)
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-60)
-            $0.height.equalTo(56)
+            $0.left.right.bottom.equalToSuperview()
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-50)
         }
         collectionView.snp.makeConstraints {
             $0.top.equalTo(titleView.snp.bottom)
@@ -73,9 +71,6 @@ extension CommonPickViewController {
             $0.leading.trailing.equalTo(view.safeAreaLayoutGuide)
         }
         
-        
-        bottomButton.backgroundColor = .deactiveGray
-        bottomButton.setTitle("선택완료", for: .normal)
-        bottomButton.setTitleColor(UIColor.init(hex: 0xAFB4C3), for: .normal)
+        bottomButton.setButtonStyle(title: "선택완료", type: .disabled, fill: true)
     }
 }

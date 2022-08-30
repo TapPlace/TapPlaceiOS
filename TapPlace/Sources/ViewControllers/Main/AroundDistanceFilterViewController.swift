@@ -17,7 +17,7 @@ class AroundDistanceFilterViewController: UIViewController {
     static var delegate: AroundDistanceFilterProtocol?
     
     var distanceRow = 0
-    var selectedDistance = 1000
+    var selectedDistance: Double = 1.0
     
     let collectionView: UICollectionView = {
         let collectionViewLayout = AlignedCollectionViewFlowLayout()
@@ -191,7 +191,7 @@ extension AroundDistanceFilterViewController: UICollectionViewDelegate, UICollec
         guard let selectedCell = collectionView.cellForItem(at: indexPath) as? PickPaymentsCollectionViewCell else { return }
         selectedCell.cellSelected = true
         selectedCell.cellVariable = String(DistancelModel.lists[indexPath.row].distance)
-        if let returnDistance = Int(selectedCell.cellVariable) {
+        if let returnDistance = Double(selectedCell.cellVariable) {
             selectedDistance = returnDistance
         } else {
             selectedDistance = 1000

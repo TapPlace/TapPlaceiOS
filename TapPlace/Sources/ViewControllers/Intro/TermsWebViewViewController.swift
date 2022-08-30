@@ -123,7 +123,7 @@ extension TermsWebViewViewController: BackButtonProtocol, UIScrollViewDelegate, 
      * coder : sanghyeon
      */
     func loadTermsWeb(term: TermsModel) {
-        let tURL = URL(string: Constants.tapplaceBaseUrl + "/tapplace/add_place.php")
+        let tURL = URL(string: Constants.tapplaceBaseUrl + "/tapplace" + term.link)
         var request = URLRequest(url: tURL!)
         webView.load(request)
     }

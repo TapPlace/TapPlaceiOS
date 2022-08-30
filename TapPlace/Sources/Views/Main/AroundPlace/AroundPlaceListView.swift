@@ -53,7 +53,7 @@ class AroundPlaceListView: UIView {
         let tableView = UITableView()
         tableView.estimatedRowHeight = 80
         tableView.separatorStyle = .none
-        tableView.contentInset = UIEdgeInsets(top: 10, left: 0, bottom: 10, right: 0)
+        tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         return tableView
     }()
     
@@ -194,6 +194,7 @@ extension AroundPlaceListView {
      */
     @objc func didTapAddressButton() {
         delegate?.presentViewController(AroundDistanceFilterViewController())
+        mainDelegate?.expendFloatingPanel()
     }
     /**
      * @ 필터버튼 클릭
@@ -212,10 +213,11 @@ extension AroundPlaceListView: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: AroundStoreTableViewCell.cellId, for: indexPath) as! AroundStoreTableViewCell
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: AroundStoreTableViewCell.cellId, for: indexPath) as? AroundStoreTableViewCell else { return UITableViewCell() }
         var bookmark = indexPath.row == 2 ? true : false
         cell.setAttributedString(store: "[\(indexPath.row)] 세븐일레븐 염창점",distance: "50m", address: "서울특별시 강서구 양천로 677", isBookmark: bookmark)
         cell.payLists = ["applelogo", "cart.fill", "trash.fill"]
+        cell.contentView.isUserInteractionEnabled = false
         cell.selectionStyle = .none
         return cell
         

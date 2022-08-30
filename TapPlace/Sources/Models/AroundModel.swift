@@ -17,25 +17,30 @@ struct StoreFilterModel {
 //MARK: - 반경 모델
 struct DistancelModel {
     let title: String
-    let distance: Int
+    let distance: Double
 }
 
 extension DistancelModel {
-    static var selectedDistance = 1000
+    static var selectedDistance = 1.0
     static let lists = [
-        DistancelModel(title: "500m", distance: 500),
-        DistancelModel(title: "1km", distance: 1000),
-        DistancelModel(title: "2km", distance: 2000),
-        DistancelModel(title: "4km", distance: 4000),
-        DistancelModel(title: "6km", distance: 6000)
+        DistancelModel(title: "500m", distance: 0.5),
+        DistancelModel(title: "1km", distance: 1.0),
+        DistancelModel(title: "2km", distance: 2.0),
+        DistancelModel(title: "4km", distance: 4.0),
+        DistancelModel(title: "6km", distance: 6.0)
     ]
     
-    static func getDistance(distance: Int) -> String {
-        if distance >= 1000 {
-            let resultDistance = distance / 1000
-            return "\(resultDistance)km"
+    static func getDistance(distance: Double) -> String {
+        if distance >= 1.0 {
+
+            let processedDistance = String(format: "%.1f", distance)
+            return "\(processedDistance)km"
         } else {
-            return "\(distance)m"
+
+            let resultDistance = distance * 1000
+            let processedDistance = round(resultDistance)
+            let processedDistanceArr = String(processedDistance).split(separator: ".")
+            return "\(processedDistanceArr[0])m"
         }
     }
 }

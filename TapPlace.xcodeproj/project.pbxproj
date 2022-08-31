@@ -846,12 +846,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-<<<<<<< HEAD
 				DEVELOPMENT_TEAM = BFTA9SX898;
-				EXCLUDED_ARCHS = "";
-=======
-				DEVELOPMENT_TEAM = 5NACCZGM3F;
->>>>>>> d5adac6c8e72f6cdfeeb3d3e9e05685f573d44a4
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TapPlace/Info.plist;
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "사용자 주변의 간편결제 가맹점을 불러올 수 있도록, 현재 위치를 가져옵니다.";
@@ -887,12 +882,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-<<<<<<< HEAD
 				DEVELOPMENT_TEAM = BFTA9SX898;
-				EXCLUDED_ARCHS = "";
-=======
-				DEVELOPMENT_TEAM = 5NACCZGM3F;
->>>>>>> d5adac6c8e72f6cdfeeb3d3e9e05685f573d44a4
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TapPlace/Info.plist;
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "사용자 주변의 간편결제 가맹점을 불러올 수 있도록, 현재 위치를 가져옵니다.";

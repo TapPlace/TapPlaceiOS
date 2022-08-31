@@ -37,11 +37,7 @@ class SplashViewController: UIViewController {
         if isFirstLaunch() {
             /// 초기실행일 경우 온보딩 뷰 이동
             print("초기실행!")
-<<<<<<< HEAD
-            moveViewController(StoreDetailViewController(), present: false)
-=======
             nextVC = OnBoardingViewController()
->>>>>>> d5adac6c8e72f6cdfeeb3d3e9e05685f573d44a4
         } else {
             if isAgreeTerms() {
                 print("약관 동의 되었음")

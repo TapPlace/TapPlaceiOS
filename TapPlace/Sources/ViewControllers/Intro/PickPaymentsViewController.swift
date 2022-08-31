@@ -10,22 +10,9 @@ import SnapKit
 import AlignedCollectionViewFlowLayout
 
 class PickPaymentsViewController: CommonPickViewController {
-    var favoritePayments = 0
-    let samplePayments = [
-        "etc": ["카카오페이", "네이버페이", "제로페이", "페이코"],
-        "applepay": ["VISA", "MASTER CARD", "JCB"],
-        "googlepay": ["VISA", "MASTER CARD", "MAESTRO"],
-        "contactless": ["VISA", "MASTER CARD", "Union Pay", "AMERICAN EXPRESS (AMEX)", "JCB"]
-    ]
-    var selectedPayments = [
-        "etc": [],
-        "applepay": [],
-        "googlepay": [],
-        "contactless": []
-    ]
-    let samplePaymentsTitle = ["etc", "applepay", "googlepay", "contactless"]
-
-
+    var selectedPayments: [String] = []
+    
+    var userSettingViewModel = UserSettingViewModel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,10 +28,12 @@ extension PickPaymentsViewController: TitleViewProtocol, BottomButtonProtocol {
     func didTapBottomButton() {
         if bottomButton.isActive {
             print("액션 실행 가능")
+            userSettingViewModel.setPayments(selectedPayments)
             let vc = TabBarViewController()
             self.navigationController?.pushViewController(vc, animated: true)
         } else {
             print("액션 실행 불가능")
+            showToast(message: "최소 1개의 결제수단을 선택하세요.", view: self.view)
         }
     }
     
@@ -56,15 +45,7 @@ extension PickPaymentsViewController: TitleViewProtocol, BottomButtonProtocol {
     
     func didTapTitleViewClearButton() {
         print("초기화 버튼 눌림")
-        for i in 0...samplePaymentsTitle.count - 1 {
-            selectedPayments[samplePaymentsTitle[i]]?.removeAll()
-            for j in 0...samplePayments[samplePaymentsTitle[i]]!.count - 1 {
-                var indexPath = IndexPath(row: j, section: i)
-                let cell = collectionView.cellForItem(at: indexPath) as! PickPaymentsCollectionViewCell
-                cell.cellSelected = false
-            }
-        }
-        favoritePayments = 0
+
         bottomButtonUpdate()
     }
     
@@ -73,6 +54,7 @@ extension PickPaymentsViewController: TitleViewProtocol, BottomButtonProtocol {
      * coder : sanghyeon
      */
     private func setupView() {
+        self.navigationController?.navigationBar.isHidden = true
         //MARK: 델리게이트
         titleView.delegate = self
         bottomButton.delegate = self
@@ -92,54 +74,63 @@ extension PickPaymentsViewController: TitleViewProtocol, BottomButtonProtocol {
 //MARK: - CollectionView
 extension PickPaymentsViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return samplePayments[samplePaymentsTitle[section]]!.count
+        let paymentList = PaymentModel.list.filter({$0.payments == EasyPaymentModel.list[section].designation})
+        return paymentList.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "paymentsItem", for: indexPath) as! PickPaymentsCollectionViewCell
-        cell.itemText.text = samplePayments[samplePaymentsTitle[indexPath.section]]![indexPath.row]
-        cell.cellVariable = samplePayments[samplePaymentsTitle[indexPath.section]]![indexPath.row]
+        let paymentList = PaymentModel.list.filter({$0.payments == EasyPaymentModel.list[indexPath.section].designation})
+        if paymentList[indexPath.row].payments == "" {
+            cell.itemText.text = paymentList[indexPath.row].designation
+            cell.cellVariable = paymentList[indexPath.row].brand
+        } else {
+            cell.itemText.text = paymentList[indexPath.row].brand.uppercased()
+            cell.cellVariable = paymentList[indexPath.row].payments + "_" + paymentList[indexPath.row].brand
+        }
         return cell
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return samplePayments.count
+        return EasyPaymentModel.list.count
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print("셀 선택 됨")
-        if favoritePayments >= 5 {
-            print("5개가 이미 선택 됨.")
-            return
-        }
         guard let cell = collectionView.cellForItem(at: indexPath) as? PickPaymentsCollectionViewCell else { return }
+        let sectionTitle = EasyPaymentModel.list[indexPath.section].designation
+
+        if !cell.cellSelected {
+            if selectedPayments.count >= 5 {
+                showToast(message: "결제수단은 5개를 초과할 수 없습니다.", view: self.view)
+                return
+            }
+            selectedPayments.append(cell.cellVariable)
+        } else {
+            guard let targetPayments = selectedPayments.firstIndex(where: {$0 == cell.cellVariable}) else { return }
+            print(targetPayments)
+            selectedPayments.remove(at: targetPayments)
+        }
         
         UIView.animate(withDuration: 0.5, delay: 0, animations: {
-            
-            print("cell.cellSelected:", cell.cellSelected)
-            if cell.cellSelected {
-                print("셀 꺼짐")
-                cell.cellSelected = false
-                self.favoritePayments -= 1
-            } else {
-                cell.cellSelected = true
-                self.favoritePayments += 1
-            }
+            cell.cellSelected.toggle()
         })
-        print(cell.cellVariable)
+        
+        print(selectedPayments)
         bottomButtonUpdate()
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         switch kind {
         case UICollectionView.elementKindSectionHeader:
-            if samplePaymentsTitle[indexPath.section] == "etc" {
+            if EasyPaymentModel.list[indexPath.section].designation == "" {
                 print("감춰야함")
                 return UICollectionReusableView()
             }
             let headerReusableView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "paymentsHeader", for: indexPath) as! PickPaymentsCollectionReusableView
             
             let sectionTitle = EasyPaymentModel.list[indexPath.section].krDesignation
+            
             headerReusableView.prepare(title: sectionTitle)
             return headerReusableView
         default:
@@ -154,7 +145,15 @@ extension PickPaymentsViewController: UICollectionViewDelegate, UICollectionView
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let labelSize = CommonUtils.getTextSizeWidth(text: samplePayments[samplePaymentsTitle[indexPath.section]]![indexPath.row])
+        let sectionTitle = EasyPaymentModel.list[indexPath.section].designation
+        var cellText = ""
+        switch sectionTitle {
+        case "":
+            cellText = PaymentModel.list.filter({$0.payments == sectionTitle})[indexPath.row].designation
+        default:
+            cellText = PaymentModel.list.filter({$0.payments == sectionTitle})[indexPath.row].brand.uppercased()
+        }
+        let labelSize = CommonUtils.getTextSizeWidth(text: cellText)
         return CGSize(width: labelSize.width + 40, height: 36)
     }
     
@@ -173,17 +172,11 @@ extension PickPaymentsViewController: UICollectionViewDelegate, UICollectionView
      * coder : sanghyeon
      */
     func bottomButtonUpdate() {
-        var selectedCount = favoritePayments
-        
-        print("selectedCount:", selectedCount)
-        
-        if selectedCount > 0 {
-            bottomButton.backgroundColor = .pointBlue
-            bottomButton.setTitleColor(.white, for: .normal)
+        if selectedPayments.count > 0 {
+            bottomButton.setButtonStyle(title: "선택완료", type: .activate, fill: true)
             bottomButton.isActive = true
         } else {
-            bottomButton.backgroundColor = .deactiveGray
-            bottomButton.setTitleColor(UIColor.init(hex: 0xAFB4C3), for: .normal)
+            bottomButton.setButtonStyle(title: "선택완료", type: .disabled, fill: true)
             bottomButton.isActive = false
         }
     }

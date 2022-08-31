@@ -44,6 +44,27 @@ struct CommonUtils {
         return LabelSize(width: label.frame.width, height: label.frame.height)
     }
     
+    /**
+     * @날짜를 지정한 형식으로 반환
+     * @creater : sanghyeon
+     * @param date : 기준 날짜
+     * @param type : 가져올 형식(1 : 년, 2 : 년/월, 3 : 년/월/일
+     * @Return : String
+     */
+    public static func getDate(_ date: Date, type: Int) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.timeZone = TimeZone(identifier: "KST")
+        switch type {
+        case 1:
+            dateFormatter.dateFormat = "yyyy"
+        case 2:
+            dateFormatter.dateFormat = "yyyy-MM"
+        default:
+            dateFormatter.dateFormat = "yyyy-MM-dd"
+        }
+        
+        return dateFormatter.string(from: date)
+    }
 
 }
 

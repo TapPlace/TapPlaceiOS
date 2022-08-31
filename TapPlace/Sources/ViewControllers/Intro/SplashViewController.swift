@@ -13,34 +13,65 @@ class SplashViewController: UIViewController {
      * 스플래시뷰 로직 계획
      * 1. User Defaults로 초기 실행 확인
      * 1-1. 초기 실행시 온보딩 뷰 로드
-     * 1-2. 초기실행 아닐경우 관심 결제수단 설정 여부 확인
-     * 2-1. 관심 결제수단 미 설정시 관심 결제수단 설정 뷰 로드
-     * 2-2. 관심 결제수단 설정시 관심 메인 뷰 로드
+     * 1-2. 초기실행 아닐경우 약관 동의 여부 확인
+     * 2-1. 약관 동의가 안되었을 경우, 약관동의 뷰 이동
+     * 2-2. 약관 동의가 되었을 경우, 결제수단 등록 확인
+     * 3-1. 생년월일 등록 안되었을 경우, 생년월일 등록 뷰 이동
+     * 3-2. 생년월일 등록 되었을 경우, 메인 뷰컨트롤러 이동
+     * 4-1. 결제수단 등록이 안되었을 경우, 결제수단 등록 뷰 이동
+     * 4-2. 결제수단 등록이 되었을 경우 성별 및 생년월일 등록 확인
      * * coder : sanghyeon
      */
-    
+    var userSettingViewModel = UserSettingViewModel()
     //MARK: - ViewController Lift Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        print(userSettingViewModel.dataBases?.location)
         setupView()
         setTestLayout()
-        print("사용자 디바이스 고유 값:", CommonUtils.getDeviceUUID())
+        userInfoSetting()
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        var nextVC: UIViewController?
         if isFirstLaunch() {
             /// 초기실행일 경우 온보딩 뷰 이동
             print("초기실행!")
+<<<<<<< HEAD
             moveViewController(StoreDetailViewController(), present: false)
+=======
+            nextVC = OnBoardingViewController()
+>>>>>>> d5adac6c8e72f6cdfeeb3d3e9e05685f573d44a4
         } else {
-            if isPickedPayments() {
-                /// 관심 결제수단 등록 되어있을 경우 메인 뷰컨트롤러 이동
-
-                moveViewController(TabBarViewController(), present: true)
+            if isAgreeTerms() {
+                print("약관 동의 되었음")
+                if isSettedUser() {
+                    print("성별, 생년월일 설정 되었음")
+                    if isPickedPayments() {
+                        print("관심결제수단 설정 되었음")
+                        nextVC = TabBarViewController()
+                    } else {
+                        print("관심결제수단 설정 안됨")
+                        nextVC = PickPaymentsViewController()
+                    }
+                } else {
+                    print("성별, 생년월일 설정 안됨")
+                    nextVC = PrivacyViewController()
+                }
             } else {
-                /// 관심 결제수단 등록 되어있지 않을 경우 관심 결제수단 설정 뷰로 이동
-                moveViewController(PickPaymentsViewController(), present: false)
+                print("약관 동의 안됨")
+                nextVC = TermsViewController()
             }
+        }
+        
+        guard let nextVC = nextVC else { return }
+        switch nextVC {
+        case TabBarViewController():
+            moveViewController(nextVC, present: true)
+            break;
+        default:
+            moveViewController(nextVC, present: false)
+            break;
         }
     }
     
@@ -113,12 +144,37 @@ extension SplashViewController {
      * coder : sanghyeon
      */
     private func isFirstLaunch() -> Bool {
-        if UserDefaults.contains("firstLaunch") {
-            let firstLaunch = UserDefaults.standard.bool(forKey: "firstLaunch")
-            print("firstLaunch:", firstLaunch)
-            return firstLaunch
+        guard let user = userSettingViewModel.getUserInfo(uuid: CommonUtils.getDeviceUUID()) else { return true }
+        if user.isFirstLaunch {
+            return true
+        } else {
+            return false
         }
-        return true
+        
+    }
+    /**
+     * @ 약관 동의가 되었는지 확인
+     * coder : sanghyeon
+     */
+    private func isAgreeTerms() -> Bool {
+        let user = userSettingViewModel.getUserInfo(uuid: Constants.userDeviceID)
+        if user?.agreeTerm == "" || user?.agreePrivacy == "" {
+            return false
+        } else {
+            return true
+        }
+    }
+    /**
+     * @ 성별, 생년월일(유저 정보) 설정 되었는지 확인
+     * coder : sanghyeon
+     */
+    private func isSettedUser() -> Bool {
+        let user = userSettingViewModel.getUserInfo(uuid: Constants.userDeviceID)
+        if user?.birth == "" || user?.sex == "" {
+            return false
+        } else {
+            return true
+        }
     }
     /**
      * @ 관심 결제수단 여부 확인
@@ -126,8 +182,7 @@ extension SplashViewController {
      * coder : sanghyeon
      */
     private func isPickedPayments() -> Bool {
-        let sampleFavoritePayments:[String] = ["D"]
-        if sampleFavoritePayments.count > 0 {
+        if userSettingViewModel.numberOfFavoritePayments > 0 {
             return true
         }
         return false
@@ -150,6 +205,19 @@ extension SplashViewController {
             } else {
                 self.navigationController?.pushViewController(vc, animated: true)
             }
+        }
+    }
+    
+    /**
+     * @ 유저 정보 세팅
+     * coder : sanghyeon
+     */
+    private func userInfoSetting() {
+        let isUserInfo = userSettingViewModel.existUser(uuid: Constants.userDeviceID)
+        if !isUserInfo {
+            print("유저정보 없음")
+            let userModel = UserModel(uuid: CommonUtils.getDeviceUUID(), isFirstLaunch: true, agreeTerm: "", agreePrivacy: "", agreeMarketing: "", birth: "", sex: "")
+            userSettingViewModel.writeUser(userModel)
         }
     }
 }

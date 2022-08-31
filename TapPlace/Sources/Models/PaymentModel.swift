@@ -15,10 +15,10 @@ struct EasyPaymentModel {
 
 extension EasyPaymentModel {
     static var list: [EasyPaymentModel] = [
-        EasyPaymentModel(designation: "etc", krDesignation: "기타 간편결제"),
-        EasyPaymentModel(designation: "applepay", krDesignation: "애플페이"),
-        EasyPaymentModel(designation: "googlepay", krDesignation: "구글페이"),
-        EasyPaymentModel(designation: "contactless", krDesignation: "컨택리스 카드")
+        EasyPaymentModel(designation: "", krDesignation: "기타 간편결제"),
+        EasyPaymentModel(designation: "apple", krDesignation: "애플페이"),
+        EasyPaymentModel(designation: "google", krDesignation: "구글페이"),
+        EasyPaymentModel(designation: "conless", krDesignation: "컨택리스 카드")
     ]
 }
 
@@ -26,27 +26,52 @@ struct PaymentModel {
     let payments: String
     let brand: String
     let designation: String
+    var checked: Bool = false
 }
 
 extension PaymentModel {
     static var list: [PaymentModel] = [
-        PaymentModel(payments: "etc", brand: "kakaopay", designation: "카카오페이"),
-        PaymentModel(payments: "etc", brand: "naverpay", designation: "네이버페이"),
-        PaymentModel(payments: "etc", brand: "zeropay", designation: "제로페이"),
-        PaymentModel(payments: "etc", brand: "payco", designation: "페이코"),
-        PaymentModel(payments: "applepay", brand: "visa", designation: "애플페이 비자"),
-        PaymentModel(payments: "applepay", brand: "mastercard", designation: "애플페이 마스터카드"),
-        PaymentModel(payments: "applepay", brand: "jcb", designation: "애플페이 JCB"),
-        PaymentModel(payments: "googlepay", brand: "visa", designation: "구글페이 비자"),
-        PaymentModel(payments: "googlepay", brand: "mastercard", designation: "구글페이 마스터카드"),
-        PaymentModel(payments: "googlepay", brand: "maestro", designation: "구글페이 마에스트로"),
-        PaymentModel(payments: "contactless", brand: "visa", designation: "컨택리스 비자"),
-        PaymentModel(payments: "contactless", brand: "mastercard", designation: "컨택리스 마스터카드"),
-        PaymentModel(payments: "contactless", brand: "unionpay", designation: "컨택리스 유니온페이"),
-        PaymentModel(payments: "contactless", brand: "amex", designation: "컨택리스 아메리칸익스프레스"),
-        PaymentModel(payments: "contactless", brand: "jcb", designation: "컨택리스 JCB")
+        PaymentModel(payments: "", brand: "kakaopay", designation: "카카오페이"),
+        PaymentModel(payments: "", brand: "naverpay", designation: "네이버페이"),
+        PaymentModel(payments: "", brand: "zeropay", designation: "제로페이"),
+        PaymentModel(payments: "", brand: "payco", designation: "페이코"),
+        PaymentModel(payments: "apple", brand: "visa", designation: "애플페이 비자"),
+        PaymentModel(payments: "apple", brand: "master", designation: "애플페이 마스터카드"),
+        PaymentModel(payments: "apple", brand: "jcb", designation: "애플페이 JCB"),
+        PaymentModel(payments: "google", brand: "visa", designation: "구글페이 비자"),
+        PaymentModel(payments: "google", brand: "master", designation: "구글페이 마스터카드"),
+        PaymentModel(payments: "google", brand: "maestro", designation: "구글페이 마에스트로"),
+        PaymentModel(payments: "conless", brand: "visa", designation: "컨택리스 비자"),
+        PaymentModel(payments: "conless", brand: "master", designation: "컨택리스 마스터카드"),
+        PaymentModel(payments: "conless", brand: "union", designation: "컨택리스 유니온페이"),
+        PaymentModel(payments: "conless", brand: "amex", designation: "컨택리스 아메리칸익스프레스"),
+        PaymentModel(payments: "conless", brand: "jcb", designation: "컨택리스 JCB")
     ]
     static var favoriteList: [PaymentModel]?
+    
+    static func thisPayment(payment: String) -> PaymentModel? {
+        /// 기타 간편결제 구분
+        if payment.contains("_") == false {
+            guard let index = self.list.firstIndex(where: { $0.brand == payment }) else { return nil }
+            let resultPayment = self.list[index]
+            return resultPayment
+        }
+        // 기타 제외 간편결제 구분
+        let paymentArr = payment.split(separator: "_")
+        guard let index = self.list.firstIndex(where: { $0.payments == paymentArr[0] && $0.brand == paymentArr[1] }) else { return nil }
+        let resultPayment = self.list[index]
+        return resultPayment
+    }
+    
+    static func encodingPayment(payment: PaymentModel) -> String {
+        /// 기타 간편결제
+        if payment.payments == "" {
+            return payment.brand
+        }
+        /// 기타 제외 간편결제
+        let mixPayment = payment.payments + "_" + payment.brand
+        return mixPayment
+    }
 }
 
 

@@ -73,9 +73,13 @@
 		F449AEB628ADD205008E0417 /* SearchingActionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F449AEB528ADD205008E0417 /* SearchingActionTableViewCell.swift */; };
 		F4551D3A28A8B651003B93F4 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4551D3928A8B651003B93F4 /* SearchViewController.swift */; };
 		F4551D3C28A9F9C6003B93F4 /* SearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4551D3B28A9F9C6003B93F4 /* SearchTableViewCell.swift */; };
+		F478DA4428BCA12B003C686A /* StoreInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F478DA4328BCA12B003C686A /* StoreInfoTableViewCell.swift */; };
+		F478DA4628BCA210003C686A /* StorePaymentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F478DA4528BCA210003C686A /* StorePaymentTableViewCell.swift */; };
+		F478DA4828BCA94E003C686A /* StoreDetailModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F478DA4728BCA94E003C686A /* StoreDetailModel.swift */; };
 		F49D36E028B6227D000D025D /* SearchModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49D36DF28B6227D000D025D /* SearchModel.swift */; };
 		F49D36E228B62952000D025D /* PrivacyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49D36E128B62952000D025D /* PrivacyViewController.swift */; };
 		F4C6C8BD28B0A89B00FAF10A /* EditButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C6C8BC28B0A89B00FAF10A /* EditButton.swift */; };
+		F4F12EE528B896410060B239 /* StoreDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F12EE428B896410060B239 /* StoreDetailViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -151,9 +155,13 @@
 		F449AEB528ADD205008E0417 /* SearchingActionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchingActionTableViewCell.swift; sourceTree = "<group>"; };
 		F4551D3928A8B651003B93F4 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		F4551D3B28A9F9C6003B93F4 /* SearchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTableViewCell.swift; sourceTree = "<group>"; };
+		F478DA4328BCA12B003C686A /* StoreInfoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreInfoTableViewCell.swift; sourceTree = "<group>"; };
+		F478DA4528BCA210003C686A /* StorePaymentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorePaymentTableViewCell.swift; sourceTree = "<group>"; };
+		F478DA4728BCA94E003C686A /* StoreDetailModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreDetailModel.swift; sourceTree = "<group>"; };
 		F49D36DF28B6227D000D025D /* SearchModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchModel.swift; sourceTree = "<group>"; };
 		F49D36E128B62952000D025D /* PrivacyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyViewController.swift; sourceTree = "<group>"; };
 		F4C6C8BC28B0A89B00FAF10A /* EditButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditButton.swift; sourceTree = "<group>"; };
+		F4F12EE428B896410060B239 /* StoreDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreDetailViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -247,6 +255,8 @@
 				F4551D3B28A9F9C6003B93F4 /* SearchTableViewCell.swift */,
 				F41A51E928B08D3C00FE546B /* SearchEditTableViewCell.swift */,
 				DFECC8CD28ACD9CF00DC64FD /* AroundStoreTableViewCell.swift */,
+				F478DA4328BCA12B003C686A /* StoreInfoTableViewCell.swift */,
+				F478DA4528BCA210003C686A /* StorePaymentTableViewCell.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -401,6 +411,7 @@
 				DF1CD4AB28AF1D30000D23E4 /* Common */,
 				DF1CD4A928AF1CE5000D23E4 /* Intro */,
 				DF1CD4AA28AF1D00000D23E4 /* Main */,
+				F4F12EE328B8961A0060B239 /* Detail */,
 				DF1CD4AC28AF1D56000D23E4 /* More */,
 			);
 			path = ViewControllers;
@@ -415,6 +426,7 @@
 				DFCB0B2328B3A61300BF9BE7 /* AroundModel.swift */,
 				F49D36DF28B6227D000D025D /* SearchModel.swift */,
 				DF9BE0A728B71711009E075D /* TermsModel.swift */,
+				F478DA4728BCA94E003C686A /* StoreDetailModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -479,6 +491,14 @@
 				DFDA43F828A14C61003763AC /* CommonUtils.swift */,
 			);
 			path = Utils;
+			sourceTree = "<group>";
+		};
+		F4F12EE328B8961A0060B239 /* Detail */ = {
+			isa = PBXGroup;
+			children = (
+				F4F12EE428B896410060B239 /* StoreDetailViewController.swift */,
+			);
+			path = Detail;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -623,6 +643,7 @@
 				DFDBB83728B0BB69008D2E09 /* AroundPlaceListView.swift in Sources */,
 				DFC23FB5289AB6F000EC1090 /* EmptyNetwork.swift in Sources */,
 				DF2340D328A270C700A9DAE1 /* PaymentModel.swift in Sources */,
+				F4F12EE528B896410060B239 /* StoreDetailViewController.swift in Sources */,
 				DFE5F6B028A9385C000511E9 /* MapButton.swift in Sources */,
 				DF6B69EF28B8518E009D4076 /* TermsWebViewViewController.swift in Sources */,
 				DF8266A8289F1D0D00272830 /* PlaceDataService.swift in Sources */,
@@ -633,6 +654,7 @@
 				DFF7BEDE28A68CDD00289F39 /* TabBarViewController.swift in Sources */,
 				DFE5F6AC28A8D36A000511E9 /* Constants.swift in Sources */,
 				F49D36E028B6227D000D025D /* SearchModel.swift in Sources */,
+				F478DA4628BCA210003C686A /* StorePaymentTableViewCell.swift in Sources */,
 				DFDA43F928A14C61003763AC /* CommonUtils.swift in Sources */,
 				DFF7BEDA28A67DFE00289F39 /* CALayer+Extension.swift in Sources */,
 				DF38177028A46EF100B900B5 /* CommonPickViewController.swift in Sources */,
@@ -651,6 +673,8 @@
 				F449AEB328ACEABE008E0417 /* SearchContentButton.swift in Sources */,
 				DFECC8CC28AC9F1200DC64FD /* AroundFilterButton.swift in Sources */,
 				DF38177828A4E28200B900B5 /* PaymentViewModel.swift in Sources */,
+				F478DA4428BCA12B003C686A /* StoreInfoTableViewCell.swift in Sources */,
+				F478DA4828BCA94E003C686A /* StoreDetailModel.swift in Sources */,
 				DFECC8D028ACFFE000DC64FD /* BrandIconImageView.swift in Sources */,
 				DF4A14A228ABBAEF0068D1AD /* VerticalAlignLabel.swift in Sources */,
 				DF9BE0A828B71711009E075D /* TermsModel.swift in Sources */,
@@ -714,6 +738,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				EXCLUDED_ARCHS = "";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -774,6 +799,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				EXCLUDED_ARCHS = "";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -801,6 +827,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = BFTA9SX898;
+				EXCLUDED_ARCHS = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TapPlace/Info.plist;
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "사용자 주변의 간편결제 가맹점을 불러올 수 있도록, 현재 위치를 가져옵니다.";
@@ -837,6 +864,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = BFTA9SX898;
+				EXCLUDED_ARCHS = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TapPlace/Info.plist;
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "사용자 주변의 간편결제 가맹점을 불러올 수 있도록, 현재 위치를 가져옵니다.";

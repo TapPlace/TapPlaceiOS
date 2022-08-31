@@ -47,7 +47,7 @@ class SearchTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         addContentView()
-        autoLayout()
+        setLayout()
     }
     
     // content view에 추가
@@ -57,7 +57,7 @@ class SearchTableViewCell: UITableViewCell {
         contentView.addSubview(deleteButton)
     }
     
-    private func autoLayout() {
+    private func setLayout() {
         
         img.snp.makeConstraints {
             $0.width.equalTo(20)
@@ -82,7 +82,6 @@ class SearchTableViewCell: UITableViewCell {
     
     @objc func deleteCell(_ sender: UIButton) {
         delegate?.deleteCell(index: (index?.row)!)
-        print("\(index) 버튼 눌림")
     }
     
     required init?(coder: NSCoder) {

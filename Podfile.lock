@@ -4,11 +4,11 @@ PODS:
   - FloatingPanel (2.5.3)
   - IQKeyboardManagerSwift (6.5.10)
   - NMapsMap (3.15.0)
-  - Realm (10.28.5):
-    - Realm/Headers (= 10.28.5)
-  - Realm/Headers (10.28.5)
-  - RealmSwift (10.28.5):
-    - Realm (= 10.28.5)
+  - Realm (10.28.6):
+    - Realm/Headers (= 10.28.6)
+  - Realm/Headers (10.28.6)
+  - RealmSwift (10.28.6):
+    - Realm (= 10.28.6)
   - SnapKit (5.6.0)
 
 DEPENDENCIES:
@@ -37,8 +37,8 @@ SPEC CHECKSUMS:
   FloatingPanel: 3cee815e9ded75b632543fa73ab655a1ef941452
   IQKeyboardManagerSwift: 52962c76ab33532f15ad9f3ff4e5715eda5335bb
   NMapsMap: f151761c088d6516064c59da03ab6503769486e6
-  Realm: eb7f6a7a8395906822e6fab71eb8496d6d52b318
-  RealmSwift: 6b54904d4a236de143f3411a757641fd74e9cb3d
+  Realm: 9b12f16a14446d7d46a9e36225d0a0332a6ec739
+  RealmSwift: 5927726fce21005f43b1fb57c832297a22031bfc
   SnapKit: e01d52ebb8ddbc333eefe2132acf85c8227d9c25
 
 PODFILE CHECKSUM: bfb429dbd7be4240a4ef5bbbbfe80eb37a508ed6

@@ -438,11 +438,8 @@
 				DFCB0B2328B3A61300BF9BE7 /* AroundModel.swift */,
 				F49D36DF28B6227D000D025D /* SearchModel.swift */,
 				DF9BE0A728B71711009E075D /* TermsModel.swift */,
-<<<<<<< HEAD
 				F478DA4728BCA94E003C686A /* StoreDetailModel.swift */,
-=======
 				DFF5300028BC515D00FFC302 /* UserModel.swift */,
->>>>>>> d5adac6c8e72f6cdfeeb3d3e9e05685f573d44a4
 			);
 			path = Models;
 			sourceTree = "<group>";

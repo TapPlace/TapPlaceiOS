@@ -21,7 +21,7 @@ struct SearchModel {
 }
 
 extension RecentSearchModel {
-    static var list: [RecentSearchModel] = [
+    static let list: [RecentSearchModel] = [
         RecentSearchModel(image: UIImage(systemName: "fork.knife.circle.fill"), storeName: "세븐 일레븐 등촌 3호점"),
         RecentSearchModel(image: UIImage(systemName: "fork.knife.circle.fill"), storeName: "BBQ 등촌행복점"),
         RecentSearchModel(image: UIImage(systemName: "fork.knife.circle.fill"), storeName: "세븐 일레븐 등촌 3호점"),

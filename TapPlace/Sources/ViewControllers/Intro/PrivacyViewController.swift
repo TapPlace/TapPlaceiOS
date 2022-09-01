@@ -149,7 +149,7 @@ extension PrivacyViewController {
         birthInputField.snp.makeConstraints {
             $0.top.equalTo(birthLabel.snp.bottom).offset(16)
             $0.leading.equalTo(safeArea).offset(20)
-            $0.width.equalTo(67)
+            $0.width.equalTo(300)
             $0.height.equalTo(21)
         }
         
@@ -220,11 +220,12 @@ extension PrivacyViewController: UITextFieldDelegate {
     // 생년월일 입력필드 8자리 제한
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         guard let textFieldText = textField.text,
-            let rangeOfTextToReplace = Range(range, in: textFieldText) else {
-                return false
-        }
+              let rangeOfTextToReplace = Range(range, in: textFieldText) else {
+                  return false
+              }
         let substringToReplace = textFieldText[rangeOfTextToReplace]
         let count = textFieldText.count - substringToReplace.count + string.count
+        
         return count <= 8
     }
 }

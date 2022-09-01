@@ -23,6 +23,8 @@
 		DF51DCC228A7779400D0AE1E /* MoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF51DCC128A7779400D0AE1E /* MoreViewController.swift */; };
 		DF5FFCF428B4FC1F00BEFFA3 /* AroundFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF5FFCF328B4FC1F00BEFFA3 /* AroundFilterViewController.swift */; };
 		DF6B69EF28B8518E009D4076 /* TermsWebViewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF6B69EE28B8518E009D4076 /* TermsWebViewViewController.swift */; };
+		DF6B69F128B8BCA4009D4076 /* ToastMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF6B69F028B8BCA4009D4076 /* ToastMessage.swift */; };
+		DF6B69F728B90BA2009D4076 /* FilterResetButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF6B69F628B90BA2009D4076 /* FilterResetButtonView.swift */; };
 		DF826698289CA0EC00272830 /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF826697289CA0EC00272830 /* SplashViewController.swift */; };
 		DF82669A289CA10800272830 /* OnBoardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF826699289CA10800272830 /* OnBoardingViewController.swift */; };
 		DF82669C289CA11700272830 /* PickPaymentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF82669B289CA11700272830 /* PickPaymentsViewController.swift */; };
@@ -60,6 +62,9 @@
 		DFECC8CE28ACD9CF00DC64FD /* AroundStoreTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFECC8CD28ACD9CF00DC64FD /* AroundStoreTableViewCell.swift */; };
 		DFECC8D028ACFFE000DC64FD /* BrandIconImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFECC8CF28ACFFE000DC64FD /* BrandIconImageView.swift */; };
 		DFECC8D228AD129300DC64FD /* UIStackView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFECC8D128AD129300DC64FD /* UIStackView+Extension.swift */; };
+		DFF5300128BC515D00FFC302 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFF5300028BC515D00FFC302 /* UserModel.swift */; };
+		DFF5300328BC55D000FFC302 /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFF5300228BC55D000FFC302 /* Storage.swift */; };
+		DFF5300528BC578A00FFC302 /* UserSettingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFF5300428BC578A00FFC302 /* UserSettingViewModel.swift */; };
 		DFF7BEDA28A67DFE00289F39 /* CALayer+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFF7BED928A67DFE00289F39 /* CALayer+Extension.swift */; };
 		DFF7BEDC28A685F500289F39 /* StoreTabCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFF7BEDB28A685F500289F39 /* StoreTabCollectionViewCell.swift */; };
 		DFF7BEDE28A68CDD00289F39 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFF7BEDD28A68CDD00289F39 /* TabBarViewController.swift */; };
@@ -73,9 +78,13 @@
 		F449AEB628ADD205008E0417 /* SearchingActionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F449AEB528ADD205008E0417 /* SearchingActionTableViewCell.swift */; };
 		F4551D3A28A8B651003B93F4 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4551D3928A8B651003B93F4 /* SearchViewController.swift */; };
 		F4551D3C28A9F9C6003B93F4 /* SearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4551D3B28A9F9C6003B93F4 /* SearchTableViewCell.swift */; };
+		F478DA4428BCA12B003C686A /* StoreInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F478DA4328BCA12B003C686A /* StoreInfoTableViewCell.swift */; };
+		F478DA4628BCA210003C686A /* StorePaymentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F478DA4528BCA210003C686A /* StorePaymentTableViewCell.swift */; };
+		F478DA4828BCA94E003C686A /* StoreDetailModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F478DA4728BCA94E003C686A /* StoreDetailModel.swift */; };
 		F49D36E028B6227D000D025D /* SearchModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49D36DF28B6227D000D025D /* SearchModel.swift */; };
 		F49D36E228B62952000D025D /* PrivacyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49D36E128B62952000D025D /* PrivacyViewController.swift */; };
 		F4C6C8BD28B0A89B00FAF10A /* EditButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C6C8BC28B0A89B00FAF10A /* EditButton.swift */; };
+		F4F12EE528B896410060B239 /* StoreDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F12EE428B896410060B239 /* StoreDetailViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -99,6 +108,8 @@
 		DF51DCC128A7779400D0AE1E /* MoreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreViewController.swift; sourceTree = "<group>"; };
 		DF5FFCF328B4FC1F00BEFFA3 /* AroundFilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AroundFilterViewController.swift; sourceTree = "<group>"; };
 		DF6B69EE28B8518E009D4076 /* TermsWebViewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsWebViewViewController.swift; sourceTree = "<group>"; };
+		DF6B69F028B8BCA4009D4076 /* ToastMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastMessage.swift; sourceTree = "<group>"; };
+		DF6B69F628B90BA2009D4076 /* FilterResetButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterResetButtonView.swift; sourceTree = "<group>"; };
 		DF826697289CA0EC00272830 /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
 		DF826699289CA10800272830 /* OnBoardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardingViewController.swift; sourceTree = "<group>"; };
 		DF82669B289CA11700272830 /* PickPaymentsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickPaymentsViewController.swift; sourceTree = "<group>"; };
@@ -138,6 +149,9 @@
 		DFECC8CD28ACD9CF00DC64FD /* AroundStoreTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AroundStoreTableViewCell.swift; sourceTree = "<group>"; };
 		DFECC8CF28ACFFE000DC64FD /* BrandIconImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandIconImageView.swift; sourceTree = "<group>"; };
 		DFECC8D128AD129300DC64FD /* UIStackView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView+Extension.swift"; sourceTree = "<group>"; };
+		DFF5300028BC515D00FFC302 /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
+		DFF5300228BC55D000FFC302 /* Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
+		DFF5300428BC578A00FFC302 /* UserSettingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettingViewModel.swift; sourceTree = "<group>"; };
 		DFF7BED928A67DFE00289F39 /* CALayer+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CALayer+Extension.swift"; sourceTree = "<group>"; };
 		DFF7BEDB28A685F500289F39 /* StoreTabCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreTabCollectionViewCell.swift; sourceTree = "<group>"; };
 		DFF7BEDD28A68CDD00289F39 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
@@ -151,9 +165,13 @@
 		F449AEB528ADD205008E0417 /* SearchingActionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchingActionTableViewCell.swift; sourceTree = "<group>"; };
 		F4551D3928A8B651003B93F4 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		F4551D3B28A9F9C6003B93F4 /* SearchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTableViewCell.swift; sourceTree = "<group>"; };
+		F478DA4328BCA12B003C686A /* StoreInfoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreInfoTableViewCell.swift; sourceTree = "<group>"; };
+		F478DA4528BCA210003C686A /* StorePaymentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorePaymentTableViewCell.swift; sourceTree = "<group>"; };
+		F478DA4728BCA94E003C686A /* StoreDetailModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreDetailModel.swift; sourceTree = "<group>"; };
 		F49D36DF28B6227D000D025D /* SearchModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchModel.swift; sourceTree = "<group>"; };
 		F49D36E128B62952000D025D /* PrivacyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyViewController.swift; sourceTree = "<group>"; };
 		F4C6C8BC28B0A89B00FAF10A /* EditButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditButton.swift; sourceTree = "<group>"; };
+		F4F12EE428B896410060B239 /* StoreDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreDetailViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -247,6 +265,8 @@
 				F4551D3B28A9F9C6003B93F4 /* SearchTableViewCell.swift */,
 				F41A51E928B08D3C00FE546B /* SearchEditTableViewCell.swift */,
 				DFECC8CD28ACD9CF00DC64FD /* AroundStoreTableViewCell.swift */,
+				F478DA4328BCA12B003C686A /* StoreInfoTableViewCell.swift */,
+				F478DA4528BCA210003C686A /* StorePaymentTableViewCell.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -279,6 +299,7 @@
 				DF1CD4B228AF7205000D23E4 /* Button */,
 				DF4A14A128ABBAEF0068D1AD /* VerticalAlignLabel.swift */,
 				F41A51EB28B0919D00FE546B /* NavigationBar.swift */,
+				DF6B69F028B8BCA4009D4076 /* ToastMessage.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -306,6 +327,7 @@
 				DFECC8CB28AC9F1200DC64FD /* AroundFilterButton.swift */,
 				DF1CD4B728AF7BEC000D23E4 /* AroundPlaceFilterView.swift */,
 				DFDBB83628B0BB69008D2E09 /* AroundPlaceListView.swift */,
+				DF6B69F628B90BA2009D4076 /* FilterResetButtonView.swift */,
 			);
 			path = AroundPlace;
 			sourceTree = "<group>";
@@ -401,6 +423,7 @@
 				DF1CD4AB28AF1D30000D23E4 /* Common */,
 				DF1CD4A928AF1CE5000D23E4 /* Intro */,
 				DF1CD4AA28AF1D00000D23E4 /* Main */,
+				F4F12EE328B8961A0060B239 /* Detail */,
 				DF1CD4AC28AF1D56000D23E4 /* More */,
 			);
 			path = ViewControllers;
@@ -415,6 +438,8 @@
 				DFCB0B2328B3A61300BF9BE7 /* AroundModel.swift */,
 				F49D36DF28B6227D000D025D /* SearchModel.swift */,
 				DF9BE0A728B71711009E075D /* TermsModel.swift */,
+				F478DA4728BCA94E003C686A /* StoreDetailModel.swift */,
+				DFF5300028BC515D00FFC302 /* UserModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -424,6 +449,7 @@
 			children = (
 				DFC23FB1289AB6E400EC1090 /* EmptyViewModel.swift */,
 				DF38177728A4E28200B900B5 /* PaymentViewModel.swift */,
+				DFF5300428BC578A00FFC302 /* UserSettingViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -477,8 +503,17 @@
 			isa = PBXGroup;
 			children = (
 				DFDA43F828A14C61003763AC /* CommonUtils.swift */,
+				DFF5300228BC55D000FFC302 /* Storage.swift */,
 			);
 			path = Utils;
+			sourceTree = "<group>";
+		};
+		F4F12EE328B8961A0060B239 /* Detail */ = {
+			isa = PBXGroup;
+			children = (
+				F4F12EE428B896410060B239 /* StoreDetailViewController.swift */,
+			);
+			path = Detail;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -601,12 +636,15 @@
 				F41A51E828B0865D00FE546B /* SearchEditViewController.swift in Sources */,
 				DFDA43F628A14AB3003763AC /* PickViewControllerTitleView.swift in Sources */,
 				DF82669C289CA11700272830 /* PickPaymentsViewController.swift in Sources */,
+				DF6B69F728B90BA2009D4076 /* FilterResetButtonView.swift in Sources */,
 				F49D36E228B62952000D025D /* PrivacyViewController.swift in Sources */,
 				DF82669E289CA12800272830 /* MainViewController.swift in Sources */,
+				DFF5300528BC578A00FFC302 /* UserSettingViewModel.swift in Sources */,
 				DFCB0B2228B3369200BF9BE7 /* AroundDistanceFilterViewController.swift in Sources */,
 				DFA2875728AB684200DD9F63 /* UIView+Extension.swift in Sources */,
 				DF9BE0A628B6EEEA009E075D /* UILabel+Extension.swift in Sources */,
 				DFECC8D228AD129300DC64FD /* UIStackView+Extension.swift in Sources */,
+				DFF5300128BC515D00FFC302 /* UserModel.swift in Sources */,
 				DFA2875B28ABA8D400DD9F63 /* DetailToolBarButton.swift in Sources */,
 				DFC23F96289AB66400EC1090 /* AppDelegate.swift in Sources */,
 				DF5FFCF428B4FC1F00BEFFA3 /* AroundFilterViewController.swift in Sources */,
@@ -623,6 +661,7 @@
 				DFDBB83728B0BB69008D2E09 /* AroundPlaceListView.swift in Sources */,
 				DFC23FB5289AB6F000EC1090 /* EmptyNetwork.swift in Sources */,
 				DF2340D328A270C700A9DAE1 /* PaymentModel.swift in Sources */,
+				F4F12EE528B896410060B239 /* StoreDetailViewController.swift in Sources */,
 				DFE5F6B028A9385C000511E9 /* MapButton.swift in Sources */,
 				DF6B69EF28B8518E009D4076 /* TermsWebViewViewController.swift in Sources */,
 				DF8266A8289F1D0D00272830 /* PlaceDataService.swift in Sources */,
@@ -633,6 +672,7 @@
 				DFF7BEDE28A68CDD00289F39 /* TabBarViewController.swift in Sources */,
 				DFE5F6AC28A8D36A000511E9 /* Constants.swift in Sources */,
 				F49D36E028B6227D000D025D /* SearchModel.swift in Sources */,
+				F478DA4628BCA210003C686A /* StorePaymentTableViewCell.swift in Sources */,
 				DFDA43F928A14C61003763AC /* CommonUtils.swift in Sources */,
 				DFF7BEDA28A67DFE00289F39 /* CALayer+Extension.swift in Sources */,
 				DF38177028A46EF100B900B5 /* CommonPickViewController.swift in Sources */,
@@ -651,14 +691,18 @@
 				F449AEB328ACEABE008E0417 /* SearchContentButton.swift in Sources */,
 				DFECC8CC28AC9F1200DC64FD /* AroundFilterButton.swift in Sources */,
 				DF38177828A4E28200B900B5 /* PaymentViewModel.swift in Sources */,
+				F478DA4428BCA12B003C686A /* StoreInfoTableViewCell.swift in Sources */,
+				F478DA4828BCA94E003C686A /* StoreDetailModel.swift in Sources */,
 				DFECC8D028ACFFE000DC64FD /* BrandIconImageView.swift in Sources */,
 				DF4A14A228ABBAEF0068D1AD /* VerticalAlignLabel.swift in Sources */,
+				DFF5300328BC55D000FFC302 /* Storage.swift in Sources */,
 				DF9BE0A828B71711009E075D /* TermsModel.swift in Sources */,
 				DF9EAF8528AA00F5001B3D74 /* ResearchButton.swift in Sources */,
 				DF4BD37C28A76F8100C4C5B4 /* UIImage+Extension.swift in Sources */,
 				DF4A14A428ABBEF50068D1AD /* CustomToolBar.swift in Sources */,
 				DF1CD4B828AF7BEC000D23E4 /* AroundPlaceFilterView.swift in Sources */,
 				DFDBB83528B094FE008D2E09 /* CommonViewController.swift in Sources */,
+				DF6B69F128B8BCA4009D4076 /* ToastMessage.swift in Sources */,
 				DF2340D128A239FC00A9DAE1 /* PickPaymentsCollectionReusableView.swift in Sources */,
 				DF1D34B728A3662900BDDA15 /* StoreModel.swift in Sources */,
 			);
@@ -714,6 +758,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				EXCLUDED_ARCHS = "";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -774,6 +819,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				EXCLUDED_ARCHS = "";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -853,7 +899,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = kr.co.tapplace.TapPlaceiOS1;
+				PRODUCT_BUNDLE_IDENTIFIER = kr.co.tapplace.TapPlaceiOS;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;

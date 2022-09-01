@@ -9,6 +9,8 @@ import UIKit
 
 class TermsViewController: UIViewController {
 
+    var userSettingViewModel = UserSettingViewModel()
+    
     let navigationBar = NavigationBar()
     let allTermsCheck = TermsItemView()
     
@@ -35,7 +37,19 @@ class TermsViewController: UIViewController {
 
 extension TermsViewController: BackButtonProtocol, BottomButtonProtocol {
     func didTapBottomButton() {
-        if bottomButton.isActive == false { return }
+        if bottomButton.isActive == false {
+            showToast(message: "약관을 모두 확인해주세요.", duration: 3.0, view: self.view)
+            /// 임시로 그냥 통과함
+            let vc = PrivacyViewController()
+            self.navigationController?.pushViewController(vc, animated: true)
+            return
+        }
+        if let user = userSettingViewModel.getUserInfo(uuid: Constants.userDeviceID) {
+            guard let marketingIndex = allTermsLists.firstIndex(where: { $0.title == "마케팅 정보 수신 동의" }) else { return }
+            let isCheckedMarketing = allTermsLists[marketingIndex].checked
+            let setUser = UserModel(uuid: user.uuid, isFirstLaunch: user.isFirstLaunch, agreeTerm: Constants.latestTerm, agreePrivacy: Constants.latestPrivacy, agreeMarketing: isCheckedMarketing ? CommonUtils.getDate(Date(), type: 3) : "", birth: "", sex: "")
+            userSettingViewModel.updateUser(setUser)
+        }
         let vc = PrivacyViewController()
         self.navigationController?.pushViewController(vc, animated: true)
     }
@@ -69,6 +83,7 @@ extension TermsViewController: BackButtonProtocol, BottomButtonProtocol {
         
         
         //MARK: ViewPropertyManual
+        self.navigationController?.navigationBar.isHidden = true
         view.backgroundColor = .white
         navigationBar.title = "약관동의"
         bottomButton.setButtonStyle(title: "동의 후 계속", type: .disabled, fill: true)

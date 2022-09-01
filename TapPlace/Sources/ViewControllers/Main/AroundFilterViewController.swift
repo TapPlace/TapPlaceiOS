@@ -20,25 +20,45 @@ import AlignedCollectionViewFlowLayout
 class AroundFilterViewController: UIViewController {
     
 
+    let scrollView = UIScrollView()
     
-    let collectionView: UICollectionView = {
+    let storeCollectionView: UICollectionView = {
         let collectionViewLayout = AlignedCollectionViewFlowLayout()
         collectionViewLayout.scrollDirection = .vertical
         collectionViewLayout.minimumInteritemSpacing = 10
         collectionViewLayout.minimumLineSpacing = 10
         collectionViewLayout.horizontalAlignment = .left
-        //collectionViewLayout.headerReferenceSize = .init(width: 100, height: 40)
-        let collectionView = UICollectionView(frame: CGRect(x: 0, y: 0, width: 0, height: 0), collectionViewLayout: collectionViewLayout)
-        collectionView.backgroundColor = .white
-        return collectionView
+        let storeCollectionView = UICollectionView(frame: CGRect(x: 0, y: 0, width: 0, height: 0), collectionViewLayout: collectionViewLayout)
+        storeCollectionView.backgroundColor = .white
+        return storeCollectionView
     }()
+    
+    let paymentCollectionView: UICollectionView = {
+        let collectionViewLayout = AlignedCollectionViewFlowLayout()
+        collectionViewLayout.scrollDirection = .vertical
+        collectionViewLayout.minimumInteritemSpacing = 10
+        collectionViewLayout.minimumLineSpacing = 10
+        collectionViewLayout.horizontalAlignment = .left
+        let paymentCollectionView = UICollectionView(frame: CGRect(x: 0, y: 0, width: 0, height: 0), collectionViewLayout: collectionViewLayout)
+        paymentCollectionView.backgroundColor = .white
+        return paymentCollectionView
+    }()
+    
     let bottomButton = BottomButton()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
         
-        print(DistancelModel.lists)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+            let storeCollectionViewheight = self.storeCollectionView.contentSize.height
+            UIView.animate(withDuration: 1, delay: 0, animations: {
+                self.storeCollectionView.snp.makeConstraints {
+                    $0.height.equalTo(storeCollectionViewheight)
+                }
+            })
+
+        })
         
     }
     
@@ -85,13 +105,20 @@ extension AroundFilterViewController {
             return closeButton
         }()
         
+        let contentView = UIView()
+        let storeResetView = FilterResetButtonView()
+        let paymentResetView = FilterResetButtonView()
         
         
         //MARK: ViewPropertyManual
         bottomButton.backgroundColor = .pointBlue
         bottomButton.setTitle("적용", for: .normal)
         bottomButton.setTitleColor(.white, for: .normal)
-        collectionView.contentInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
+        storeResetView.resetLabel.text = "매장선택"
+        paymentResetView.resetLabel.text = "결제수단"
+        storeCollectionView.contentInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
+        paymentCollectionView.contentInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
+        storeCollectionView.backgroundColor = .pointBlue
         
         
         //MARK: AddSubView
@@ -100,12 +127,17 @@ extension AroundFilterViewController {
         contentWrap.addSubview(titleView)
         titleView.addSubview(titleLabel)
         titleView.addSubview(closeButton)
-        contentWrap.addSubview(collectionView)
+        contentWrap.addSubview(scrollView)
+        scrollView.addSubview(contentView)
+        contentView.addSubview(storeResetView)
+        contentView.addSubview(storeCollectionView)
+        contentView.addSubview(paymentResetView)
+        containerView.addSubview(paymentCollectionView)
         containerView.addSubview(bottomButton)
         
         //MARK: ViewContraints
         containerView.snp.makeConstraints {
-            $0.top.bottom.leading.trailing.equalToSuperview()
+            $0.edges.equalToSuperview()
             //$0.top.equalTo(safeArea.snp.bottom).offset(-250)
         }
         contentWrap.snp.makeConstraints {
@@ -125,10 +157,33 @@ extension AroundFilterViewController {
             $0.centerY.equalTo(titleLabel)
             $0.trailing.equalTo(titleView).offset(-20)
         }
-        collectionView.snp.makeConstraints {
-            $0.leading.trailing.equalTo(contentWrap)
+        scrollView.snp.makeConstraints {
             $0.top.equalTo(titleView.snp.bottom)
-            $0.height.equalTo(100)
+            $0.leading.trailing.equalTo(safeArea)
+            $0.bottom.equalTo(bottomButton.snp.top)
+        }
+        contentView.snp.makeConstraints {
+            $0.edges.equalTo(scrollView)
+            $0.width.equalTo(view.frame.width)
+            $0.height.equalTo(view.frame.height + 100)
+        }
+        storeResetView.snp.makeConstraints {
+            $0.leading.trailing.equalTo(scrollView).inset(20)
+            $0.top.equalTo(scrollView)
+            $0.height.equalTo(50)
+        }
+        storeCollectionView.snp.makeConstraints {
+            $0.leading.trailing.equalTo(contentView)
+            $0.top.equalTo(storeResetView.snp.bottom)
+        }
+        paymentResetView.snp.makeConstraints {
+            $0.leading.trailing.equalTo(scrollView).inset(20)
+            $0.top.equalTo(storeCollectionView.snp.bottom).offset(10)
+            $0.height.equalTo(50)
+        }
+        paymentCollectionView.snp.makeConstraints {
+            $0.leading.trailing.equalTo(contentView)
+            $0.top.equalTo(paymentResetView)
         }
         bottomButton.snp.makeConstraints {
             $0.leading.trailing.bottom.equalToSuperview()
@@ -138,14 +193,19 @@ extension AroundFilterViewController {
         
         
         //MARK: ViewAddTarget & Register
-        collectionView.register(PickPaymentsCollectionViewCell.self, forCellWithReuseIdentifier: "distanceItem")
+        storeCollectionView.register(PickPaymentsCollectionViewCell.self, forCellWithReuseIdentifier: "distanceItem")
         closeButton.addTarget(self, action: #selector(didTapCloseButton), for: .touchUpInside)
         bottomButton.addTarget(self, action: #selector(didTapBottonButton), for: .touchUpInside)
         
         
         //MARK: Delegate
-        collectionView.delegate = self
-        collectionView.dataSource = self
+        storeCollectionView.delegate = self
+        storeCollectionView.dataSource = self
+        paymentCollectionView.dataSource = self
+        paymentCollectionView.delegate = self
+        
+        
+
     }
     
     @objc func didTapCloseButton() {
@@ -159,7 +219,12 @@ extension AroundFilterViewController {
 //MARK: - CollectionView
 extension AroundFilterViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return DistancelModel.lists.count
+        switch collectionView {
+        case storeCollectionView:
+            return DistancelModel.lists.count
+        default:
+            return 10
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -172,24 +237,20 @@ extension AroundFilterViewController: UICollectionViewDelegate, UICollectionView
         return cell
     }
     
+    
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        for i in 0...DistancelModel.lists.count - 1 {
-            guard let cell = collectionView.cellForItem(at: IndexPath(row: i, section: 0)) as? PickPaymentsCollectionViewCell else { return }
-            cell.cellSelected = false
-        }
-        guard let selectedCell = collectionView.cellForItem(at: indexPath) as? PickPaymentsCollectionViewCell else { return }
-        selectedCell.cellSelected = true
-        selectedCell.cellVariable = String(DistancelModel.lists[indexPath.row].distance)
-//        if let returnDistance = Int(selectedCell.cellVariable) {
-//            selectedDistance = returnDistance
-//        } else {
-//            selectedDistance = 1000
-//        }
+
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let labelSize = CommonUtils.getTextSizeWidth(text: DistancelModel.lists[indexPath.row].title)
-        return CGSize(width: labelSize.width + 40, height: 36)
+        switch collectionView {
+        case storeCollectionView:
+            let labelSize = CommonUtils.getTextSizeWidth(text: DistancelModel.lists[indexPath.row].title)
+            return CGSize(width: labelSize.width + 40, height: 36)
+        default:
+            return CGSize(width: 0, height: 0)
+        }
     }
     
 

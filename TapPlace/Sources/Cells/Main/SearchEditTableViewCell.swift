@@ -54,7 +54,7 @@ class SearchEditTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         addContentView()
-        autoLayout()
+        setLayout()
     }
     
     // content view에 추가
@@ -64,7 +64,7 @@ class SearchEditTableViewCell: UITableViewCell {
         contentView.addSubview(label)
     }
     
-    private func autoLayout() {
+    private func setLayout() {
         
         let safeArea = contentView.safeAreaLayoutGuide
         

@@ -14,7 +14,7 @@ class OnBoardingViewController: UIViewController {
      * 온보딩뷰 에서 관심 설정뷰로 이동시 User Defaults 초기실행 값 지정
      * coder : sanghyeon
      */
-    
+    var userSettingViewModel = UserSettingViewModel()
     
     let titleLabel = UILabel()
     let subTitleLabel = UILabel()
@@ -46,6 +46,8 @@ extension OnBoardingViewController: UIScrollViewDelegate, BottomButtonProtocol{
                 self.checkLastPage(self.pageControl.currentPage)
             })
         } else {
+            let setUser = UserModel(uuid: Constants.userDeviceID, isFirstLaunch: false, agreeTerm: "", agreePrivacy: "", agreeMarketing: "", birth: "", sex: "")
+            userSettingViewModel.updateUser(setUser)
             let vc = TermsViewController()
             vc.modalTransitionStyle = .crossDissolve
             vc.modalPresentationStyle = .fullScreen

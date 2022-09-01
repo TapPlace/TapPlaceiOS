@@ -16,6 +16,9 @@ class PrivacyViewController: UIViewController {
     let maleButton = UIButton() // 남성 버튼
     let femaleButton = UIButton() // 여성 버튼
     
+    var userSex = "남"
+    var userSettingViewModel = UserSettingViewModel()
+    
     override func viewDidLoad() {
         setupView()
         setLayout()
@@ -194,6 +197,8 @@ extension PrivacyViewController {
             femaleButton.layer.borderWidth = 1.0
             femaleButton.layer.borderColor = UIColor(red: 0.859, green: 0.871, blue: 0.91, alpha: 1).cgColor
             femaleButton.setTitleColor(UIColor(red: 0.62, green: 0.62, blue: 0.62, alpha: 1), for: .normal)
+            
+            userSex = "남"
         } else {
             femaleButton.backgroundColor = UIColor(red: 0.306, green: 0.467, blue: 0.984, alpha: 0.06)
             femaleButton.layer.borderColor = UIColor(red: 0.306, green: 0.467, blue: 0.984, alpha: 0.6).cgColor
@@ -204,6 +209,8 @@ extension PrivacyViewController {
             maleButton.layer.borderWidth = 1.0
             maleButton.layer.borderColor = UIColor(red: 0.859, green: 0.871, blue: 0.91, alpha: 1).cgColor
             maleButton.setTitleColor(UIColor(red: 0.62, green: 0.62, blue: 0.62, alpha: 1), for: .normal)
+            
+            userSex = "여"
         }
     }
 }
@@ -234,6 +241,31 @@ extension PrivacyViewController: UITextFieldDelegate {
 extension PrivacyViewController: BottomButtonProtocol {
     func didTapBottomButton() {
         print("눌림")
+        
+        /// 숫자만 입력 되어있는지 확인
+        guard let textFieldText = birthInputField.text else { return }
+        if let convertedNum = Int(textFieldText) {
+            if textFieldText.count == 8 {
+                let ptn = "^[1-2]{1}[0-9]{3}[0-1]{1}[0-9]{1}[0-3]{1}[0-9]{1}$"
+                let range = textFieldText.range(of: ptn, options: .regularExpression)
+                if range == nil {
+                    showToast(message: "8자리의 올바른 생년월일을 입력해주세요.", view: self.view)
+                    return
+                }
+            } else {
+                showToast(message: "8자리의 올바른 생년월일을 입력해주세요.", view: self.view)
+                return
+            }
+        } else {
+            showToast(message: "생년월일은 숫자로만 입력할 수 있습니다.", view: self.view)
+            return
+        }
+        
+        if let user = userSettingViewModel.getUserInfo(uuid: Constants.userDeviceID) {
+            let setUser = UserModel(uuid: user.uuid, isFirstLaunch: user.isFirstLaunch, agreeTerm: user.agreeTerm, agreePrivacy: user.agreePrivacy, agreeMarketing: user.agreeMarketing, birth: textFieldText, sex: userSex)
+            userSettingViewModel.updateUser(setUser)
+        }
+        
         let vc = TabBarViewController()
         vc.modalTransitionStyle = .crossDissolve
         vc.modalPresentationStyle = .fullScreen

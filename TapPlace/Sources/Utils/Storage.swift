@@ -24,6 +24,7 @@ protocol UserProtocol {
     mutating func writeUser(_ user: UserModel)
     mutating func updateUser(_ user: UserModel)
     mutating func setPayments(_ payments: [String])
+    mutating func getPayments() -> [PaymentModel]
 }
 
 extension UserProtocol {

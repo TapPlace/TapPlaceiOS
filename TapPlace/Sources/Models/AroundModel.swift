@@ -8,8 +8,9 @@
 import Foundation
 
 //MARK: - 매장 필터 모델
-struct StoreFilterModel {
-    static var list: [StoreModel]?
+struct AroundFilterModel {
+    static var storeList: [StoreModel] = []
+    static var paymentList: [PaymentModel] = []
 }
 
 
@@ -44,3 +45,5 @@ extension DistancelModel {
         }
     }
 }
+
+

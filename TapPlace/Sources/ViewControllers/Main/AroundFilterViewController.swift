@@ -6,21 +6,23 @@
 //
 
 import UIKit
-
-//
-//  AroundDistanceFilterViewController.swift
-//  TapPlace
-//
-//  Created by 박상현 on 2022/08/22.
-//
-
-import UIKit
 import AlignedCollectionViewFlowLayout
+
+protocol AroundPlaceApplyFilterProtocol {
+    func applyFilter()
+}
 
 class AroundFilterViewController: UIViewController {
     
+    var delegate: AroundPlaceApplyFilterProtocol?
+    var userSettingViewModel = UserSettingViewModel()
+    var isFirstLoaded: Bool = true
 
     let scrollView = UIScrollView()
+    let contentView = UIView()
+    
+    var tempStores: [StoreModel] = []
+    var tempPayments: [PaymentModel] = []
     
     let storeCollectionView: UICollectionView = {
         let collectionViewLayout = AlignedCollectionViewFlowLayout()
@@ -49,22 +51,50 @@ class AroundFilterViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
+    }
+    
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        print("isFirstLoaded", isFirstLoaded)
+        if !isFirstLoaded { return }
+        DispatchQueue.main.asyncAfter(deadline: .now(), execute: {
             let storeCollectionViewheight = self.storeCollectionView.contentSize.height
-            UIView.animate(withDuration: 1, delay: 0, animations: {
-                self.storeCollectionView.snp.makeConstraints {
-                    $0.height.equalTo(storeCollectionViewheight)
-                }
-            })
-
+            let paymentCollectionViewheight = self.paymentCollectionView.contentSize.height
+            
+            self.storeCollectionView.snp.makeConstraints {
+                $0.height.equalTo(storeCollectionViewheight)
+            }
+            self.paymentCollectionView.snp.makeConstraints {
+                $0.height.equalTo(paymentCollectionViewheight)
+            }
+            let unionCalculatedTotalRect = self.recursiveUnionInDepthFor(view: self.scrollView)
+            self.contentView.snp.makeConstraints {
+                $0.height.equalTo(unionCalculatedTotalRect.height + self.bottomButton.frame.height)
+            }
+            self.scrollView.contentSize = CGSize(width: self.view.frame.width, height: unionCalculatedTotalRect.height + self.bottomButton.frame.height)
         })
-        
+        isFirstLoaded = false
     }
     
     
 }
 extension AroundFilterViewController {
+    private func recursiveUnionInDepthFor(view: UIView) -> CGRect {
+        var totalRect: CGRect = .zero
+        
+        // 모든 자식 View의 컨트롤의 크기를 재귀적으로 호출하며 최종 영역의 크기를 설정
+        for subView in view.subviews {
+            totalRect = totalRect.union(recursiveUnionInDepthFor(view: subView))
+        }
+        
+        // 최종 계산 영역의 크기를 반환
+        return totalRect.union(view.frame)
+    }
 
     /**
      * @ 초기 레이아웃 설정
@@ -105,7 +135,6 @@ extension AroundFilterViewController {
             return closeButton
         }()
         
-        let contentView = UIView()
         let storeResetView = FilterResetButtonView()
         let paymentResetView = FilterResetButtonView()
         
@@ -118,7 +147,6 @@ extension AroundFilterViewController {
         paymentResetView.resetLabel.text = "결제수단"
         storeCollectionView.contentInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
         paymentCollectionView.contentInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
-        storeCollectionView.backgroundColor = .pointBlue
         
         
         //MARK: AddSubView
@@ -132,7 +160,7 @@ extension AroundFilterViewController {
         contentView.addSubview(storeResetView)
         contentView.addSubview(storeCollectionView)
         contentView.addSubview(paymentResetView)
-        containerView.addSubview(paymentCollectionView)
+        contentView.addSubview(paymentCollectionView)
         containerView.addSubview(bottomButton)
         
         //MARK: ViewContraints
@@ -163,9 +191,9 @@ extension AroundFilterViewController {
             $0.bottom.equalTo(bottomButton.snp.top)
         }
         contentView.snp.makeConstraints {
-            $0.edges.equalTo(scrollView)
+            $0.top.leading.trailing.equalTo(scrollView)
             $0.width.equalTo(view.frame.width)
-            $0.height.equalTo(view.frame.height + 100)
+            
         }
         storeResetView.snp.makeConstraints {
             $0.leading.trailing.equalTo(scrollView).inset(20)
@@ -183,7 +211,7 @@ extension AroundFilterViewController {
         }
         paymentCollectionView.snp.makeConstraints {
             $0.leading.trailing.equalTo(contentView)
-            $0.top.equalTo(paymentResetView)
+            $0.top.equalTo(paymentResetView.snp.bottom)
         }
         bottomButton.snp.makeConstraints {
             $0.leading.trailing.bottom.equalToSuperview()
@@ -194,6 +222,8 @@ extension AroundFilterViewController {
         
         //MARK: ViewAddTarget & Register
         storeCollectionView.register(PickPaymentsCollectionViewCell.self, forCellWithReuseIdentifier: "distanceItem")
+        paymentCollectionView.register(PickPaymentsCollectionViewCell.self, forCellWithReuseIdentifier: "paymentsItem")
+        paymentCollectionView.register(PickPaymentsCollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "paymentsHeader")
         closeButton.addTarget(self, action: #selector(didTapCloseButton), for: .touchUpInside)
         bottomButton.addTarget(self, action: #selector(didTapBottonButton), for: .touchUpInside)
         
@@ -212,44 +242,148 @@ extension AroundFilterViewController {
         self.dismiss(animated: true)
     }
     @objc func didTapBottonButton() {
-        /// 반경 저장 코드 작성하기
+        AroundFilterModel.storeList = tempStores
+        AroundFilterModel.paymentList = tempPayments
+        delegate?.applyFilter()
         self.dismiss(animated: true)
     }
 }
 //MARK: - CollectionView
 extension AroundFilterViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        switch collectionView {
+        case storeCollectionView:
+            return 1
+        case paymentCollectionView:
+            return EasyPaymentModel.list.count
+        default:
+            return 0
+        }
+    }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         switch collectionView {
         case storeCollectionView:
-            return DistancelModel.lists.count
+            return StoreModel.lists.count
+        case paymentCollectionView:
+            let paymentList = userSettingViewModel.getPayments().filter({$0.payments == EasyPaymentModel.list[section].designation})
+            print("paymentList.count:",paymentList.count)
+            return paymentList.count
         default:
-            return 10
+            return 0
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "distanceItem", for: indexPath) as? PickPaymentsCollectionViewCell else { return UICollectionViewCell() }
-        cell.itemText.text = DistancelModel.lists[indexPath.row].title
-        cell.cellVariable = String(DistancelModel.lists[indexPath.row].distance)
-//        if indexPath.row == distanceRow {
-//            cell.cellSelected = true
-//        }
-        return cell
+        switch collectionView {
+        case storeCollectionView:
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "distanceItem", for: indexPath) as? PickPaymentsCollectionViewCell else { return UICollectionViewCell() }
+            cell.itemText.text = StoreModel.lists[indexPath.row].title
+            cell.cellVariable = StoreModel.lists[indexPath.row].id
+            return cell
+        case paymentCollectionView:
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "paymentsItem", for: indexPath) as! PickPaymentsCollectionViewCell
+            //let paymentList = PaymentModel.list.filter({$0.payments == EasyPaymentModel.list[indexPath.section].designation})
+            let paymentList = userSettingViewModel.getPayments().filter({$0.payments == EasyPaymentModel.list[indexPath.section].designation})
+            if paymentList[indexPath.row].payments == "" {
+                cell.itemText.text = paymentList[indexPath.row].designation
+                cell.cellVariable = paymentList[indexPath.row].brand
+            } else {
+                cell.itemText.text = paymentList[indexPath.row].brand.uppercased()
+                cell.cellVariable = paymentList[indexPath.row].payments + "_" + paymentList[indexPath.row].brand
+            }
+            return cell
+        default:
+            return UICollectionViewCell()
+        }
     }
-    
     
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-
+        switch collectionView {
+        case storeCollectionView:
+            guard let cell = storeCollectionView.cellForItem(at: indexPath) as? PickPaymentsCollectionViewCell else { return }
+            cell.cellSelected.toggle()
+            if cell.cellSelected {
+                guard let targetStore = StoreModel.lists.firstIndex(where: { $0.id == cell.cellVariable }) else { return }
+                tempStores.append(StoreModel.lists[targetStore])
+            } else {
+                guard let targetStore = tempStores.firstIndex(where: {$0.id == cell.cellVariable}) else { return }
+                tempStores.remove(at: targetStore)
+            }
+            print(tempStores)
+            return
+        case paymentCollectionView:
+            guard let cell = paymentCollectionView.cellForItem(at: indexPath) as? PickPaymentsCollectionViewCell else { return }
+            cell.cellSelected.toggle()
+            if cell.cellSelected {
+                guard let targetPayment = PaymentModel.thisPayment(payment: cell.cellVariable) else { return }
+                tempPayments.append(targetPayment)
+            } else {
+                guard let targetPayment = PaymentModel.thisPayment(payment: cell.cellVariable) else { return }
+                guard let removePayment = tempPayments.firstIndex(where: {$0.brand == targetPayment.brand && $0.payments == targetPayment.payments}) else { return }
+                tempPayments.remove(at: removePayment)
+            }
+            print(tempPayments)
+            return
+        default:
+            return
+        }
     }
+
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        switch collectionView {
+        case storeCollectionView:
+            return UICollectionReusableView()
+        case paymentCollectionView:
+            switch kind {
+            case UICollectionView.elementKindSectionHeader:
+                if EasyPaymentModel.list[indexPath.section].designation == "" || userSettingViewModel.getPayments().filter({$0.payments == EasyPaymentModel.list[indexPath.section].designation}).count == 0 {
+                    print("감춰야함")
+                    return UICollectionReusableView()
+                }
+                let headerReusableView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "paymentsHeader", for: indexPath) as! PickPaymentsCollectionReusableView
+                
+                let sectionTitle = EasyPaymentModel.list[indexPath.section].krDesignation
+                headerReusableView.prepare(title: sectionTitle)
+                return headerReusableView
+            default:
+                return UICollectionReusableView()
+            }
+        default:
+            return UICollectionReusableView()
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        if collectionView != paymentCollectionView {
+            return .zero
+        }
+        let indexPath = IndexPath(row: 0, section: section)
+        let headerView = self.collectionView(collectionView, viewForSupplementaryElementOfKind: UICollectionView.elementKindSectionHeader, at: indexPath)
+        return headerView.systemLayoutSizeFitting(CGSize(width: paymentCollectionView.frame.width, height: 60), withHorizontalFittingPriority: .required, verticalFittingPriority: .fittingSizeLevel)
+    }
+    
+    
+    
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         switch collectionView {
         case storeCollectionView:
-            let labelSize = CommonUtils.getTextSizeWidth(text: DistancelModel.lists[indexPath.row].title)
+            let labelSize = CommonUtils.getTextSizeWidth(text: StoreModel.lists[indexPath.row].title)
+            return CGSize(width: labelSize.width + 40, height: 36)
+        case paymentCollectionView:
+            let sectionTitle = EasyPaymentModel.list[indexPath.section].designation
+            var cellText = ""
+            switch sectionTitle {
+            case "":
+                cellText = PaymentModel.list.filter({$0.payments == sectionTitle})[indexPath.row].designation
+            default:
+                cellText = PaymentModel.list.filter({$0.payments == sectionTitle})[indexPath.row].brand.uppercased()
+            }
+            let labelSize = CommonUtils.getTextSizeWidth(text: cellText)
             return CGSize(width: labelSize.width + 40, height: 36)
         default:
-            return CGSize(width: 0, height: 0)
+            return .zero
         }
     }
     

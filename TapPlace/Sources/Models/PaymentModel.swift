@@ -47,7 +47,7 @@ extension PaymentModel {
         PaymentModel(payments: "conless", brand: "amex", designation: "컨택리스 아메리칸익스프레스"),
         PaymentModel(payments: "conless", brand: "jcb", designation: "컨택리스 JCB")
     ]
-    static var favoriteList: [PaymentModel]?
+    static var favoriteList: [PaymentModel] = []
     
     static func thisPayment(payment: String) -> PaymentModel? {
         /// 기타 간편결제 구분

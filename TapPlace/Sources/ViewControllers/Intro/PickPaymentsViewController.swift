@@ -30,7 +30,9 @@ extension PickPaymentsViewController: TitleViewProtocol, BottomButtonProtocol {
             print("액션 실행 가능")
             userSettingViewModel.setPayments(selectedPayments)
             let vc = TabBarViewController()
-            self.navigationController?.pushViewController(vc, animated: true)
+            vc.modalTransitionStyle = .crossDissolve
+            vc.modalPresentationStyle = .fullScreen
+            self.present(vc, animated: true)
         } else {
             print("액션 실행 불가능")
             showToast(message: "최소 1개의 결제수단을 선택하세요.", view: self.view)

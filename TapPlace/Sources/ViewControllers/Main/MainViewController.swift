@@ -15,27 +15,17 @@ import FloatingPanel
 
 class MainViewController: CommonViewController {
     
+    var userSettingViewModel = UserSettingViewModel()
+    
     var fpc: FloatingPanelController!
     var isHiddenFloatingPanel = true
     
     let listButton = MapButton()
     let locationButton = MapButton()
 
-    var naverMapView: NMFMapView = NMFMapView() {
-        willSet {
-            naverMapView = newValue
-        }
-    }
-    var naverMapMarker: NMFMarker = NMFMarker() {
-        willSet {
-            naverMapMarker = newValue
-        }
-    }
-    var circleOverlay: NMFCircleOverlay = NMFCircleOverlay() {
-        willSet {
-            circleOverlay = newValue
-        }
-    }
+    var naverMapView: NMFMapView = NMFMapView()
+    var naverMapMarker: NMFMarker = NMFMarker()
+    var circleOverlay: NMFCircleOverlay = NMFCircleOverlay()
     
     let overlayCenterPick: UIView = {
         let overlayCenterPick = UIView()
@@ -86,6 +76,8 @@ class MainViewController: CommonViewController {
         setupView()
         setupNaverMap()
         setupFloatingPanel()
+        
+        print(PaymentModel.favoriteList)
     }
     
 }
@@ -322,6 +314,8 @@ extension MainViewController: MapButtonProtocol, ResearchButtonProtocol {
         collectionView.delegate = self
         collectionView.dataSource = self
         
+        //MARK: ViewModel
+        PaymentModel.favoriteList = userSettingViewModel.getPayments()
 
     } // Function: 레이아웃 설정
     

@@ -45,14 +45,17 @@ class SplashViewController: UIViewController {
                     print("성별, 생년월일 설정 되었음")
                     if isPickedPayments() {
                         print("관심결제수단 설정 되었음")
-                        nextVC = TabBarViewController()
+                        self.navigationController?.navigationBar.isHidden = true
+                        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
+                        moveViewController(TabBarViewController(), present: true)
                     } else {
                         print("관심결제수단 설정 안됨")
                         nextVC = PickPaymentsViewController()
                     }
                 } else {
                     print("성별, 생년월일 설정 안됨")
-                    nextVC = PrivacyViewController()
+//                    nextVC = PrivacyViewController()
+                    nextVC = StoreDetailViewController()
                 }
             } else {
                 print("약관 동의 안됨")
@@ -61,14 +64,8 @@ class SplashViewController: UIViewController {
         }
         
         guard let nextVC = nextVC else { return }
-        switch nextVC {
-        case TabBarViewController():
-            moveViewController(nextVC, present: true)
-            break;
-        default:
-            moveViewController(nextVC, present: false)
-            break;
-        }
+        moveViewController(nextVC, present: false)
+
     }
     
     

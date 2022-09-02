@@ -16,7 +16,12 @@ protocol AroundPlaceMainControllerProtocol {
     func expendFloatingPanel()
 }
 
-class AroundPlaceListView: UIView {
+class AroundPlaceListView: UIView, AroundPlaceApplyFilterProtocol {
+    func applyFilter() {
+        print(AroundFilterModel.storeList)
+        print(AroundFilterModel.paymentList)
+    }
+    
     var delegate: AroundPlaceControllerProtocol?
     var mainDelegate: AroundPlaceMainControllerProtocol?
     
@@ -201,7 +206,9 @@ extension AroundPlaceListView {
      * coder : sanghyeon
      */
     @objc func didTapFilterButton() {
-        delegate?.presentViewController(AroundFilterViewController())
+        let vc = AroundFilterViewController()
+        vc.delegate = self
+        delegate?.presentViewController(vc)
         mainDelegate?.expendFloatingPanel()
     }
 }

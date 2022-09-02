@@ -19,7 +19,7 @@ class StorePaymentTableViewCell: UITableViewCell {
     
     let paymentLbl: UILabel = {
         let paymentLbl = UILabel()
-        paymentLbl.font = UIFont(name: "AppleSDGothicNeoM00-Regular", size: 15)
+        paymentLbl.font = UIFont.systemFont(ofSize: 15)
         paymentLbl.sizeToFit()
         return paymentLbl
     }()
@@ -27,7 +27,7 @@ class StorePaymentTableViewCell: UITableViewCell {
     let whetherToPayLbl: UILabel = {
         let whetherToPayLbl = UILabel()
         whetherToPayLbl.textColor = UIColor(red: 0.439, green: 0.439, blue: 0.439, alpha: 1)
-        whetherToPayLbl.font = UIFont(name: "AppleSDGothicNeoSB00-Regular", size: 14)
+        whetherToPayLbl.font = UIFont.systemFont(ofSize: 14)
         whetherToPayLbl.sizeToFit()
         return whetherToPayLbl
     }()
@@ -35,7 +35,7 @@ class StorePaymentTableViewCell: UITableViewCell {
     let successDateLbl: UILabel = {
         let successDateLbl = UILabel()
         successDateLbl.textColor = UIColor(hex: 0x9E9E9E)
-        successDateLbl.font = UIFont(name: "AppleSDGothicNeoM00-Regular", size: 12)
+        successDateLbl.font = UIFont.systemFont(ofSize: 12)
         successDateLbl.sizeToFit()
         return successDateLbl
     }()
@@ -54,7 +54,7 @@ class StorePaymentTableViewCell: UITableViewCell {
     let successRateLbl: UILabel = {
         let successRateLbl = UILabel()
         successRateLbl.textColor = UIColor(hex: 0x9E9E9E)
-        successRateLbl.font = UIFont(name: "AppleSDGothicNeoM00-Regular", size: 12)
+        successRateLbl.font = UIFont.systemFont(ofSize: 12)
         successRateLbl.sizeToFit()
         return successRateLbl
     }()
@@ -62,7 +62,7 @@ class StorePaymentTableViewCell: UITableViewCell {
     let failRateLbl: UILabel = {
         let failRateLbl = UILabel()
         failRateLbl.textColor = UIColor(hex: 0x9E9E9E)
-        failRateLbl.font = UIFont(name: "AppleSDGothicNeoM00-Regular", size: 12)
+        failRateLbl.font = UIFont.systemFont(ofSize: 12)
         failRateLbl.sizeToFit()
         return failRateLbl
     }()
@@ -105,7 +105,7 @@ class StorePaymentTableViewCell: UITableViewCell {
         }
         
         successDateLbl.snp.makeConstraints {
-            $0.top.equalTo(paymentImg.snp.bottom).offset(16)
+            $0.top.equalTo(paymentImg.snp.bottom).offset(18)
             $0.leading.equalTo(whetherToPayLbl.snp.trailing).offset(6)
         }
         
@@ -138,7 +138,7 @@ class StorePaymentTableViewCell: UITableViewCell {
         }
         self.successDateLbl.text = successDate
         self.successRateProgressView.progress = Float(successRate!)
-        self.successRateLbl.text = "\(successRate!)"
-        self.failRateLbl.text = "\(100 - successRate!)"
+        self.successRateLbl.text = "성공 \(successRate!)%"
+        self.failRateLbl.text = "실패 \(100 - successRate!)%"
     }
 }

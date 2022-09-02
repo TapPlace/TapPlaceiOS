@@ -266,7 +266,7 @@ extension PrivacyViewController: BottomButtonProtocol {
             userSettingViewModel.updateUser(setUser)
         }
         
-        let vc = TabBarViewController()
+        let vc = PickPaymentsViewController()
         vc.modalTransitionStyle = .crossDissolve
         vc.modalPresentationStyle = .fullScreen
         self.present(vc, animated: true)

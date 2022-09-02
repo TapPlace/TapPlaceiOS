@@ -13,12 +13,12 @@ import SnapKit
 import FloatingPanel
 
 class StoreDetailViewController: UIViewController {
-     
+    
     let toolBar = CustomToolBar()
     let backButton = UIButton() // 네이버 지도 뷰 위 back 버튼
     var naverMapView: NMFMapView = NMFMapView() // 네이버 지도 뷰
     
-    var dataSource = [StoreDetailModel]()
+    private var dataSource = [StoreDetailModel]()
     
     override func viewDidLoad() {
         setupView()
@@ -33,6 +33,8 @@ class StoreDetailViewController: UIViewController {
         storeDetailTableView.translatesAutoresizingMaskIntoConstraints = false
         storeDetailTableView.register(StoreInfoTableViewCell.self, forCellReuseIdentifier: StoreInfoTableViewCell.identifier)
         storeDetailTableView.register(StorePaymentTableViewCell.self, forCellReuseIdentifier: StorePaymentTableViewCell.identifier)
+        storeDetailTableView.separatorInset.left = 20
+        storeDetailTableView.separatorInset.right = 20
         storeDetailTableView.allowsSelection = false
         return storeDetailTableView
     }()
@@ -41,24 +43,30 @@ class StoreDetailViewController: UIViewController {
         self.storeDetailTableView.dataSource = self
         self.storeDetailTableView.delegate = self
         self.storeDetailTableView.backgroundColor = .white
-//        self.storeDetailTableView.separatorStyle = .none
+        //        self.storeDetailTableView.separatorStyle = .none
     }
     
     
+    // 더미 데이터 셋팅
     private func settingData() {
-        self.dataSource = [
-            .storeInfo(
-                storeName: "세븐일레븐 염창점",
-                storeKind: "편의점",
-                address: "50m . 서울 강서구 강서로 463",
-                tel: "02-3664-6722"
-            ),
-            .storePayment(payName: "카카오 페이", success: true, successDate: "2022.08.20", successRate: 95),
-            .storePayment(payName: "애플페이 - VISA", success: false, successDate: "2022.08.19", successRate: 80),
-            .storePayment(payName: "네이버 페이", success: true, successDate: "2022.08.21", successRate: 97)
+        let storeInfoModel = StoreInfoModel(
+            storeName: "세븐일레븐 염창점",
+            storeKind: "편의점",
+            address: "50m . 서울 강서구 강서로 463",
+            tel: "02-3664-6722"
+        )
+        
+        let storeInfoSection = StoreDetailModel.storeInfo([storeInfoModel])
+        
+        let storePayments = [
+            StorePaymentModel(payName: "카카오 페이", success: true, successDate: "2022.08.20", successRate: 95),
+            StorePaymentModel(payName: "애플페이 - VISA", success: false, successDate: "2022.08.19", successRate: 80),
+            StorePaymentModel(payName: "네이버 페이", success: true, successDate: "2022.08.21", successRate: 97)
         ]
+        
+        let storePaymentSection = StoreDetailModel.storePayment(storePayments)
+        self.dataSource = [storeInfoSection, storePaymentSection]
         self.storeDetailTableView.reloadData()
-        print(dataSource.count)
     }
 }
 
@@ -115,27 +123,49 @@ extension StoreDetailViewController {
     }
 }
 
+
+
 extension StoreDetailViewController: UITableViewDataSource, UITableViewDelegate {
-//    func numberOfSections(in tableView: UITableView) -> Int {
-//        return 2
-//    }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 160
+        if indexPath.section == 0 {
+            return 190
+        } else {
+            return 140
+        }
+    }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        self.dataSource.count
+    }
+    
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        let view = UIView()
+        view.backgroundColor = .systemGray5
+        view.frame = CGRect(x: 0, y: 0, width: 0, height: 2)
+        return view
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.dataSource.count
+        switch self.dataSource[section] {
+        case let .storeInfo(storeInfoModel):
+            return storeInfoModel.count
+            
+        case let .storePayment(storePaymentModel):
+            return storePaymentModel.count
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        switch self.dataSource[indexPath.row] {
-        case let .storeInfo(storeName, storeKind, address, tel):
+        switch self.dataSource[indexPath.section] {
+        case let .storeInfo(storeInfoModels):
             let cell = tableView.dequeueReusableCell(withIdentifier: StoreInfoTableViewCell.identifier, for: indexPath) as! StoreInfoTableViewCell
-            cell.prepare(storeName: storeName, storeKind: storeKind, address: address, tel: tel)
+            let storeInfoModel = storeInfoModels[indexPath.row]
+            cell.prepare(storeName: storeInfoModel.storeName, storeKind: storeInfoModel.storeKind, address: storeInfoModel.address, tel: storeInfoModel.tel)
             return cell
-        case let .storePayment(payName, success, successDate, successRate):
+        case let .storePayment(storePaymentModels):
             let cell = tableView.dequeueReusableCell(withIdentifier: StorePaymentTableViewCell.identifier, for: indexPath) as! StorePaymentTableViewCell
-            cell.prepare(payName: payName, success: success, successDate: successDate, successRate: successRate)
+            let storePaymentModel = storePaymentModels[indexPath.row]
+            cell.prepare(payName: storePaymentModel.payName, success: storePaymentModel.success, successDate: storePaymentModel.successDate, successRate: storePaymentModel.successRate)
             return cell
         }
     }

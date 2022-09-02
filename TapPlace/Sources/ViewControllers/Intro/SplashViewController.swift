@@ -52,7 +52,8 @@ class SplashViewController: UIViewController {
                     }
                 } else {
                     print("성별, 생년월일 설정 안됨")
-                    nextVC = PrivacyViewController()
+//                    nextVC = PrivacyViewController()
+                    nextVC = StoreDetailViewController()
                 }
             } else {
                 print("약관 동의 안됨")

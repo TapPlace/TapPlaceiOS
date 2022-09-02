@@ -8,8 +8,8 @@
 import Foundation
 
 enum StoreDetailModel {
-    case storeInfo(storeName: String?, storeKind: String?, address: String?, tel: String?)
-    case storePayment(payName: String?, success: Bool?, successDate: String?, successRate: Int?)
+    case storeInfo([StoreInfoModel])
+    case storePayment([StorePaymentModel])
 }
 
 struct StoreInfoModel {

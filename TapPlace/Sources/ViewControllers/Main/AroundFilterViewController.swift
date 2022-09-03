@@ -301,7 +301,7 @@ extension AroundFilterViewController: UICollectionViewDelegate, UICollectionView
             return cell
         case paymentCollectionView:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "paymentsItem", for: indexPath) as! PickPaymentsCollectionViewCell
-            let paymentList = userSettingViewModel.getPayments().filter({$0.payments == EasyPaymentModel.list[indexPath.section].designation})
+            let paymentList = storageViewModel.userFavoritePayments.filter({$0.payments == EasyPaymentModel.list[indexPath.section].designation})
 
             let cellText = paymentList[indexPath.row].payments == "" ? paymentList[indexPath.row].designation : paymentList[indexPath.row].brand
             let cellVariable = paymentList[indexPath.row].payments == "" ? paymentList[indexPath.row].brand : paymentList[indexPath.row].payments + "_" + paymentList[indexPath.row].brand
@@ -400,9 +400,9 @@ extension AroundFilterViewController: UICollectionViewDelegate, UICollectionView
             var cellText = ""
             switch sectionTitle {
             case "":
-                cellText = userSettingViewModel.getPayments().filter({$0.payments == sectionTitle})[indexPath.row].designation
+                cellText = storageViewModel.userFavoritePayments.filter({$0.payments == sectionTitle})[indexPath.row].designation
             default:
-                cellText = userSettingViewModel.getPayments().filter({$0.payments == sectionTitle})[indexPath.row].brand.uppercased()
+                cellText = storageViewModel.userFavoritePayments.filter({$0.payments == sectionTitle})[indexPath.row].brand.uppercased()
             }
             let labelSize = CommonUtils.getTextSizeWidth(text: cellText)
             return CGSize(width: labelSize.width + 40, height: 36)

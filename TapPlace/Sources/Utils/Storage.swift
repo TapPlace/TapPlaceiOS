@@ -24,7 +24,6 @@ protocol StorageProtocol {
     mutating func writeUser(_ user: UserModel)
     mutating func updateUser(_ user: UserModel)
     mutating func setPayments(_ payments: [String])
-//    mutating func getPayments() -> [PaymentModel]
 }
 
 extension StorageProtocol {
@@ -75,20 +74,4 @@ extension StorageProtocol {
             }
         }
     }
-    
-    /**
-     * @ 유저 관심 결제수단 불러오기
-     * coder : sanghyeon
-     */
-//    mutating func getPayments() -> [PaymentModel] {
-//        var returnPayments: [PaymentModel] = []
-//        guard let payments = dataBases?.realm.objects(UserFavoritePaymentsModel.self) else { return returnPayments }
-//        for payment in payments {
-//            let paymentString = payment.payments == "" ? payment.brand : payment.payments + "_" + payment.brand
-//            let krDesignation = PaymentModel.thisPayment(payment: paymentString)
-//            let setPayment = PaymentModel(payments: payment.payments, brand: payment.brand, designation: krDesignation?.designation ?? "")
-//            returnPayments.append(setPayment)
-//        }
-//        return returnPayments
-//    }
 }

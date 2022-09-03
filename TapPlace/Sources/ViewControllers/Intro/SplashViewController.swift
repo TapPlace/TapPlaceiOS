@@ -26,7 +26,7 @@ class SplashViewController: UIViewController {
     //MARK: - ViewController Lift Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        print(userSettingViewModel.dataBases?.location)
+        print(storageViewModel.dataBases?.location)
         print(Constants.userDeviceID)
         setupView()
         setTestLayout()

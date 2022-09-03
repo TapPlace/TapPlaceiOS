@@ -27,7 +27,6 @@ class AroundPlaceViewController: UIViewController, AroundPlaceControllerProtocol
 
 
     let aroundPlaceListView = AroundPlaceListView()
-    lazy var aroundPlaceFilterView = AroundPlaceFilterView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,7 +35,6 @@ class AroundPlaceViewController: UIViewController, AroundPlaceControllerProtocol
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        print("현재 설정된 반경:", DistancelModel.getDistance(distance: DistancelModel.selectedDistance))
         aroundPlaceListView.distanceLabel.text = DistancelModel.getDistance(distance: DistancelModel.selectedDistance)
     }
 }

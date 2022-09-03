@@ -15,7 +15,7 @@ import FloatingPanel
 
 class MainViewController: CommonViewController {
     
-    var userSettingViewModel = UserSettingViewModel()
+    var storageViewModel = StorageViewModel()
     
     var fpc: FloatingPanelController!
     var isHiddenFloatingPanel = true
@@ -283,12 +283,12 @@ extension MainViewController: MapButtonProtocol, ResearchButtonProtocol {
         }
         listButton.snp.makeConstraints {
             $0.bottom.equalTo(safeArea).offset(-40)
-            $0.leading.equalTo(safeArea).offset(20)
+            $0.trailing.equalTo(safeArea).offset(-20)
             $0.width.height.equalTo(40)
         }
         locationButton.snp.makeConstraints {
-            $0.bottom.equalTo(safeArea).offset(-40)
-            $0.trailing.equalTo(safeArea).offset(-20)
+            $0.bottom.equalTo(listButton.snp.top).offset(-10)
+            $0.trailing.equalTo(listButton)
             $0.width.height.equalTo(40)
         }
         overlayCenterPick.snp.makeConstraints {
@@ -315,7 +315,7 @@ extension MainViewController: MapButtonProtocol, ResearchButtonProtocol {
         collectionView.dataSource = self
         
         //MARK: ViewModel
-        PaymentModel.favoriteList = userSettingViewModel.getPayments()
+        PaymentModel.favoriteList = storageViewModel.userFavoritePayments
 
     } // Function: 레이아웃 설정
     

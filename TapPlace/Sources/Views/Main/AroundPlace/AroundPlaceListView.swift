@@ -18,8 +18,8 @@ protocol AroundPlaceMainControllerProtocol {
 
 class AroundPlaceListView: UIView, AroundPlaceApplyFilterProtocol {
     func applyFilter() {
-        print(AroundFilterModel.storeList)
-        print(AroundFilterModel.paymentList)
+        storeButton.selectedCount = AroundFilterModel.storeList.count
+        paymentButton.selectedCount = AroundFilterModel.paymentList.count
     }
     
     var delegate: AroundPlaceControllerProtocol?
@@ -110,7 +110,7 @@ extension AroundPlaceListView {
         storeButton.title = "매장선택"
         storeButton.selectedCount = 0
         paymentButton.title = "결제수단"
-        paymentButton.selectedCount = 3
+        paymentButton.selectedCount = 0
         
         //MARK: AddSubView
         addSubview(containerView)

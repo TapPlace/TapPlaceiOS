@@ -17,7 +17,7 @@ class PrivacyViewController: UIViewController {
     let femaleButton = UIButton() // 여성 버튼
     
     var userSex = "남"
-    var userSettingViewModel = UserSettingViewModel()
+    var storageViewModel = StorageViewModel()
     
     override func viewDidLoad() {
         setupView()
@@ -261,9 +261,9 @@ extension PrivacyViewController: BottomButtonProtocol {
             return
         }
         
-        if let user = userSettingViewModel.getUserInfo(uuid: Constants.userDeviceID) {
+        if let user = storageViewModel.getUserInfo(uuid: Constants.userDeviceID) {
             let setUser = UserModel(uuid: user.uuid, isFirstLaunch: user.isFirstLaunch, agreeTerm: user.agreeTerm, agreePrivacy: user.agreePrivacy, agreeMarketing: user.agreeMarketing, birth: textFieldText, sex: userSex)
-            userSettingViewModel.updateUser(setUser)
+            storageViewModel.updateUser(setUser)
         }
         
         let vc = PickPaymentsViewController()

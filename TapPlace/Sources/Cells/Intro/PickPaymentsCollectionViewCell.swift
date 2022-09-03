@@ -33,7 +33,7 @@ class PickPaymentsCollectionViewCell: UICollectionViewCell {
             })
         }
     }
-    var cellVariable: String = "1000"
+    var cellVariable: String = ""
     
     let itemFrame: UIView = {
         let itemFrame = UIView()
@@ -68,6 +68,15 @@ class PickPaymentsCollectionViewCell: UICollectionViewCell {
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        self.prepare()
+    }
+    
+    func prepare() {
+        self.cellSelected = false
     }
     
     @objc func didTapItem() {

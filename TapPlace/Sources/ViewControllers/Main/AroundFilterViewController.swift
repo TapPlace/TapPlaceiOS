@@ -14,15 +14,18 @@ protocol AroundPlaceApplyFilterProtocol {
 
 class AroundFilterViewController: UIViewController {
     
+    
     var delegate: AroundPlaceApplyFilterProtocol?
     var storageViewModel = StorageViewModel()
     var isFirstLoaded: Bool = true
 
     let scrollView = UIScrollView()
     let contentView = UIView()
+    let storeResetView = FilterResetButtonView()
+    let paymentResetView = FilterResetButtonView()
     
-    var tempStores: [StoreModel] = []
-    var tempPayments: [PaymentModel] = []
+    var tempStores: [StoreModel] = AroundFilterModel.storeList
+    var tempPayments: [PaymentModel] = AroundFilterModel.paymentList
     
     let storeCollectionView: UICollectionView = {
         let collectionViewLayout = AlignedCollectionViewFlowLayout()
@@ -60,7 +63,6 @@ class AroundFilterViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        print("isFirstLoaded", isFirstLoaded)
         if !isFirstLoaded { return }
         DispatchQueue.main.asyncAfter(deadline: .now(), execute: {
             let storeCollectionViewheight = self.storeCollectionView.contentSize.height
@@ -83,7 +85,21 @@ class AroundFilterViewController: UIViewController {
     
     
 }
-extension AroundFilterViewController {
+extension AroundFilterViewController: FilterResetProtocol {
+    func didTapResetButton(_ sender: UIButton) {
+        switch sender {
+        case storeResetView.resetButton:
+            tempStores.removeAll()
+            storeCollectionView.reloadData()
+            print(tempStores)
+        case paymentResetView.resetButton:
+            tempPayments.removeAll()
+            paymentCollectionView.reloadData()
+            print(tempPayments)
+        default:
+            break
+        }
+    }
     private func recursiveUnionInDepthFor(view: UIView) -> CGRect {
         var totalRect: CGRect = .zero
         
@@ -134,9 +150,6 @@ extension AroundFilterViewController {
             closeButton.tintColor = .black
             return closeButton
         }()
-        
-        let storeResetView = FilterResetButtonView()
-        let paymentResetView = FilterResetButtonView()
         
         
         //MARK: ViewPropertyManual
@@ -215,7 +228,7 @@ extension AroundFilterViewController {
         }
         bottomButton.snp.makeConstraints {
             $0.leading.trailing.bottom.equalToSuperview()
-            $0.top.equalTo(safeArea.snp.bottom).offset(-60)
+            $0.top.equalTo(safeArea.snp.bottom).offset(-50)
         }
         
         
@@ -233,6 +246,8 @@ extension AroundFilterViewController {
         storeCollectionView.dataSource = self
         paymentCollectionView.dataSource = self
         paymentCollectionView.delegate = self
+        storeResetView.delegate = self
+        paymentResetView.delegate = self
         
         
 
@@ -279,18 +294,27 @@ extension AroundFilterViewController: UICollectionViewDelegate, UICollectionView
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "distanceItem", for: indexPath) as? PickPaymentsCollectionViewCell else { return UICollectionViewCell() }
             cell.itemText.text = StoreModel.lists[indexPath.row].title
             cell.cellVariable = StoreModel.lists[indexPath.row].id
+            
+            if let _ = tempStores.first(where: {$0.id == cell.cellVariable}) {
+                cell.cellSelected = true
+            }
             return cell
         case paymentCollectionView:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "paymentsItem", for: indexPath) as! PickPaymentsCollectionViewCell
-            //let paymentList = PaymentModel.list.filter({$0.payments == EasyPaymentModel.list[indexPath.section].designation})
-            let paymentList = storageViewModel.userFavoritePayments.filter({$0.payments == EasyPaymentModel.list[indexPath.section].designation})
-            if paymentList[indexPath.row].payments == "" {
-                cell.itemText.text = paymentList[indexPath.row].designation
-                cell.cellVariable = paymentList[indexPath.row].brand
-            } else {
-                cell.itemText.text = paymentList[indexPath.row].brand.uppercased()
-                cell.cellVariable = paymentList[indexPath.row].payments + "_" + paymentList[indexPath.row].brand
+            let paymentList = userSettingViewModel.getPayments().filter({$0.payments == EasyPaymentModel.list[indexPath.section].designation})
+
+            let cellText = paymentList[indexPath.row].payments == "" ? paymentList[indexPath.row].designation : paymentList[indexPath.row].brand
+            let cellVariable = paymentList[indexPath.row].payments == "" ? paymentList[indexPath.row].brand : paymentList[indexPath.row].payments + "_" + paymentList[indexPath.row].brand
+            
+            cell.itemText.text = cellText.uppercased()
+            cell.cellVariable = cellVariable
+            
+            guard let targetCell = PaymentModel.thisPayment(payment: cellVariable) else { return cell }
+            
+            if let _ = tempPayments.first(where: {$0.brand == targetCell.brand && $0.payments == targetCell.payments}) {
+                cell.cellSelected = true
             }
+
             return cell
         default:
             return UICollectionViewCell()
@@ -376,9 +400,9 @@ extension AroundFilterViewController: UICollectionViewDelegate, UICollectionView
             var cellText = ""
             switch sectionTitle {
             case "":
-                cellText = PaymentModel.list.filter({$0.payments == sectionTitle})[indexPath.row].designation
+                cellText = userSettingViewModel.getPayments().filter({$0.payments == sectionTitle})[indexPath.row].designation
             default:
-                cellText = PaymentModel.list.filter({$0.payments == sectionTitle})[indexPath.row].brand.uppercased()
+                cellText = userSettingViewModel.getPayments().filter({$0.payments == sectionTitle})[indexPath.row].brand.uppercased()
             }
             let labelSize = CommonUtils.getTextSizeWidth(text: cellText)
             return CGSize(width: labelSize.width + 40, height: 36)

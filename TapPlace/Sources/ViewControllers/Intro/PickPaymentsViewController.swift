@@ -24,7 +24,8 @@ class PickPaymentsViewController: CommonPickViewController {
     }
 }
 //MARK: - Layout
-extension PickPaymentsViewController: TitleViewProtocol, BottomButtonProtocol {
+extension PickPaymentsViewController: BottomButtonProtocol {
+    
     func didTapBottomButton() {
         if bottomButton.isActive {
             print("액션 실행 가능")
@@ -34,21 +35,8 @@ extension PickPaymentsViewController: TitleViewProtocol, BottomButtonProtocol {
             vc.modalPresentationStyle = .fullScreen
             self.present(vc, animated: true)
         } else {
-            print("액션 실행 불가능")
             showToast(message: "최소 1개의 결제수단을 선택하세요.", view: self.view)
         }
-    }
-    
-    func didTapTitleViewSkipButton() {
-        print("스킵 버튼 눌림")
-        let vc = MainViewController()
-        self.navigationController?.pushViewController(vc, animated: true)
-    }
-    
-    func didTapTitleViewClearButton() {
-        print("초기화 버튼 눌림")
-
-        bottomButtonUpdate()
     }
     
     /**
@@ -58,7 +46,6 @@ extension PickPaymentsViewController: TitleViewProtocol, BottomButtonProtocol {
     private func setupView() {
         self.navigationController?.navigationBar.isHidden = true
         //MARK: 델리게이트
-        titleView.delegate = self
         bottomButton.delegate = self
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -126,7 +113,6 @@ extension PickPaymentsViewController: UICollectionViewDelegate, UICollectionView
         switch kind {
         case UICollectionView.elementKindSectionHeader:
             if EasyPaymentModel.list[indexPath.section].designation == "" {
-                print("감춰야함")
                 return UICollectionReusableView()
             }
             let headerReusableView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "paymentsHeader", for: indexPath) as! PickPaymentsCollectionReusableView

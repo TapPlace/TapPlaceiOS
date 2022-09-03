@@ -179,9 +179,7 @@ extension MainViewController: MapButtonProtocol, ResearchButtonProtocol {
     }
     
     @objc func didTapMapButton(_ sender: MapButton) {
-        print("맵버튼 터치")
         if sender == listButton.button {
-            print("리스트 버튼 클릭")
             showFloatingPanel()
             
         } else if sender == locationButton.button {

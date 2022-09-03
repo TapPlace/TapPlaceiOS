@@ -7,7 +7,13 @@
 
 import UIKit
 
+protocol FilterResetProtocol {
+    func didTapResetButton(_ sender: UIButton)
+}
+
 class FilterResetButtonView: UIView {
+    
+    var delegate: FilterResetProtocol?
 
     let resetLabel: UILabel = {
         let resetLabel = UILabel()
@@ -15,6 +21,11 @@ class FilterResetButtonView: UIView {
         resetLabel.textColor = UIColor.init(hex: 0x333333)
         resetLabel.font = .systemFont(ofSize: CommonUtils.resizeFontSize(size: 16), weight: .medium)
         return resetLabel
+    }()
+    
+    let resetButton: UIButton = {
+        let resetButton = UIButton()
+        return resetButton
     }()
     
     
@@ -44,10 +55,6 @@ extension FilterResetButtonView {
             resetIcon.tintColor = resetLabel.textColor
             return resetIcon
         }()
-        let resetButton: UIButton = {
-            let resetButton = UIButton()
-            return resetButton
-        }()
         
         //MARK: ViewPropertyManual
         
@@ -73,8 +80,12 @@ extension FilterResetButtonView {
         
         
         //MARK: ViewAddTarget
-        
+        resetButton.addTarget(delegate, action: #selector(didTapResetButton(_:)), for: .touchUpInside)
         
         //MARK: Delegate
+    }
+    
+    @objc func didTapResetButton(_ sender: UIButton) {
+        delegate?.didTapResetButton(sender)
     }
 }

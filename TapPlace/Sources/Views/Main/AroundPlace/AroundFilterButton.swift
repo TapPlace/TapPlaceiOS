@@ -21,14 +21,12 @@ class AroundFilterButton: UIView {
     
     var selectedCount: Int = 0 {
         willSet {
-            if newValue > 0 {
-                buttonLabel.text = "\(title) \(newValue)"
-                buttonFrame.layer.borderWidth = 0
-                buttonFrame.backgroundColor = .pointBlue.withAlphaComponent(0.08)
-                buttonLabel.textColor = .pointBlue
-                buttonIcon.image = UIImage(systemName: "xmark")
-                buttonIcon.tintColor = .pointBlue.withAlphaComponent(0.3)
-            }
+            buttonLabel.text = newValue > 0 ? "\(title) \(newValue)" : title
+            buttonFrame.layer.borderWidth = newValue > 0 ? 0 : 1
+            buttonFrame.backgroundColor = newValue > 0 ? .pointBlue.withAlphaComponent(0.08) : .white
+            buttonLabel.textColor = newValue > 0 ? .pointBlue : .black
+            buttonIcon.image = newValue > 0 ? UIImage(systemName: "xmark") : UIImage(systemName: "chevron.down")
+            buttonIcon.tintColor = newValue > 0 ? .pointBlue.withAlphaComponent(0.3) : .black
         }
     }
     

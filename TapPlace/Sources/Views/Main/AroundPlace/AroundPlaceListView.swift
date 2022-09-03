@@ -16,10 +16,15 @@ protocol AroundPlaceMainControllerProtocol {
     func expendFloatingPanel()
 }
 
+
 class AroundPlaceListView: UIView, AroundPlaceApplyFilterProtocol {
     func applyFilter() {
-        print(AroundFilterModel.storeList)
-        print(AroundFilterModel.paymentList)
+        let AroundFilter: [Int] = [
+            AroundFilterModel.storeList.count,
+            AroundFilterModel.paymentList.count
+        ]
+        storeButton.selectedCount = AroundFilter[0]
+        paymentButton.selectedCount = AroundFilter[1]
     }
     
     var delegate: AroundPlaceControllerProtocol?
@@ -49,6 +54,7 @@ class AroundPlaceListView: UIView, AroundPlaceApplyFilterProtocol {
         let arrowIcon = UIImageView()
         arrowIcon.image = UIImage(systemName: "chevron.down")
         arrowIcon.tintColor = .black
+        arrowIcon.isHidden = true
         return arrowIcon
     }()
 
@@ -106,11 +112,17 @@ extension AroundPlaceListView {
         }()
         
         
+        //MARK: ViewDefine
+        let AroundFilter: [Int] = [
+            AroundFilterModel.storeList.count,
+            AroundFilterModel.paymentList.count
+        ]
+        
         //MARK: ViewPropertyManual
         storeButton.title = "매장선택"
-        storeButton.selectedCount = 0
+        storeButton.selectedCount = AroundFilter[0]
         paymentButton.title = "결제수단"
-        paymentButton.selectedCount = 3
+        paymentButton.selectedCount = AroundFilter[1]
         
         //MARK: AddSubView
         addSubview(containerView)
@@ -185,7 +197,7 @@ extension AroundPlaceListView {
         
         //MARK: ViewAddTarget & Register
         tableView.register(AroundStoreTableViewCell.self, forCellReuseIdentifier: AroundStoreTableViewCell.cellId)
-        addressButton.addTarget(self, action: #selector(didTapAddressButton), for: .touchUpInside)
+        //addressButton.addTarget(self, action: #selector(didTapAddressButton), for: .touchUpInside)
         filterButton.addTarget(self, action: #selector(didTapFilterButton), for: .touchUpInside)
         
         //MARK: Delegate
@@ -221,7 +233,7 @@ extension AroundPlaceListView: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: AroundStoreTableViewCell.cellId, for: indexPath) as? AroundStoreTableViewCell else { return UITableViewCell() }
-        var bookmark = indexPath.row == 2 ? true : false
+        let bookmark = indexPath.row == 2 ? true : false
         cell.setAttributedString(store: "[\(indexPath.row)] 세븐일레븐 염창점",distance: "50m", address: "서울특별시 강서구 양천로 677", isBookmark: bookmark)
         cell.payLists = ["applelogo", "cart.fill", "trash.fill"]
         cell.contentView.isUserInteractionEnabled = false

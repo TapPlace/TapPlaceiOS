@@ -27,6 +27,7 @@ class SplashViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         print(userSettingViewModel.dataBases?.location)
+        print(Constants.userDeviceID)
         setupView()
         setTestLayout()
         userInfoSetting()
@@ -54,8 +55,8 @@ class SplashViewController: UIViewController {
                     }
                 } else {
                     print("성별, 생년월일 설정 안됨")
-//                    nextVC = PrivacyViewController()
-                    nextVC = StoreDetailViewController()
+                    nextVC = PrivacyViewController()
+//                    nextVC = StoreDetailViewController()
                 }
             } else {
                 print("약관 동의 안됨")

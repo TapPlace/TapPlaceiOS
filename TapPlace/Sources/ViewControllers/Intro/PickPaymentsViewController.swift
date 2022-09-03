@@ -12,7 +12,7 @@ import AlignedCollectionViewFlowLayout
 class PickPaymentsViewController: CommonPickViewController {
     var selectedPayments: [String] = []
     
-    var userSettingViewModel = UserSettingViewModel()
+    var storageViewModel = StorageViewModel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,7 +28,8 @@ extension PickPaymentsViewController: BottomButtonProtocol {
     
     func didTapBottomButton() {
         if bottomButton.isActive {
-            userSettingViewModel.setPayments(selectedPayments)
+            print("액션 실행 가능")
+            storageViewModel.setPayments(selectedPayments)
             let vc = TabBarViewController()
             vc.modalTransitionStyle = .crossDissolve
             vc.modalPresentationStyle = .fullScreen

@@ -16,7 +16,7 @@ class AroundFilterViewController: UIViewController {
     
     
     var delegate: AroundPlaceApplyFilterProtocol?
-    var userSettingViewModel = UserSettingViewModel()
+    var storageViewModel = StorageViewModel()
     var isFirstLoaded: Bool = true
 
     let scrollView = UIScrollView()
@@ -280,7 +280,8 @@ extension AroundFilterViewController: UICollectionViewDelegate, UICollectionView
         case storeCollectionView:
             return StoreModel.lists.count
         case paymentCollectionView:
-            let paymentList = userSettingViewModel.getPayments().filter({$0.payments == EasyPaymentModel.list[section].designation})
+            let paymentList = storageViewModel.userFavoritePayments.filter({$0.payments == EasyPaymentModel.list[section].designation})
+            print("paymentList.count:",paymentList.count)
             return paymentList.count
         default:
             return 0
@@ -300,7 +301,7 @@ extension AroundFilterViewController: UICollectionViewDelegate, UICollectionView
             return cell
         case paymentCollectionView:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "paymentsItem", for: indexPath) as! PickPaymentsCollectionViewCell
-            let paymentList = userSettingViewModel.getPayments().filter({$0.payments == EasyPaymentModel.list[indexPath.section].designation})
+            let paymentList = storageViewModel.userFavoritePayments.filter({$0.payments == EasyPaymentModel.list[indexPath.section].designation})
 
             let cellText = paymentList[indexPath.row].payments == "" ? paymentList[indexPath.row].designation : paymentList[indexPath.row].brand
             let cellVariable = paymentList[indexPath.row].payments == "" ? paymentList[indexPath.row].brand : paymentList[indexPath.row].payments + "_" + paymentList[indexPath.row].brand
@@ -360,7 +361,8 @@ extension AroundFilterViewController: UICollectionViewDelegate, UICollectionView
         case paymentCollectionView:
             switch kind {
             case UICollectionView.elementKindSectionHeader:
-                if EasyPaymentModel.list[indexPath.section].designation == "" || userSettingViewModel.getPayments().filter({$0.payments == EasyPaymentModel.list[indexPath.section].designation}).count == 0 {
+                if EasyPaymentModel.list[indexPath.section].designation == "" || storageViewModel.userFavoritePayments.filter({$0.payments == EasyPaymentModel.list[indexPath.section].designation}).count == 0 {
+                    print("감춰야함")
                     return UICollectionReusableView()
                 }
                 let headerReusableView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "paymentsHeader", for: indexPath) as! PickPaymentsCollectionReusableView
@@ -398,9 +400,9 @@ extension AroundFilterViewController: UICollectionViewDelegate, UICollectionView
             var cellText = ""
             switch sectionTitle {
             case "":
-                cellText = userSettingViewModel.getPayments().filter({$0.payments == sectionTitle})[indexPath.row].designation
+                cellText = storageViewModel.userFavoritePayments.filter({$0.payments == sectionTitle})[indexPath.row].designation
             default:
-                cellText = userSettingViewModel.getPayments().filter({$0.payments == sectionTitle})[indexPath.row].brand.uppercased()
+                cellText = storageViewModel.userFavoritePayments.filter({$0.payments == sectionTitle})[indexPath.row].brand.uppercased()
             }
             let labelSize = CommonUtils.getTextSizeWidth(text: cellText)
             return CGSize(width: labelSize.width + 40, height: 36)

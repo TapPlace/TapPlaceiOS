@@ -64,7 +64,7 @@
 		DFECC8D228AD129300DC64FD /* UIStackView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFECC8D128AD129300DC64FD /* UIStackView+Extension.swift */; };
 		DFF5300128BC515D00FFC302 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFF5300028BC515D00FFC302 /* UserModel.swift */; };
 		DFF5300328BC55D000FFC302 /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFF5300228BC55D000FFC302 /* Storage.swift */; };
-		DFF5300528BC578A00FFC302 /* UserSettingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFF5300428BC578A00FFC302 /* UserSettingViewModel.swift */; };
+		DFF5300528BC578A00FFC302 /* StorageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFF5300428BC578A00FFC302 /* StorageViewModel.swift */; };
 		DFF7BEDA28A67DFE00289F39 /* CALayer+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFF7BED928A67DFE00289F39 /* CALayer+Extension.swift */; };
 		DFF7BEDC28A685F500289F39 /* StoreTabCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFF7BEDB28A685F500289F39 /* StoreTabCollectionViewCell.swift */; };
 		DFF7BEDE28A68CDD00289F39 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFF7BEDD28A68CDD00289F39 /* TabBarViewController.swift */; };
@@ -153,7 +153,7 @@
 		DFECC8D128AD129300DC64FD /* UIStackView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView+Extension.swift"; sourceTree = "<group>"; };
 		DFF5300028BC515D00FFC302 /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 		DFF5300228BC55D000FFC302 /* Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
-		DFF5300428BC578A00FFC302 /* UserSettingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettingViewModel.swift; sourceTree = "<group>"; };
+		DFF5300428BC578A00FFC302 /* StorageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageViewModel.swift; sourceTree = "<group>"; };
 		DFF7BED928A67DFE00289F39 /* CALayer+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CALayer+Extension.swift"; sourceTree = "<group>"; };
 		DFF7BEDB28A685F500289F39 /* StoreTabCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreTabCollectionViewCell.swift; sourceTree = "<group>"; };
 		DFF7BEDD28A68CDD00289F39 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
@@ -453,7 +453,7 @@
 			children = (
 				DFC23FB1289AB6E400EC1090 /* EmptyViewModel.swift */,
 				DF38177728A4E28200B900B5 /* PaymentViewModel.swift */,
-				DFF5300428BC578A00FFC302 /* UserSettingViewModel.swift */,
+				DFF5300428BC578A00FFC302 /* StorageViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -645,7 +645,7 @@
 				DF6B69F728B90BA2009D4076 /* FilterResetButtonView.swift in Sources */,
 				F49D36E228B62952000D025D /* PrivacyViewController.swift in Sources */,
 				DF82669E289CA12800272830 /* MainViewController.swift in Sources */,
-				DFF5300528BC578A00FFC302 /* UserSettingViewModel.swift in Sources */,
+				DFF5300528BC578A00FFC302 /* StorageViewModel.swift in Sources */,
 				DFCB0B2228B3369200BF9BE7 /* AroundDistanceFilterViewController.swift in Sources */,
 				DFA2875728AB684200DD9F63 /* UIView+Extension.swift in Sources */,
 				DF9BE0A628B6EEEA009E075D /* UILabel+Extension.swift in Sources */,

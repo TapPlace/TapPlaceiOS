@@ -22,11 +22,11 @@ class SplashViewController: UIViewController {
      * 4-2. 결제수단 등록이 되었을 경우 성별 및 생년월일 등록 확인
      * * coder : sanghyeon
      */
-    var userSettingViewModel = UserSettingViewModel()
+    var storageViewModel = StorageViewModel()
     //MARK: - ViewController Lift Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        print(userSettingViewModel.dataBases?.location)
+        print(storageViewModel.dataBases?.location)
         print(Constants.userDeviceID)
         setupView()
         setTestLayout()
@@ -138,7 +138,7 @@ extension SplashViewController {
      * coder : sanghyeon
      */
     private func isFirstLaunch() -> Bool {
-        guard let user = userSettingViewModel.getUserInfo(uuid: CommonUtils.getDeviceUUID()) else { return true }
+        guard let user = storageViewModel.getUserInfo(uuid: CommonUtils.getDeviceUUID()) else { return true }
         if user.isFirstLaunch {
             return true
         } else {
@@ -151,7 +151,7 @@ extension SplashViewController {
      * coder : sanghyeon
      */
     private func isAgreeTerms() -> Bool {
-        let user = userSettingViewModel.getUserInfo(uuid: Constants.userDeviceID)
+        let user = storageViewModel.getUserInfo(uuid: Constants.userDeviceID)
         if user?.agreeTerm == "" || user?.agreePrivacy == "" {
             return false
         } else {
@@ -163,7 +163,7 @@ extension SplashViewController {
      * coder : sanghyeon
      */
     private func isSettedUser() -> Bool {
-        let user = userSettingViewModel.getUserInfo(uuid: Constants.userDeviceID)
+        let user = storageViewModel.getUserInfo(uuid: Constants.userDeviceID)
         if user?.birth == "" || user?.sex == "" {
             return false
         } else {
@@ -176,7 +176,7 @@ extension SplashViewController {
      * coder : sanghyeon
      */
     private func isPickedPayments() -> Bool {
-        if userSettingViewModel.numberOfFavoritePayments > 0 {
+        if storageViewModel.numberOfFavoritePayments > 0 {
             return true
         }
         return false
@@ -207,11 +207,11 @@ extension SplashViewController {
      * coder : sanghyeon
      */
     private func userInfoSetting() {
-        let isUserInfo = userSettingViewModel.existUser(uuid: Constants.userDeviceID)
+        let isUserInfo = storageViewModel.existUser(uuid: Constants.userDeviceID)
         if !isUserInfo {
             print("유저정보 없음")
             let userModel = UserModel(uuid: CommonUtils.getDeviceUUID(), isFirstLaunch: true, agreeTerm: "", agreePrivacy: "", agreeMarketing: "", birth: "", sex: "")
-            userSettingViewModel.writeUser(userModel)
+            storageViewModel.writeUser(userModel)
         }
     }
 }

@@ -9,7 +9,7 @@ import UIKit
 
 class TermsViewController: UIViewController {
 
-    var userSettingViewModel = UserSettingViewModel()
+    var storageViewModel = StorageViewModel()
     
     let navigationBar = NavigationBar()
     let allTermsCheck = TermsItemView()
@@ -44,11 +44,11 @@ extension TermsViewController: BackButtonProtocol, BottomButtonProtocol {
             self.navigationController?.pushViewController(vc, animated: true)
             return
         }
-        if let user = userSettingViewModel.getUserInfo(uuid: Constants.userDeviceID) {
+        if let user = storageViewModel.getUserInfo(uuid: Constants.userDeviceID) {
             guard let marketingIndex = allTermsLists.firstIndex(where: { $0.title == "마케팅 정보 수신 동의" }) else { return }
             let isCheckedMarketing = allTermsLists[marketingIndex].checked
             let setUser = UserModel(uuid: user.uuid, isFirstLaunch: user.isFirstLaunch, agreeTerm: Constants.latestTerm, agreePrivacy: Constants.latestPrivacy, agreeMarketing: isCheckedMarketing ? CommonUtils.getDate(Date(), type: 3) : "", birth: "", sex: "")
-            userSettingViewModel.updateUser(setUser)
+            storageViewModel.updateUser(setUser)
         }
         let vc = PrivacyViewController()
         self.navigationController?.pushViewController(vc, animated: true)

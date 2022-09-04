@@ -76,6 +76,7 @@
 		F425EECE28A29EF0002A20FC /* dog3.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = F425EECC28A29EF0002A20FC /* dog3.jpeg */; };
 		F438236028C3120C00C75063 /* StickyHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = F438235F28C3120C00C75063 /* StickyHeader.swift */; };
 		F438236228C3124300C75063 /* StickyHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F438236128C3124300C75063 /* StickyHeaderView.swift */; };
+		F438236428C47BF300C75063 /* FeedbackDoneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F438236328C47BF300C75063 /* FeedbackDoneViewController.swift */; };
 		F449AEB328ACEABE008E0417 /* SearchContentButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F449AEB228ACEABE008E0417 /* SearchContentButton.swift */; };
 		F449AEB628ADD205008E0417 /* SearchingActionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F449AEB528ADD205008E0417 /* SearchingActionTableViewCell.swift */; };
 		F4551D3A28A8B651003B93F4 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4551D3928A8B651003B93F4 /* SearchViewController.swift */; };
@@ -165,6 +166,7 @@
 		F425EECC28A29EF0002A20FC /* dog3.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = dog3.jpeg; sourceTree = "<group>"; };
 		F438235F28C3120C00C75063 /* StickyHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickyHeader.swift; sourceTree = "<group>"; };
 		F438236128C3124300C75063 /* StickyHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickyHeaderView.swift; sourceTree = "<group>"; };
+		F438236328C47BF300C75063 /* FeedbackDoneViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackDoneViewController.swift; sourceTree = "<group>"; };
 		F449AEB228ACEABE008E0417 /* SearchContentButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchContentButton.swift; sourceTree = "<group>"; };
 		F449AEB528ADD205008E0417 /* SearchingActionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchingActionTableViewCell.swift; sourceTree = "<group>"; };
 		F4551D3928A8B651003B93F4 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
@@ -518,6 +520,7 @@
 				F4F12EE428B896410060B239 /* StoreDetailViewController.swift */,
 				F438235F28C3120C00C75063 /* StickyHeader.swift */,
 				F438236128C3124300C75063 /* StickyHeaderView.swift */,
+				F438236328C47BF300C75063 /* FeedbackDoneViewController.swift */,
 			);
 			path = Detail;
 			sourceTree = "<group>";
@@ -649,6 +652,7 @@
 				DFCB0B2228B3369200BF9BE7 /* AroundDistanceFilterViewController.swift in Sources */,
 				DFA2875728AB684200DD9F63 /* UIView+Extension.swift in Sources */,
 				DF9BE0A628B6EEEA009E075D /* UILabel+Extension.swift in Sources */,
+				F438236428C47BF300C75063 /* FeedbackDoneViewController.swift in Sources */,
 				DFECC8D228AD129300DC64FD /* UIStackView+Extension.swift in Sources */,
 				DFF5300128BC515D00FFC302 /* UserModel.swift in Sources */,
 				DFA2875B28ABA8D400DD9F63 /* DetailToolBarButton.swift in Sources */,

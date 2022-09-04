@@ -31,7 +31,9 @@ class BottomButton: UIButton {
         }
         
         if fill {
-            self.contentEdgeInsets.top = -18
+            print("isFill")
+            self.contentVerticalAlignment = .top
+            self.contentEdgeInsets.top = 14
         } else {
             self.contentEdgeInsets.top = 0
         }
@@ -44,16 +46,11 @@ class BottomButton: UIButton {
     
     override func draw(_ rect: CGRect) {
         super.draw(rect)
-        drawButton()
         addTarget(self, action: #selector(didTapThisButton), for: .touchUpInside)
     }
 
 }
 extension BottomButton {
-    func drawButton() {
-        self.contentVerticalAlignment = .center
-        self.contentEdgeInsets.top = -18
-    }
     @objc func didTapThisButton() {
         delegate?.didTapBottomButton()
     }

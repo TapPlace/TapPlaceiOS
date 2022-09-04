@@ -30,6 +30,7 @@
 		DF82669C289CA11700272830 /* PickPaymentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF82669B289CA11700272830 /* PickPaymentsViewController.swift */; };
 		DF82669E289CA12800272830 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF82669D289CA12800272830 /* MainViewController.swift */; };
 		DF8266A8289F1D0D00272830 /* PlaceDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF8266A7289F1D0D00272830 /* PlaceDataService.swift */; };
+		DF85D8C628C48F1600465D6A /* StoreInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF85D8C528C48F1600465D6A /* StoreInfoView.swift */; };
 		DF9BE0A428B6E8B9009E075D /* TermsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF9BE0A328B6E8B9009E075D /* TermsViewController.swift */; };
 		DF9BE0A628B6EEEA009E075D /* UILabel+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF9BE0A528B6EEEA009E075D /* UILabel+Extension.swift */; };
 		DF9BE0A828B71711009E075D /* TermsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF9BE0A728B71711009E075D /* TermsModel.swift */; };
@@ -117,6 +118,7 @@
 		DF82669B289CA11700272830 /* PickPaymentsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickPaymentsViewController.swift; sourceTree = "<group>"; };
 		DF82669D289CA12800272830 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		DF8266A7289F1D0D00272830 /* PlaceDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceDataService.swift; sourceTree = "<group>"; };
+		DF85D8C528C48F1600465D6A /* StoreInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreInfoView.swift; sourceTree = "<group>"; };
 		DF9BE0A328B6E8B9009E075D /* TermsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsViewController.swift; sourceTree = "<group>"; };
 		DF9BE0A528B6EEEA009E075D /* UILabel+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Extension.swift"; sourceTree = "<group>"; };
 		DF9BE0A728B71711009E075D /* TermsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsModel.swift; sourceTree = "<group>"; };
@@ -293,6 +295,7 @@
 				DF9EAF8428AA00F5001B3D74 /* ResearchButton.swift */,
 				DFA2875828AB94C700DD9F63 /* DetailOverView.swift */,
 				DFECC8CF28ACFFE000DC64FD /* BrandIconImageView.swift */,
+				DF85D8C528C48F1600465D6A /* StoreInfoView.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -684,6 +687,7 @@
 				DF38177028A46EF100B900B5 /* CommonPickViewController.swift in Sources */,
 				DF9BE0AA28B7187B009E075D /* TermsItemView.swift in Sources */,
 				F41A51EA28B08D3C00FE546B /* SearchEditTableViewCell.swift in Sources */,
+				DF85D8C628C48F1600465D6A /* StoreInfoView.swift in Sources */,
 				DFC23FAF289AB6C900EC1090 /* EmptyModel.swift in Sources */,
 				DF51DCC228A7779400D0AE1E /* MoreViewController.swift in Sources */,
 				DFA2875928AB94C700DD9F63 /* DetailOverView.swift in Sources */,

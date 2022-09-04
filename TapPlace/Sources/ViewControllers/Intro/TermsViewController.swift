@@ -134,7 +134,7 @@ extension TermsViewController: BackButtonProtocol, BottomButtonProtocol {
         tableView.dataSource = self
         allTermsCheck.delegate = self
     }
-}
+} 
 //MARK: - TableView
 extension TermsViewController: UITableViewDelegate, UITableViewDataSource, TermsItemProtocol, TermsProtocol {
     func checkReceiveTerm(term: TermsModel, currentTermIndex: Int) {

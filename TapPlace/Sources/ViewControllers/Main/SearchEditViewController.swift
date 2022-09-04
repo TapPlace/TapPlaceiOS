@@ -74,7 +74,7 @@ extension SearchEditViewController {
         
         let titleLabel: UILabel = {
             let titleLabel = UILabel()
-            titleLabel.font = UIFont(name: "AppleSDGothicNeoM00-Regular", size: 17)
+            titleLabel.font = .systemFont(ofSize: 17)
             titleLabel.text = "검색내역 편집"
             return titleLabel
         }()

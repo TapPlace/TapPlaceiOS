@@ -25,3 +25,17 @@ struct StorePaymentModel {
     let successDate: String?
     let successRate: Int? // 성공률
 }
+
+extension StorePaymentModel {
+    static let lists: [StorePaymentModel] = [
+        StorePaymentModel(payName: "카카오 페이", success: true, successDate: "2022.08.20", successRate: 95),
+        StorePaymentModel(payName: "애플페이 - VISA", success: false, successDate: "2022.08.19", successRate: 80),
+        StorePaymentModel(payName: "네이버 페이", success: true, successDate: "2022.08.21", successRate: 97),
+        StorePaymentModel(payName: "네이버 페이", success: true, successDate: "2022.08.21", successRate: 97),
+        StorePaymentModel(payName: "네이버 페이", success: true, successDate: "2022.08.21", successRate: 97),
+        StorePaymentModel(payName: "네이버 페이", success: true, successDate: "2022.08.21", successRate: 97),
+        StorePaymentModel(payName: "네이버 페이", success: true, successDate: "2022.08.21", successRate: 97),
+        StorePaymentModel(payName: "네이버 페이", success: true, successDate: "2022.08.21", successRate: 97),
+        StorePaymentModel(payName: "네이버 페이", success: true, successDate: "2022.08.21", successRate: 97)
+    ]
+}

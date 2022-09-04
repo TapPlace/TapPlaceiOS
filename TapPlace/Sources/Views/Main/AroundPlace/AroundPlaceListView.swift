@@ -62,8 +62,8 @@ class AroundPlaceListView: UIView, AroundPlaceApplyFilterProtocol {
     let paymentButton = AroundFilterButton()
     let tableView: UITableView = {
         let tableView = UITableView()
-        tableView.estimatedRowHeight = 80
-        tableView.separatorStyle = .none
+        //tableView.estimatedRowHeight = 80
+        tableView.separatorStyle = .singleLine
         tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         return tableView
     }()
@@ -226,7 +226,11 @@ extension AroundPlaceListView {
 }
 
 //MARK: - TableView
-extension AroundPlaceListView: UITableViewDelegate, UITableViewDataSource {
+extension AroundPlaceListView: UITableViewDelegate, UITableViewDataSource, StoreInfoViewButtonProtocol {
+    func didTapStoreInfoButton(selectedIndex: Int?) {
+        print(selectedIndex)
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 50
     }
@@ -234,10 +238,15 @@ extension AroundPlaceListView: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: AroundStoreTableViewCell.cellId, for: indexPath) as? AroundStoreTableViewCell else { return UITableViewCell() }
         let bookmark = indexPath.row == 2 ? true : false
-        cell.setAttributedString(store: "[\(indexPath.row)] 세븐일레븐 염창점",distance: "50m", address: "서울특별시 강서구 양천로 677", isBookmark: bookmark)
-        cell.payLists = ["applelogo", "cart.fill", "trash.fill"]
+        
+        cell.cellIndex = indexPath.row
+        cell.storeInfoView.setAttributedString(store: "[\(indexPath.row)] 세븐일레븐 염창점",distance: "50m", address: "서울특별시 강서구 양천로 677", isBookmark: bookmark)
+        cell.storeInfoView.payLists = ["applelogo", "cart.fill", "trash.fill"]
+        cell.storeInfoView.isButtonVisible = true
+        cell.storeInfoView.delegate = self
         cell.contentView.isUserInteractionEnabled = false
         cell.selectionStyle = .none
+        cell.separatorInset = .zero
         return cell
         
     }
@@ -245,7 +254,7 @@ extension AroundPlaceListView: UITableViewDelegate, UITableViewDataSource {
         guard let cell = tableView.cellForRow(at: indexPath) as? AroundStoreTableViewCell else { return }
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableView.automaticDimension
+        return 110//UITableView.automaticDimension
     }
     
 }

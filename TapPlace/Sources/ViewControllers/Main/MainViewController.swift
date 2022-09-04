@@ -77,7 +77,7 @@ class MainViewController: CommonViewController {
         setupNaverMap()
         setupFloatingPanel()
         
-        print(PaymentModel.favoriteList)
+        showDetailOverView(hide: false)
     }
     
 }

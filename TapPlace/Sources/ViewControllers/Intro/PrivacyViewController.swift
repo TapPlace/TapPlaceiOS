@@ -118,10 +118,8 @@ extension PrivacyViewController {
             stackView.setCustomSpacing(13, after: maleButton)
             return stackView
         }()
-        
-        bottomButton.backgroundColor = .pointBlue
-        bottomButton.setTitle("확인", for: .normal)
-        bottomButton.setTitleColor(.init(hex: 0xFFFFFF), for: .normal)
+
+        bottomButton.setButtonStyle(title: "확인", type: .activate, fill: true)
         
         view.addSubview(navigationBar)
         navigationBar.snp.makeConstraints {

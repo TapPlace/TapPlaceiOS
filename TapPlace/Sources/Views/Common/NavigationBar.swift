@@ -43,7 +43,7 @@ class NavigationBar: UIView {
             }
         }
     }
-    
+     
     // 상단 검색 뷰
     let navigationBar: UIView = {
         let navigationBar = UIView()

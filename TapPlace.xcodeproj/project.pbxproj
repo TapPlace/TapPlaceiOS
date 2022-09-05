@@ -78,6 +78,10 @@
 		F438236028C3120C00C75063 /* StickyHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = F438235F28C3120C00C75063 /* StickyHeader.swift */; };
 		F438236228C3124300C75063 /* StickyHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F438236128C3124300C75063 /* StickyHeaderView.swift */; };
 		F438236428C47BF300C75063 /* FeedbackDoneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F438236328C47BF300C75063 /* FeedbackDoneViewController.swift */; };
+		F438236728C5C2A500C75063 /* NoticeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F438236628C5C2A500C75063 /* NoticeViewController.swift */; };
+		F438236A28C5C39300C75063 /* NoticeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F438236928C5C39300C75063 /* NoticeCell.swift */; };
+		F438236C28C5CD2200C75063 /* NoticeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F438236B28C5CD2200C75063 /* NoticeModel.swift */; };
+		F438236E28C5D24800C75063 /* AlarmCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F438236D28C5D24800C75063 /* AlarmCell.swift */; };
 		F449AEB328ACEABE008E0417 /* SearchContentButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F449AEB228ACEABE008E0417 /* SearchContentButton.swift */; };
 		F449AEB628ADD205008E0417 /* SearchingActionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F449AEB528ADD205008E0417 /* SearchingActionTableViewCell.swift */; };
 		F4551D3A28A8B651003B93F4 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4551D3928A8B651003B93F4 /* SearchViewController.swift */; };
@@ -169,6 +173,10 @@
 		F438235F28C3120C00C75063 /* StickyHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickyHeader.swift; sourceTree = "<group>"; };
 		F438236128C3124300C75063 /* StickyHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickyHeaderView.swift; sourceTree = "<group>"; };
 		F438236328C47BF300C75063 /* FeedbackDoneViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackDoneViewController.swift; sourceTree = "<group>"; };
+		F438236628C5C2A500C75063 /* NoticeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeViewController.swift; sourceTree = "<group>"; };
+		F438236928C5C39300C75063 /* NoticeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeCell.swift; sourceTree = "<group>"; };
+		F438236B28C5CD2200C75063 /* NoticeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeModel.swift; sourceTree = "<group>"; };
+		F438236D28C5D24800C75063 /* AlarmCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmCell.swift; sourceTree = "<group>"; };
 		F449AEB228ACEABE008E0417 /* SearchContentButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchContentButton.swift; sourceTree = "<group>"; };
 		F449AEB528ADD205008E0417 /* SearchingActionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchingActionTableViewCell.swift; sourceTree = "<group>"; };
 		F4551D3928A8B651003B93F4 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
@@ -433,6 +441,7 @@
 				DF1CD4A928AF1CE5000D23E4 /* Intro */,
 				DF1CD4AA28AF1D00000D23E4 /* Main */,
 				F4F12EE328B8961A0060B239 /* Detail */,
+				F438236528C5C26C00C75063 /* Else */,
 				DF1CD4AC28AF1D56000D23E4 /* More */,
 			);
 			path = ViewControllers;
@@ -449,6 +458,7 @@
 				DF9BE0A728B71711009E075D /* TermsModel.swift */,
 				F478DA4728BCA94E003C686A /* StoreDetailModel.swift */,
 				DFF5300028BC515D00FFC302 /* UserModel.swift */,
+				F438236B28C5CD2200C75063 /* NoticeModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -504,6 +514,7 @@
 			children = (
 				DF1CD4AD28AF1E07000D23E4 /* Intro */,
 				DF1CD4AE28AF1E25000D23E4 /* Main */,
+				F438236828C5C38300C75063 /* Else */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -515,6 +526,23 @@
 				DFF5300228BC55D000FFC302 /* Storage.swift */,
 			);
 			path = Utils;
+			sourceTree = "<group>";
+		};
+		F438236528C5C26C00C75063 /* Else */ = {
+			isa = PBXGroup;
+			children = (
+				F438236628C5C2A500C75063 /* NoticeViewController.swift */,
+			);
+			path = Else;
+			sourceTree = "<group>";
+		};
+		F438236828C5C38300C75063 /* Else */ = {
+			isa = PBXGroup;
+			children = (
+				F438236928C5C39300C75063 /* NoticeCell.swift */,
+				F438236D28C5D24800C75063 /* AlarmCell.swift */,
+			);
+			path = Else;
 			sourceTree = "<group>";
 		};
 		F4F12EE328B8961A0060B239 /* Detail */ = {
@@ -650,6 +678,7 @@
 				DF82669C289CA11700272830 /* PickPaymentsViewController.swift in Sources */,
 				DF6B69F728B90BA2009D4076 /* FilterResetButtonView.swift in Sources */,
 				F49D36E228B62952000D025D /* PrivacyViewController.swift in Sources */,
+				F438236C28C5CD2200C75063 /* NoticeModel.swift in Sources */,
 				DF82669E289CA12800272830 /* MainViewController.swift in Sources */,
 				DFF5300528BC578A00FFC302 /* StorageViewModel.swift in Sources */,
 				DFCB0B2228B3369200BF9BE7 /* AroundDistanceFilterViewController.swift in Sources */,
@@ -697,10 +726,13 @@
 				DFA2875928AB94C700DD9F63 /* DetailOverView.swift in Sources */,
 				DFECC8CA28AC95E800DC64FD /* AroundPlaceViewController.swift in Sources */,
 				F449AEB628ADD205008E0417 /* SearchingActionTableViewCell.swift in Sources */,
+				F438236728C5C2A500C75063 /* NoticeViewController.swift in Sources */,
 				DF826698289CA0EC00272830 /* SplashViewController.swift in Sources */,
+				F438236E28C5D24800C75063 /* AlarmCell.swift in Sources */,
 				DF82669A289CA10800272830 /* OnBoardingViewController.swift in Sources */,
 				F41A51EC28B0919D00FE546B /* NavigationBar.swift in Sources */,
 				DFECC8CE28ACD9CF00DC64FD /* AroundStoreTableViewCell.swift in Sources */,
+				F438236A28C5C39300C75063 /* NoticeCell.swift in Sources */,
 				DFF7BEDC28A685F500289F39 /* StoreTabCollectionViewCell.swift in Sources */,
 				F449AEB328ACEABE008E0417 /* SearchContentButton.swift in Sources */,
 				DFECC8CC28AC9F1200DC64FD /* AroundFilterButton.swift in Sources */,

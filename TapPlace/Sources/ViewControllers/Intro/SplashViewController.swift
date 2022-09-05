@@ -50,7 +50,11 @@ class SplashViewController: UIViewController {
                         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
                         moveViewController(TestViewController(), present: true)
 //                        moveViewController(TabBarViewController(), present: true)
+<<<<<<< HEAD
+                        moveViewController(NoticeViewController(), present: true)
+=======
 //                        moveViewController(FeedbackDoneViewController(), present: true)
+>>>>>>> 735b089f6d384746a84ae1e84277ab5697c3f9c1
                     } else {
                         print("관심결제수단 설정 안됨")
                         nextVC = PickPaymentsViewController()

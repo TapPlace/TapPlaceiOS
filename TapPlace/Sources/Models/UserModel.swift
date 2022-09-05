@@ -7,7 +7,12 @@
 
 import Foundation
 import RealmSwift
+import CoreLocation
 
+/// 유저 정보
+struct UserInfo {
+    static var userLocation: CLLocationCoordinate2D?
+}
 
 /// 유저 계정 정보
 class UserModel: Object {

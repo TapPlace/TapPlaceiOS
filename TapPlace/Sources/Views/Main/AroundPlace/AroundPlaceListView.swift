@@ -62,7 +62,7 @@ class AroundPlaceListView: UIView, AroundPlaceApplyFilterProtocol {
     let paymentButton = AroundFilterButton()
     let tableView: UITableView = {
         let tableView = UITableView()
-        //tableView.estimatedRowHeight = 80
+        tableView.rowHeight = 110
         tableView.separatorStyle = .singleLine
         tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         return tableView
@@ -240,7 +240,13 @@ extension AroundPlaceListView: UITableViewDelegate, UITableViewDataSource, Store
         let bookmark = indexPath.row == 2 ? true : false
         
         cell.cellIndex = indexPath.row
-        cell.storeInfoView.setAttributedString(store: "[\(indexPath.row)] 세븐일레븐 염창점",distance: "50m", address: "서울특별시 강서구 양천로 677", isBookmark: bookmark)
+        //cell.storeInfoView.setAttributedString(store: "[\(indexPath.row)] 세븐일레븐 염창점", distance: "50m", address: "서울특별시 강서구 양천로 677", isBookmark: bookmark)
+        let dummyFeedback = [
+            Feedback(num: 0, storeID: "118519786", success: 10, fail: 5, lastState: "success", lastTime: "2022.01.02", pay: "apple_visa", exist: true),
+            Feedback(num: 0, storeID: "118519786", success: 10, fail: 5, lastState: "success", lastTime: "2022.01.02", pay: "google_master", exist: true),
+            Feedback(num: 0, storeID: "118519786", success: 10, fail: 5, lastState: "success", lastTime: "2022.01.02", pay: "kakaopay", exist: true)
+        ]
+        cell.storeInfo = StoreInfo(num: 1, storeID: "118519786", placeName: "플랜에이스터디카페 서초교대센터", addressName: "서울 서초구 서초동 1691-2", roadAddressName: "서울 서초구 서초중앙로24길 20", categoryGroupName: "", phone: "02-3143-0909", x: "127.015695735359", y: "37.4947251545286", feedback: dummyFeedback)
         cell.storeInfoView.payLists = ["applelogo", "cart.fill", "trash.fill"]
         cell.storeInfoView.isButtonVisible = true
         cell.storeInfoView.delegate = self
@@ -252,9 +258,6 @@ extension AroundPlaceListView: UITableViewDelegate, UITableViewDataSource, Store
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let cell = tableView.cellForRow(at: indexPath) as? AroundStoreTableViewCell else { return }
-    }
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 110//UITableView.automaticDimension
     }
     
 }

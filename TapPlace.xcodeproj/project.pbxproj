@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		55CBCFD9AFB8567F870CFC5F /* Pods_TapPlace.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FFFD01AEFF3455253C3E138 /* Pods_TapPlace.framework */; };
+		DF01A89428C5C94500124788 /* CustomNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF01A89328C5C94500124788 /* CustomNavigationBar.swift */; };
+		DF01A89628C5D6CE00124788 /* TestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF01A89528C5D6CE00124788 /* TestViewController.swift */; };
 		DF1CD4B828AF7BEC000D23E4 /* AroundPlaceFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF1CD4B728AF7BEC000D23E4 /* AroundPlaceFilterView.swift */; };
 		DF1D34B728A3662900BDDA15 /* StoreModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF1D34B628A3662900BDDA15 /* StoreModel.swift */; };
 		DF2340AA28A1D37D00A9DAE1 /* NSMutableAttributedString+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF2340A928A1D37D00A9DAE1 /* NSMutableAttributedString+Extension.swift */; };
@@ -31,6 +33,8 @@
 		DF82669E289CA12800272830 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF82669D289CA12800272830 /* MainViewController.swift */; };
 		DF8266A8289F1D0D00272830 /* PlaceDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF8266A7289F1D0D00272830 /* PlaceDataService.swift */; };
 		DF85D8C628C48F1600465D6A /* StoreInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF85D8C528C48F1600465D6A /* StoreInfoView.swift */; };
+		DF85D8C928C4BFAD00465D6A /* StoreInfoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF85D8C828C4BFAD00465D6A /* StoreInfoModel.swift */; };
+		DF85D8CB28C4C22300465D6A /* CLLocation+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF85D8CA28C4C22300465D6A /* CLLocation+Extension.swift */; };
 		DF9BE0A428B6E8B9009E075D /* TermsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF9BE0A328B6E8B9009E075D /* TermsViewController.swift */; };
 		DF9BE0A628B6EEEA009E075D /* UILabel+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF9BE0A528B6EEEA009E075D /* UILabel+Extension.swift */; };
 		DF9BE0A828B71711009E075D /* TermsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF9BE0A728B71711009E075D /* TermsModel.swift */; };
@@ -99,6 +103,8 @@
 		2F0AC997BCBE5EECEE20CD45 /* Pods-TapPlace.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TapPlace.debug.xcconfig"; path = "Target Support Files/Pods-TapPlace/Pods-TapPlace.debug.xcconfig"; sourceTree = "<group>"; };
 		3FFFD01AEFF3455253C3E138 /* Pods_TapPlace.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TapPlace.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		662DBEBE9668E5AAC68748EB /* Pods-TapPlace.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TapPlace.release.xcconfig"; path = "Target Support Files/Pods-TapPlace/Pods-TapPlace.release.xcconfig"; sourceTree = "<group>"; };
+		DF01A89328C5C94500124788 /* CustomNavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavigationBar.swift; sourceTree = "<group>"; };
+		DF01A89528C5D6CE00124788 /* TestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestViewController.swift; sourceTree = "<group>"; };
 		DF1CD4B728AF7BEC000D23E4 /* AroundPlaceFilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AroundPlaceFilterView.swift; sourceTree = "<group>"; };
 		DF1D34B628A3662900BDDA15 /* StoreModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreModel.swift; sourceTree = "<group>"; };
 		DF2340A928A1D37D00A9DAE1 /* NSMutableAttributedString+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSMutableAttributedString+Extension.swift"; sourceTree = "<group>"; };
@@ -124,6 +130,8 @@
 		DF82669D289CA12800272830 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		DF8266A7289F1D0D00272830 /* PlaceDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceDataService.swift; sourceTree = "<group>"; };
 		DF85D8C528C48F1600465D6A /* StoreInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreInfoView.swift; sourceTree = "<group>"; };
+		DF85D8C828C4BFAD00465D6A /* StoreInfoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreInfoModel.swift; sourceTree = "<group>"; };
+		DF85D8CA28C4C22300465D6A /* CLLocation+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CLLocation+Extension.swift"; sourceTree = "<group>"; };
 		DF9BE0A328B6E8B9009E075D /* TermsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsViewController.swift; sourceTree = "<group>"; };
 		DF9BE0A528B6EEEA009E075D /* UILabel+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Extension.swift"; sourceTree = "<group>"; };
 		DF9BE0A728B71711009E075D /* TermsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsModel.swift; sourceTree = "<group>"; };
@@ -251,6 +259,7 @@
 				DF38176F28A46EF100B900B5 /* CommonPickViewController.swift */,
 				DFF7BEDD28A68CDD00289F39 /* TabBarViewController.swift */,
 				DFDBB83428B094FE008D2E09 /* CommonViewController.swift */,
+				DF01A89528C5D6CE00124788 /* TestViewController.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -317,6 +326,7 @@
 				DF4A14A128ABBAEF0068D1AD /* VerticalAlignLabel.swift */,
 				F41A51EB28B0919D00FE546B /* NavigationBar.swift */,
 				DF6B69F028B8BCA4009D4076 /* ToastMessage.swift */,
+				DF01A89328C5C94500124788 /* CustomNavigationBar.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -366,6 +376,14 @@
 				DFA2875A28ABA8D400DD9F63 /* DetailToolBarButton.swift */,
 			);
 			path = CustomToolBar;
+			sourceTree = "<group>";
+		};
+		DF85D8C728C4BF5E00465D6A /* NetworkModels */ = {
+			isa = PBXGroup;
+			children = (
+				DF85D8C828C4BFAD00465D6A /* StoreInfoModel.swift */,
+			);
+			path = NetworkModels;
 			sourceTree = "<group>";
 		};
 		DFC23F89289AB66400EC1090 = {
@@ -450,6 +468,7 @@
 		DFC23FAD289AB6BC00EC1090 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				DF85D8C728C4BF5E00465D6A /* NetworkModels */,
 				DFC23FAE289AB6C900EC1090 /* EmptyModel.swift */,
 				DF2340D228A270C700A9DAE1 /* PaymentModel.swift */,
 				DF1D34B628A3662900BDDA15 /* StoreModel.swift */,
@@ -505,6 +524,7 @@
 				DFA2875628AB684200DD9F63 /* UIView+Extension.swift */,
 				DFECC8D128AD129300DC64FD /* UIStackView+Extension.swift */,
 				DF9BE0A528B6EEEA009E075D /* UILabel+Extension.swift */,
+				DF85D8CA28C4C22300465D6A /* CLLocation+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -699,6 +719,7 @@
 				DFC23FBB289AB70C00EC1090 /* EmptyExtension.swift in Sources */,
 				DFCB0B2428B3A61300BF9BE7 /* AroundModel.swift in Sources */,
 				DFC23F98289AB66400EC1090 /* SceneDelegate.swift in Sources */,
+				DF85D8CB28C4C22300465D6A /* CLLocation+Extension.swift in Sources */,
 				DF9BE0AE28B7271F009E075D /* TermsTableViewCell.swift in Sources */,
 				DFDBB83728B0BB69008D2E09 /* AroundPlaceListView.swift in Sources */,
 				DFC23FB5289AB6F000EC1090 /* EmptyNetwork.swift in Sources */,
@@ -716,12 +737,14 @@
 				F49D36E028B6227D000D025D /* SearchModel.swift in Sources */,
 				F478DA4628BCA210003C686A /* StorePaymentTableViewCell.swift in Sources */,
 				DFDA43F928A14C61003763AC /* CommonUtils.swift in Sources */,
+				DF01A89428C5C94500124788 /* CustomNavigationBar.swift in Sources */,
 				DFF7BEDA28A67DFE00289F39 /* CALayer+Extension.swift in Sources */,
 				DF38177028A46EF100B900B5 /* CommonPickViewController.swift in Sources */,
 				DF9BE0AA28B7187B009E075D /* TermsItemView.swift in Sources */,
 				F41A51EA28B08D3C00FE546B /* SearchEditTableViewCell.swift in Sources */,
 				DF85D8C628C48F1600465D6A /* StoreInfoView.swift in Sources */,
 				DFC23FAF289AB6C900EC1090 /* EmptyModel.swift in Sources */,
+				DF01A89628C5D6CE00124788 /* TestViewController.swift in Sources */,
 				DF51DCC228A7779400D0AE1E /* MoreViewController.swift in Sources */,
 				DFA2875928AB94C700DD9F63 /* DetailOverView.swift in Sources */,
 				DFECC8CA28AC95E800DC64FD /* AroundPlaceViewController.swift in Sources */,
@@ -743,6 +766,7 @@
 				DFECC8D028ACFFE000DC64FD /* BrandIconImageView.swift in Sources */,
 				DF4A14A228ABBAEF0068D1AD /* VerticalAlignLabel.swift in Sources */,
 				DFF5300328BC55D000FFC302 /* Storage.swift in Sources */,
+				DF85D8C928C4BFAD00465D6A /* StoreInfoModel.swift in Sources */,
 				DF9BE0A828B71711009E075D /* TermsModel.swift in Sources */,
 				DF9EAF8528AA00F5001B3D74 /* ResearchButton.swift in Sources */,
 				DF4BD37C28A76F8100C4C5B4 /* UIImage+Extension.swift in Sources */,

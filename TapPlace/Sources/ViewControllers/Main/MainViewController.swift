@@ -78,6 +78,12 @@ class MainViewController: CommonViewController {
         setupFloatingPanel()
         
         showDetailOverView(hide: false)
+        
+
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        showDetailOverView(hide: true)
     }
     
 }
@@ -362,6 +368,7 @@ extension MainViewController: CLLocationManagerDelegate, NMFMapViewCameraDelegat
     func getUserCurrentLocation() {
         guard let result = locationManager.location?.coordinate else { return }
         currentLocation = NMGLatLng(from: result)
+        UserInfo.userLocation = result
         dump(currentLocation)
     }
     /**
@@ -484,12 +491,17 @@ extension MainViewController: CLLocationManagerDelegate, NMFMapViewCameraDelegat
             }
             tabBar.showTabBar(hide: false)
         } else {
-            /* 나중에 함수화 */
             view.addSubview(detailOverView)
             detailOverView.snp.makeConstraints {
                 $0.leading.trailing.bottom.equalToSuperview()
-                $0.height.equalTo(300)
+                $0.top.equalTo(detailOverView.storeInfoView).offset(10)
             }
+            
+            detailOverView.storeInfoView.titleSize = .large
+            let dummyFeedback = [Feedback(num: 0, storeID: "118519786", success: 10, fail: 5, lastState: "success", lastTime: "2022.01.02", pay: "apple_visa", exist: true)]
+            detailOverView.storeInfoView.storeInfo = StoreInfo(num: 1, storeID: "118519786", placeName: "플랜에이스터디카페 서초교대센터", addressName: "서울 서초구 서초동 1691-2", roadAddressName: "서울 서초구 서초중앙로24길 20", categoryGroupName: "", phone: "02-3143-0909", x: "127.015695735359", y: "37.4947251545286", feedback: dummyFeedback)
+            
+            
             detailOverView.layer.applySketchShadow(color: .black, alpha: 0.12, x: 0, y: 0, blur: 14, spread: 0)
             locationButton.snp.remakeConstraints {
                 $0.bottom.equalTo(detailOverView.snp.top).offset(-20)

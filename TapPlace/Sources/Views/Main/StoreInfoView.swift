@@ -6,18 +6,49 @@
 //
 
 import UIKit
+import CoreLocation
 
 protocol StoreInfoViewButtonProtocol {
     func didTapStoreInfoButton(selectedIndex: Int?)
 }
 
+
 class StoreInfoView: UIView {
     var delegate: StoreInfoViewButtonProtocol?
     
+    var storeInfo: StoreInfo? = nil {
+        willSet {
+            guard let store = newValue else { return }
+            storeLabel.text = newValue?.placeName
+            
+            storeGroupLabel.text = store.categoryGroupName == "" ? "기타" : store.categoryGroupName
+
+            var placeDistance: Double?
+            if let _ = UserInfo.userLocation {
+                let storeLocation = CLLocationCoordinate2D(latitude: Double(store.y) ?? 0, longitude: Double(store.x) ?? 0)
+                placeDistance = UserInfo.userLocation?.distance(from: storeLocation)
+            } else {
+                placeDistance = 0
+            }
+            
+            let storeAddress: String = store.roadAddressName == "" ? store.addressName : store.roadAddressName
+            
+            self.setAttributedString(store: store.placeName, distance: DistancelModel.getDistance(distance: placeDistance! / 1000), address: storeAddress)
+            
+            if let payments = newValue?.feedback {
+                var paymentPay: [String] = []
+                for payment in payments {
+                    paymentPay.append(payment.pay)
+                }
+                addPayBrand(pays: paymentPay)
+            }
+
+        }
+    }
+    
     var payLists: [String] = [] {
         willSet {
-            payLists = newValue
-            addPayBrand(pays: newValue)
+            //addPayBrand(pays: newValue)
         }
     }
     
@@ -31,19 +62,53 @@ class StoreInfoView: UIView {
         }
     }
     
-    var thisIndex: Int?
+    var buttonIcon: UIImage? = nil {
+        willSet {
+            guard let buttonIcon = newValue else { return }
+            rightButton.setImage(buttonIcon, for: .normal)
+        }
+    }
+    
+    enum TitleSize {
+        case small, medium, large
+    }
+    
+    var titleSize: TitleSize = .medium {
+        willSet {
+            switch newValue {
+            case .small:
+                storeLabel.font = .systemFont(ofSize: CommonUtils.resizeFontSize(size: 14), weight: .regular)
+            case .medium:
+                storeLabel.font = .systemFont(ofSize: CommonUtils.resizeFontSize(size: 16), weight: .regular)
+            case .large:
+                storeLabel.font = .systemFont(ofSize: CommonUtils.resizeFontSize(size: 18), weight: .regular)
+            }
+        }
+    }
+    
+    var thisIndex: Int? 
     
     let containerView: UIView = {
         let containerView = UIView()
         return containerView
     }()
-    let storeLabel: UILabel = {
-        let storeLabel = UILabel()
+    let storeLabel: VerticalAlignLabel = {
+        let storeLabel = VerticalAlignLabel()
         storeLabel.sizeToFit()
+        storeLabel.verticalAlignment = .bottom
         storeLabel.text = "가맹점 이름"
         storeLabel.textColor = .black
         storeLabel.font = .systemFont(ofSize: CommonUtils.resizeFontSize(size: 16), weight: .regular)
         return storeLabel
+    }()
+    let storeGroupLabel: VerticalAlignLabel = {
+        let storeGroupLabel = VerticalAlignLabel()
+        storeGroupLabel.sizeToFit()
+        storeGroupLabel.verticalAlignment = .bottom
+        storeGroupLabel.text = ""
+        storeGroupLabel.textColor = .init(hex: 0x9e9e9e)
+        storeGroupLabel.font = .systemFont(ofSize: CommonUtils.resizeFontSize(size: 14), weight: .regular)
+        return storeGroupLabel
     }()
     let storeDetailLabel: UILabel = {
         let storeDetailLabel = UILabel()
@@ -53,8 +118,9 @@ class StoreInfoView: UIView {
     }()
     let rightButton: UIButton = {
         let rightButton = UIButton()
-        rightButton.setImage(UIImage(systemName: "bookmark.fill"), for: .normal)
+
         rightButton.tintColor = UIColor.init(hex: 0xdbdee8)
+        rightButton.isHidden = true
         return rightButton
     }()
     let brandStackView: UIStackView = {
@@ -96,20 +162,23 @@ extension StoreInfoView {
         //MARK: AddSubView
         addSubview(containerView)
         containerView.addSubview(storeLabel)
+        containerView.addSubview(storeGroupLabel)
         containerView.addSubview(storeDetailLabel)
         containerView.addSubview(rightButton)
         containerView.addSubview(brandStackView)
         
         //MARK: ViewContraints
         containerView.snp.makeConstraints {
-            //$0.bottom.equalTo(brandStackView)
             $0.leading.centerY.trailing.equalToSuperview()
             $0.top.bottom.equalToSuperview().inset(15)
-            
         }
         storeLabel.snp.makeConstraints {
             $0.leading.equalTo(containerView)
             $0.top.equalTo(containerView)
+        }
+        storeGroupLabel.snp.makeConstraints {
+            $0.leading.equalTo(storeLabel.snp.trailing).offset(10)
+            $0.bottom.equalTo(storeLabel)
         }
         storeDetailLabel.snp.makeConstraints {
             $0.leading.equalTo(storeLabel)
@@ -121,7 +190,7 @@ extension StoreInfoView {
         }
         brandStackView.snp.makeConstraints {
             $0.top.equalTo(storeDetailLabel.snp.bottom).offset(10)
-            $0.height.equalTo(24)
+            $0.height.equalTo(28)
             $0.leading.trailing.equalTo(containerView)
             $0.bottom.equalTo(containerView)
         }
@@ -147,7 +216,10 @@ extension StoreInfoView {
     func addPayBrand(pays: [String]) {
         var paysImages: [UIImageView] = []
         pays.forEach {
-            paysImages.append(BrandIconImageView(image: UIImage(systemName: $0)))
+            if let payment = PaymentModel.thisPayment(payment: $0) {
+                let payIcon = payment.payments == "" ? payment.brand : payment.payments
+                paysImages.append(BrandIconImageView(image: UIImage(named: payIcon)))
+            }
         }
         brandStackView.addArrangedSubviews(paysImages)
         brandStackView.addArrangedSubview(spacerView)

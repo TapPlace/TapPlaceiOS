@@ -6,13 +6,20 @@
 //
 
 import UIKit
-
+ 
 class AroundStoreTableViewCell: UITableViewCell {
 
     static let cellId = "aroundStoreItem"
+    
     var cellIndex: Int = 0 {
         willSet {
             storeInfoView.thisIndex = newValue
+        }
+    }
+    
+    var storeInfo: StoreInfo = StoreInfo(num: 0, storeID: "", placeName: "", addressName: "", roadAddressName: "", categoryGroupName: "", phone: "", x: "", y: "", feedback: nil) {
+        willSet {
+            storeInfoView.storeInfo = newValue
         }
     }
 
@@ -27,7 +34,16 @@ class AroundStoreTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setupCell() {       
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        /// 재사용하면서 생기는 문제로 인해 셀 초기화
+        storeInfoView.brandStackView.removeAllArrangedSubviews()
+        storeInfoView.rightButton.tintColor = UIColor.init(hex: 0xdbdee8)
+    }
+}
+
+extension AroundStoreTableViewCell {
+    func setupCell() {
         addSubview(storeInfoView)
         
         storeInfoView.snp.makeConstraints {
@@ -35,10 +51,7 @@ class AroundStoreTableViewCell: UITableViewCell {
         }
     }
     
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        /// 재사용하면서 생기는 문제로 인해 셀 초기화
-        storeInfoView.brandStackView.removeAllArrangedSubviews()
-        storeInfoView.rightButton.tintColor = UIColor.init(hex: 0xdbdee8)
+    func sendStoreData(store: StoreInfo) {
+        
     }
 }

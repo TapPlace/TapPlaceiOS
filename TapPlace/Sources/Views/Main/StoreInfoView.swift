@@ -77,11 +77,11 @@ class StoreInfoView: UIView {
         willSet {
             switch newValue {
             case .small:
-                storeLabel.font = .systemFont(ofSize: CommonUtils.resizeFontSize(size: 14), weight: .regular)
+                storeLabel.font = .systemFont(ofSize: CommonUtils.resizeFontSize(size: 14), weight: .semibold)
             case .medium:
-                storeLabel.font = .systemFont(ofSize: CommonUtils.resizeFontSize(size: 16), weight: .regular)
+                storeLabel.font = .systemFont(ofSize: CommonUtils.resizeFontSize(size: 16), weight: .semibold)
             case .large:
-                storeLabel.font = .systemFont(ofSize: CommonUtils.resizeFontSize(size: 18), weight: .regular)
+                storeLabel.font = .systemFont(ofSize: CommonUtils.resizeFontSize(size: 18), weight: .semibold)
             }
         }
     }
@@ -189,7 +189,7 @@ extension StoreInfoView {
             $0.centerY.equalTo(containerView)
         }
         brandStackView.snp.makeConstraints {
-            $0.top.equalTo(storeDetailLabel.snp.bottom).offset(10)
+//            $0.top.equalTo(storeDetailLabel.snp.bottom).offset(10)
             $0.height.equalTo(28)
             $0.leading.trailing.equalTo(containerView)
             $0.bottom.equalTo(containerView)

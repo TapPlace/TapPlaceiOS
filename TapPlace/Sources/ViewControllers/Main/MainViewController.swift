@@ -22,10 +22,20 @@ class MainViewController: CommonViewController {
     
     let listButton = MapButton()
     let locationButton = MapButton()
+    
+    let customNavigationBar = CustomNavigationBar()
 
     var naverMapView: NMFMapView = NMFMapView()
     var naverMapMarker: NMFMarker = NMFMarker()
     var circleOverlay: NMFCircleOverlay = NMFCircleOverlay()
+    let searchBar: UIView = {
+        let searchBar = UIView()
+        searchBar.backgroundColor = .white
+        searchBar.layer.cornerRadius = 15
+        searchBar.layer.applySketchShadow(color: .black, alpha: 0.12, x: 0, y: 4, blur: 8, spread: 0)
+        return searchBar
+    }()
+    
     
     let overlayCenterPick: UIView = {
         let overlayCenterPick = UIView()
@@ -78,12 +88,12 @@ class MainViewController: CommonViewController {
         setupFloatingPanel()
         
         showDetailOverView(hide: false)
-        
-
+        showNavigationBar(hide: false)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         showDetailOverView(hide: true)
+        showNavigationBar(hide: true)
     }
     
 }
@@ -218,13 +228,7 @@ extension MainViewController: MapButtonProtocol, ResearchButtonProtocol {
         
         //MARK: ViewDefine
         let safeArea = view.safeAreaLayoutGuide
-        let searchBar: UIView = {
-            let searchBar = UIView()
-            searchBar.backgroundColor = .white
-            searchBar.layer.cornerRadius = 15
-            searchBar.layer.applySketchShadow(color: .black, alpha: 0.12, x: 0, y: 4, blur: 8, spread: 0)
-            return searchBar
-        }()
+
         let searchIcon: UIImageView = {
             let searchIcon = UIImageView()
             searchIcon.image = UIImage(systemName: "magnifyingglass")
@@ -475,6 +479,10 @@ extension MainViewController: CLLocationManagerDelegate, NMFMapViewCameraDelegat
             self.researchButton.isHidden = false
         }
     }
+}
+
+//MARK: - Delegate Other VC
+extension MainViewController {
     /**
      * @ 상세뷰 오버 뷰
      * coder : sanghyeon
@@ -484,17 +492,29 @@ extension MainViewController: CLLocationManagerDelegate, NMFMapViewCameraDelegat
         if hide {
             detailOverView.removeFromSuperview()
             detailOverView.snp.removeConstraints()
+            tabBar.showTabBar(hide: false)
             locationButton.snp.remakeConstraints {
-                $0.bottom.equalTo(view.safeAreaLayoutGuide).offset(-40)
+                $0.bottom.equalTo(listButton.snp.top).offset(-20)
                 $0.trailing.equalTo(view.safeAreaLayoutGuide).offset(-20)
                 $0.width.height.equalTo(40)
             }
-            tabBar.showTabBar(hide: false)
         } else {
+            let closeButton: UIButton = {
+                let closeButton = UIButton()
+                closeButton.setImage(UIImage(systemName: "xmark"), for: .normal)
+                closeButton.tintColor = .black
+                return closeButton
+            }()
             view.addSubview(detailOverView)
+            detailOverView.addSubview(closeButton)
             detailOverView.snp.makeConstraints {
                 $0.leading.trailing.bottom.equalToSuperview()
-                $0.top.equalTo(detailOverView.storeInfoView).offset(10)
+                $0.top.equalTo(detailOverView.storeInfoView)
+            }
+            closeButton.snp.makeConstraints {
+                $0.trailing.equalTo(detailOverView).offset(-20)
+                $0.centerY.equalTo(detailOverView.storeInfoView.storeLabel)
+                $0.width.height.equalTo(20)
             }
             
             detailOverView.storeInfoView.titleSize = .large
@@ -511,7 +531,53 @@ extension MainViewController: CLLocationManagerDelegate, NMFMapViewCameraDelegat
             tabBar.showTabBar(hide: true)
         }
     }
+    /**
+     * @ 네비게이션바 표시
+     * coder : sanghyeon
+     */
+    func showNavigationBar(hide: Bool) {
+        if hide {
+            customNavigationBar.removeFromSuperview()
+            searchBar.isHidden = false
+            collectionView.isHidden = false
+        } else {
+            searchBar.isHidden = true
+            collectionView.isHidden = true
+            let rightButton: UIButton = {
+                let rightButton = UIButton()
+                rightButton.tintColor = .black
+                rightButton.setImage(UIImage(systemName: "xmark"), for: .normal)
+                rightButton.addTarget(self, action: #selector(didTapNavigationRightButton), for: .touchUpInside)
+                return rightButton
+            }()
+            
+            view.addSubview(customNavigationBar)
+            customNavigationBar.addSubview(rightButton)
+            customNavigationBar.snp.makeConstraints {
+                $0.top.leading.trailing.equalToSuperview()
+                $0.bottom.equalTo(customNavigationBar.containerView)
+            }
+            rightButton.snp.makeConstraints {
+                $0.trailing.equalTo(customNavigationBar).offset(-10)
+                $0.bottom.equalTo(customNavigationBar).offset(-10)
+                $0.width.height.equalTo(30)
+            }
+            customNavigationBar.titleText = "플랜에이스터디카페 서초교대센터"
+            customNavigationBar.isUseLeftButton = true
+            customNavigationBar.isDrawShadow = true
+        }
+    }
+    /**
+     * @ 네비게이션바 우측 버튼 클릭 함수
+     * coder : sanghyeon
+     */
+    @objc func didTapNavigationRightButton() {
+        print("네비게이션바 우측버튼 클릭 함")
+        showNavigationBar(hide: true)
+        showDetailOverView(hide: true)
+    }
 }
+
 //MARK: - CollectionView
 extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

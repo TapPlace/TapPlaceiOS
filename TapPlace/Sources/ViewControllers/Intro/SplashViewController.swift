@@ -48,10 +48,15 @@ class SplashViewController: UIViewController {
                         print("관심결제수단 설정 되었음")
                         self.navigationController?.navigationBar.isHidden = true
                         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
+<<<<<<< HEAD
+//                        moveViewController(TestViewController(), present: true)
+                        moveViewController(InquiryViewController(), present: true)
+=======
 
                         moveViewController(TabBarViewController(), present: true)
 
 //                        moveViewController(FeedbackDoneViewController(), present: true)
+>>>>>>> 925707f3b167e964e1affecf461be1eb6730754b
                     } else {
                         print("관심결제수단 설정 안됨")
                         nextVC = PickPaymentsViewController()
@@ -59,8 +64,7 @@ class SplashViewController: UIViewController {
                 } else {
                     print("성별, 생년월일 설정 안됨")
 //                    nextVC = PrivacyViewController()
-                    nextVC = FeedbackDoneViewController()
-//                    nextVC = StoreDetailViewController()
+                    nextVC = StoreDetailViewController()
                 }
             } else {
                 print("약관 동의 안됨")

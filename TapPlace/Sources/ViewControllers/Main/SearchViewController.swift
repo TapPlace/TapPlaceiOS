@@ -22,7 +22,7 @@ class SearchViewController: CommonViewController {
         UIImage(systemName: "fork.knife.circle.fill")
     ]
     
-    let navigationBar = NavigationBar() // 커스텀 네비게이션 바
+    let customNavigationBar = CustomNavigationBar()// 커스텀 네비게이션 바
     let searchField = UITextField()  // 검색 필드
     let recentSearchButton = SearchContentButton() // 최근 검색어 버튼
     let favoriteSearchButton = SearchContentButton() // 즐겨찾는 가맹점 버튼
@@ -33,7 +33,13 @@ class SearchViewController: CommonViewController {
         setupView()
         configureTableView()
         setLayout()
-        navigationBar.delegate = self
+        
+        customNavigationBar.delegate = self
+        customNavigationBar.isDrawShadow = true
+        customNavigationBar.isDrawBottomLine = true
+        customNavigationBar.titleText = ""
+        customNavigationBar.isUseLeftButton = true
+        
         searchField.delegate = self
     }
     
@@ -146,25 +152,24 @@ extension SearchViewController: SearchContentButtonProtocol {
         
         
         // 상단 뷰 AutoLayout
-        view.addSubview(navigationBar)
-        navigationBar.snp.makeConstraints {
-            $0.top.leading.trailing.equalTo(safeArea)
-            $0.width.equalTo(self.view.frame.width)
-            $0.height.equalTo(60)
+        view.addSubview(customNavigationBar)
+        customNavigationBar.snp.makeConstraints {
+            $0.top.leading.trailing.equalToSuperview()
+            $0.bottom.equalTo(customNavigationBar.containerView)
         }
         
         // 검색 텍스트필드 AutoLayout
-        navigationBar.addSubview(searchField)
+        customNavigationBar.addSubview(searchField)
         searchField.snp.makeConstraints {
-            $0.top.equalTo(navigationBar.snp.top).offset(25)
-            $0.leading.equalTo(navigationBar.snp.leading).offset(40)
-            $0.trailing.equalTo(navigationBar.snp.trailing).offset(-20)
+            $0.bottom.equalTo(customNavigationBar.containerView).offset(-15)
+            $0.leading.equalTo(customNavigationBar.snp.leading).offset(40)
+            $0.trailing.equalTo(customNavigationBar.snp.trailing).offset(-20)
         }
         
         // 라인 AutoLayout
-        navigationBar.addSubview(lineView)
+        customNavigationBar.addSubview(lineView)
         lineView.snp.makeConstraints {
-            $0.top.equalTo(navigationBar.snp.bottom)
+            $0.top.equalTo(customNavigationBar.snp.bottom)
             $0.width.equalTo(self.view.frame.width)
             $0.height.equalTo(1)
         }
@@ -243,8 +248,8 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
 }
 
 // MARK: - 네비게이션 바 backbutton 프로토콜 구현
-extension SearchViewController: BackButtonProtocol {
-    func popViewVC() {
+extension SearchViewController: CustomNavigationBarProtocol {
+    func didTapLeftButton() {
         self.navigationController?.popViewController(animated: true)
     }
 }

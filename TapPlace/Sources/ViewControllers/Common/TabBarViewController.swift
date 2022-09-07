@@ -33,6 +33,16 @@ class TabBarViewController: UITabBarController {
         return floatingButton
     }()
     
+    var isShowFloatingButton: Bool = true {
+        willSet {
+            if newValue {
+                floatingButton.isHidden = false
+            } else {
+                floatingButton.isHidden = true
+            }
+        }
+    }
+    
     var tempViewHeight: CGFloat = 0
     
     private let optionMenu = UIAlertController(title: nil, message: "New", preferredStyle: .actionSheet)
@@ -105,8 +115,8 @@ class TabBarViewController: UITabBarController {
         floatingButton.addTarget(self, action: #selector(menuButtonAction(sender:)), for: .touchUpInside)
 
         let viewControllers: [ViewControllers] = [
-            ViewControllers(controller: MainViewController(), title: "주변", icon: UIImage(systemName: "location.circle")!),
-            ViewControllers(controller: MoreViewController(), title: "더보기", icon: UIImage(systemName: "ellipsis.circle")!)
+            ViewControllers(controller: MainViewController(), title: "주변", icon: UIImage(named: "location")!),
+            ViewControllers(controller: MoreViewController(), title: "더보기", icon: UIImage(named: "more")!)
         ]
         
         setViewControllers(setVC(vc: viewControllers), animated: true)

@@ -249,9 +249,9 @@ extension MainViewController: MapButtonProtocol, ResearchButtonProtocol {
 
         
         //MARK: ViewPropertyManual
-        listButton.iconName = "list.bullet"
+        listButton.iconName = "list"
         listButton.layer.applySketchShadow(color: .black, alpha: 0.12, x: 0, y: 1, blur: 8, spread: 0)
-        locationButton.iconName = "location"
+        locationButton.iconName = "currentLocation"
         locationButton.layer.applySketchShadow(color: .black, alpha: 0.12, x: 0, y: 1, blur: 8, spread: 0)
         overlayCenterPick.isHidden = true
         researchButton.isHidden = true

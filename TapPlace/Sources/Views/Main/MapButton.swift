@@ -15,8 +15,8 @@ class MapButton: UIView {
     var delegate: MapButtonProtocol?
     var iconName: String = "" {
         willSet {
-            let iconConfig = UIImage.SymbolConfiguration(pointSize: 24, weight: .medium, scale: .medium)
-            buttonImage.image = UIImage(systemName: newValue, withConfiguration: iconConfig)
+            //let iconConfig = UIImage.SymbolConfiguration(pointSize: 24, weight: .medium, scale: .medium)
+            buttonImage.image = UIImage(named: newValue)
         }
     }
     
@@ -29,6 +29,7 @@ class MapButton: UIView {
     let buttonImage: UIImageView = {
         let buttonImage = UIImageView()
         buttonImage.tintColor = .pointBlue
+        buttonImage.contentMode = .scaleAspectFit
         return buttonImage
     }()
     

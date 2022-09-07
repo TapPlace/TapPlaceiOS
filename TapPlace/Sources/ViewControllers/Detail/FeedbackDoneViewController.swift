@@ -10,9 +10,18 @@ import UIKit
 
 
 class FeedbackDoneViewController: UIViewController {
+    
+    let customNavigationBar = CustomNavigationBar()
+    
     override func viewDidLoad() {
         setupView()
         setLayout()
+        
+        customNavigationBar.delegate = self
+        customNavigationBar.isDrawShadow = false
+        customNavigationBar.isDrawBottomLine = false
+        customNavigationBar.isUseLeftButton = true
+        
         configureTableView()
     }
     
@@ -39,13 +48,6 @@ extension FeedbackDoneViewController {
     }
     
     private func setLayout() {
-        let safeArea = view.safeAreaLayoutGuide
-        
-        let navigationBar: NavigationBar = {
-            let navigationBar = NavigationBar()
-            return navigationBar
-        }()
-        
         let naviTitle: UILabel = {
             let naviTitle = UILabel()
             naviTitle.font = .boldSystemFont(ofSize: 17)
@@ -90,22 +92,21 @@ extension FeedbackDoneViewController {
             return button
         }()
         
-        view.addSubview(navigationBar)
-        navigationBar.snp.makeConstraints {
-            $0.top.leading.trailing.equalTo(safeArea)
-            $0.width.equalTo(self.view.frame.width)
-            $0.height.equalTo(60)
+        view.addSubview(customNavigationBar)
+        customNavigationBar.snp.makeConstraints {
+            $0.top.leading.trailing.equalToSuperview()
+            $0.bottom.equalTo(customNavigationBar.containerView)
         }
         
-        navigationBar.addSubview(naviTitle)
+        customNavigationBar.addSubview(naviTitle)
         naviTitle.snp.makeConstraints {
-            $0.top.equalTo(navigationBar.snp.top).offset(27)
-            $0.centerX.equalTo(navigationBar)
+            $0.bottom.equalTo(customNavigationBar.containerView).offset(-15)
+            $0.centerX.equalTo(customNavigationBar)
         }
         
         view.addSubview(imgView)
         imgView.snp.makeConstraints {
-            $0.top.equalTo(navigationBar.snp.bottom).offset(30)
+            $0.top.equalTo(customNavigationBar.snp.bottom).offset(30)
             $0.centerX.equalToSuperview()
             $0.width.height.equalTo(60)
         }
@@ -141,6 +142,12 @@ extension FeedbackDoneViewController {
             $0.leading.trailing.equalToSuperview()
             $0.bottom.equalTo(button.snp.top)
         }
+    }
+}
+
+extension FeedbackDoneViewController: CustomNavigationBarProtocol {
+    func didTapLeftButton() {
+        self.navigationController?.popViewController(animated: true)
     }
 }
 

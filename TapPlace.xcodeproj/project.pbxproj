@@ -22,11 +22,16 @@
 		DF4A14A228ABBAEF0068D1AD /* VerticalAlignLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF4A14A128ABBAEF0068D1AD /* VerticalAlignLabel.swift */; };
 		DF4A14A428ABBEF50068D1AD /* CustomToolBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF4A14A328ABBEF50068D1AD /* CustomToolBar.swift */; };
 		DF4BD37C28A76F8100C4C5B4 /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF4BD37B28A76F8100C4C5B4 /* UIImage+Extension.swift */; };
+		DF4BDF7728C74030000F15FA /* NavigationBarButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF4BDF7628C74030000F15FA /* NavigationBarButton.swift */; };
+		DF4BDF7A28C74A06000F15FA /* MoreHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF4BDF7928C74A06000F15FA /* MoreHeaderView.swift */; };
+		DF4BDF7C28C74C69000F15FA /* UIViewPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF4BDF7B28C74C69000F15FA /* UIViewPreview.swift */; };
+		DF4BDF7E28C75418000F15FA /* MoreHeaderViewItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF4BDF7D28C75418000F15FA /* MoreHeaderViewItem.swift */; };
 		DF51DCC228A7779400D0AE1E /* MoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF51DCC128A7779400D0AE1E /* MoreViewController.swift */; };
 		DF5FFCF428B4FC1F00BEFFA3 /* AroundFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF5FFCF328B4FC1F00BEFFA3 /* AroundFilterViewController.swift */; };
 		DF6B69EF28B8518E009D4076 /* TermsWebViewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF6B69EE28B8518E009D4076 /* TermsWebViewViewController.swift */; };
 		DF6B69F128B8BCA4009D4076 /* ToastMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF6B69F028B8BCA4009D4076 /* ToastMessage.swift */; };
 		DF6B69F728B90BA2009D4076 /* FilterResetButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF6B69F628B90BA2009D4076 /* FilterResetButtonView.swift */; };
+		DF71EB4028C7683300AB693F /* MoreMenuTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF71EB3F28C7683300AB693F /* MoreMenuTableViewCell.swift */; };
 		DF826698289CA0EC00272830 /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF826697289CA0EC00272830 /* SplashViewController.swift */; };
 		DF82669A289CA10800272830 /* OnBoardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF826699289CA10800272830 /* OnBoardingViewController.swift */; };
 		DF82669C289CA11700272830 /* PickPaymentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF82669B289CA11700272830 /* PickPaymentsViewController.swift */; };
@@ -54,6 +59,9 @@
 		DFC23FBB289AB70C00EC1090 /* EmptyExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFC23FBA289AB70C00EC1090 /* EmptyExtension.swift */; };
 		DFCB0B2228B3369200BF9BE7 /* AroundDistanceFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFCB0B2128B3369200BF9BE7 /* AroundDistanceFilterViewController.swift */; };
 		DFCB0B2428B3A61300BF9BE7 /* AroundModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFCB0B2328B3A61300BF9BE7 /* AroundModel.swift */; };
+		DFD6729B28C81673000220EE /* MoreListFilterTitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFD6729A28C81673000220EE /* MoreListFilterTitle.swift */; };
+		DFD6729D28C868CF000220EE /* BookMarkEditModeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFD6729C28C868CF000220EE /* BookMarkEditModeCell.swift */; };
+		DFD780E028C7804400F822C3 /* BookmarkViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFD780DF28C7804400F822C3 /* BookmarkViewController.swift */; };
 		DFDA43F428A14821003763AC /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFDA43F328A14821003763AC /* UIColor+Extension.swift */; };
 		DFDA43F628A14AB3003763AC /* PickViewControllerTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFDA43F528A14AB3003763AC /* PickViewControllerTitleView.swift */; };
 		DFDA43F928A14C61003763AC /* CommonUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFDA43F828A14C61003763AC /* CommonUtils.swift */; };
@@ -121,11 +129,16 @@
 		DF4A14A128ABBAEF0068D1AD /* VerticalAlignLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerticalAlignLabel.swift; sourceTree = "<group>"; };
 		DF4A14A328ABBEF50068D1AD /* CustomToolBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomToolBar.swift; sourceTree = "<group>"; };
 		DF4BD37B28A76F8100C4C5B4 /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
+		DF4BDF7628C74030000F15FA /* NavigationBarButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationBarButton.swift; sourceTree = "<group>"; };
+		DF4BDF7928C74A06000F15FA /* MoreHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreHeaderView.swift; sourceTree = "<group>"; };
+		DF4BDF7B28C74C69000F15FA /* UIViewPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewPreview.swift; sourceTree = "<group>"; };
+		DF4BDF7D28C75418000F15FA /* MoreHeaderViewItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreHeaderViewItem.swift; sourceTree = "<group>"; };
 		DF51DCC128A7779400D0AE1E /* MoreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreViewController.swift; sourceTree = "<group>"; };
 		DF5FFCF328B4FC1F00BEFFA3 /* AroundFilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AroundFilterViewController.swift; sourceTree = "<group>"; };
 		DF6B69EE28B8518E009D4076 /* TermsWebViewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsWebViewViewController.swift; sourceTree = "<group>"; };
 		DF6B69F028B8BCA4009D4076 /* ToastMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastMessage.swift; sourceTree = "<group>"; };
 		DF6B69F628B90BA2009D4076 /* FilterResetButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterResetButtonView.swift; sourceTree = "<group>"; };
+		DF71EB3F28C7683300AB693F /* MoreMenuTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreMenuTableViewCell.swift; sourceTree = "<group>"; };
 		DF826697289CA0EC00272830 /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
 		DF826699289CA10800272830 /* OnBoardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardingViewController.swift; sourceTree = "<group>"; };
 		DF82669B289CA11700272830 /* PickPaymentsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickPaymentsViewController.swift; sourceTree = "<group>"; };
@@ -155,6 +168,9 @@
 		DFC23FBA289AB70C00EC1090 /* EmptyExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyExtension.swift; sourceTree = "<group>"; };
 		DFCB0B2128B3369200BF9BE7 /* AroundDistanceFilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AroundDistanceFilterViewController.swift; sourceTree = "<group>"; };
 		DFCB0B2328B3A61300BF9BE7 /* AroundModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AroundModel.swift; sourceTree = "<group>"; };
+		DFD6729A28C81673000220EE /* MoreListFilterTitle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreListFilterTitle.swift; sourceTree = "<group>"; };
+		DFD6729C28C868CF000220EE /* BookMarkEditModeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookMarkEditModeCell.swift; sourceTree = "<group>"; };
+		DFD780DF28C7804400F822C3 /* BookmarkViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkViewController.swift; sourceTree = "<group>"; };
 		DFDA43F328A14821003763AC /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		DFDA43F528A14AB3003763AC /* PickViewControllerTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickViewControllerTitleView.swift; sourceTree = "<group>"; };
 		DFDA43F828A14C61003763AC /* CommonUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonUtils.swift; sourceTree = "<group>"; };
@@ -273,6 +289,7 @@
 			isa = PBXGroup;
 			children = (
 				DF51DCC128A7779400D0AE1E /* MoreViewController.swift */,
+				DFD780DF28C7804400F822C3 /* BookmarkViewController.swift */,
 			);
 			path = More;
 			sourceTree = "<group>";
@@ -327,10 +344,12 @@
 		DF1CD4B128AF71FE000D23E4 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				DF4BDF7828C749E2000F15FA /* More */,
+				DF4BDF7528C74018000F15FA /* NavigationBar */,
 				DF1CD4B228AF7205000D23E4 /* Button */,
 				DF4A14A128ABBAEF0068D1AD /* VerticalAlignLabel.swift */,
 				DF6B69F028B8BCA4009D4076 /* ToastMessage.swift */,
-				DF01A89328C5C94500124788 /* CustomNavigationBar.swift */,
+				DF4BDF7B28C74C69000F15FA /* UIViewPreview.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -380,6 +399,34 @@
 				DFA2875A28ABA8D400DD9F63 /* DetailToolBarButton.swift */,
 			);
 			path = CustomToolBar;
+			sourceTree = "<group>";
+		};
+		DF4BDF7528C74018000F15FA /* NavigationBar */ = {
+			isa = PBXGroup;
+			children = (
+				DF01A89328C5C94500124788 /* CustomNavigationBar.swift */,
+				DF4BDF7628C74030000F15FA /* NavigationBarButton.swift */,
+			);
+			path = NavigationBar;
+			sourceTree = "<group>";
+		};
+		DF4BDF7828C749E2000F15FA /* More */ = {
+			isa = PBXGroup;
+			children = (
+				DF4BDF7928C74A06000F15FA /* MoreHeaderView.swift */,
+				DF4BDF7D28C75418000F15FA /* MoreHeaderViewItem.swift */,
+				DFD6729A28C81673000220EE /* MoreListFilterTitle.swift */,
+			);
+			path = More;
+			sourceTree = "<group>";
+		};
+		DF4BDF7F28C75D78000F15FA /* More */ = {
+			isa = PBXGroup;
+			children = (
+				DF71EB3F28C7683300AB693F /* MoreMenuTableViewCell.swift */,
+				DFD6729C28C868CF000220EE /* BookMarkEditModeCell.swift */,
+			);
+			path = More;
 			sourceTree = "<group>";
 		};
 		DF85D8C728C4BF5E00465D6A /* NetworkModels */ = {
@@ -536,6 +583,7 @@
 		DFC23FBC289AB70F00EC1090 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
+				DF4BDF7F28C75D78000F15FA /* More */,
 				DF1CD4AD28AF1E07000D23E4 /* Intro */,
 				DF1CD4AE28AF1E25000D23E4 /* Main */,
 				F438236828C5C38300C75063 /* Else */,
@@ -708,6 +756,7 @@
 				DF82669E289CA12800272830 /* MainViewController.swift in Sources */,
 				DFF5300528BC578A00FFC302 /* StorageViewModel.swift in Sources */,
 				DFCB0B2228B3369200BF9BE7 /* AroundDistanceFilterViewController.swift in Sources */,
+				DF71EB4028C7683300AB693F /* MoreMenuTableViewCell.swift in Sources */,
 				DFA2875728AB684200DD9F63 /* UIView+Extension.swift in Sources */,
 				DF9BE0A628B6EEEA009E075D /* UILabel+Extension.swift in Sources */,
 				F438236428C47BF300C75063 /* FeedbackDoneViewController.swift in Sources */,
@@ -721,6 +770,7 @@
 				F4C6C8BD28B0A89B00FAF10A /* EditButton.swift in Sources */,
 				F4551D3A28A8B651003B93F4 /* SearchViewController.swift in Sources */,
 				DFC23FB2289AB6E500EC1090 /* EmptyViewModel.swift in Sources */,
+				DF4BDF7A28C74A06000F15FA /* MoreHeaderView.swift in Sources */,
 				DFDA43F428A14821003763AC /* UIColor+Extension.swift in Sources */,
 				DFC23FBB289AB70C00EC1090 /* EmptyExtension.swift in Sources */,
 				DFCB0B2428B3A61300BF9BE7 /* AroundModel.swift in Sources */,
@@ -731,6 +781,7 @@
 				DFC23FB5289AB6F000EC1090 /* EmptyNetwork.swift in Sources */,
 				DF2340D328A270C700A9DAE1 /* PaymentModel.swift in Sources */,
 				F4F12EE528B896410060B239 /* StoreDetailViewController.swift in Sources */,
+				DFD780E028C7804400F822C3 /* BookmarkViewController.swift in Sources */,
 				DFE5F6B028A9385C000511E9 /* MapButton.swift in Sources */,
 				DF6B69EF28B8518E009D4076 /* TermsWebViewViewController.swift in Sources */,
 				DF8266A8289F1D0D00272830 /* PlaceDataService.swift in Sources */,
@@ -756,16 +807,21 @@
 				DFA2875928AB94C700DD9F63 /* DetailOverView.swift in Sources */,
 				DFECC8CA28AC95E800DC64FD /* AroundPlaceViewController.swift in Sources */,
 				F449AEB628ADD205008E0417 /* SearchingActionTableViewCell.swift in Sources */,
+				DF4BDF7E28C75418000F15FA /* MoreHeaderViewItem.swift in Sources */,
 				F438236728C5C2A500C75063 /* NoticeViewController.swift in Sources */,
 				DF826698289CA0EC00272830 /* SplashViewController.swift in Sources */,
+				DFD6729D28C868CF000220EE /* BookMarkEditModeCell.swift in Sources */,
 				F438236E28C5D24800C75063 /* AlarmCell.swift in Sources */,
 				F438237228C709E100C75063 /* AlarmModel.swift in Sources */,
 				DF82669A289CA10800272830 /* OnBoardingViewController.swift in Sources */,
+				DF4BDF7728C74030000F15FA /* NavigationBarButton.swift in Sources */,
+				F41A51EC28B0919D00FE546B /* NavigationBar.swift in Sources */,
 				DFECC8CE28ACD9CF00DC64FD /* AroundStoreTableViewCell.swift in Sources */,
 				F438236A28C5C39300C75063 /* NoticeCell.swift in Sources */,
 				DFF7BEDC28A685F500289F39 /* StoreTabCollectionViewCell.swift in Sources */,
 				F449AEB328ACEABE008E0417 /* SearchContentButton.swift in Sources */,
 				DFECC8CC28AC9F1200DC64FD /* AroundFilterButton.swift in Sources */,
+				DFD6729B28C81673000220EE /* MoreListFilterTitle.swift in Sources */,
 				DF38177828A4E28200B900B5 /* PaymentViewModel.swift in Sources */,
 				F478DA4428BCA12B003C686A /* StoreInfoTableViewCell.swift in Sources */,
 				F478DA4828BCA94E003C686A /* StoreDetailModel.swift in Sources */,
@@ -785,6 +841,7 @@
 				DF6B69F128B8BCA4009D4076 /* ToastMessage.swift in Sources */,
 				DF2340D128A239FC00A9DAE1 /* PickPaymentsCollectionReusableView.swift in Sources */,
 				DF1D34B728A3662900BDDA15 /* StoreModel.swift in Sources */,
+				DF4BDF7C28C74C69000F15FA /* UIViewPreview.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -943,7 +1000,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = kr.co.tapplace.TapPlaceiosios2;
+				PRODUCT_BUNDLE_IDENTIFIER = kr.co.tapplace.TapPlace;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -979,7 +1036,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = kr.co.tapplace.TapPlaceiosios2;
+				PRODUCT_BUNDLE_IDENTIFIER = kr.co.tapplace.TapPlace;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;

@@ -25,6 +25,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         IQKeyboardManager.shared.enableAutoToolbar = false
         IQKeyboardManager.shared.shouldResignOnTouchOutside = true
         
+        if #available(iOS 15.0, *) {
+            UITableView.appearance().sectionHeaderTopPadding = .zero
+        }
+        
         
         return true
     }

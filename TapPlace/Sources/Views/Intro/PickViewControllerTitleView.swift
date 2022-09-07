@@ -8,7 +8,6 @@
 import UIKit
 
 protocol TitleViewProtocol {
-    func didTapTitleViewSkipButton()
     func didTapTitleViewClearButton()
 }
 
@@ -86,10 +85,6 @@ class PickViewControllerTitleView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    @objc func didTapSkipButton() {
-        print("델리게이트 함수 호출 전")
-        delegate?.didTapTitleViewSkipButton()
-    }
     @objc func didTapClearButton() {
         print("델리게이트 함수 호출 전")
         delegate?.didTapTitleViewClearButton()

@@ -56,6 +56,14 @@ extension UIColor {
         return UIColor(red: 0.86, green: 0.87, blue: 0.91, alpha: 1.00)
     }
     
+    /// 앱에서 쓰이는 레드 색상
+    @nonobjc class var pointRed: UIColor {
+        return UIColor(red: 1.00, green: 0.32, blue: 0.27, alpha: 1.00)
+    }
+    /// 기본적으로 쓰이는 회색
+    @nonobjc class var defaultGray: UIColor {
+        return UIColor(red: 0.86, green: 0.87, blue: 0.91, alpha: 1.00)
+    }
     
     /// 비활성화 그레이
     @nonobjc class var deactiveGray: UIColor {

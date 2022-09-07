@@ -57,10 +57,14 @@
 		DFC23FB2289AB6E500EC1090 /* EmptyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFC23FB1289AB6E400EC1090 /* EmptyViewModel.swift */; };
 		DFC23FB5289AB6F000EC1090 /* EmptyNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFC23FB4289AB6F000EC1090 /* EmptyNetwork.swift */; };
 		DFC23FBB289AB70C00EC1090 /* EmptyExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFC23FBA289AB70C00EC1090 /* EmptyExtension.swift */; };
+		DFC449A228C8A9490029DD5E /* FeedbackRequestTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFC449A128C8A9490029DD5E /* FeedbackRequestTableViewCell.swift */; };
+		DFC449A428C8B4700029DD5E /* FeedbackButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFC449A328C8B4700029DD5E /* FeedbackButton.swift */; };
 		DFCB0B2228B3369200BF9BE7 /* AroundDistanceFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFCB0B2128B3369200BF9BE7 /* AroundDistanceFilterViewController.swift */; };
 		DFCB0B2428B3A61300BF9BE7 /* AroundModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFCB0B2328B3A61300BF9BE7 /* AroundModel.swift */; };
 		DFD6729B28C81673000220EE /* MoreListFilterTitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFD6729A28C81673000220EE /* MoreListFilterTitle.swift */; };
 		DFD6729D28C868CF000220EE /* BookMarkEditModeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFD6729C28C868CF000220EE /* BookMarkEditModeCell.swift */; };
+		DFD6729F28C88F65000220EE /* FeedbackRequestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFD6729E28C88F65000220EE /* FeedbackRequestViewController.swift */; };
+		DFD672A328C8A71B000220EE /* FeedbackRequestModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFD672A228C8A71B000220EE /* FeedbackRequestModel.swift */; };
 		DFD780E028C7804400F822C3 /* BookmarkViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFD780DF28C7804400F822C3 /* BookmarkViewController.swift */; };
 		DFDA43F428A14821003763AC /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFDA43F328A14821003763AC /* UIColor+Extension.swift */; };
 		DFDA43F628A14AB3003763AC /* PickViewControllerTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFDA43F528A14AB3003763AC /* PickViewControllerTitleView.swift */; };
@@ -166,10 +170,14 @@
 		DFC23FB1289AB6E400EC1090 /* EmptyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyViewModel.swift; sourceTree = "<group>"; };
 		DFC23FB4289AB6F000EC1090 /* EmptyNetwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyNetwork.swift; sourceTree = "<group>"; };
 		DFC23FBA289AB70C00EC1090 /* EmptyExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyExtension.swift; sourceTree = "<group>"; };
+		DFC449A128C8A9490029DD5E /* FeedbackRequestTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackRequestTableViewCell.swift; sourceTree = "<group>"; };
+		DFC449A328C8B4700029DD5E /* FeedbackButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackButton.swift; sourceTree = "<group>"; };
 		DFCB0B2128B3369200BF9BE7 /* AroundDistanceFilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AroundDistanceFilterViewController.swift; sourceTree = "<group>"; };
 		DFCB0B2328B3A61300BF9BE7 /* AroundModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AroundModel.swift; sourceTree = "<group>"; };
 		DFD6729A28C81673000220EE /* MoreListFilterTitle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreListFilterTitle.swift; sourceTree = "<group>"; };
 		DFD6729C28C868CF000220EE /* BookMarkEditModeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookMarkEditModeCell.swift; sourceTree = "<group>"; };
+		DFD6729E28C88F65000220EE /* FeedbackRequestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackRequestViewController.swift; sourceTree = "<group>"; };
+		DFD672A228C8A71B000220EE /* FeedbackRequestModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackRequestModel.swift; sourceTree = "<group>"; };
 		DFD780DF28C7804400F822C3 /* BookmarkViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkViewController.swift; sourceTree = "<group>"; };
 		DFDA43F328A14821003763AC /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		DFDA43F528A14AB3003763AC /* PickViewControllerTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickViewControllerTitleView.swift; sourceTree = "<group>"; };
@@ -358,6 +366,7 @@
 			isa = PBXGroup;
 			children = (
 				DF2340CC28A22DF900A9DAE1 /* BottomButton.swift */,
+				DFC449A328C8B4700029DD5E /* FeedbackButton.swift */,
 			);
 			path = Button;
 			sourceTree = "<group>";
@@ -518,6 +527,7 @@
 		DFC23FAD289AB6BC00EC1090 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				DFD672A028C8A6FB000220EE /* NativeModels */,
 				DF85D8C728C4BF5E00465D6A /* NetworkModels */,
 				DFC23FAE289AB6C900EC1090 /* EmptyModel.swift */,
 				DF2340D228A270C700A9DAE1 /* PaymentModel.swift */,
@@ -583,12 +593,37 @@
 		DFC23FBC289AB70F00EC1090 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
+				DFC449A028C8A9330029DD5E /* Feedback */,
 				DF4BDF7F28C75D78000F15FA /* More */,
 				DF1CD4AD28AF1E07000D23E4 /* Intro */,
 				DF1CD4AE28AF1E25000D23E4 /* Main */,
 				F438236828C5C38300C75063 /* Else */,
 			);
 			path = Cells;
+			sourceTree = "<group>";
+		};
+		DFC449A028C8A9330029DD5E /* Feedback */ = {
+			isa = PBXGroup;
+			children = (
+				DFC449A128C8A9490029DD5E /* FeedbackRequestTableViewCell.swift */,
+			);
+			path = Feedback;
+			sourceTree = "<group>";
+		};
+		DFD672A028C8A6FB000220EE /* NativeModels */ = {
+			isa = PBXGroup;
+			children = (
+				DFD672A128C8A708000220EE /* Feedback */,
+			);
+			path = NativeModels;
+			sourceTree = "<group>";
+		};
+		DFD672A128C8A708000220EE /* Feedback */ = {
+			isa = PBXGroup;
+			children = (
+				DFD672A228C8A71B000220EE /* FeedbackRequestModel.swift */,
+			);
+			path = Feedback;
 			sourceTree = "<group>";
 		};
 		DFDA43F728A14C56003763AC /* Utils */ = {
@@ -626,6 +661,7 @@
 				F438235F28C3120C00C75063 /* StickyHeader.swift */,
 				F438236128C3124300C75063 /* StickyHeaderView.swift */,
 				F438236328C47BF300C75063 /* FeedbackDoneViewController.swift */,
+				DFD6729E28C88F65000220EE /* FeedbackRequestViewController.swift */,
 			);
 			path = Detail;
 			sourceTree = "<group>";
@@ -747,6 +783,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DFC449A428C8B4700029DD5E /* FeedbackButton.swift in Sources */,
 				F41A51E828B0865D00FE546B /* SearchEditViewController.swift in Sources */,
 				DFDA43F628A14AB3003763AC /* PickViewControllerTitleView.swift in Sources */,
 				DF82669C289CA11700272830 /* PickPaymentsViewController.swift in Sources */,
@@ -794,10 +831,12 @@
 				F49D36E028B6227D000D025D /* SearchModel.swift in Sources */,
 				F478DA4628BCA210003C686A /* StorePaymentTableViewCell.swift in Sources */,
 				DFDA43F928A14C61003763AC /* CommonUtils.swift in Sources */,
+				DFD6729F28C88F65000220EE /* FeedbackRequestViewController.swift in Sources */,
 				F438237028C7085200C75063 /* AlarmViewController.swift in Sources */,
 				DF01A89428C5C94500124788 /* CustomNavigationBar.swift in Sources */,
 				DFF7BEDA28A67DFE00289F39 /* CALayer+Extension.swift in Sources */,
 				DF38177028A46EF100B900B5 /* CommonPickViewController.swift in Sources */,
+				DFD672A328C8A71B000220EE /* FeedbackRequestModel.swift in Sources */,
 				DF9BE0AA28B7187B009E075D /* TermsItemView.swift in Sources */,
 				F41A51EA28B08D3C00FE546B /* SearchEditTableViewCell.swift in Sources */,
 				DF85D8C628C48F1600465D6A /* StoreInfoView.swift in Sources */,
@@ -815,7 +854,6 @@
 				F438237228C709E100C75063 /* AlarmModel.swift in Sources */,
 				DF82669A289CA10800272830 /* OnBoardingViewController.swift in Sources */,
 				DF4BDF7728C74030000F15FA /* NavigationBarButton.swift in Sources */,
-				F41A51EC28B0919D00FE546B /* NavigationBar.swift in Sources */,
 				DFECC8CE28ACD9CF00DC64FD /* AroundStoreTableViewCell.swift in Sources */,
 				F438236A28C5C39300C75063 /* NoticeCell.swift in Sources */,
 				DFF7BEDC28A685F500289F39 /* StoreTabCollectionViewCell.swift in Sources */,
@@ -827,6 +865,7 @@
 				F478DA4828BCA94E003C686A /* StoreDetailModel.swift in Sources */,
 				F438237428C7188A00C75063 /* InquiryViewController.swift in Sources */,
 				F438236228C3124300C75063 /* StickyHeaderView.swift in Sources */,
+				DFC449A228C8A9490029DD5E /* FeedbackRequestTableViewCell.swift in Sources */,
 				DFECC8D028ACFFE000DC64FD /* BrandIconImageView.swift in Sources */,
 				DF4A14A228ABBAEF0068D1AD /* VerticalAlignLabel.swift in Sources */,
 				DFF5300328BC55D000FFC302 /* Storage.swift in Sources */,

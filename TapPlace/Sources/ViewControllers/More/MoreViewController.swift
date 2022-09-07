@@ -8,20 +8,45 @@
 import UIKit
 import NMapsMap
 
-class MoreViewController: UIViewController {
+class MoreViewController: CommonViewController {
 
+    var cellForFirstSection = [
+        ["공지사항", "notice", ""],
+        ["버전정보", "version", "최신 버전"],
+        ["자주 묻는 질문", "faq", ""],
+        ["문의하기", "qna", ""],
+        ["수정제안", "request", ""]
+    ]
+    
+    var headerView: MoreHeaderView?
+    let customNavigationBar = CustomNavigationBar()
+    let navigationButtonStackView: UIStackView = {
+        let navigationButtonStackView = UIStackView()
+        navigationButtonStackView.axis = .horizontal
+        navigationButtonStackView.spacing = 20
+        return navigationButtonStackView
+    }()
+    let spacerView: UIView = {
+        let spacerView = UIView()
+        spacerView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+        return spacerView
+    }()
+    let alarmButton = NavigationBarButton()
+    let settingButton = NavigationBarButton()
     let tableView = UITableView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
+        setupNavigation()
+        setupTableView()
         
     }
     
 
 }
 //MARK: - Layouyt
-extension MoreViewController {
+extension MoreViewController: NavigationBarButtonProtocol {
     /**
      * @ 초기 레이아웃 설정
      * coder : sanghyeon
@@ -36,21 +61,171 @@ extension MoreViewController {
         
         
         //MARK: AddSubView
-        
+        self.view.addSubview(customNavigationBar)
+        customNavigationBar.addSubview(navigationButtonStackView)
+        navigationButtonStackView.addArrangedSubviews([spacerView, alarmButton, settingButton])
+        self.view.addSubview(tableView)
         
         //MARK: ViewContraints
-        
+        customNavigationBar.snp.makeConstraints {
+            $0.top.leading.trailing.equalToSuperview()
+            $0.bottom.equalTo(customNavigationBar.containerView)
+        }
+        navigationButtonStackView.snp.makeConstraints {
+            $0.leading.equalTo(customNavigationBar.navigationTitleLabel.snp.trailing).offset(10)
+            $0.trailing.equalTo(customNavigationBar).offset(-20)
+            $0.centerY.equalTo(customNavigationBar.navigationTitleLabel)
+            $0.height.equalTo(40)
+        }
+        alarmButton.snp.makeConstraints {
+            $0.width.equalTo(20)
+        }
+        settingButton.snp.makeConstraints {
+            $0.width.equalTo(30)
+        }
+        tableView.snp.makeConstraints {
+            $0.top.equalTo(customNavigationBar.snp.bottom)
+            $0.leading.trailing.bottom.equalTo(safeArea)
+        }
         
         //MARK: ViewAddTarget
         
         
         //MARK: Delegate
+        tableView.delegate = self
+        tableView.dataSource = self
+    }
+    /**
+     * @ 네비게이션 세팅
+     * coder : sanghyeon
+     */
+    func setupNavigation() {
+        
+        self.navigationController?.navigationBar.isHidden = true
+        
+        customNavigationBar.titleText = "더보기"
+        
+        alarmButton.setImage = "alarm"
+        alarmButton.delegate = self
+        settingButton.setImage = "gear"
+        settingButton.delegate = self
+    }
+    /**
+     * @ 네비게이션바 버튼 클릭 함수
+     * coder : sanghyeon
+     */
+    func didTapNavigationBarButton(_ sender: UIButton) {
+        switch sender {
+        case alarmButton:
+            print("네비게이션 알림 버튼 탭")
+        case settingButton:
+            print("네비게이션 설정 버튼 탭")
+        default:
+            break
+        }
     }
     /**
      * @ 테이블뷰 세팅
      * coder : sanghyeon
      */
     func setupTableView() {
-        
+        tableView.register(MoreMenuTableViewCell.self, forCellReuseIdentifier: MoreMenuTableViewCell.cellId)
+        tableView.separatorStyle = .none
     }
+}
+
+//MARK: - TableView
+extension MoreViewController: UITableViewDelegate, UITableViewDataSource, MoreHeaderButtonProtocol {
+    func didTapMoreHeaderItemButton(_ sender: UIButton) {
+        guard let headerView = headerView else { return }
+        switch sender {
+        case headerView.itemBookmark.button:
+            print("즐겨찾기 탭")
+            let vc = BookmarkViewController()
+            self.navigationController?.pushViewController(vc, animated: true)
+        case headerView.itemFeedback.button:
+            print("피드백 탭")
+        case headerView.itemStores.button:
+            print("등록가게 탭")
+        default:
+            break
+        }
+    }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 2
+    }
+   
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        switch section {
+        case 0:
+            return cellForFirstSection.count
+        case 1:
+            return TermsModel.lists.filter({$0.isTerm == true}).count
+        default:
+            return 0
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: MoreMenuTableViewCell.cellId, for: indexPath) as? MoreMenuTableViewCell else { return UITableViewCell() }
+        cell.selectionStyle = .none
+        switch indexPath.section {
+        case 0:
+            cell.title = String(cellForFirstSection[indexPath.row][0])
+            cell.subTitle = cellForFirstSection[indexPath.row][2]
+            return cell
+        case 1:
+            let targetTerm = TermsModel.lists.filter({$0.isTerm == true})
+            cell.title = targetTerm[indexPath.row].title
+            return cell
+        default:
+            return UITableViewCell()
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let cell = tableView.cellForRow(at: indexPath) as? MoreMenuTableViewCell else { return }
+
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 50
+    }
+    
+    //MARK: Header & Footer
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        if section == 0 {
+            headerView = MoreHeaderView()
+            headerView?.itemBookmark.delegate = self
+            headerView?.itemFeedback.delegate = self
+            headerView?.itemStores.delegate = self
+            return headerView
+        }
+        return nil
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        if section == 0 {
+            return 150
+        }
+        return 0
+    }
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        if section == 0 {
+            let footerView: UIView = {
+                let footerView = UIView()
+                footerView.backgroundColor = .init(hex: 0xDBDEE8, alpha: 0.4)
+                return footerView
+            }()
+            return footerView
+        }
+        return nil
+    }
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        if section == 1 { return 0 }
+        return 6
+    }
+    
 }

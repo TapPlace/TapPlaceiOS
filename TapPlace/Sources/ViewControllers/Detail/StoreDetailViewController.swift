@@ -39,7 +39,7 @@ class StoreDetailViewController: UIViewController {
     var naverMapView: NMFMapView = NMFMapView() // 네이버 지도 뷰
     
     
-    var navigationView = NavigationBar()
+    var customNavigationView = CustomNavigationBar()
     
     
     private var dataSource = [StoreDetailModel]()
@@ -55,10 +55,10 @@ class StoreDetailViewController: UIViewController {
         storeDetailTableView.stickyHeader.height = 200
         storeDetailTableView.stickyHeader.minimumHeight = 60
         
-        navigationView.frame = CGRect(x: 0, y: 0, width: naverMapView.frame.width, height: 200)
+        customNavigationView.frame = CGRect(x: 0, y: 0, width: naverMapView.frame.width, height: 200)
 //        navigationView.backgroundColor = .brown
-        navigationView.alpha = 0
-        storeDetailTableView.stickyHeader.view = navigationView
+        customNavigationView.alpha = 0
+        storeDetailTableView.stickyHeader.view = customNavigationView
     }
     
     private lazy var storeDetailTableView: UITableView = {
@@ -107,7 +107,7 @@ class StoreDetailViewController: UIViewController {
         let offset = scrollView.contentOffset.y
         let changeStartOffset: CGFloat = -180
         let changeSpeed: CGFloat = 30
-        navigationView.alpha = min(1.0, (offset - changeStartOffset) / changeSpeed)
+        customNavigationView.alpha = min(1.0, (offset - changeStartOffset) / changeSpeed)
     }
 }
 

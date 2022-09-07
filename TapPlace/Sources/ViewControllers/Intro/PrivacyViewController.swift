@@ -10,7 +10,7 @@ import UIKit
 
 class PrivacyViewController: UIViewController {
     
-    let navigationBar = NavigationBar()
+    let customNavigationBar = CustomNavigationBar()
     let bottomButton = BottomButton()
     let birthInputField = UITextField() // 생년월일 입력 필드
     let maleButton = UIButton() // 남성 버튼
@@ -22,8 +22,15 @@ class PrivacyViewController: UIViewController {
     override func viewDidLoad() {
         setupView()
         setLayout()
-        navigationBar.delegate = self
+        
+        customNavigationBar.delegate = self
+        customNavigationBar.isDrawShadow = false
+        customNavigationBar.isDrawBottomLine = false
+        customNavigationBar.titleText = ""
+        customNavigationBar.isUseLeftButton = true
+        
         bottomButton.delegate = self
+        
         birthInputField.delegate = self
         birthInputField.keyboardType = .numberPad
     }
@@ -121,16 +128,15 @@ extension PrivacyViewController {
 
         bottomButton.setButtonStyle(title: "확인", type: .activate, fill: true)
         
-        view.addSubview(navigationBar)
-        navigationBar.snp.makeConstraints {
-            $0.top.leading.trailing.equalTo(safeArea)
-            $0.width.equalTo(self.view.frame.width)
-            $0.height.equalTo(60)
+        view.addSubview(customNavigationBar)
+        customNavigationBar.snp.makeConstraints {
+            $0.top.leading.trailing.equalToSuperview()
+            $0.bottom.equalTo(customNavigationBar.containerView)
         }
         
         view.addSubview(topLabel)
         topLabel.snp.makeConstraints {
-            $0.top.equalTo(navigationBar.snp.bottom).offset(60)
+            $0.top.equalTo(customNavigationBar.snp.bottom).offset(60)
             $0.leading.equalTo(safeArea).offset(20)
         }
         
@@ -214,8 +220,8 @@ extension PrivacyViewController {
 }
 
 // MARK: - 상단 네비게이션 바 Back 버튼 프로토콜 구현
-extension PrivacyViewController: BackButtonProtocol {
-    func popViewVC() {
+extension PrivacyViewController: CustomNavigationBarProtocol {
+    func didTapLeftButton() {
         self.navigationController?.popViewController(animated: true)
     }
 }

@@ -11,7 +11,7 @@ class SearchEditViewController: CommonViewController {
     
     var chooseItem = 0 // 편집할 셀 갯수
     
-    let navigationBar = NavigationBar() // 커스텀 네비게이션 바
+    let customNavigationBar = CustomNavigationBar() // 커스텀 네비게이션 바
     let leftBtn = EditButton() // 전체 선택 버튼
     let rightBtn = EditButton() // 삭제 버튼
     
@@ -20,7 +20,13 @@ class SearchEditViewController: CommonViewController {
         setupView()
         configureTableView()
         setLayout()
-        navigationBar.delegate = self
+        
+        customNavigationBar.delegate = self
+        customNavigationBar.isDrawShadow = true
+        customNavigationBar.isDrawBottomLine = true
+        customNavigationBar.titleText = ""
+        customNavigationBar.isUseLeftButton = true
+        
         leftBtn.delegate = self
         rightBtn.delegate = self
         
@@ -80,31 +86,30 @@ extension SearchEditViewController {
         }()
         
         leftBtn.backgroundColor = .white
-        leftBtn.titleLabel?.font = UIFont(name: "AppleSDGothicNeoSB00-Regular", size: 16)
+        leftBtn.titleLabel?.font = .systemFont(ofSize: 16)
         leftBtn.setTitle("전체선택", for: .normal)
         leftBtn.setTitleColor(UIColor(red: 0.722, green: 0.741, blue: 0.8, alpha: 1), for: .normal)
         
         rightBtn.backgroundColor =  UIColor(red: 0.969, green: 0.973, blue: 0.98, alpha: 1)
-        rightBtn.titleLabel?.font = UIFont(name: "AppleSDGothicNeoSB00-Regular", size: 16)
+        rightBtn.titleLabel?.font = .systemFont(ofSize: 16)
         rightBtn.setTitle("삭제", for: .normal)
         rightBtn.setTitleColor(UIColor(red: 0.722, green: 0.741, blue: 0.8, alpha: 1), for: .normal)
         
-        view.addSubview(navigationBar)
-        navigationBar.snp.makeConstraints {
-            $0.top.leading.trailing.equalTo(safeArea)
-            $0.width.equalTo(self.view.frame.width)
-            $0.height.equalTo(60)
+        view.addSubview(customNavigationBar)
+        customNavigationBar.snp.makeConstraints {
+            $0.top.leading.trailing.equalToSuperview()
+            $0.bottom.equalTo(customNavigationBar.containerView)
         }
         
-        navigationBar.addSubview(titleLabel)
+        customNavigationBar.addSubview(titleLabel)
         titleLabel.snp.makeConstraints {
-            $0.top.equalTo(navigationBar.snp.top).offset(27)
-            $0.leading.equalTo(navigationBar.snp.leading).offset(43)
+            $0.bottom.equalTo(customNavigationBar.containerView).offset(-15)
+            $0.leading.equalTo(customNavigationBar.snp.leading).offset(43)
         }
         
         view.addSubview(editTableView)
         editTableView.snp.makeConstraints {
-            $0.top.equalTo(navigationBar.snp.bottom)
+            $0.top.equalTo(customNavigationBar.snp.bottom)
             $0.leading.trailing.bottom.equalTo(safeArea)
         }
         
@@ -146,8 +151,8 @@ extension SearchEditViewController {
 }
 
 // MARK: - 네비게이션 바 backbutton 프로토콜 구현
-extension SearchEditViewController: BackButtonProtocol {
-    func popViewVC() {
+extension SearchEditViewController: CustomNavigationBarProtocol {
+    func didTapLeftButton() {
         self.navigationController?.popViewController(animated: true)
     }
 }

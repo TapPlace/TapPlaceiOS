@@ -75,7 +75,6 @@
 		DFF7BEDE28A68CDD00289F39 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFF7BEDD28A68CDD00289F39 /* TabBarViewController.swift */; };
 		F41A51E828B0865D00FE546B /* SearchEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41A51E728B0865D00FE546B /* SearchEditViewController.swift */; };
 		F41A51EA28B08D3C00FE546B /* SearchEditTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41A51E928B08D3C00FE546B /* SearchEditTableViewCell.swift */; };
-		F41A51EC28B0919D00FE546B /* NavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41A51EB28B0919D00FE546B /* NavigationBar.swift */; };
 		F425EECA28A25087002A20FC /* dog.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = F425EEC928A25087002A20FC /* dog.jpeg */; };
 		F425EECD28A29EF0002A20FC /* dog2.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = F425EECB28A29EEF002A20FC /* dog2.jpeg */; };
 		F425EECE28A29EF0002A20FC /* dog3.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = F425EECC28A29EF0002A20FC /* dog3.jpeg */; };
@@ -86,6 +85,9 @@
 		F438236A28C5C39300C75063 /* NoticeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F438236928C5C39300C75063 /* NoticeCell.swift */; };
 		F438236C28C5CD2200C75063 /* NoticeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F438236B28C5CD2200C75063 /* NoticeModel.swift */; };
 		F438236E28C5D24800C75063 /* AlarmCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F438236D28C5D24800C75063 /* AlarmCell.swift */; };
+		F438237028C7085200C75063 /* AlarmViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F438236F28C7085200C75063 /* AlarmViewController.swift */; };
+		F438237228C709E100C75063 /* AlarmModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F438237128C709E100C75063 /* AlarmModel.swift */; };
+		F438237428C7188A00C75063 /* InquiryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F438237328C7188A00C75063 /* InquiryViewController.swift */; };
 		F449AEB328ACEABE008E0417 /* SearchContentButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F449AEB228ACEABE008E0417 /* SearchContentButton.swift */; };
 		F449AEB628ADD205008E0417 /* SearchingActionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F449AEB528ADD205008E0417 /* SearchingActionTableViewCell.swift */; };
 		F4551D3A28A8B651003B93F4 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4551D3928A8B651003B93F4 /* SearchViewController.swift */; };
@@ -174,7 +176,6 @@
 		DFF7BEDD28A68CDD00289F39 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		F41A51E728B0865D00FE546B /* SearchEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchEditViewController.swift; sourceTree = "<group>"; };
 		F41A51E928B08D3C00FE546B /* SearchEditTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchEditTableViewCell.swift; sourceTree = "<group>"; };
-		F41A51EB28B0919D00FE546B /* NavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationBar.swift; sourceTree = "<group>"; };
 		F425EEC928A25087002A20FC /* dog.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = dog.jpeg; sourceTree = "<group>"; };
 		F425EECB28A29EEF002A20FC /* dog2.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = dog2.jpeg; sourceTree = "<group>"; };
 		F425EECC28A29EF0002A20FC /* dog3.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = dog3.jpeg; sourceTree = "<group>"; };
@@ -185,6 +186,9 @@
 		F438236928C5C39300C75063 /* NoticeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeCell.swift; sourceTree = "<group>"; };
 		F438236B28C5CD2200C75063 /* NoticeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeModel.swift; sourceTree = "<group>"; };
 		F438236D28C5D24800C75063 /* AlarmCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmCell.swift; sourceTree = "<group>"; };
+		F438236F28C7085200C75063 /* AlarmViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmViewController.swift; sourceTree = "<group>"; };
+		F438237128C709E100C75063 /* AlarmModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmModel.swift; sourceTree = "<group>"; };
+		F438237328C7188A00C75063 /* InquiryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquiryViewController.swift; sourceTree = "<group>"; };
 		F449AEB228ACEABE008E0417 /* SearchContentButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchContentButton.swift; sourceTree = "<group>"; };
 		F449AEB528ADD205008E0417 /* SearchingActionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchingActionTableViewCell.swift; sourceTree = "<group>"; };
 		F4551D3928A8B651003B93F4 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
@@ -222,6 +226,7 @@
 		0CCD670F065EE7254EDCE07A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				01A2DED080638619BC75DAE2 /* Pods */,
 				3FFFD01AEFF3455253C3E138 /* Pods_TapPlace.framework */,
 			);
 			name = Frameworks;
@@ -324,7 +329,6 @@
 			children = (
 				DF1CD4B228AF7205000D23E4 /* Button */,
 				DF4A14A128ABBAEF0068D1AD /* VerticalAlignLabel.swift */,
-				F41A51EB28B0919D00FE546B /* NavigationBar.swift */,
 				DF6B69F028B8BCA4009D4076 /* ToastMessage.swift */,
 				DF01A89328C5C94500124788 /* CustomNavigationBar.swift */,
 			);
@@ -391,7 +395,6 @@
 			children = (
 				DFC23F94289AB66400EC1090 /* TapPlace */,
 				DFC23F93289AB66400EC1090 /* Products */,
-				01A2DED080638619BC75DAE2 /* Pods */,
 				0CCD670F065EE7254EDCE07A /* Frameworks */,
 			);
 			sourceTree = "<group>";
@@ -478,6 +481,7 @@
 				F478DA4728BCA94E003C686A /* StoreDetailModel.swift */,
 				DFF5300028BC515D00FFC302 /* UserModel.swift */,
 				F438236B28C5CD2200C75063 /* NoticeModel.swift */,
+				F438237128C709E100C75063 /* AlarmModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -552,6 +556,8 @@
 			isa = PBXGroup;
 			children = (
 				F438236628C5C2A500C75063 /* NoticeViewController.swift */,
+				F438236F28C7085200C75063 /* AlarmViewController.swift */,
+				F438237328C7188A00C75063 /* InquiryViewController.swift */,
 			);
 			path = Else;
 			sourceTree = "<group>";
@@ -737,6 +743,7 @@
 				F49D36E028B6227D000D025D /* SearchModel.swift in Sources */,
 				F478DA4628BCA210003C686A /* StorePaymentTableViewCell.swift in Sources */,
 				DFDA43F928A14C61003763AC /* CommonUtils.swift in Sources */,
+				F438237028C7085200C75063 /* AlarmViewController.swift in Sources */,
 				DF01A89428C5C94500124788 /* CustomNavigationBar.swift in Sources */,
 				DFF7BEDA28A67DFE00289F39 /* CALayer+Extension.swift in Sources */,
 				DF38177028A46EF100B900B5 /* CommonPickViewController.swift in Sources */,
@@ -752,8 +759,8 @@
 				F438236728C5C2A500C75063 /* NoticeViewController.swift in Sources */,
 				DF826698289CA0EC00272830 /* SplashViewController.swift in Sources */,
 				F438236E28C5D24800C75063 /* AlarmCell.swift in Sources */,
+				F438237228C709E100C75063 /* AlarmModel.swift in Sources */,
 				DF82669A289CA10800272830 /* OnBoardingViewController.swift in Sources */,
-				F41A51EC28B0919D00FE546B /* NavigationBar.swift in Sources */,
 				DFECC8CE28ACD9CF00DC64FD /* AroundStoreTableViewCell.swift in Sources */,
 				F438236A28C5C39300C75063 /* NoticeCell.swift in Sources */,
 				DFF7BEDC28A685F500289F39 /* StoreTabCollectionViewCell.swift in Sources */,
@@ -762,6 +769,7 @@
 				DF38177828A4E28200B900B5 /* PaymentViewModel.swift in Sources */,
 				F478DA4428BCA12B003C686A /* StoreInfoTableViewCell.swift in Sources */,
 				F478DA4828BCA94E003C686A /* StoreDetailModel.swift in Sources */,
+				F438237428C7188A00C75063 /* InquiryViewController.swift in Sources */,
 				F438236228C3124300C75063 /* StickyHeaderView.swift in Sources */,
 				DFECC8D028ACFFE000DC64FD /* BrandIconImageView.swift in Sources */,
 				DF4A14A228ABBAEF0068D1AD /* VerticalAlignLabel.swift in Sources */,

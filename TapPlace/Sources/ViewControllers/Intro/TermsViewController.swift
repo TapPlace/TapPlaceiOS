@@ -11,7 +11,7 @@ class TermsViewController: UIViewController {
 
     var storageViewModel = StorageViewModel()
     
-    let navigationBar = NavigationBar()
+    let customNavigationBar = CustomNavigationBar()
     let allTermsCheck = TermsItemView()
     
     var allTermsLists: [TermsModel] = TermsModel.lists
@@ -35,7 +35,7 @@ class TermsViewController: UIViewController {
 
 }
 
-extension TermsViewController: BackButtonProtocol, BottomButtonProtocol {
+extension TermsViewController: CustomNavigationBarProtocol, BottomButtonProtocol {
     func didTapBottomButton() {
         if bottomButton.isActive == false {
             showToast(message: "약관을 모두 확인해주세요.", duration: 3.0, view: self.view)
@@ -54,7 +54,7 @@ extension TermsViewController: BackButtonProtocol, BottomButtonProtocol {
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
-    func popViewVC() {
+    func didTapLeftButton() {
         self.navigationController?.popViewController(animated: true)
     }
     
@@ -85,13 +85,13 @@ extension TermsViewController: BackButtonProtocol, BottomButtonProtocol {
         //MARK: ViewPropertyManual
         self.navigationController?.navigationBar.isHidden = true
         view.backgroundColor = .white
-        navigationBar.title = "약관동의"
+        customNavigationBar.titleText = "약관동의"
         bottomButton.setButtonStyle(title: "동의 후 계속", type: .disabled, fill: true)
         tableView.register(TermsTableViewCell.self, forCellReuseIdentifier: TermsTableViewCell.cellId)
         
         
         //MARK: AddSubView
-        view.addSubview(navigationBar)
+        view.addSubview(customNavigationBar)
         view.addSubview(descLabel)
         view.addSubview(termsWrapView)
         termsWrapView.addSubview(tableView)
@@ -99,13 +99,13 @@ extension TermsViewController: BackButtonProtocol, BottomButtonProtocol {
         
         
         //MARK: ViewContraints
-        navigationBar.snp.makeConstraints {
+        customNavigationBar.snp.makeConstraints {
             $0.top.equalTo(safeArea)
             $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(60)
         }
         descLabel.snp.makeConstraints {
-            $0.top.equalTo(navigationBar.snp.bottom).offset(60)
+            $0.top.equalTo(customNavigationBar.snp.bottom).offset(60)
             $0.leading.trailing.equalTo(safeArea).inset(20)
             
         }
@@ -128,7 +128,7 @@ extension TermsViewController: BackButtonProtocol, BottomButtonProtocol {
         
         
         //MARK: Delegate
-        navigationBar.delegate = self
+        customNavigationBar.delegate = self
         bottomButton.delegate = self
         tableView.delegate = self
         tableView.dataSource = self

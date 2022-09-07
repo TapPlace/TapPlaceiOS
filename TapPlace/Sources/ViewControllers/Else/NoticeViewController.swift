@@ -5,14 +5,22 @@
 //  Created by 이상준 on 2022/09/05.
 //
 
-import Foundation
 import UIKit
 
 class NoticeViewController: UIViewController {
     
+    let customNavigationBar = CustomNavigationBar()
+    
     override func viewDidLoad() {
         setupView()
         setLayout()
+        
+        customNavigationBar.delegate = self
+        customNavigationBar.isDrawShadow = false
+        customNavigationBar.isDrawBottomLine = false
+        customNavigationBar.titleText = "공지사항"
+        customNavigationBar.isUseLeftButton = true
+        
         configureTableView()
     }
     
@@ -39,38 +47,24 @@ extension NoticeViewController {
     }
     
     private func setLayout() {
-        let safeArea = view.safeAreaLayoutGuide
         
-        let navigationBar: NavigationBar = {
-            let navigationBar = NavigationBar()
-            return navigationBar
-        }()
-        
-        let naviTitle: UILabel = {
-            let naviTitle = UILabel()
-            naviTitle.font = .boldSystemFont(ofSize: 17)
-            naviTitle.text = "공지사항"
-            return naviTitle
-        }()
-        
-        view.addSubview(navigationBar)
-        navigationBar.snp.makeConstraints {
-            $0.top.leading.trailing.equalTo(safeArea)
-            $0.width.equalTo(self.view.frame.width)
-            $0.height.equalTo(60)
-        }
-        
-        navigationBar.addSubview(naviTitle)
-        naviTitle.snp.makeConstraints {
-            $0.top.equalTo(navigationBar.snp.top).offset(27)
-            $0.leading.equalToSuperview().offset(44)
+        view.addSubview(customNavigationBar)
+        customNavigationBar.snp.makeConstraints {
+            $0.top.leading.trailing.equalToSuperview()
+            $0.bottom.equalTo(customNavigationBar.containerView)
         }
         
         view.addSubview(noticeTableView)
         noticeTableView.snp.makeConstraints {
-            $0.top.equalTo(navigationBar.snp.bottom)
+            $0.top.equalTo(customNavigationBar.snp.bottom)
             $0.leading.trailing.bottom.equalToSuperview()
         }
+    }
+}
+
+extension NoticeViewController: CustomNavigationBarProtocol {
+    func didTapLeftButton() {
+        self.navigationController?.popViewController(animated: true)
     }
 }
 

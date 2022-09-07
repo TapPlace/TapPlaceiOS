@@ -19,7 +19,7 @@ class TermsWebViewViewController: UIViewController {
     var termIndex: Int = 0
     
     let bottomButton = BottomButton()
-    let navigationBar = NavigationBar()
+    let customNavigationBar = CustomNavigationBar()
     var webViewFrame = UIView()
     var webView: WKWebView!
     
@@ -40,7 +40,8 @@ class TermsWebViewViewController: UIViewController {
 
 }
 
-extension TermsWebViewViewController: BackButtonProtocol, UIScrollViewDelegate, BottomButtonProtocol {
+extension TermsWebViewViewController: CustomNavigationBarProtocol, UIScrollViewDelegate, BottomButtonProtocol {
+    
     func didTapBottomButton() {
         if bottomButton.isActive == false { return }
         /// Bool값 변경
@@ -52,7 +53,7 @@ extension TermsWebViewViewController: BackButtonProtocol, UIScrollViewDelegate, 
         self.navigationController?.popViewController(animated: true)
     }
     
-    func popViewVC() {
+    func didTapLeftButton() {
         /// 네비게이션바로 돌아갈때는 체크여부 해제
         term?.read = false
         term?.checked = false
@@ -73,23 +74,23 @@ extension TermsWebViewViewController: BackButtonProtocol, UIScrollViewDelegate, 
         
         //MARK: ViewPropertyManual
         view.backgroundColor = .white
-        navigationBar.title = term.title
+        customNavigationBar.titleText = term.title
         bottomButton.setButtonStyle(title: "동의", type: .disabled, fill: true)
         
         //MARK: AddSubView
-        view.addSubview(navigationBar)
+        view.addSubview(customNavigationBar)
         view.addSubview(webViewFrame)
         view.addSubview(bottomButton)
         
         
         
         //MARK: ViewContraints
-        navigationBar.snp.makeConstraints {
+        customNavigationBar.snp.makeConstraints {
             $0.top.leading.trailing.equalTo(safeArea)
             $0.height.equalTo(60)
         }
         webViewFrame.snp.makeConstraints {
-            $0.top.equalTo(navigationBar.snp.bottom)
+            $0.top.equalTo(customNavigationBar.snp.bottom)
             $0.bottom.equalTo(bottomButton.snp.top)
             $0.leading.trailing.equalTo(safeArea)
         }
@@ -103,7 +104,7 @@ extension TermsWebViewViewController: BackButtonProtocol, UIScrollViewDelegate, 
         
         
         //MARK: Delegate
-        navigationBar.delegate = self
+        customNavigationBar.delegate = self
         bottomButton.delegate = self
         webView.scrollView.delegate = self
     }

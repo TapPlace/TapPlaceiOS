@@ -24,7 +24,12 @@ class PickPaymentsViewController: CommonPickViewController {
     }
 }
 //MARK: - Layout
-extension PickPaymentsViewController: BottomButtonProtocol {
+extension PickPaymentsViewController: BottomButtonProtocol, TitleViewProtocol {
+    func didTapTitleViewClearButton() {
+        selectedPayments.removeAll()
+        collectionView.reloadData()
+    }
+    
     
     func didTapBottomButton() {
         if bottomButton.isActive {
@@ -49,6 +54,7 @@ extension PickPaymentsViewController: BottomButtonProtocol {
         bottomButton.delegate = self
         collectionView.delegate = self
         collectionView.dataSource = self
+        titleView.delegate = self
         
         //MARK: 공통 뷰에서 추가된 타이틀뷰 및 하단버튼 설정
         titleView.titleViewText.text = "결제수단 설정"

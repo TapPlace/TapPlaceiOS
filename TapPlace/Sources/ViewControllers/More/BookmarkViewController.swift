@@ -11,7 +11,12 @@ class BookmarkViewController: CommonViewController {
     let customNavigationBar = CustomNavigationBar()
     let navigationRightButton = UIButton(type: .system)
     let filterTitle = MoreListFilterTitle()
-    var tableView: UITableView?
+    var tableView = UITableView()
+    let allSelectButton = BottomButton()
+    let deleteButton = BottomButton()
+    var selectLabel = UILabel()
+    var selectedCountLabel = UILabel()
+    
     var filterAsc: Bool = false
     var isEditMode: Bool = false
     
@@ -85,7 +90,6 @@ extension BookmarkViewController: CustomNavigationBarProtocol, FilterTitleProtoc
         
         
         //MARK: TableView
-        guard let tableView = tableView else { return }
         self.view.addSubview(tableView)
         tableView.snp.makeConstraints {
             $0.leading.trailing.equalTo(safeArea).inset(20)
@@ -142,8 +146,81 @@ extension BookmarkViewController: CustomNavigationBarProtocol, FilterTitleProtoc
      * coder : sanghyeon
      */
     func didTapFilterEditButton() {
+        let safeArea = self.view.safeAreaLayoutGuide
+        
         self.isEditMode.toggle()
-        tableView?.reloadData()
+        tableView.reloadData()
+        
+        if self.isEditMode {
+            selectLabel = {
+                let selectLabel = UILabel()
+                selectLabel.sizeToFit()
+                selectLabel.text = "선택"
+                selectLabel.textColor = .black
+                selectLabel.font = .systemFont(ofSize: CommonUtils.resizeFontSize(size: 14), weight: .regular)
+                return selectLabel
+            }()
+            selectedCountLabel = {
+                let selectedCountLabel = UILabel()
+                selectedCountLabel.sizeToFit()
+                selectedCountLabel.text = "5"
+                selectedCountLabel.textColor = .pointBlue
+                selectedCountLabel.font = .systemFont(ofSize: CommonUtils.resizeFontSize(size: 14), weight: .bold)
+                return selectedCountLabel
+            }()
+            
+            allSelectButton.addTarget(self, action: #selector(didTapAllSelectButton), for: .touchUpInside)
+            deleteButton.addTarget(self, action: #selector(didTapDeleteButton), for: .touchUpInside)
+            
+            self.view.addSubview(selectLabel)
+            self.view.addSubview(selectedCountLabel)
+            self.view.addSubview(allSelectButton)
+            self.view.addSubview(deleteButton)
+            
+            allSelectButton.setButtonStyle(title: "전체선택", type: .activate, fill: false)
+            deleteButton.setButtonStyle(title: "삭제", type: .disabled, fill: false)
+            
+            allSelectButton.snp.makeConstraints {
+                $0.leading.bottom.equalTo(safeArea)
+                $0.height.equalTo(50)
+                $0.width.equalTo(self.view.frame.width / 2)
+            }
+            deleteButton.snp.makeConstraints {
+                $0.trailing.bottom.equalTo(safeArea)
+                $0.height.equalTo(50)
+                $0.width.equalTo(self.view.frame.width / 2)
+            }
+            selectLabel.snp.makeConstraints {
+                $0.leading.equalTo(safeArea).offset(20)
+                $0.bottom.equalTo(allSelectButton.snp.top).offset(-10)
+            }
+            selectedCountLabel.snp.makeConstraints {
+                $0.leading.equalTo(selectLabel.snp.trailing).offset(5)
+                $0.centerY.equalTo(selectLabel)
+            }
+            tableView.snp.remakeConstraints {
+                $0.top.equalTo(filterTitle.snp.bottom)
+                $0.leading.trailing.equalTo(safeArea).inset(20)
+                $0.bottom.equalTo(selectLabel.snp.top).offset(-10)
+            }
+        } else {
+            selectLabel.removeFromSuperview()
+            selectedCountLabel.removeFromSuperview()
+            allSelectButton.removeFromSuperview()
+            deleteButton.removeFromSuperview()
+            
+            tableView.snp.makeConstraints {
+                $0.leading.trailing.equalTo(safeArea).inset(20)
+                $0.bottom.equalTo(safeArea)
+                $0.top.equalTo(filterTitle.snp.bottom)
+            }
+        }
+    }
+    @objc func didTapAllSelectButton() {
+        print("전체선택 버튼 탭")
+    }
+    @objc func didTapDeleteButton() {
+        print("삭제 버튼 탭")
     }
 }
 //MARK: - TableView
@@ -170,6 +247,7 @@ extension BookmarkViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if !isEditMode { return }
         guard let cell = tableView.cellForRow(at: indexPath) as? BookMarkEditModeCell else { return }
         print("셀 탭")
         cell.cellSelected.toggle()

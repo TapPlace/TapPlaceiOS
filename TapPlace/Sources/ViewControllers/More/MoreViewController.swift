@@ -15,7 +15,8 @@ class MoreViewController: CommonViewController {
         ["버전정보", "version", "최신 버전"],
         ["자주 묻는 질문", "faq", ""],
         ["문의하기", "qna", ""],
-        ["수정제안", "request", ""]
+        ["수정제안", "request", ""],
+        ["활동내역 초기화", "reset", ""]
     ]
     
     var headerView: MoreHeaderView?

@@ -11,6 +11,7 @@ import AlignedCollectionViewFlowLayout
 //MARK: - PickPayments, PickStores 뷰컨트롤러 공통
 class CommonPickViewController: UIViewController {
 
+
     
 
     
@@ -72,5 +73,6 @@ extension CommonPickViewController {
         }
         
         bottomButton.setButtonStyle(title: "선택완료", type: .disabled, fill: true)
+
     }
 }

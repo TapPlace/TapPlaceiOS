@@ -132,7 +132,7 @@ class CustomNavigationBar: UIView {
         let navigationTitleLabel = UILabel()
         navigationTitleLabel.sizeToFit()
         navigationTitleLabel.textColor = .black
-        navigationTitleLabel.font = .systemFont(ofSize: CommonUtils.resizeFontSize(size: 16), weight: .semibold)
+        navigationTitleLabel.font = .systemFont(ofSize: CommonUtils.resizeFontSize(size: 18), weight: .semibold)
         return navigationTitleLabel
     }()
     

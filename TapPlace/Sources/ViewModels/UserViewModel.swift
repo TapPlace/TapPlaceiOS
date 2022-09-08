@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct UserViewModel {
+class UserViewModel {
     let userDataService = UserDataService.shared
     
     /**
@@ -20,7 +20,7 @@ struct UserViewModel {
             "key": "\(Constants.tapplaceApiKey)"
         ]
         
-        userDataService.requestFetchLatestTerms(parameter: parameter) { (result, error) in
+        userDataService.requestFetchLatestTerms(parameter: parameter) { result, error in
             completion(result)
         }
     }
@@ -39,7 +39,7 @@ struct UserViewModel {
             "key": "\(Constants.tapplaceApiKey)"
         ]
         
-        userDataService.requestFetchAddUser(parameter: parameter, payments: payments) { (result) in
+        userDataService.requestFetchAddUser(parameter: parameter, payments: payments) { result, error in
             completion(result)
         }
     }

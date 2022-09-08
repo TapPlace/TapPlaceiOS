@@ -39,31 +39,19 @@ struct UserDataService {
      * @ 유저정보 최초설정
      * coder : sanghyeon
      */
-    func requestFetchAddUser(parameter: [String: Any], payments: [String], completion: @escaping (Any) -> ()) {
+    func requestFetchAddUser(parameter: [String: Any], payments: [String], completion: @escaping (Any?, Error?) -> ()) {
         let url = "\(userApiUrl)"
         
-        var request = URLRequest(url: URL(string: url)!)
-        request.httpMethod = "POST"
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.timeoutInterval = 10
-        
-        let params = parameter as Dictionary
-        
-        do {
-            try request.httpBody = JSONSerialization.data(withJSONObject: params, options: [])
-        } catch {
-            print("http Body Error")
-        }
-        
-        AF.request(request).responseString{ (response) in
-            switch response.result {
-            case .success:
-                print("POST 성공")
-                completion(response.result)
-            case .failure(let error):
-                print(error.errorDescription!)
+        AF.request(url, method: .post, parameters: parameter, encoding: URLEncoding.default, headers: nil)
+            .validate()
+            .response() { (response) in
+                switch response.result {
+                case .success(let response):
+                        completion(response, nil)
+                case .failure(let error):
+                    completion(nil, error)
+                }
             }
-        }
         
     }
 }

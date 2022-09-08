@@ -48,8 +48,8 @@ class SplashViewController: UIViewController {
                         print("관심결제수단 설정 되었음")
                         self.navigationController?.navigationBar.isHidden = true
                         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
-                        moveViewController(TabBarViewController(), present: true)
-//                        moveViewController(FeedbackRequestViewController(), present: true)
+//                        moveViewController(TabBarViewController(), present: true)
+                        moveViewController(FeedbackListViewController(), present: true)
                     } else {
                         print("관심결제수단 설정 안됨")
                         nextVC = PickPaymentsViewController()

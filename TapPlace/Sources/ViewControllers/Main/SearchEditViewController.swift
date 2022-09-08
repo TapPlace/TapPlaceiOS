@@ -22,8 +22,8 @@ class SearchEditViewController: CommonViewController {
         setLayout()
         
         customNavigationBar.delegate = self
-        customNavigationBar.isDrawShadow = true
-        customNavigationBar.isDrawBottomLine = true
+        customNavigationBar.isDrawShadow = false
+        customNavigationBar.isDrawBottomLine = false
         customNavigationBar.titleText = ""
         customNavigationBar.isUseLeftButton = true
         

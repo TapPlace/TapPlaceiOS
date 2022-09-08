@@ -50,7 +50,7 @@ class SplashViewController: UIViewController {
                         print("관심결제수단 설정 되었음")
                         self.navigationController?.navigationBar.isHidden = true
                         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
-                        lazy var vc = PickPaymentsViewController()
+                        lazy var vc = TabBarViewController()
                         //vc.showStoreInfo(storeID: "", isShowNavigation: false)
                         moveViewController(vc, present: true)
 //                        moveViewController(FeedbackListViewController(), present: true)

@@ -12,49 +12,26 @@ import CoreLocation
 import SnapKit
 import FloatingPanel
 
-
 class MainViewController: CommonViewController {
     var storageViewModel = StorageViewModel()
     
-    var fpc: FloatingPanelController!
-    var isHiddenFloatingPanel = true
-    
-    let listButton = MapButton()
-    let locationButton = MapButton()
     let customNavigationBar = CustomNavigationBar()
     var naverMapView: NMFMapView = NMFMapView()
     var naverMapMarker: NMFMarker = NMFMarker()
     var circleOverlay: NMFCircleOverlay = NMFCircleOverlay()
     var searchBar = UIView()
-    
-    
-    var overlayCenterPick = UIView()
-    let locationManager = CLLocationManager()
     let researchButton = ResearchButton()
     let detailOverView = DetailOverView()
+    let listButton = MapButton()
+    let locationButton = MapButton()
+    var overlayCenterPick = UIView()
     var collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
-
-    
-    /**
-     * @ 더미데이터
-     * coder : sanghyeon
-     */
-    struct DummyData {
-        static let markers: [NMGLatLng] = [
-            NMGLatLng(lat: 35.97411, lng: 126.68252),
-            NMGLatLng(lat: 35.97727, lng: 126.68345),
-            NMGLatLng(lat: 35.97827, lng: 126.67731)
-        ]
-    }
-    
+    var fpc: FloatingPanelController!
+    var isHiddenFloatingPanel = true
+    let locationManager = CLLocationManager()
     var currentLocation: NMGLatLng?
     var cameraLocation: NMGLatLng?
 
-
-    let storeLists = StoreModel.lists
-
-
-    
     //MARK: ViewLifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -68,6 +45,10 @@ class MainViewController: CommonViewController {
         showNavigationBar(hide: true)
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        checkLocationAuth()
+    }
 }
 
 //MARK: - Layout
@@ -75,7 +56,6 @@ extension MainViewController: MapButtonProtocol, ResearchButtonProtocol {
     func didTapResearchButton() {
         guard let camLocation = cameraLocation else { return }
         showInMapViewTracking(location: camLocation)
-        print("현재위치: \(currentLocation!), 카메라위치: \(camLocation)")
         showResearchElement(hide: true)
     }
     /**
@@ -85,7 +65,6 @@ extension MainViewController: MapButtonProtocol, ResearchButtonProtocol {
     @objc func didTapMapButton(_ sender: MapButton) {
         if sender == listButton.button {
             showFloatingPanel()
-            
         } else if sender == locationButton.button {
             getUserCurrentLocation()
             guard let location = currentLocation else { return }
@@ -101,7 +80,7 @@ extension MainViewController: MapButtonProtocol, ResearchButtonProtocol {
     @objc func didTapSearchButton() {
         let vc = SearchViewController()
         self.navigationController?.pushViewController(vc, animated: true)
-    } // Function: 서치바 클릭 이벤트
+    }
     /**
      * @ 초기 레이아웃 설정
      * coder : sanghyeon
@@ -174,6 +153,7 @@ extension MainViewController: MapButtonProtocol, ResearchButtonProtocol {
         view.addSubview(overlayCenterPick)
         view.addSubview(researchButton)
         
+        
         //MARK: ViewContraints
         searchBar.snp.makeConstraints {
             $0.top.equalTo(safeArea).offset(10)
@@ -221,12 +201,14 @@ extension MainViewController: MapButtonProtocol, ResearchButtonProtocol {
         searchButton.addTarget(self, action: #selector(didTapSearchButton), for: .touchUpInside)
         collectionView.register(StoreTabCollectionViewCell.self, forCellWithReuseIdentifier: StoreTabCollectionViewCell.cellId)
         
+        
         //MARK: Delegate
         listButton.delegate = self
         locationButton.delegate = self
         researchButton.delegate = self
         collectionView.delegate = self
         collectionView.dataSource = self
+        
         
         //MARK: ViewModel
         PaymentModel.favoriteList = storageViewModel.userFavoritePayments
@@ -273,10 +255,6 @@ extension MainViewController: CLLocationManagerDelegate, NMFMapViewCameraDelegat
         
         //MARK: NaverMapViewDelegate
         naverMapView.addCameraDelegate(delegate: self)
-        
-        //MARK: [DEBUG]
-        // 마커 추가 예제
-        addMarker(markers: DummyData.markers)
     }
     /**
      * @ 사용자 현재 위치 가져오기
@@ -286,7 +264,6 @@ extension MainViewController: CLLocationManagerDelegate, NMFMapViewCameraDelegat
         guard let result = locationManager.location?.coordinate else { return }
         currentLocation = NMGLatLng(from: result)
         UserInfo.userLocation = result
-        dump(currentLocation)
     }
     /**
      * @ 네이버지도 카메라 이동
@@ -304,15 +281,14 @@ extension MainViewController: CLLocationManagerDelegate, NMFMapViewCameraDelegat
      */
     func showInMapViewTracking(location: NMGLatLng) {
         getUserCurrentLocation()
-        guard let trackingLocation = currentLocation else { return }
-        /// 트래킹
+        guard let trackingLocation = UserInfo.userLocation else { return }
+        /// 트래킹 아이콘
         let locationOverlay = naverMapView.locationOverlay
-        locationOverlay.location = trackingLocation
+        locationOverlay.location = NMGLatLng(from: trackingLocation)
         locationOverlay.circleOutlineWidth = 0
         locationOverlay.hidden = false
         locationOverlay.subIcon = nil
-        
-        /// 반경
+        /// 반경 설정
         circleOverlay.mapView = nil
         circleOverlay = NMFCircleOverlay(location, radius: 1000)
         circleOverlay.fillColor = .pointBlue.withAlphaComponent(0.1)
@@ -326,10 +302,7 @@ extension MainViewController: CLLocationManagerDelegate, NMFMapViewCameraDelegat
      */
     
     func addMarker(markers: [NMGLatLng]) {
-        if markers.count <= 0 {
-            print("addMarker called(), no data")
-            return
-        }
+        if markers.count <= 0 { return }
         naverMapMarker.mapView = nil
         for markerRow in markers {
             naverMapMarker = NMFMarker(position: markerRow)
@@ -338,11 +311,6 @@ extension MainViewController: CLLocationManagerDelegate, NMFMapViewCameraDelegat
         }
     }
     //MARK: Camera
-    func mapView(_ mapView: NMFMapView, cameraIsChangingByReason reason: Int) {
-        //let camPosition = naverMapView.cameraPosition
-        //dump(camPosition)
-        
-    }
     func mapViewCameraIdle(_ mapView: NMFMapView) {
         let camPosition = naverMapView.cameraPosition
         cameraLocation = camPosition.target
@@ -357,19 +325,28 @@ extension MainViewController: CLLocationManagerDelegate, NMFMapViewCameraDelegat
      * @ 위치권한 설정
      * coder : sanghyeon
      */
-    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+    func checkLocationAuth() {
+        let status = CLLocationManager.authorizationStatus()
         switch status {
         case .authorizedAlways, .authorizedWhenInUse:
-            print("GPS 권한 설정됨")
             self.locationManager.startUpdatingLocation()
+            getUserCurrentLocation()
+            guard let userLocation = UserInfo.userLocation else { return }
+            showInMapViewTracking(location: NMGLatLng(from: userLocation))
         case .restricted, .notDetermined:
-            print("GPS 권한 설정되지 않음")
             getLocationUsagePermission()
         case .denied:
-            print("GPS 권한 요청 거부됨")
-            getLocationUsagePermission()
-        default:
-            print("GPS: Default")
+            let alertController = UIAlertController(title: "위치권한이 거부되었습니다.", message: "위치권한 거부시 정상적으로 앱을 이용하실 수 없습니다. 앱 설정 화면으로 이동하시겠습니까?", preferredStyle: .alert)
+            alertController.addAction(UIAlertAction(title: "네", style: .default, handler: { (action) -> Void in
+                if let appSettings = URL(string: UIApplication.openSettingsURLString) {
+                    UIApplication.shared.open(appSettings, options: [:], completionHandler: nil)
+                }
+            }))
+            alertController.addAction(UIAlertAction(title: "아니오", style: .cancel, handler: { (action) -> Void in
+                
+            }))
+            self.present(alertController, animated: true, completion: nil)
+        default: break
         }
     }
     /**
@@ -378,6 +355,18 @@ extension MainViewController: CLLocationManagerDelegate, NMFMapViewCameraDelegat
      */
     func getLocationUsagePermission() {
         self.locationManager.requestWhenInUseAuthorization()
+    }
+    /**
+     * @ 권한이 변경 되었을때 현재 위치로 이동
+     * coder : sanghyeon
+     */
+    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+        if CLLocationManager.authorizationStatus() == .authorizedAlways || CLLocationManager.authorizationStatus() == .authorizedWhenInUse {
+            getUserCurrentLocation()
+            guard let userLocation = UserInfo.userLocation else { return }
+            showInMapViewTracking(location: NMGLatLng(from: userLocation))
+            moveCamera(location: NMGLatLng(from: userLocation))
+        }
     }
     /**
      * @ 재검색 관련 UI 토글
@@ -485,7 +474,6 @@ extension MainViewController {
      * coder : sanghyeon
      */
     @objc func didTapNavigationRightButton() {
-        print("네비게이션바 우측버튼 클릭 함")
         showNavigationBar(hide: true)
         showDetailOverView(hide: true)
     }
@@ -493,25 +481,23 @@ extension MainViewController {
 
 //MARK: - CollectionView
 extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    /// 컬렉션뷰 셀 개수 반환
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return storeLists.count
+        return StoreModel.lists.count
     }
-    
+    /// 컬렉션뷰 셀 설정
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: StoreTabCollectionViewCell.cellId, for: indexPath) as! StoreTabCollectionViewCell
-        if let icon = UIImage(systemName: storeLists[indexPath.row].image) {
+        if let icon = UIImage(systemName: StoreModel.lists[indexPath.row].image) {
             cell.icon = icon
         }
-        cell.itemText.text = storeLists[indexPath.row].title
-        cell.storeId = storeLists[indexPath.row].id
+        cell.itemText.text = StoreModel.lists[indexPath.row].title
+        cell.storeId = StoreModel.lists[indexPath.row].id
         return cell
-        
     }
-    
+    /// 컬렉션뷰 셀 라벨 사이즈 대비 사이즈 변경
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let labelSize = CommonUtils.getTextSizeWidth(text: storeLists[indexPath.row].title)
-
-        
+        let labelSize = CommonUtils.getTextSizeWidth(text: StoreModel.lists[indexPath.row].title)
         return CGSize(width: labelSize.width + 35, height: 28)
     }
 }
@@ -519,10 +505,13 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
 
 //MARK: - Floating Panel
 extension MainViewController: FloatingPanelControllerDelegate, AroundPlaceMainControllerProtocol {
+    /**
+     * @ 플로팅패널 확장 함수
+     * coder : sanghyeon
+     */
     func expendFloatingPanel() {
         fpc.move(to: .full, animated: true)
     }
-    // 플로팅 패널
     /**
      * @ 플로팅패널 설정
      * coder : sanghyeon
@@ -576,12 +565,12 @@ extension MainViewController: FloatingPanelControllerDelegate, AroundPlaceMainCo
         fpc.surfaceView.grabberHandle.isHidden = hide
     }
     
-    func floatingPanelWillEndDragging(_ fpc: FloatingPanelController, withVelocity velocity: CGPoint, targetState: UnsafeMutablePointer<FloatingPanelState>) {
-        if targetState.pointee == .hidden {
-            guard let tabBar = self.tabBarController as? TabBarViewController else { return }
-            tabBar.showTabBar(hide: false)
-        }
-    }
+//    func floatingPanelWillEndDragging(_ fpc: FloatingPanelController, withVelocity velocity: CGPoint, targetState: UnsafeMutablePointer<FloatingPanelState>) {
+//        if targetState.pointee == .hidden {
+//            guard let tabBar = self.tabBarController as? TabBarViewController else { return }
+//            tabBar.showTabBar(hide: false)
+//        }
+//    }
     
 }
 

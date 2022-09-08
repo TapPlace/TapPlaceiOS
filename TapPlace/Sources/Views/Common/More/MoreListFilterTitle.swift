@@ -15,7 +15,9 @@ protocol FilterTitleProtocol {
 class MoreListFilterTitle: UIView {
     var delegate: FilterTitleProtocol?
     
+    let containerView = UIView()
     var filterButton = UIButton()
+    var editButton = UIButton()
     
     var filterButtonSetImage: String = "chevron.down" {
         willSet {
@@ -23,12 +25,20 @@ class MoreListFilterTitle: UIView {
         }
     }
     
-    var isEditMode: Bool = false {
+    var setFilterName: String = "" {
         willSet {
-            if newValue {
-                
-            } else {
-                
+            filterButton.setTitle(newValue, for: .normal)
+        }
+    }
+    
+    var isUseEditMode: Bool = true {
+        willSet {
+            if !newValue {
+                editButton.isHidden = true
+                filterButton.snp.remakeConstraints {
+                    $0.trailing.equalTo(containerView).offset(-20)
+                    $0.centerY.equalToSuperview()
+                }
             }
         }
     }
@@ -51,7 +61,6 @@ extension MoreListFilterTitle {
      */
     func setupView() {
         //MARK: ViewDefine
-        let containerView = UIView()
         let storeTitleLabel: UILabel = {
             let storeTitleLabel = UILabel()
             storeTitleLabel.sizeToFit()
@@ -86,7 +95,7 @@ extension MoreListFilterTitle {
         }()
         
         
-        let editButton: UIButton = {
+        editButton = {
             let editButton = UIButton(type: .system)
             editButton.setTitle("편집", for: .normal)
             editButton.tintColor = .init(hex: 0x333333)

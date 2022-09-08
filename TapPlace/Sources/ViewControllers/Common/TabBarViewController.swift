@@ -173,4 +173,20 @@ class TabBarViewController: UITabBarController {
         view.frame = currentFrame.insetBy(dx: 0, dy: 1)
         view.frame = currentFrame
     }
+    
+    /**
+     * @ 메인뷰컨트롤러 스토어 상세뷰
+     * coder : sanghyeon
+     */
+    func showStoreInfo(storeID: String, isShowNavigation: Bool = true) {
+        if let mainNav = viewControllers?[0] as? UINavigationController {
+            if let mainVC = mainNav.children.first as? MainViewController {
+                print("mainVC:", mainVC)
+                mainVC.showDetailOverView(hide: false)
+                if isShowNavigation {
+                    mainVC.showNavigationBar(hide: false, title: "스토어 이름")
+                }
+            }
+        }
+    }
 }

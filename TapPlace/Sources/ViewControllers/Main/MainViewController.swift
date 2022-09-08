@@ -14,7 +14,6 @@ import FloatingPanel
 
 
 class MainViewController: CommonViewController {
-    
     var storageViewModel = StorageViewModel()
     
     var fpc: FloatingPanelController!
@@ -22,42 +21,18 @@ class MainViewController: CommonViewController {
     
     let listButton = MapButton()
     let locationButton = MapButton()
-    
     let customNavigationBar = CustomNavigationBar()
-
     var naverMapView: NMFMapView = NMFMapView()
     var naverMapMarker: NMFMarker = NMFMarker()
     var circleOverlay: NMFCircleOverlay = NMFCircleOverlay()
-    let searchBar: UIView = {
-        let searchBar = UIView()
-        searchBar.backgroundColor = .white
-        searchBar.layer.cornerRadius = 15
-        searchBar.layer.applySketchShadow(color: .black, alpha: 0.12, x: 0, y: 4, blur: 8, spread: 0)
-        return searchBar
-    }()
+    var searchBar = UIView()
     
     
-    let overlayCenterPick: UIView = {
-        let overlayCenterPick = UIView()
-        overlayCenterPick.layer.borderColor = UIColor.red.cgColor
-        overlayCenterPick.layer.borderWidth = 2
-        overlayCenterPick.isHidden = true
-        return overlayCenterPick
-    }()
+    var overlayCenterPick = UIView()
     let locationManager = CLLocationManager()
     let researchButton = ResearchButton()
     let detailOverView = DetailOverView()
-    let collectionView: UICollectionView = {
-        let collectionViewLayout = UICollectionViewFlowLayout()
-        collectionViewLayout.scrollDirection = .horizontal
-        collectionViewLayout.minimumInteritemSpacing = 5
-        collectionViewLayout.minimumLineSpacing = 0
-        let collectionView = UICollectionView(frame: CGRect(x: 0, y: 0, width: 0, height: 0), collectionViewLayout: collectionViewLayout)
-        collectionView.contentInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
-        collectionView.backgroundColor = .clear
-        collectionView.showsHorizontalScrollIndicator = false
-        return collectionView
-    }()
+    var collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
 
     
     /**
@@ -86,9 +61,6 @@ class MainViewController: CommonViewController {
         setupView()
         setupNaverMap()
         setupFloatingPanel()
-        
-        showDetailOverView(hide: false)
-        showNavigationBar(hide: false)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -98,102 +70,18 @@ class MainViewController: CommonViewController {
     
 }
 
-//MARK: - Floating Panel
-extension MainViewController: FloatingPanelControllerDelegate, AroundPlaceMainControllerProtocol {
-    func expendFloatingPanel() {
-        fpc.move(to: .full, animated: true)
-    }
-    // 플로팅 패널
-    /**
-     * @ 플로팅패널 설정
-     * coder : sanghyeon
-     */
-    func setupFloatingPanel() {
-        fpc = FloatingPanelController()
-        fpc.delegate = self
-        fpc.surfaceView.grabberHandlePadding = 10.0
-        fpc.surfaceView.grabberHandleSize = .init(width: 44.0, height: 4.0)
-        fpc.backdropView.dismissalTapGestureRecognizer.isEnabled = true
-        fpc.contentMode = .fitToBounds
-        
-        // Create a new appearance.
-        let appearance = SurfaceAppearance()
-        appearance.cornerRadius = 20.0
-        appearance.backgroundColor = .white
-
-        // Set the new appearance
-        fpc.surfaceView.appearance = appearance
-    }
-    func floatingPanel(_ vc: FloatingPanelController, layoutFor newCollection: UITraitCollection) -> FloatingPanelLayout {
-            return MainFloatingPanelLayout()
-    }
-    func floatingPanelDidChangeState(_ fpc: FloatingPanelController) {
-        if fpc.state == .hidden {
-            fpc.surfaceView.grabberHandle.isHidden = false
-        }
-    }
-    /**
-     * @ 플로팅패널 보이기
-     * coder : sanghyeon
-     */
-    func showFloatingPanel(type: FloatingPanelState = .half) {
-        /// addPanel의 경우 뷰컨을 새로 로드하기 때문에, removesubview한게 사라짐
-        /// 그래서 상태에 따라서 addpanel및 set을 따로 줌
-        if fpc.state == type { return }
-        if fpc.state == .hidden {
-            let contentVC = AroundPlaceViewController()
-            fpc.addPanel(toParent: self)
-            fpc.track(scrollView: contentVC.aroundPlaceListView.tableView)
-            fpc.set(contentViewController: contentVC)
-            contentVC.aroundPlaceListView.mainDelegate = self
-        }
-        fpc.move(to: type, animated: true)
-    }
-    /**
-     * @ 그래버 숨기기
-     * coder : sanghyeon
-     */
-    func hideGrabber(hide: Bool = false) {
-        fpc.surfaceView.grabberHandle.isHidden = hide
-    }
-    
-    func floatingPanelWillEndDragging(_ fpc: FloatingPanelController, withVelocity velocity: CGPoint, targetState: UnsafeMutablePointer<FloatingPanelState>) {
-        if targetState.pointee == .hidden {
-            guard let tabBar = self.tabBarController as? TabBarViewController else { return }
-            tabBar.showTabBar(hide: false)
-        }
-    }
-    
-}
-
-class MainFloatingPanelLayout: FloatingPanelLayout {
-    let position: FloatingPanelPosition = .bottom
-    let initialState: FloatingPanelState = .hidden
-    var anchors: [FloatingPanel.FloatingPanelState : FloatingPanel.FloatingPanelLayoutAnchoring]{
-        return [
-            .full: FloatingPanelLayoutAnchor(absoluteInset: 110.0, edge: .top, referenceGuide: .safeArea),
-            .half: FloatingPanelLayoutAnchor(fractionalInset: 0.29, edge: .bottom, referenceGuide: .safeArea),
-            .hidden: FloatingPanelLayoutAnchor(absoluteInset: 0, edge: .bottom, referenceGuide: .safeArea),
-        ]
-    }
-    func backdropAlpha(for state: FloatingPanelState) -> CGFloat {
-        switch state {
-        case .full: return 0.7
-        default: return 0.0
-        }
-    }
-}
-
 //MARK: - Layout
 extension MainViewController: MapButtonProtocol, ResearchButtonProtocol {
     func didTapResearchButton() {
-        print("재검색 버튼 터치")
         guard let camLocation = cameraLocation else { return }
         showInMapViewTracking(location: camLocation)
         print("현재위치: \(currentLocation!), 카메라위치: \(camLocation)")
         showResearchElement(hide: true)
     }
-    
+    /**
+     * @ 우측 하단 맵 버튼 클릭 함수
+     * coder : sanghyeon
+     */
     @objc func didTapMapButton(_ sender: MapButton) {
         if sender == listButton.button {
             showFloatingPanel()
@@ -205,16 +93,13 @@ extension MainViewController: MapButtonProtocol, ResearchButtonProtocol {
             showInMapViewTracking(location: location)
             showResearchElement(hide: true)
         }
-    } // Function: 맵뷰버튼 클릭 이벤트    
+    }
     /**
      * @ 검색창 클릭시 액션
      * coder : sanghyeon
      */
     @objc func didTapSearchButton() {
         let vc = SearchViewController()
-//        vc.modalTransitionStyle = .crossDissolve
-//        vc.modalPresentationStyle = .fullScreen
-//        self.present(vc, animated: true)
         self.navigationController?.pushViewController(vc, animated: true)
     } // Function: 서치바 클릭 이벤트
     /**
@@ -222,13 +107,8 @@ extension MainViewController: MapButtonProtocol, ResearchButtonProtocol {
      * coder : sanghyeon
      */
     func setupView() {
-        /// 뷰컨트롤러 배경색 지정
-        view.backgroundColor = .white
-        self.navigationController?.navigationBar.isHidden = true
-        
         //MARK: ViewDefine
         let safeArea = view.safeAreaLayoutGuide
-
         let searchIcon: UIImageView = {
             let searchIcon = UIImageView()
             searchIcon.image = UIImage(systemName: "magnifyingglass")
@@ -245,10 +125,36 @@ extension MainViewController: MapButtonProtocol, ResearchButtonProtocol {
             searchButton.contentHorizontalAlignment = .left
             return searchButton
         }()
-
-
+        searchBar = {
+            let searchBar = UIView()
+            searchBar.backgroundColor = .white
+            searchBar.layer.cornerRadius = 15
+            searchBar.layer.applySketchShadow(color: .black, alpha: 0.12, x: 0, y: 4, blur: 8, spread: 0)
+            return searchBar
+        }()
+        collectionView = {
+            let collectionViewLayout = UICollectionViewFlowLayout()
+            collectionViewLayout.scrollDirection = .horizontal
+            collectionViewLayout.minimumInteritemSpacing = 5
+            collectionViewLayout.minimumLineSpacing = 0
+            let collectionView = UICollectionView(frame: CGRect(x: 0, y: 0, width: 0, height: 0), collectionViewLayout: collectionViewLayout)
+            collectionView.contentInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
+            collectionView.backgroundColor = .clear
+            collectionView.showsHorizontalScrollIndicator = false
+            return collectionView
+        }()
+        overlayCenterPick = {
+            let overlayCenterPick = UIView()
+            overlayCenterPick.layer.borderColor = UIColor.red.cgColor
+            overlayCenterPick.layer.borderWidth = 2
+            overlayCenterPick.isHidden = true
+            return overlayCenterPick
+        }()
         
+
         //MARK: ViewPropertyManual
+        view.backgroundColor = .white
+        self.navigationController?.navigationBar.isHidden = true
         listButton.iconName = "list"
         listButton.layer.applySketchShadow(color: .black, alpha: 0.12, x: 0, y: 1, blur: 8, spread: 0)
         locationButton.iconName = "currentLocation"
@@ -325,11 +231,18 @@ extension MainViewController: MapButtonProtocol, ResearchButtonProtocol {
         //MARK: ViewModel
         PaymentModel.favoriteList = storageViewModel.userFavoritePayments
 
-    } // Function: 레이아웃 설정
-    
+    }
 
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
+    /**
+     * @ 메인 뷰컨트롤러 오버퓨 표시
+     * param : storeID 및 네비게이션 표시 여부
+     * coder : sanghyeon
+     */
+    func showStoreInfo(storeID: String, isShowNavigation: Bool = true) {
+        showDetailOverView(hide: false)
+        if isShowNavigation {
+            showNavigationBar(hide: false, title: "스토어 이름")
+        }
     }
 
 }
@@ -535,7 +448,7 @@ extension MainViewController {
      * @ 네비게이션바 표시
      * coder : sanghyeon
      */
-    func showNavigationBar(hide: Bool) {
+    func showNavigationBar(hide: Bool, title: String = "") {
         if hide {
             customNavigationBar.removeFromSuperview()
             searchBar.isHidden = false
@@ -562,7 +475,7 @@ extension MainViewController {
                 $0.bottom.equalTo(customNavigationBar).offset(-10)
                 $0.width.height.equalTo(30)
             }
-            customNavigationBar.titleText = "플랜에이스터디카페 서초교대센터"
+            customNavigationBar.titleText = title
             customNavigationBar.isUseLeftButton = true
             customNavigationBar.isDrawShadow = true
         }
@@ -600,5 +513,92 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
 
         
         return CGSize(width: labelSize.width + 35, height: 28)
+    }
+}
+
+
+//MARK: - Floating Panel
+extension MainViewController: FloatingPanelControllerDelegate, AroundPlaceMainControllerProtocol {
+    func expendFloatingPanel() {
+        fpc.move(to: .full, animated: true)
+    }
+    // 플로팅 패널
+    /**
+     * @ 플로팅패널 설정
+     * coder : sanghyeon
+     */
+    func setupFloatingPanel() {
+        fpc = FloatingPanelController()
+        fpc.delegate = self
+        fpc.surfaceView.grabberHandlePadding = 10.0
+        fpc.surfaceView.grabberHandleSize = .init(width: 44.0, height: 4.0)
+        fpc.backdropView.dismissalTapGestureRecognizer.isEnabled = true
+        fpc.contentMode = .fitToBounds
+        
+        // Create a new appearance.
+        let appearance = SurfaceAppearance()
+        appearance.cornerRadius = 20.0
+        appearance.backgroundColor = .white
+
+        // Set the new appearance
+        fpc.surfaceView.appearance = appearance
+    }
+    func floatingPanel(_ vc: FloatingPanelController, layoutFor newCollection: UITraitCollection) -> FloatingPanelLayout {
+            return MainFloatingPanelLayout()
+    }
+    func floatingPanelDidChangeState(_ fpc: FloatingPanelController) {
+        if fpc.state == .hidden {
+            fpc.surfaceView.grabberHandle.isHidden = false
+        }
+    }
+    /**
+     * @ 플로팅패널 보이기
+     * coder : sanghyeon
+     */
+    func showFloatingPanel(type: FloatingPanelState = .half) {
+        /// addPanel의 경우 뷰컨을 새로 로드하기 때문에, removesubview한게 사라짐
+        /// 그래서 상태에 따라서 addpanel및 set을 따로 줌
+        if fpc.state == type { return }
+        if fpc.state == .hidden {
+            let contentVC = AroundPlaceViewController()
+            fpc.addPanel(toParent: self)
+            fpc.track(scrollView: contentVC.aroundPlaceListView.tableView)
+            fpc.set(contentViewController: contentVC)
+            contentVC.aroundPlaceListView.mainDelegate = self
+        }
+        fpc.move(to: type, animated: true)
+    }
+    /**
+     * @ 그래버 숨기기
+     * coder : sanghyeon
+     */
+    func hideGrabber(hide: Bool = false) {
+        fpc.surfaceView.grabberHandle.isHidden = hide
+    }
+    
+    func floatingPanelWillEndDragging(_ fpc: FloatingPanelController, withVelocity velocity: CGPoint, targetState: UnsafeMutablePointer<FloatingPanelState>) {
+        if targetState.pointee == .hidden {
+            guard let tabBar = self.tabBarController as? TabBarViewController else { return }
+            tabBar.showTabBar(hide: false)
+        }
+    }
+    
+}
+
+class MainFloatingPanelLayout: FloatingPanelLayout {
+    let position: FloatingPanelPosition = .bottom
+    let initialState: FloatingPanelState = .hidden
+    var anchors: [FloatingPanel.FloatingPanelState : FloatingPanel.FloatingPanelLayoutAnchoring]{
+        return [
+            .full: FloatingPanelLayoutAnchor(absoluteInset: 110.0, edge: .top, referenceGuide: .safeArea),
+            .half: FloatingPanelLayoutAnchor(fractionalInset: 0.29, edge: .bottom, referenceGuide: .safeArea),
+            .hidden: FloatingPanelLayoutAnchor(absoluteInset: 0, edge: .bottom, referenceGuide: .safeArea),
+        ]
+    }
+    func backdropAlpha(for state: FloatingPanelState) -> CGFloat {
+        switch state {
+        case .full: return 0.7
+        default: return 0.0
+        }
     }
 }

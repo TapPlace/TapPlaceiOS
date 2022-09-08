@@ -30,6 +30,7 @@
 		DF5FFCF428B4FC1F00BEFFA3 /* AroundFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF5FFCF328B4FC1F00BEFFA3 /* AroundFilterViewController.swift */; };
 		DF67A05128C9635F00435C28 /* FeedbackListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF67A05028C9635F00435C28 /* FeedbackListViewController.swift */; };
 		DF67A05328C9846900435C28 /* FeedbackListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF67A05228C9846900435C28 /* FeedbackListCell.swift */; };
+		DF67A05528C9BA4800435C28 /* MoreViewMenuModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF67A05428C9BA4700435C28 /* MoreViewMenuModel.swift */; };
 		DF6B69EF28B8518E009D4076 /* TermsWebViewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF6B69EE28B8518E009D4076 /* TermsWebViewViewController.swift */; };
 		DF6B69F128B8BCA4009D4076 /* ToastMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF6B69F028B8BCA4009D4076 /* ToastMessage.swift */; };
 		DF6B69F728B90BA2009D4076 /* FilterResetButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF6B69F628B90BA2009D4076 /* FilterResetButtonView.swift */; };
@@ -106,6 +107,8 @@
 		F449AEB628ADD205008E0417 /* SearchingActionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F449AEB528ADD205008E0417 /* SearchingActionTableViewCell.swift */; };
 		F4551D3A28A8B651003B93F4 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4551D3928A8B651003B93F4 /* SearchViewController.swift */; };
 		F4551D3C28A9F9C6003B93F4 /* SearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4551D3B28A9F9C6003B93F4 /* SearchTableViewCell.swift */; };
+		F470A33D28C9AA36007F4F24 /* FeedbackDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F470A33C28C9AA36007F4F24 /* FeedbackDetailViewController.swift */; };
+		F470A33F28C9C27E007F4F24 /* FAQViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F470A33E28C9C27E007F4F24 /* FAQViewController.swift */; };
 		F478DA4428BCA12B003C686A /* StoreInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F478DA4328BCA12B003C686A /* StoreInfoTableViewCell.swift */; };
 		F478DA4628BCA210003C686A /* StorePaymentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F478DA4528BCA210003C686A /* StorePaymentTableViewCell.swift */; };
 		F478DA4828BCA94E003C686A /* StoreDetailModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F478DA4728BCA94E003C686A /* StoreDetailModel.swift */; };
@@ -143,6 +146,7 @@
 		DF5FFCF328B4FC1F00BEFFA3 /* AroundFilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AroundFilterViewController.swift; sourceTree = "<group>"; };
 		DF67A05028C9635F00435C28 /* FeedbackListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackListViewController.swift; sourceTree = "<group>"; };
 		DF67A05228C9846900435C28 /* FeedbackListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackListCell.swift; sourceTree = "<group>"; };
+		DF67A05428C9BA4700435C28 /* MoreViewMenuModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreViewMenuModel.swift; sourceTree = "<group>"; };
 		DF6B69EE28B8518E009D4076 /* TermsWebViewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsWebViewViewController.swift; sourceTree = "<group>"; };
 		DF6B69F028B8BCA4009D4076 /* ToastMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastMessage.swift; sourceTree = "<group>"; };
 		DF6B69F628B90BA2009D4076 /* FilterResetButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterResetButtonView.swift; sourceTree = "<group>"; };
@@ -221,6 +225,8 @@
 		F449AEB528ADD205008E0417 /* SearchingActionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchingActionTableViewCell.swift; sourceTree = "<group>"; };
 		F4551D3928A8B651003B93F4 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		F4551D3B28A9F9C6003B93F4 /* SearchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTableViewCell.swift; sourceTree = "<group>"; };
+		F470A33C28C9AA36007F4F24 /* FeedbackDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackDetailViewController.swift; sourceTree = "<group>"; };
+		F470A33E28C9C27E007F4F24 /* FAQViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FAQViewController.swift; sourceTree = "<group>"; };
 		F478DA4328BCA12B003C686A /* StoreInfoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreInfoTableViewCell.swift; sourceTree = "<group>"; };
 		F478DA4528BCA210003C686A /* StorePaymentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorePaymentTableViewCell.swift; sourceTree = "<group>"; };
 		F478DA4728BCA94E003C686A /* StoreDetailModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreDetailModel.swift; sourceTree = "<group>"; };
@@ -620,6 +626,7 @@
 			isa = PBXGroup;
 			children = (
 				DFD672A128C8A708000220EE /* Feedback */,
+				DF67A05428C9BA4700435C28 /* MoreViewMenuModel.swift */,
 			);
 			path = NativeModels;
 			sourceTree = "<group>";
@@ -647,6 +654,7 @@
 				F438236628C5C2A500C75063 /* NoticeViewController.swift */,
 				F438236F28C7085200C75063 /* AlarmViewController.swift */,
 				F438237328C7188A00C75063 /* InquiryViewController.swift */,
+				F470A33E28C9C27E007F4F24 /* FAQViewController.swift */,
 			);
 			path = Else;
 			sourceTree = "<group>";
@@ -668,6 +676,7 @@
 				F438236128C3124300C75063 /* StickyHeaderView.swift */,
 				F438236328C47BF300C75063 /* FeedbackDoneViewController.swift */,
 				DFD6729E28C88F65000220EE /* FeedbackRequestViewController.swift */,
+				F470A33C28C9AA36007F4F24 /* FeedbackDetailViewController.swift */,
 			);
 			path = Detail;
 			sourceTree = "<group>";
@@ -800,6 +809,7 @@
 				DFF5300528BC578A00FFC302 /* StorageViewModel.swift in Sources */,
 				DFCB0B2228B3369200BF9BE7 /* AroundDistanceFilterViewController.swift in Sources */,
 				DF71EB4028C7683300AB693F /* MoreMenuTableViewCell.swift in Sources */,
+				DF67A05528C9BA4800435C28 /* MoreViewMenuModel.swift in Sources */,
 				DFA2875728AB684200DD9F63 /* UIView+Extension.swift in Sources */,
 				DF9BE0A628B6EEEA009E075D /* UILabel+Extension.swift in Sources */,
 				F438236428C47BF300C75063 /* FeedbackDoneViewController.swift in Sources */,
@@ -850,6 +860,7 @@
 				DF85D8C628C48F1600465D6A /* StoreInfoView.swift in Sources */,
 				DFC23FAF289AB6C900EC1090 /* EmptyModel.swift in Sources */,
 				DF01A89628C5D6CE00124788 /* TestViewController.swift in Sources */,
+				F470A33D28C9AA36007F4F24 /* FeedbackDetailViewController.swift in Sources */,
 				DF51DCC228A7779400D0AE1E /* MoreViewController.swift in Sources */,
 				DFA2875928AB94C700DD9F63 /* DetailOverView.swift in Sources */,
 				DFECC8CA28AC95E800DC64FD /* AroundPlaceViewController.swift in Sources */,
@@ -863,6 +874,7 @@
 				DF82669A289CA10800272830 /* OnBoardingViewController.swift in Sources */,
 				DF4BDF7728C74030000F15FA /* NavigationBarButton.swift in Sources */,
 				DFECC8CE28ACD9CF00DC64FD /* AroundStoreTableViewCell.swift in Sources */,
+				F470A33F28C9C27E007F4F24 /* FAQViewController.swift in Sources */,
 				F438236A28C5C39300C75063 /* NoticeCell.swift in Sources */,
 				DFF7BEDC28A685F500289F39 /* StoreTabCollectionViewCell.swift in Sources */,
 				F449AEB328ACEABE008E0417 /* SearchContentButton.swift in Sources */,

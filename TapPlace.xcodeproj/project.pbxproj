@@ -108,6 +108,7 @@
 		F4551D3C28A9F9C6003B93F4 /* SearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4551D3B28A9F9C6003B93F4 /* SearchTableViewCell.swift */; };
 		F470A33D28C9AA36007F4F24 /* FeedbackDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F470A33C28C9AA36007F4F24 /* FeedbackDetailViewController.swift */; };
 		F470A33F28C9C27E007F4F24 /* FAQViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F470A33E28C9C27E007F4F24 /* FAQViewController.swift */; };
+		F470A34128C9CA36007F4F24 /* FeedbackDetailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F470A34028C9CA36007F4F24 /* FeedbackDetailCell.swift */; };
 		F478DA4428BCA12B003C686A /* StoreInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F478DA4328BCA12B003C686A /* StoreInfoTableViewCell.swift */; };
 		F478DA4628BCA210003C686A /* StorePaymentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F478DA4528BCA210003C686A /* StorePaymentTableViewCell.swift */; };
 		F478DA4828BCA94E003C686A /* StoreDetailModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F478DA4728BCA94E003C686A /* StoreDetailModel.swift */; };
@@ -225,6 +226,7 @@
 		F4551D3B28A9F9C6003B93F4 /* SearchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTableViewCell.swift; sourceTree = "<group>"; };
 		F470A33C28C9AA36007F4F24 /* FeedbackDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackDetailViewController.swift; sourceTree = "<group>"; };
 		F470A33E28C9C27E007F4F24 /* FAQViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FAQViewController.swift; sourceTree = "<group>"; };
+		F470A34028C9CA36007F4F24 /* FeedbackDetailCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackDetailCell.swift; sourceTree = "<group>"; };
 		F478DA4328BCA12B003C686A /* StoreInfoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreInfoTableViewCell.swift; sourceTree = "<group>"; };
 		F478DA4528BCA210003C686A /* StorePaymentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorePaymentTableViewCell.swift; sourceTree = "<group>"; };
 		F478DA4728BCA94E003C686A /* StoreDetailModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreDetailModel.swift; sourceTree = "<group>"; };
@@ -661,6 +663,7 @@
 			children = (
 				F438236928C5C39300C75063 /* NoticeCell.swift */,
 				F438236D28C5D24800C75063 /* AlarmCell.swift */,
+				F470A34028C9CA36007F4F24 /* FeedbackDetailCell.swift */,
 			);
 			path = Else;
 			sourceTree = "<group>";
@@ -872,6 +875,7 @@
 				DFECC8CE28ACD9CF00DC64FD /* AroundStoreTableViewCell.swift in Sources */,
 				F470A33F28C9C27E007F4F24 /* FAQViewController.swift in Sources */,
 				F438236A28C5C39300C75063 /* NoticeCell.swift in Sources */,
+				F470A34128C9CA36007F4F24 /* FeedbackDetailCell.swift in Sources */,
 				DFF7BEDC28A685F500289F39 /* StoreTabCollectionViewCell.swift in Sources */,
 				F449AEB328ACEABE008E0417 /* SearchContentButton.swift in Sources */,
 				DFECC8CC28AC9F1200DC64FD /* AroundFilterButton.swift in Sources */,

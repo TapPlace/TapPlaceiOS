@@ -39,3 +39,5 @@ extension StorePaymentModel {
         StorePaymentModel(payName: "네이버 페이", success: true, successDate: "2022.08.21", successRate: 97)
     ]
 }
+
+

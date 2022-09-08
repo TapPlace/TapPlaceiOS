@@ -56,7 +56,7 @@ class TabBarViewController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-
+        self.navigationController?.navigationBar.isHidden = true
         
         tabBar.tintColor = .tabBarTintColor
         tabBar.unselectedItemTintColor = .tabBarUnTintColor

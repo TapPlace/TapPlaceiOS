@@ -23,11 +23,13 @@ class SplashViewController: UIViewController {
      * * coder : sanghyeon
      */
     var storageViewModel = StorageViewModel()
+    var userViewModel = UserViewModel()
     //MARK: - ViewController Lift Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         print(storageViewModel.dataBases?.location)
         print(Constants.userDeviceID)
+        loadTerms()
         setupView()
         setTestLayout()
         userInfoSetting()
@@ -48,8 +50,8 @@ class SplashViewController: UIViewController {
                         print("관심결제수단 설정 되었음")
                         self.navigationController?.navigationBar.isHidden = true
                         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
-                        lazy var vc = TabBarViewController()
-                        vc.showStoreInfo(storeID: "", isShowNavigation: false)
+                        lazy var vc = PickPaymentsViewController()
+                        //vc.showStoreInfo(storeID: "", isShowNavigation: false)
                         moveViewController(vc, present: true)
 //                        moveViewController(FeedbackListViewController(), present: true)
                     } else {
@@ -125,6 +127,17 @@ extension SplashViewController {
         } else {
             print("firstLaunch will false")
             UserDefaults.standard.set(false, forKey: "firstLaunch")
+        }
+    }
+    /**
+     * @ 최신 약관 정보 요청
+     * coder : sanghyeon
+     */
+    func loadTerms() {
+        userViewModel.requestLatestTerms(uuid: Constants.userDeviceID) { result in
+            guard let result = result else { return }
+            LatestTermsModel.latestServiceDate = result.serviceDate
+            LatestTermsModel.latestPersonalDate = result.personalDate
         }
     }
     /**

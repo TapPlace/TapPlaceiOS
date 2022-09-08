@@ -57,6 +57,7 @@ extension BookmarkViewController: CustomNavigationBarProtocol, FilterTitleProtoc
         
         //MARK: ViewPropertyManual
         self.view.backgroundColor = .white
+        filterTitle.setFilterName = "등록순"
         
         
         //MARK: AddSubView

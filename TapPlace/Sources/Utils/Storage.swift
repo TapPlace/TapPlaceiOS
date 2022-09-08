@@ -24,6 +24,7 @@ protocol StorageProtocol {
     mutating func writeUser(_ user: UserModel)
     mutating func updateUser(_ user: UserModel)
     mutating func setPayments(_ payments: [String])
+    mutating func loadFeedback() -> [UserFeedbackModel]
 }
 
 extension StorageProtocol {
@@ -73,5 +74,18 @@ extension StorageProtocol {
                 dataBases?.realm.add(addPaymentObject)
             }
         }
+    }
+}
+
+extension Results {
+    func toArray<T>(ofType: T.Type) -> [T] {
+        var array = [T]()
+        for i in 0 ..< count {
+            if let result = self[i] as? T {
+                array.append(result)
+            }
+        }
+
+        return array
     }
 }

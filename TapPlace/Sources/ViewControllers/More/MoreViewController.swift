@@ -9,29 +9,13 @@ import UIKit
 import NMapsMap
 
 class MoreViewController: CommonViewController {
-
-    var cellForFirstSection = [
-        ["공지사항", "notice", ""],
-        ["버전정보", "version", "최신 버전"],
-        ["자주 묻는 질문", "faq", ""],
-        ["문의하기", "qna", ""],
-        ["수정제안", "request", ""],
-        ["활동내역 초기화", "reset", ""]
-    ]
     
     var headerView: MoreHeaderView?
     let customNavigationBar = CustomNavigationBar()
-    let navigationButtonStackView: UIStackView = {
-        let navigationButtonStackView = UIStackView()
-        navigationButtonStackView.axis = .horizontal
-        navigationButtonStackView.spacing = 20
-        return navigationButtonStackView
-    }()
-    let spacerView: UIView = {
-        let spacerView = UIView()
-        spacerView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
-        return spacerView
-    }()
+    let menuList = MoreMenuModel.list
+    
+    var navigationButtonStackView = UIStackView()
+    var spacerView = UIView()
     let alarmButton = NavigationBarButton()
     let settingButton = NavigationBarButton()
     let tableView = UITableView()
@@ -59,6 +43,17 @@ extension MoreViewController: NavigationBarButtonProtocol {
         
         //MARK: ViewPropertyManual
         self.view.backgroundColor = .white
+        navigationButtonStackView = {
+            let navigationButtonStackView = UIStackView()
+            navigationButtonStackView.axis = .horizontal
+            navigationButtonStackView.spacing = 20
+            return navigationButtonStackView
+        }()
+        spacerView = {
+            let spacerView = UIView()
+            spacerView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+            return spacerView
+        }()
         
         
         //MARK: AddSubView
@@ -118,7 +113,8 @@ extension MoreViewController: NavigationBarButtonProtocol {
     func didTapNavigationBarButton(_ sender: UIButton) {
         switch sender {
         case alarmButton:
-            print("네비게이션 알림 버튼 탭")
+            let vc = AlarmViewController()
+            self.navigationController?.pushViewController(vc, animated: true)
         case settingButton:
             print("네비게이션 설정 버튼 탭")
         default:
@@ -161,7 +157,7 @@ extension MoreViewController: UITableViewDelegate, UITableViewDataSource, MoreHe
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
         case 0:
-            return cellForFirstSection.count
+            return menuList.count
         case 1:
             return TermsModel.lists.filter({$0.isTerm == true}).count
         default:
@@ -174,8 +170,13 @@ extension MoreViewController: UITableViewDelegate, UITableViewDataSource, MoreHe
         cell.selectionStyle = .none
         switch indexPath.section {
         case 0:
-            cell.title = String(cellForFirstSection[indexPath.row][0])
-            cell.subTitle = cellForFirstSection[indexPath.row][2]
+            cell.title = String(menuList[indexPath.row].title)
+            if let subTitle = menuList[indexPath.row].subTitle {
+                switch subTitle {
+                case .version:cell.subTitle = "최신버전"
+                default: break
+                }
+            }
             return cell
         case 1:
             let targetTerm = TermsModel.lists.filter({$0.isTerm == true})
@@ -187,8 +188,15 @@ extension MoreViewController: UITableViewDelegate, UITableViewDataSource, MoreHe
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let cell = tableView.cellForRow(at: indexPath) as? MoreMenuTableViewCell else { return }
-
+        switch indexPath.section {
+        case 0:
+            if let vc = menuList[indexPath.row].vc {
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
+        case 1:
+            break
+        default: break
+        }
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

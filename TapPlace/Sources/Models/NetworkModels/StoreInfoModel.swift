@@ -4,7 +4,8 @@
 //   let storeInfo = try? newJSONDecoder().decode(StoreInfo.self, from: jsonData)
 
 import Foundation
-// MARK: - StoreInfoElement
+
+// MARK: - StoreInfo
 struct StoreInfo: Codable {
     let num: Int
     let storeID, placeName, addressName, roadAddressName: String
@@ -21,13 +22,14 @@ struct StoreInfo: Codable {
         case phone, x, y, feedback
     }
 }
-
+  
 // MARK: - Feedback
 struct Feedback: Codable {
-    let num: Int
-    let storeID: String
-    let success, fail: Int
-    let lastState, lastTime, pay: String
+    let num: Int?
+    let storeID: String?
+    let success, fail: Int?
+    let lastState, lastTime: String?
+    let pay: String
     let exist: Bool
 
     enum CodingKeys: String, CodingKey {

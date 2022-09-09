@@ -24,6 +24,7 @@ class MainViewController: CommonViewController {
     var searchBar = UIView()
     let researchButton = ResearchButton()
     let detailOverView = DetailOverView()
+    var closeButton = UIButton()
     let listButton = MapButton()
     let locationButton = MapButton()
     var overlayCenterPick = UIView()
@@ -82,6 +83,8 @@ extension MainViewController: MapButtonProtocol, ResearchButtonProtocol {
             showInMapViewTracking(location: location)
             searchAroundStore(location: UserInfo.userLocation)
             showResearchElement(hide: true)
+            showDetailOverView(hide: true)
+            resetAllMarkersSize()
         }
     }
     /**
@@ -331,19 +334,12 @@ extension MainViewController: CLLocationManagerDelegate, NMFMapViewCameraDelegat
                 naverMapMarker.captionText = markerRow.placeName
                 naverMapMarker.captionRequestedWidth = 80
                 naverMapMarker.isHideCollidedCaptions = true
-                naverMapMarker.width = 80
+                naverMapMarker.width = 40
+                naverMapMarker.height = 53
 
-                
                 naverMapMarker.touchHandler = { (marker) in
                     if let marker = marker as? NMFMarker {
-                        if let targetMarker = self.markerList.first(where: {$0.marker == marker}) {
-                            print(targetMarker.store.placeName)
-                        }
-                        if marker.width == 40 {
-                            marker.width = 60
-                        } else {
-                            marker.width = 40
-                        }
+                        self.didTapMarker(marker: marker)
                     }
                     return true
                 }
@@ -352,9 +348,46 @@ extension MainViewController: CLLocationManagerDelegate, NMFMapViewCameraDelegat
         }
     }
     /**
+     * @ 지도상 마커 사이즈 초기화
+     * coder : sanghyeon
+     */
+    func resetAllMarkersSize() {
+        for eachMarker in markerList {
+            eachMarker.marker.width = 40
+            eachMarker.marker.height = 53
+        }
+    }
+    /**
      * @ 마커 클릭 이벤트
      * coder : sanghyeon
      */
+    func didTapMarker(marker: NMFMarker?) {
+        /// 열려있는 오버뷰 닫기
+        showDetailOverView(hide: true)
+        /// 모든 마커 사이즈 초기화
+        resetAllMarkersSize()
+        /// 선택된 마커 사이즈 확장
+        guard let marker = marker else { return }
+        marker.width = 50
+        marker.height = 66
+        
+        /// 마커의 스토어 정보
+        guard let targetMarker = markerList.first(where: {$0.marker == marker }) else { return }
+        let targetStore = targetMarker.store
+        var targetFeedback: [Feedback] = []
+        /// AroundStores -> StoreInfo 변환
+        print(targetStore)
+        for pay in targetStore.pays {
+            print(pay)
+            let feedback = Feedback(num: nil, storeID: nil, success: nil, fail: nil, lastState: nil, lastTime: nil, pay: pay, exist: true)
+            targetFeedback.append(feedback)
+        }
+        let targetStoreInfo: StoreInfo = StoreInfo(num: targetStore.num, storeID: targetStore.storeID, placeName: targetStore.placeName, addressName: targetStore.addressName, roadAddressName: targetStore.roadAddressName, categoryGroupName: targetStore.categoryGroupName, phone: targetStore.phone, x: targetStore.x, y: targetStore.y, feedback: targetFeedback)
+        
+        //print(targetStoreInfo)
+        
+        showDetailOverView(hide: false, storeInfo: targetStoreInfo)
+    }
     
     
     
@@ -437,10 +470,11 @@ extension MainViewController {
      * @ 상세뷰 오버 뷰
      * coder : sanghyeon
      */
-    func showDetailOverView(hide: Bool) {
+    func showDetailOverView(hide: Bool, storeInfo: StoreInfo? = nil) {
         guard let tabBar = self.tabBarController as? TabBarViewController else { return }
         if hide {
             detailOverView.removeFromSuperview()
+            closeButton.removeFromSuperview()
             detailOverView.snp.removeConstraints()
             tabBar.showTabBar(hide: false)
             locationButton.snp.remakeConstraints {
@@ -448,13 +482,15 @@ extension MainViewController {
                 $0.trailing.equalTo(view.safeAreaLayoutGuide).offset(-20)
                 $0.width.height.equalTo(40)
             }
+            tabBar.showTabBar(hide: false)
         } else {
-            let closeButton: UIButton = {
+            closeButton = {
                 let closeButton = UIButton()
                 closeButton.setImage(UIImage(systemName: "xmark"), for: .normal)
                 closeButton.tintColor = .black
                 return closeButton
             }()
+            closeButton.addTarget(self, action: #selector(didTapDetailOverViewCloseButton), for: .touchUpInside)
             view.addSubview(detailOverView)
             detailOverView.addSubview(closeButton)
             detailOverView.snp.makeConstraints {
@@ -468,8 +504,10 @@ extension MainViewController {
             }
             
             detailOverView.storeInfoView.titleSize = .large
-//            detailOverView.storeInfoView.storeInfo = StoreInfo(num: 1, storeID: "118519786", placeName: "플랜에이스터디카페 서초교대센터", addressName: "서울 서초구 서초동 1691-2", roadAddressName: "서울 서초구 서초중앙로24길 20", categoryGroupName: "", phone: "02-3143-0909", x: "127.015695735359", y: "37.4947251545286", feedback: dummyFeedback)
-            
+            if let storeInfo = storeInfo {
+                detailOverView.storeInfoView.storeInfo = storeInfo
+            }
+
             
             detailOverView.layer.applySketchShadow(color: .black, alpha: 0.12, x: 0, y: 0, blur: 14, spread: 0)
             locationButton.snp.remakeConstraints {
@@ -479,6 +517,10 @@ extension MainViewController {
             }
             tabBar.showTabBar(hide: true)
         }
+    }
+    @objc func didTapDetailOverViewCloseButton() {
+        showDetailOverView(hide: true)
+        resetAllMarkersSize()
     }
     /**
      * @ 네비게이션바 표시

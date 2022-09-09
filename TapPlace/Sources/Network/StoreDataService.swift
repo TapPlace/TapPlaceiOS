@@ -11,6 +11,7 @@ struct StoreDataService {
     static let shared = StoreDataService()
     private let aroundSearchUrl = "\(Constants.tapplaceApiUrl)/store/around"
     private let kakaoGeoUrl = "https://dapi.kakao.com/v2/local/geo/coord2address.json"
+    private let payListUrl = "\(Constants.tapplaceApiUrl)/pay/list"
     
     
     /**
@@ -22,6 +23,24 @@ struct StoreDataService {
         AF.request(url, method: .post, parameters: parameter, encoding: JSONEncoding.default, headers: nil)
             .validate()
             .responseDecodable(of: AroundStoreModel.self) { (response) in
+                switch response.result {
+                case .success(let response):
+                    completion(response, nil)
+                case .failure(let error):
+                    completion(nil, error)
+                }
+            }
+    }
+    
+    /**
+     * @ 스토어 아이디로 가맹점 정보 요청
+     * coder : sanghyeon
+     */
+    func requestFetchStoreInfo(parameter: Parameters, completion: @escaping (StoreInfo?, Error?) -> ()) {
+        let url = "\(payListUrl)"
+        AF.request(url, method: .post, parameters: parameter, encoding: JSONEncoding.default, headers: nil)
+            .validate()
+            .responseDecodable(of: StoreInfo.self) { (response) in
                 switch response.result {
                 case .success(let response):
                     completion(response, nil)

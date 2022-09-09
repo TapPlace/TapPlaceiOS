@@ -69,6 +69,7 @@
 		DFC449A228C8A9490029DD5E /* FeedbackRequestTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFC449A128C8A9490029DD5E /* FeedbackRequestTableViewCell.swift */; };
 		DFC449A428C8B4700029DD5E /* FeedbackButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFC449A328C8B4700029DD5E /* FeedbackButton.swift */; };
 		DFC87B3128CAD7CB00F53D1D /* KakaoGeoAddressModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFC87B3028CAD7CB00F53D1D /* KakaoGeoAddressModel.swift */; };
+		DFC87B3428CAE9D000F53D1D /* MarkerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFC87B3328CAE9D000F53D1D /* MarkerModel.swift */; };
 		DFCB0B2228B3369200BF9BE7 /* AroundDistanceFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFCB0B2128B3369200BF9BE7 /* AroundDistanceFilterViewController.swift */; };
 		DFCB0B2428B3A61300BF9BE7 /* AroundModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFCB0B2328B3A61300BF9BE7 /* AroundModel.swift */; };
 		DFD6729B28C81673000220EE /* MoreListFilterTitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFD6729A28C81673000220EE /* MoreListFilterTitle.swift */; };
@@ -198,6 +199,7 @@
 		DFC449A128C8A9490029DD5E /* FeedbackRequestTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackRequestTableViewCell.swift; sourceTree = "<group>"; };
 		DFC449A328C8B4700029DD5E /* FeedbackButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackButton.swift; sourceTree = "<group>"; };
 		DFC87B3028CAD7CB00F53D1D /* KakaoGeoAddressModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoGeoAddressModel.swift; sourceTree = "<group>"; };
+		DFC87B3328CAE9D000F53D1D /* MarkerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkerModel.swift; sourceTree = "<group>"; };
 		DFCB0B2128B3369200BF9BE7 /* AroundDistanceFilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AroundDistanceFilterViewController.swift; sourceTree = "<group>"; };
 		DFCB0B2328B3A61300BF9BE7 /* AroundModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AroundModel.swift; sourceTree = "<group>"; };
 		DFD6729A28C81673000220EE /* MoreListFilterTitle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreListFilterTitle.swift; sourceTree = "<group>"; };
@@ -659,9 +661,18 @@
 			path = Feedback;
 			sourceTree = "<group>";
 		};
+		DFC87B3228CAE9BF00F53D1D /* NaverMaps */ = {
+			isa = PBXGroup;
+			children = (
+				DFC87B3328CAE9D000F53D1D /* MarkerModel.swift */,
+			);
+			path = NaverMaps;
+			sourceTree = "<group>";
+		};
 		DFD672A028C8A6FB000220EE /* NativeModels */ = {
 			isa = PBXGroup;
 			children = (
+				DFC87B3228CAE9BF00F53D1D /* NaverMaps */,
 				DFD672A128C8A708000220EE /* Feedback */,
 				DF67A05428C9BA4700435C28 /* MoreViewMenuModel.swift */,
 			);
@@ -934,6 +945,7 @@
 				DFECC8D028ACFFE000DC64FD /* BrandIconImageView.swift in Sources */,
 				DF4A14A228ABBAEF0068D1AD /* VerticalAlignLabel.swift in Sources */,
 				DFF5300328BC55D000FFC302 /* Storage.swift in Sources */,
+				DFC87B3428CAE9D000F53D1D /* MarkerModel.swift in Sources */,
 				DF85D8C928C4BFAD00465D6A /* StoreInfoModel.swift in Sources */,
 				DF9BE0A828B71711009E075D /* TermsModel.swift in Sources */,
 				DF9EAF8528AA00F5001B3D74 /* ResearchButton.swift in Sources */,

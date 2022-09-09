@@ -7,11 +7,12 @@
 
 import UIKit
 
-class NoticeViewController: UIViewController {
+class NoticeViewController: CommonViewController {
     
     let customNavigationBar = CustomNavigationBar()
     
     override func viewDidLoad() {
+        super.viewDidLoad()
         setupView()
         setLayout()
         
@@ -37,6 +38,24 @@ class NoticeViewController: UIViewController {
 extension NoticeViewController {
     private func setupView() {
         self.view.backgroundColor = .white
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        // 탭바
+        print("뷰 사라집니다.")
+        tabBar?.showTabBar(hide: false)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        // 탭바
+        print("뷰 나타납니다.")
+        tabBar?.showTabBar(hide: true)
     }
     
     // 테이블 뷰 구성 메소드

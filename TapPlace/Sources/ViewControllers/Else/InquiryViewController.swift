@@ -7,7 +7,7 @@
 
 import UIKit
 
-class InquiryViewController: UIViewController {
+class InquiryViewController: CommonViewController {
     var term = TermsModel(title: "개인정보 수집, 이용동의", isTerm: true, require: true, link: "", checked: false)
     var numberOfLetter: Int = 0 // 타이틀 글자수
     
@@ -94,6 +94,7 @@ class InquiryViewController: UIViewController {
     }()
     
     override func viewDidLoad() {
+        super.viewDidLoad()
         setupView()
         setLayout()
         
@@ -122,6 +123,24 @@ class InquiryViewController: UIViewController {
 extension InquiryViewController {
     private func setupView() {
         self.view.backgroundColor = .white
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        // 탭바
+        print("뷰 사라집니다.")
+        tabBar?.showTabBar(hide: false)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        // 탭바
+        print("뷰 나타납니다.")
+        tabBar?.showTabBar(hide: true)
     }
     
     private func setLayout() {

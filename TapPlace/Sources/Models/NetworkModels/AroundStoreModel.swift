@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import NMapsMap
 
 // MARK: - AroundStoreModel
 struct AroundStoreModel: Codable {
@@ -38,4 +39,10 @@ extension AroundStoreModel {
         guard let aroundStoreList = AroundStoreModel.list else { return 0 }
         return aroundStoreList.count
     }
+}
+
+//MARK: - 마커정보를 함께 저장할 구조체
+struct AroundStoreMarkerModel {
+    let store: AroundStores
+    let marker: NMFMarker
 }

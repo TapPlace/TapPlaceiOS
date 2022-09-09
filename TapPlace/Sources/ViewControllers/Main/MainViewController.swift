@@ -20,7 +20,6 @@ class MainViewController: CommonViewController {
     
     let customNavigationBar = CustomNavigationBar()
     var naverMapView: NMFMapView = NMFMapView()
-    var naverMapMarker: NMFMarker = NMFMarker()
     var circleOverlay: NMFCircleOverlay = NMFCircleOverlay()
     var searchBar = UIView()
     let researchButton = ResearchButton()
@@ -34,6 +33,7 @@ class MainViewController: CommonViewController {
     let locationManager = CLLocationManager()
     var currentLocation: NMGLatLng?
     var cameraLocation: NMGLatLng?
+    var markerList: [AroundStoreMarkerModel] = []
 
     //MARK: ViewLifeCycle
     override func viewDidLoad() {
@@ -80,6 +80,7 @@ extension MainViewController: MapButtonProtocol, ResearchButtonProtocol {
             guard let location = currentLocation else { return }
             moveCamera(location: location)
             showInMapViewTracking(location: location)
+            searchAroundStore(location: UserInfo.userLocation)
             showResearchElement(hide: true)
         }
     }
@@ -313,12 +314,15 @@ extension MainViewController: CLLocationManagerDelegate, NMFMapViewCameraDelegat
      */
     
     func addMarker(markers: [AroundStores]) {
-        naverMapMarker.mapView = nil
+        for marker in markerList {
+            marker.marker.mapView = nil
+        }
+        markerList.removeAll()
         if markers.count <= 0 { return }
         for markerRow in markers {
             if let x = Double(markerRow.x), let y = Double(markerRow.y) {
                 let markerPosition = NMGLatLng(lat: y, lng: x)
-                naverMapMarker = NMFMarker(position: markerPosition)
+                var naverMapMarker = NMFMarker(position: markerPosition)
                 naverMapMarker.isHideCollidedMarkers = true
                 naverMapMarker.mapView = naverMapView
                 if let markerImage = MarkerModel.list.first(where: {$0.groupName == markerRow.categoryGroupName}) {
@@ -327,9 +331,33 @@ extension MainViewController: CLLocationManagerDelegate, NMFMapViewCameraDelegat
                 naverMapMarker.captionText = markerRow.placeName
                 naverMapMarker.captionRequestedWidth = 80
                 naverMapMarker.isHideCollidedCaptions = true
+                naverMapMarker.width = 80
+
+                
+                naverMapMarker.touchHandler = { (marker) in
+                    if let marker = marker as? NMFMarker {
+                        if let targetMarker = self.markerList.first(where: {$0.marker == marker}) {
+                            print(targetMarker.store.placeName)
+                        }
+                        if marker.width == 40 {
+                            marker.width = 60
+                        } else {
+                            marker.width = 40
+                        }
+                    }
+                    return true
+                }
+                markerList.append(AroundStoreMarkerModel(store: markerRow, marker: naverMapMarker))
             }
         }
     }
+    /**
+     * @ 마커 클릭 이벤트
+     * coder : sanghyeon
+     */
+    
+    
+    
     //MARK: Camera
     func mapViewCameraIdle(_ mapView: NMFMapView) {
         let camPosition = naverMapView.cameraPosition

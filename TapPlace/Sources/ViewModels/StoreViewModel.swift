@@ -22,13 +22,24 @@ class StoreViewModel {
             "y1": "\(location.latitude)",
             "pays": pays,
             "distance": 1.0
-        ]
-        print("요청받은 parameter", parameter)
-        
+        ]   
         storeDataService.requestFetchAroundStore(parameter: parameter) { result, error in
             completion(result)
         }
-        
-
+    }
+    /**
+     * @ 카카오 로컬 API로 현재 주소 요청
+     * coder : sanghyeon
+     */
+    func requestGeoAddress(location: CLLocationCoordinate2D, completion: @escaping (KakaoGeoAddresModel) -> ()) {
+        let parameter: Parameters = [
+            "x": "\(location.longitude)",
+            "y": "\(location.latitude)"
+        ]
+        storeDataService.requestFetchKakaoGeoAddress(parameter: parameter) { result, error in
+            if let result = result {
+                completion(result)
+            }
+        }
     }
 }

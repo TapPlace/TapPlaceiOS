@@ -10,6 +10,7 @@ import Alamofire
 struct StoreDataService {
     static let shared = StoreDataService()
     private let aroundSearchUrl = "\(Constants.tapplaceApiUrl)/store/around"
+    private let kakaoGeoUrl = "https://dapi.kakao.com/v2/local/geo/coord2address.json"
     
     
     /**
@@ -18,7 +19,6 @@ struct StoreDataService {
      */
     func requestFetchAroundStore(parameter: Parameters, completion: @escaping (AroundStoreModel?, Error?) -> ()) {
         let url = "\(aroundSearchUrl)"
-        let encoder = URLEncodedFormParameterEncoder(encoder: URLEncodedFormEncoder(arrayEncoding: .noBrackets))
         AF.request(url, method: .post, parameters: parameter, encoding: JSONEncoding.default, headers: nil)
             .validate()
             .responseDecodable(of: AroundStoreModel.self) { (response) in
@@ -30,24 +30,25 @@ struct StoreDataService {
                 }
             }
     }
+    
+    /**
+     * @ 카카오 로컬 API로 현재 주소 요청
+     * coder : sanghyeon
+     */
+    func requestFetchKakaoGeoAddress(parameter: Parameters, completion: @escaping (KakaoGeoAddresModel?, Error?) -> ()) {
+        let url = kakaoGeoUrl
+        guard let kakaoApiKey = Constants.kakaoRestApiKey else { return }
+        let header: HTTPHeaders = ["Authorization": "KakaoAK " + kakaoApiKey]
+        AF.request(url, method: .get, parameters: parameter, headers: header)
+            .validate()
+            .responseDecodable(of: KakaoGeoAddresModel.self) { (response) in
+                switch response.result {
+                case .success(let response):
+                    completion(response, nil)
+                case .failure(let error):
+                    completion(nil, error)
+                }
+            }
+    }
+    
 }
-
-
-
-/*
- 
- func requestFetchAroundStore(parameter: Parameters, completion: @escaping (AroundStoreModel?, Error?) -> ()) {
-     let url = "\(aroundSearchUrl)"
-     AF.request(url, method: .post, parameters: parameter, encoding: URLEncoding.default, headers: nil)
-         .validate()
-         .responseDecodable(of: AroundStoreModel.self) { (response) in
-             switch response.result {
-             case .success(let response):
-                 completion(response, nil)
-             case .failure(let error):
-                 completion(nil, error)
-             }
-         }
- }
- 
- */

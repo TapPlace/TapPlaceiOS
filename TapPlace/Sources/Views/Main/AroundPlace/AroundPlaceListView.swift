@@ -18,6 +18,12 @@ protocol AroundPlaceMainControllerProtocol {
 
 
 class AroundPlaceListView: UIView, AroundPlaceApplyFilterProtocol {
+    var address: String = "" {
+        willSet {
+            addressLabel.text = newValue + " 주변"
+        }
+    }
+    
     func applyFilter() {
         let AroundFilter: [Int] = [
             AroundFilterModel.storeList.count,
@@ -36,7 +42,7 @@ class AroundPlaceListView: UIView, AroundPlaceApplyFilterProtocol {
     }()
     let addressLabel: UILabel = {
         let addressLabel = UILabel()
-        addressLabel.text = "강서구 등촌3동 주변"
+        addressLabel.text = "지도의 현재 주소"
         addressLabel.font = .systemFont(ofSize: CommonUtils.resizeFontSize(size: 15), weight: .regular)
         addressLabel.textColor = .black
         addressLabel.sizeToFit()
@@ -232,7 +238,7 @@ extension AroundPlaceListView: UITableViewDelegate, UITableViewDataSource, Store
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 50
+        return AroundStoreModel.numberOfAroundStores
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -241,13 +247,7 @@ extension AroundPlaceListView: UITableViewDelegate, UITableViewDataSource, Store
         
         cell.cellIndex = indexPath.row
         //cell.storeInfoView.setAttributedString(store: "[\(indexPath.row)] 세븐일레븐 염창점", distance: "50m", address: "서울특별시 강서구 양천로 677", isBookmark: bookmark)
-        let dummyFeedback = [
-            Feedback(num: 0, storeID: "118519786", success: 10, fail: 5, lastState: "success", lastTime: "2022.01.02", pay: "apple_visa", exist: true),
-            Feedback(num: 0, storeID: "118519786", success: 10, fail: 5, lastState: "success", lastTime: "2022.01.02", pay: "google_master", exist: true),
-            Feedback(num: 0, storeID: "118519786", success: 10, fail: 5, lastState: "success", lastTime: "2022.01.02", pay: "kakaopay", exist: true)
-        ]
-        cell.storeInfo = StoreInfo(num: 1, storeID: "118519786", placeName: "플랜에이스터디카페 서초교대센터", addressName: "서울 서초구 서초동 1691-2", roadAddressName: "서울 서초구 서초중앙로24길 20", categoryGroupName: "", phone: "02-3143-0909", x: "127.015695735359", y: "37.4947251545286", feedback: dummyFeedback)
-        cell.storeInfoView.payLists = ["applelogo", "cart.fill", "trash.fill"]
+        cell.storeInfo = AroundStoreModel.list![indexPath.row]
         cell.storeInfoView.isButtonVisible = true
         cell.storeInfoView.delegate = self
         cell.contentView.isUserInteractionEnabled = false

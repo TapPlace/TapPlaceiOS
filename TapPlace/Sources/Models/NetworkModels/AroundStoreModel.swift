@@ -33,4 +33,9 @@ struct AroundStores: Codable {
 
 extension AroundStoreModel {
     static var list: [AroundStores]?
+    
+    static var numberOfAroundStores: Int {
+        guard let aroundStoreList = AroundStoreModel.list else { return 0 }
+        return aroundStoreList.count
+    }
 }

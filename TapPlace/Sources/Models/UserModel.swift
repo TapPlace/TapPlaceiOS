@@ -12,6 +12,7 @@ import CoreLocation
 /// 유저 정보
 struct UserInfo {
     static var userLocation: CLLocationCoordinate2D?
+    static var cameraLocation: CLLocationCoordinate2D?
 }
 
 /// 유저 계정 정보

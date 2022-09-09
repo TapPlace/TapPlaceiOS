@@ -20,6 +20,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             NMFAuthManager.shared().clientId = cliendId
             print("Naver Client ID:", cliendId)
         }
+        if let kakaoApiKey = Constants.kakaoRestApiKey {
+            print("Kakao Rest Api Key:", kakaoApiKey)
+        }
         
         IQKeyboardManager.shared.enable = true
         IQKeyboardManager.shared.enableAutoToolbar = false

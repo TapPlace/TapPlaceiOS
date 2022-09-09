@@ -321,6 +321,12 @@ extension MainViewController: CLLocationManagerDelegate, NMFMapViewCameraDelegat
                 naverMapMarker = NMFMarker(position: markerPosition)
                 naverMapMarker.isHideCollidedMarkers = true
                 naverMapMarker.mapView = naverMapView
+                if let markerImage = MarkerModel.list.first(where: {$0.groupName == markerRow.categoryGroupName}) {
+                    naverMapMarker.iconImage = NMFOverlayImage(name: markerImage.markerImage)
+                }
+                naverMapMarker.captionText = markerRow.placeName
+                naverMapMarker.captionRequestedWidth = 80
+                naverMapMarker.isHideCollidedCaptions = true
             }
         }
     }

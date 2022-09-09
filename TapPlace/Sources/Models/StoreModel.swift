@@ -17,7 +17,7 @@ struct StoreModel {
 extension StoreModel {
     static let lists = [
         StoreModel(id: "MT1", title: "대형마트", image: ""),
-        StoreModel(id: "CS2", title: "식당", image: ""),
+        StoreModel(id: "CS2", title: "편의점", image: ""),
         StoreModel(id: "PK6", title: "주차장", image: ""),
         StoreModel(id: "OL7", title: "주유소/충전소", image: "car.fill"),
         StoreModel(id: "PO3", title: "공공기관", image: ""),

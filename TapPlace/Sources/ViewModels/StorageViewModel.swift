@@ -33,6 +33,14 @@ struct StorageViewModel: StorageProtocol {
         return returnPayments
     }
     
+    var userFavoritePaymentsString: [String] {
+        var returnPayments: [String] = []
+        for payment in userFavoritePayments {
+            returnPayments.append(PaymentModel.encodingPayment(payment: payment))
+        }
+        return returnPayments
+    }
+    
     mutating func loadFeedback() -> [UserFeedbackModel] {
         var tempArray: [UserFeedbackModel] = []
         

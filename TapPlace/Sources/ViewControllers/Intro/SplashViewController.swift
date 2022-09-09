@@ -8,26 +8,14 @@
 import UIKit
 
 class SplashViewController: UIViewController {
-    /**
-     * 이 주석은 작업 후 삭제 예정
-     * 스플래시뷰 로직 계획
-     * 1. User Defaults로 초기 실행 확인
-     * 1-1. 초기 실행시 온보딩 뷰 로드
-     * 1-2. 초기실행 아닐경우 약관 동의 여부 확인
-     * 2-1. 약관 동의가 안되었을 경우, 약관동의 뷰 이동
-     * 2-2. 약관 동의가 되었을 경우, 결제수단 등록 확인
-     * 3-1. 생년월일 등록 안되었을 경우, 생년월일 등록 뷰 이동
-     * 3-2. 생년월일 등록 되었을 경우, 메인 뷰컨트롤러 이동
-     * 4-1. 결제수단 등록이 안되었을 경우, 결제수단 등록 뷰 이동
-     * 4-2. 결제수단 등록이 되었을 경우 성별 및 생년월일 등록 확인
-     * * coder : sanghyeon
-     */
     var storageViewModel = StorageViewModel()
+    var userViewModel = UserViewModel()
     //MARK: - ViewController Lift Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         print(storageViewModel.dataBases?.location)
         print(Constants.userDeviceID)
+        loadTerms()
         setupView()
         setTestLayout()
         userInfoSetting()
@@ -37,42 +25,35 @@ class SplashViewController: UIViewController {
         var nextVC: UIViewController?
         if isFirstLaunch() {
             /// 초기실행일 경우 온보딩 뷰 이동
-            print("초기실행!")
             nextVC = OnBoardingViewController()
         } else {
             if isAgreeTerms() {
-                print("약관 동의 되었음")
                 if isSettedUser() {
-                    print("성별, 생년월일 설정 되었음")
+                    /// 성별 생년월일 설정 되었음
                     if isPickedPayments() {
-                        print("관심결제수단 설정 되었음")
+                        /// 관심결제수단 설정 되었음
                         self.navigationController?.navigationBar.isHidden = true
                         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
                         lazy var vc = TabBarViewController()
-                        vc.showStoreInfo(storeID: "", isShowNavigation: false)
+                        //vc.showStoreInfo(storeID: "", isShowNavigation: false)
                         moveViewController(vc, present: true)
-//                        moveViewController(FeedbackListViewController(), present: true)
+                        //                        moveViewController(FeedbackListViewController(), present: true)
                     } else {
-                        print("관심결제수단 설정 안됨")
+                        /// 관심결제수단 설정 안됨
                         nextVC = PickPaymentsViewController()
                     }
                 } else {
-                    print("성별, 생년월일 설정 안됨")
+                    /// 성별, 생년월일 설정 안됨
                     nextVC = PrivacyViewController()
-//                    nextVC = StoreDetailViewController()
                 }
             } else {
-                print("약관 동의 안됨")
+                /// 약관 동의 안됨
                 nextVC = TermsViewController()
             }
         }
-        
         guard let nextVC = nextVC else { return }
         moveViewController(nextVC, present: false)
-
     }
-    
-    
 }
 //MARK: - Logic Functions
 extension SplashViewController {
@@ -125,6 +106,17 @@ extension SplashViewController {
         } else {
             print("firstLaunch will false")
             UserDefaults.standard.set(false, forKey: "firstLaunch")
+        }
+    }
+    /**
+     * @ 최신 약관 정보 요청
+     * coder : sanghyeon
+     */
+    func loadTerms() {
+        userViewModel.requestLatestTerms(uuid: Constants.userDeviceID) { result in
+            guard let result = result else { return }
+            LatestTermsModel.latestServiceDate = result.serviceDate
+            LatestTermsModel.latestPersonalDate = result.personalDate
         }
     }
     /**
@@ -190,10 +182,6 @@ extension SplashViewController {
      * coder : sanghyeon
      */
     private func moveViewController(_ vc: UIViewController, present: Bool) {
-        /*
-        vc.modalTransitionStyle = .flipHorizontal
-        vc.modalPresentationStyle = .fullScreen
-         */
         DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(3)) {
             if present {
                 vc.modalPresentationStyle = .fullScreen
@@ -204,7 +192,6 @@ extension SplashViewController {
             }
         }
     }
-    
     /**
      * @ 유저 정보 세팅
      * coder : sanghyeon
@@ -212,7 +199,6 @@ extension SplashViewController {
     private func userInfoSetting() {
         let isUserInfo = storageViewModel.existUser(uuid: Constants.userDeviceID)
         if !isUserInfo {
-            print("유저정보 없음")
             let userModel = UserModel(uuid: CommonUtils.getDeviceUUID(), isFirstLaunch: true, agreeTerm: "", agreePrivacy: "", agreeMarketing: "", birth: "", sex: "")
             storageViewModel.writeUser(userModel)
         }

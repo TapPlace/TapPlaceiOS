@@ -13,6 +13,7 @@ class PickPaymentsViewController: CommonPickViewController {
     var selectedPayments: [String] = []
     
     var storageViewModel = StorageViewModel()
+    var userViewModel = UserViewModel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,7 +39,10 @@ extension PickPaymentsViewController: BottomButtonProtocol, TitleViewProtocol {
             let vc = TabBarViewController()
             vc.modalTransitionStyle = .crossDissolve
             vc.modalPresentationStyle = .fullScreen
-            self.present(vc, animated: true)
+
+            userViewModel.sendUserInfo(user: storageViewModel.getUserInfo(uuid: Constants.userDeviceID)!, payments: selectedPayments) { result in
+                self.present(vc, animated: true)
+            }
         } else {
             showToast(message: "최소 1개의 결제수단을 선택하세요.", view: self.view)
         }

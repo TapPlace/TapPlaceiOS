@@ -17,7 +17,7 @@ class AroundStoreTableViewCell: UITableViewCell {
         }
     }
     
-    var storeInfo: StoreInfo = StoreInfo(num: 0, storeID: "", placeName: "", addressName: "", roadAddressName: "", categoryGroupName: "", phone: "", x: "", y: "", feedback: nil) {
+    var storeInfo: AroundStores = AroundStores(num: 0, storeID: "", placeName: "", addressName: "", roadAddressName: "", categoryGroupName: "", phone: "", x: "", y: "", distance: 0, pays: []) {
         willSet {
             storeInfoView.storeInfo = newValue
         }

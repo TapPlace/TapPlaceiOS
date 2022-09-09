@@ -19,6 +19,8 @@
 	</array>
 	<key>NAVER_CLIENT_ID</key>
 	<string>${NAVER_CLIENT_ID}</string>
+	<key>KAKAO_REST_API_KEY</key>
+	<string>${KAKAO_REST_API_KEY}</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

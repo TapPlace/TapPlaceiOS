@@ -66,6 +66,7 @@ extension MainViewController: MapButtonProtocol, ResearchButtonProtocol {
         showResearchElement(hide: true)
         let clLocation = CLLocationCoordinate2D(latitude: camLocation.lat, longitude: camLocation.lng)
         searchAroundStore(location: clLocation)
+        UserInfo.cameraLocation = clLocation
     }
     /**
      * @ 우측 하단 맵 버튼 클릭 함수
@@ -273,6 +274,7 @@ extension MainViewController: CLLocationManagerDelegate, NMFMapViewCameraDelegat
         guard let result = locationManager.location?.coordinate else { return }
         currentLocation = NMGLatLng(from: result)
         UserInfo.userLocation = result
+        UserInfo.cameraLocation = result
     }
     /**
      * @ 네이버지도 카메라 이동
@@ -312,12 +314,10 @@ extension MainViewController: CLLocationManagerDelegate, NMFMapViewCameraDelegat
     
     func addMarker(markers: [AroundStores]) {
         naverMapMarker.mapView = nil
-        print("markers.count:", markers.count)
         if markers.count <= 0 { return }
         for markerRow in markers {
             if let x = Double(markerRow.x), let y = Double(markerRow.y) {
                 let markerPosition = NMGLatLng(lat: y, lng: x)
-                print("markerPosition:", markerPosition)
                 naverMapMarker = NMFMarker(position: markerPosition)
                 naverMapMarker.isHideCollidedMarkers = true
                 naverMapMarker.mapView = naverMapView
@@ -434,8 +434,7 @@ extension MainViewController {
             }
             
             detailOverView.storeInfoView.titleSize = .large
-            let dummyFeedback = [Feedback(num: 0, storeID: "118519786", success: 10, fail: 5, lastState: "success", lastTime: "2022.01.02", pay: "apple_visa", exist: true)]
-            detailOverView.storeInfoView.storeInfo = StoreInfo(num: 1, storeID: "118519786", placeName: "플랜에이스터디카페 서초교대센터", addressName: "서울 서초구 서초동 1691-2", roadAddressName: "서울 서초구 서초중앙로24길 20", categoryGroupName: "", phone: "02-3143-0909", x: "127.015695735359", y: "37.4947251545286", feedback: dummyFeedback)
+//            detailOverView.storeInfoView.storeInfo = StoreInfo(num: 1, storeID: "118519786", placeName: "플랜에이스터디카페 서초교대센터", addressName: "서울 서초구 서초동 1691-2", roadAddressName: "서울 서초구 서초중앙로24길 20", categoryGroupName: "", phone: "02-3143-0909", x: "127.015695735359", y: "37.4947251545286", feedback: dummyFeedback)
             
             
             detailOverView.layer.applySketchShadow(color: .black, alpha: 0.12, x: 0, y: 0, blur: 14, spread: 0)

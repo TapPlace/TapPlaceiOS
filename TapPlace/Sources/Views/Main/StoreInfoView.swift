@@ -16,7 +16,7 @@ protocol StoreInfoViewButtonProtocol {
 class StoreInfoView: UIView {
     var delegate: StoreInfoViewButtonProtocol?
     
-    var storeInfo: StoreInfo? = nil {
+    var storeInfo: AroundStores? = nil {
         willSet {
             guard let store = newValue else { return }
             storeLabel.text = newValue?.placeName
@@ -35,10 +35,10 @@ class StoreInfoView: UIView {
             
             self.setAttributedString(store: store.placeName, distance: DistancelModel.getDistance(distance: placeDistance! / 1000), address: storeAddress)
             
-            if let payments = newValue?.feedback {
+            if let payments = newValue?.pays {
                 var paymentPay: [String] = []
                 for payment in payments {
-                    paymentPay.append(payment.pay)
+                    paymentPay.append(payment)
                 }
                 addPayBrand(pays: paymentPay)
             }

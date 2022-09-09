@@ -34,6 +34,9 @@
 		DF67A05828C9E98900435C28 /* UserDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF67A05728C9E98900435C28 /* UserDataService.swift */; };
 		DF67A05A28CA0A9600435C28 /* UserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF67A05928CA0A9600435C28 /* UserViewModel.swift */; };
 		DF67A05C28CA0F1B00435C28 /* LatestTermsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF67A05B28CA0F1B00435C28 /* LatestTermsModel.swift */; };
+		DF67A05E28CA2F4600435C28 /* AroundStoreModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF67A05D28CA2F4600435C28 /* AroundStoreModel.swift */; };
+		DF67A06028CA34F500435C28 /* StoreDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF67A05F28CA34F500435C28 /* StoreDataService.swift */; };
+		DF67A06228CA35E900435C28 /* StoreViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF67A06128CA35E900435C28 /* StoreViewModel.swift */; };
 		DF6B69EF28B8518E009D4076 /* TermsWebViewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF6B69EE28B8518E009D4076 /* TermsWebViewViewController.swift */; };
 		DF6B69F128B8BCA4009D4076 /* ToastMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF6B69F028B8BCA4009D4076 /* ToastMessage.swift */; };
 		DF6B69F728B90BA2009D4076 /* FilterResetButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF6B69F628B90BA2009D4076 /* FilterResetButtonView.swift */; };
@@ -156,6 +159,9 @@
 		DF67A05728C9E98900435C28 /* UserDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDataService.swift; sourceTree = "<group>"; };
 		DF67A05928CA0A9600435C28 /* UserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewModel.swift; sourceTree = "<group>"; };
 		DF67A05B28CA0F1B00435C28 /* LatestTermsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LatestTermsModel.swift; sourceTree = "<group>"; };
+		DF67A05D28CA2F4600435C28 /* AroundStoreModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AroundStoreModel.swift; sourceTree = "<group>"; };
+		DF67A05F28CA34F500435C28 /* StoreDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreDataService.swift; sourceTree = "<group>"; };
+		DF67A06128CA35E900435C28 /* StoreViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreViewModel.swift; sourceTree = "<group>"; };
 		DF6B69EE28B8518E009D4076 /* TermsWebViewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsWebViewViewController.swift; sourceTree = "<group>"; };
 		DF6B69F028B8BCA4009D4076 /* ToastMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastMessage.swift; sourceTree = "<group>"; };
 		DF6B69F628B90BA2009D4076 /* FilterResetButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterResetButtonView.swift; sourceTree = "<group>"; };
@@ -472,6 +478,7 @@
 			children = (
 				DF85D8C828C4BFAD00465D6A /* StoreInfoModel.swift */,
 				DF67A05B28CA0F1B00435C28 /* LatestTermsModel.swift */,
+				DF67A05D28CA2F4600435C28 /* AroundStoreModel.swift */,
 			);
 			path = NetworkModels;
 			sourceTree = "<group>";
@@ -582,6 +589,7 @@
 				DF38177728A4E28200B900B5 /* PaymentViewModel.swift */,
 				DFF5300428BC578A00FFC302 /* StorageViewModel.swift */,
 				DF67A05928CA0A9600435C28 /* UserViewModel.swift */,
+				DF67A06128CA35E900435C28 /* StoreViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -592,6 +600,7 @@
 				DFC23FB4289AB6F000EC1090 /* EmptyNetwork.swift */,
 				DF8266A7289F1D0D00272830 /* PlaceDataService.swift */,
 				DF67A05728C9E98900435C28 /* UserDataService.swift */,
+				DF67A05F28CA34F500435C28 /* StoreDataService.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -832,6 +841,7 @@
 				DFF5300528BC578A00FFC302 /* StorageViewModel.swift in Sources */,
 				DFCB0B2228B3369200BF9BE7 /* AroundDistanceFilterViewController.swift in Sources */,
 				DF71EB4028C7683300AB693F /* MoreMenuTableViewCell.swift in Sources */,
+				DF67A06228CA35E900435C28 /* StoreViewModel.swift in Sources */,
 				DF67A05528C9BA4800435C28 /* MoreViewMenuModel.swift in Sources */,
 				DFA2875728AB684200DD9F63 /* UIView+Extension.swift in Sources */,
 				DF9BE0A628B6EEEA009E075D /* UILabel+Extension.swift in Sources */,
@@ -870,9 +880,11 @@
 				DFE5F6AC28A8D36A000511E9 /* Constants.swift in Sources */,
 				DF67A05328C9846900435C28 /* FeedbackListCell.swift in Sources */,
 				F49D36E028B6227D000D025D /* SearchModel.swift in Sources */,
+				DF67A05E28CA2F4600435C28 /* AroundStoreModel.swift in Sources */,
 				F478DA4628BCA210003C686A /* StorePaymentTableViewCell.swift in Sources */,
 				DFDA43F928A14C61003763AC /* CommonUtils.swift in Sources */,
 				DFD6729F28C88F65000220EE /* FeedbackRequestViewController.swift in Sources */,
+				DF67A06028CA34F500435C28 /* StoreDataService.swift in Sources */,
 				F438237028C7085200C75063 /* AlarmViewController.swift in Sources */,
 				DF01A89428C5C94500124788 /* CustomNavigationBar.swift in Sources */,
 				DFF7BEDA28A67DFE00289F39 /* CALayer+Extension.swift in Sources */,

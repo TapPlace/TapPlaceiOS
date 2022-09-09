@@ -14,6 +14,9 @@ import FloatingPanel
 
 class MainViewController: CommonViewController {
     var storageViewModel = StorageViewModel()
+    var storeViewModel = StoreViewModel()
+    
+    var aroundStoreList: [AroundStores]?
     
     let customNavigationBar = CustomNavigationBar()
     var naverMapView: NMFMapView = NMFMapView()
@@ -38,6 +41,10 @@ class MainViewController: CommonViewController {
         setupView()
         setupNaverMap()
         setupFloatingPanel()
+        
+        
+        /// 테스트 함수
+        searchAroundStore(location: UserInfo.userLocation)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -57,6 +64,8 @@ extension MainViewController: MapButtonProtocol, ResearchButtonProtocol {
         guard let camLocation = cameraLocation else { return }
         showInMapViewTracking(location: camLocation)
         showResearchElement(hide: true)
+        let clLocation = CLLocationCoordinate2D(latitude: camLocation.lat, longitude: camLocation.lng)
+        searchAroundStore(location: clLocation)
     }
     /**
      * @ 우측 하단 맵 버튼 클릭 함수
@@ -301,13 +310,18 @@ extension MainViewController: CLLocationManagerDelegate, NMFMapViewCameraDelegat
      * coder : sanghyeon
      */
     
-    func addMarker(markers: [NMGLatLng]) {
-        if markers.count <= 0 { return }
+    func addMarker(markers: [AroundStores]) {
         naverMapMarker.mapView = nil
+        print("markers.count:", markers.count)
+        if markers.count <= 0 { return }
         for markerRow in markers {
-            naverMapMarker = NMFMarker(position: markerRow)
-            naverMapMarker.isHideCollidedMarkers = true
-            naverMapMarker.mapView = naverMapView
+            if let x = Double(markerRow.x), let y = Double(markerRow.y) {
+                let markerPosition = NMGLatLng(lat: y, lng: x)
+                print("markerPosition:", markerPosition)
+                naverMapMarker = NMFMarker(position: markerPosition)
+                naverMapMarker.isHideCollidedMarkers = true
+                naverMapMarker.mapView = naverMapView
+            }
         }
     }
     //MARK: Camera
@@ -478,6 +492,22 @@ extension MainViewController {
         showDetailOverView(hide: true)
     }
 }
+//MARK: - 뷰모델 함수
+extension MainViewController {
+    /**
+     * @ 좌표 기준으로 주변 매장 검색 후 마커 표시
+     * coder : sanghyeon
+     */
+    func searchAroundStore(location: CLLocationCoordinate2D?) {
+        guard let location = location else { return }
+        storeViewModel.requestAroundStore(location: location, pays: storageViewModel.userFavoritePaymentsString) { result in
+            guard let result = result else { return }
+            AroundStoreModel.list = result.stores
+            self.addMarker(markers: result.stores)
+        }
+    }
+}
+
 
 //MARK: - CollectionView
 extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {

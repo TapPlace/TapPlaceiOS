@@ -28,6 +28,19 @@ class StoreViewModel {
         }
     }
     /**
+     * @ 스토어 아이디로 가맹점 정보 요청
+     * coder : sanghyeon
+     */
+    func requestStoreInfo(storeID: String, pays: [String], completion: @escaping (StoreInfo?) -> ()) {
+        let parameter: Parameters = [
+            "store_id": storeID,
+            "pays": pays
+        ]
+        storeDataService.requestFetchStoreInfo(parameter: parameter) { result, error in
+            completion(result)
+        }
+    }
+    /**
      * @ 카카오 로컬 API로 현재 주소 요청
      * coder : sanghyeon
      */

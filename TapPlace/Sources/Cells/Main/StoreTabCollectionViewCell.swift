@@ -22,6 +22,21 @@ class StoreTabCollectionViewCell: UICollectionViewCell {
             itemIcon.tintColor = newValue
         }
     }
+    var cellSelected: Bool = false {
+        willSet {
+            if newValue {
+                itemFrame.backgroundColor = .pointBlue
+                itemIcon.tintColor = .white
+                itemText.textColor = .white
+            } else {
+                itemFrame.backgroundColor = .white
+                itemIcon.tintColor = iconColor
+                itemText.textColor = .black.withAlphaComponent(0.7)
+                
+            }
+        }
+    }
+    
     let itemFrame: UIView = {
         let itemFrame = UIView()
         itemFrame.backgroundColor = .white
@@ -43,9 +58,9 @@ class StoreTabCollectionViewCell: UICollectionViewCell {
     let itemText: UILabel = {
         let itemText = UILabel()
         itemText.text = ""
+        itemText.textColor = .black.withAlphaComponent(0.7)
         itemText.sizeToFit()
         itemText.font = .systemFont(ofSize: CommonUtils.resizeFontSize(size: 14), weight: .regular)
-        itemText.layer.opacity = 0.7
         return itemText
     }()
     

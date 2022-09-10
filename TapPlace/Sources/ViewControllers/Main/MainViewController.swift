@@ -35,6 +35,7 @@ class MainViewController: CommonViewController {
     var currentLocation: NMGLatLng?
     var cameraLocation: NMGLatLng?
     var markerList: [AroundStoreMarkerModel] = []
+    var latestSelectStore: StoreTabCollectionViewCell?
 
     //MARK: ViewLifeCycle
     override func viewDidLoad() {
@@ -346,6 +347,19 @@ extension MainViewController: CLLocationManagerDelegate, NMFMapViewCameraDelegat
         }
     }
     /**
+     * @ 마커 숨기기 (삭제X, 숨기기O)
+     * coder : sanghyeon
+     */
+    func hideMarker(marker: NMFMarker?) {
+        if let marker = marker {
+            marker.mapView = nil
+        } else {
+            for addedMarker in markerList {
+                addedMarker.marker.mapView = naverMapView
+            }
+        }
+    }
+    /**
      * @ 지도상 마커 사이즈 초기화
      * coder : sanghyeon
      */
@@ -603,6 +617,28 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
         cell.itemText.text = StoreModel.lists[indexPath.row].title
         cell.storeId = StoreModel.lists[indexPath.row].id
         return cell
+    }
+    /// 컬렉션뷰 선택시 필터 적용
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let cell = collectionView.cellForItem(at: indexPath) as? StoreTabCollectionViewCell else { return }
+        latestSelectStore?.cellSelected = false
+        /// 이미 선택 된 셀을 클릭했을때
+        if cell == latestSelectStore {
+            latestSelectStore = nil
+            hideMarker(marker: nil)
+            return
+        } else {
+            cell.cellSelected = true
+            latestSelectStore = cell
+            hideMarker(marker: nil)
+            let storeCategory = cell.itemText.text == "기타" ? "" : cell.itemText.text
+            for marker in markerList {
+                
+                if marker.store.categoryGroupName != storeCategory {
+                    hideMarker(marker: marker.marker)
+                }
+            }
+        }
     }
     /// 컬렉션뷰 셀 라벨 사이즈 대비 사이즈 변경
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

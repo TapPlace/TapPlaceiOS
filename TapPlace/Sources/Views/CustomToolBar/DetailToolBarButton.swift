@@ -16,13 +16,15 @@ class DetailToolBarButton: UIView {
     
     var icon: UIImage = UIImage() {
         willSet {
-            imageView.image = newValue.withAlignmentRectInsets(UIEdgeInsets(top: -12, left: 0, bottom: -12, right: 0))
+            imageView.image = newValue.withAlignmentRectInsets(UIEdgeInsets(top: -12, left: 0, bottom: -12, right: 0)).withRenderingMode(.alwaysTemplate)
         }
     }
     var selected: Bool = false {
         willSet {
             if newValue {
                 imageView.tintColor = .pointBlue
+            } else {
+                imageView.tintColor = UIColor.init(hex: 0xdcdee8)
             }
         }
     }

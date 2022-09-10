@@ -10,6 +10,7 @@ import UIKit
 class MoreMenuTableViewCell: UITableViewCell {
 
     static let cellId = "menuItem"
+    var menuType: MoreMenuModel.MoreMenuType?
     
     var title: String = "" {
         willSet {

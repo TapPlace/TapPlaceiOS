@@ -14,7 +14,12 @@ class StoreTabCollectionViewCell: UICollectionViewCell {
     
     var icon: UIImage = UIImage() {
         willSet {
-            itemIcon.image = newValue.withAlignmentRectInsets(UIEdgeInsets(top: -7, left: 0, bottom: -7, right: 0))
+            itemIcon.image = newValue.withAlignmentRectInsets(UIEdgeInsets(top: -7, left: 0, bottom: -7, right: 0)).withRenderingMode(.alwaysTemplate)
+        }
+    }
+    var iconColor: UIColor = .black {
+        willSet {
+            itemIcon.tintColor = newValue
         }
     }
     let itemFrame: UIView = {
@@ -30,7 +35,7 @@ class StoreTabCollectionViewCell: UICollectionViewCell {
     }()
     let itemIcon: UIImageView = {
         let itemIcon = UIImageView()
-        itemIcon.image = UIImage(systemName: "apple.logo")
+        itemIcon.image = UIImage(systemName: "apple.logo")?.withRenderingMode(.alwaysTemplate)
         itemIcon.tintColor = .black
         itemIcon.contentMode = .scaleAspectFit
         return itemIcon

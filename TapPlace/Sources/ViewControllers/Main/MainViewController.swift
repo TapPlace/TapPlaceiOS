@@ -593,8 +593,9 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
     /// 컬렉션뷰 셀 설정
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: StoreTabCollectionViewCell.cellId, for: indexPath) as! StoreTabCollectionViewCell
-        if let icon = UIImage(systemName: StoreModel.lists[indexPath.row].image) {
+        if let icon = UIImage(named: StoreModel.lists[indexPath.row].id) {
             cell.icon = icon
+            cell.iconColor = StoreModel.lists[indexPath.row].color
         }
         cell.itemText.text = StoreModel.lists[indexPath.row].title
         cell.storeId = StoreModel.lists[indexPath.row].id

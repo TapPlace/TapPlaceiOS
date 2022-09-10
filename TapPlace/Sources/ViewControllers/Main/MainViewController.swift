@@ -42,10 +42,6 @@ class MainViewController: CommonViewController {
         setupView()
         setupNaverMap()
         setupFloatingPanel()
-        
-        
-        /// 테스트 함수
-        searchAroundStore(location: UserInfo.userLocation)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -279,6 +275,7 @@ extension MainViewController: CLLocationManagerDelegate, NMFMapViewCameraDelegat
         currentLocation = NMGLatLng(from: result)
         UserInfo.userLocation = result
         UserInfo.cameraLocation = result
+        searchAroundStore(location: result)
     }
     /**
      * @ 네이버지도 카메라 이동
@@ -325,7 +322,7 @@ extension MainViewController: CLLocationManagerDelegate, NMFMapViewCameraDelegat
         for markerRow in markers {
             if let x = Double(markerRow.x), let y = Double(markerRow.y) {
                 let markerPosition = NMGLatLng(lat: y, lng: x)
-                var naverMapMarker = NMFMarker(position: markerPosition)
+                let naverMapMarker = NMFMarker(position: markerPosition)
                 naverMapMarker.isHideCollidedMarkers = true
                 naverMapMarker.mapView = naverMapView
                 if let markerImage = MarkerModel.list.first(where: {$0.groupName == markerRow.categoryGroupName}) {
@@ -375,14 +372,8 @@ extension MainViewController: CLLocationManagerDelegate, NMFMapViewCameraDelegat
         guard let targetMarker = markerList.first(where: {$0.marker == marker }) else { return }
         let targetStore = targetMarker.store
         print("클릭된 마커의 스토어: ", targetStore.placeName)
-        var targetFeedback: [Feedback] = []
         /// AroundStores -> StoreInfo 변환
-        for pay in targetStore.pays {
-            print(pay)
-            let feedback = Feedback(num: nil, storeID: nil, success: nil, fail: nil, lastState: nil, lastTime: nil, pay: pay, exist: true)
-            targetFeedback.append(feedback)
-        }
-        let targetStoreInfo: StoreInfo = StoreInfo(num: targetStore.num, storeID: targetStore.storeID, placeName: targetStore.placeName, addressName: targetStore.addressName, roadAddressName: targetStore.roadAddressName, categoryGroupName: targetStore.categoryGroupName, phone: targetStore.phone, x: targetStore.x, y: targetStore.y, feedback: targetFeedback)
+        let targetStoreInfo = StoreInfo.convertAroundStores(aroundStore: targetStore)
         showDetailOverView(hide: false, storeInfo: targetStoreInfo)
     }
     
@@ -465,12 +456,10 @@ extension MainViewController: CLLocationManagerDelegate, NMFMapViewCameraDelegat
 extension MainViewController: CustomToolBarShareProtocol {
     func showShare(storeInfo: StoreInfo) {
         var objectToShare = [String]()
-        var shareText = "\(storeInfo.placeName)의 간편결제 정보입니다.\n\n\(Constants.tapplaceBaseUrl)/app/\(storeInfo.storeID)"
+        let shareText = "\(storeInfo.placeName)의 간편결제 정보입니다.\n\n\(Constants.tapplaceBaseUrl)/app/\(storeInfo.storeID)"
         objectToShare.append(shareText)
         
         let activityVC = UIActivityViewController(activityItems: objectToShare, applicationActivities: nil)
-        //activityVC.popoverPresentationController?.permittedArrowDirections = []
-        //activityVC.popoverPresentationController?.sourceView = self.view
         self.present(activityVC, animated: true)
     }
     

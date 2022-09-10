@@ -247,7 +247,7 @@ extension AroundPlaceListView: UITableViewDelegate, UITableViewDataSource, Store
         
         cell.cellIndex = indexPath.row
         //cell.storeInfoView.setAttributedString(store: "[\(indexPath.row)] 세븐일레븐 염창점", distance: "50m", address: "서울특별시 강서구 양천로 677", isBookmark: bookmark)
-        cell.storeInfo = AroundStoreModel.list![indexPath.row]
+        cell.storeInfo = StoreInfo.convertAroundStores(aroundStore: AroundStoreModel.list![indexPath.row])
         cell.storeInfoView.isButtonVisible = true
         cell.storeInfoView.delegate = self
         cell.contentView.isUserInteractionEnabled = false

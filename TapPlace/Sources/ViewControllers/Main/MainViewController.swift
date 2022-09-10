@@ -624,7 +624,6 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
         latestSelectStore?.cellSelected = false
         /// 이미 선택 된 셀을 클릭했을때
         if cell == latestSelectStore {
-            print("같은 셀 클릭")
             latestSelectStore = nil
             hideMarker(marker: nil)
             return
@@ -632,8 +631,10 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
             cell.cellSelected = true
             latestSelectStore = cell
             hideMarker(marker: nil)
+            let storeCategory = cell.itemText.text == "기타" ? "" : cell.itemText.text
             for marker in markerList {
-                if marker.store.categoryGroupName != cell.itemText.text {
+                
+                if marker.store.categoryGroupName != storeCategory {
                     hideMarker(marker: marker.marker)
                 }
             }

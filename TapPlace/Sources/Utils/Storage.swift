@@ -19,12 +19,6 @@ struct DB {
 protocol StorageProtocol {
     var userObject: UserModel? { get set }
     var dataBases: DB? { get set }
-    
-    mutating func existUser(uuid: String) -> Bool
-    mutating func writeUser(_ user: UserModel)
-    mutating func updateUser(_ user: UserModel)
-    mutating func setPayments(_ payments: [String])
-    mutating func loadFeedback() -> [UserFeedbackModel]
 }
 
 extension StorageProtocol {
@@ -97,6 +91,21 @@ extension StorageProtocol {
                 }
             }
             return false
+        }
+    }
+    
+    /**
+     * @ 즐겨찾기 여부 확인
+     * coder : sanghyeon
+     */
+    mutating func isStoreBookmark(_ storeID: String) -> Bool {
+        let targetStore = dataBases?.realm.objects(UserBookmarkStore.self).where {
+            $0.storeID == storeID
+        }.first
+        if targetStore == nil {
+            return false
+        } else {
+            return true
         }
     }
 }

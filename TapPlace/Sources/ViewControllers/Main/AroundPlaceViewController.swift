@@ -78,7 +78,6 @@ extension AroundPlaceViewController {
     func getGeoAddress(location: CLLocationCoordinate2D) {
         storeViewModel.requestGeoAddress(location: location) { result in
             var address = ""
-            print(result.documents[0].roadAddress)
             if let roadAddress = result.documents[0].roadAddress {
                 address = "\(roadAddress.region2DepthName) \(roadAddress.roadName)"
             } else {

@@ -68,7 +68,6 @@ class BookMarkEditModeCell: UITableViewCell {
         super.prepareForReuse()
         /// 재사용하면서 생기는 문제로 인해 셀 초기화
         storeInfoView.brandStackView.removeAllArrangedSubviews()
-        storeInfoView.rightButton.tintColor = UIColor.init(hex: 0xdbdee8)
         iconImage.tintColor = .init(hex: 0xCDD2DF)
     }
 }

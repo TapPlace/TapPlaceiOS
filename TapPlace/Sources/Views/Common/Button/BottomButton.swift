@@ -31,7 +31,6 @@ class BottomButton: UIButton {
         }
         
         if fill {
-            print("isFill")
             self.contentVerticalAlignment = .top
             self.contentEdgeInsets.top = 14
         } else {

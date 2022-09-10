@@ -35,10 +35,7 @@ class AroundDistanceFilterViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         findDistanceRow()
-        setupView()
-        
-        print(DistancelModel.lists)
-        
+        setupView()        
     }
     
     

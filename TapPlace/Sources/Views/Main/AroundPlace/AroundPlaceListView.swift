@@ -35,6 +35,7 @@ class AroundPlaceListView: UIView, AroundPlaceApplyFilterProtocol {
     
     var delegate: AroundPlaceControllerProtocol?
     var mainDelegate: AroundPlaceMainControllerProtocol?
+    var storageViewModel = StorageViewModel()
     
     let containerView: UIView = {
         let containerView = UIView()
@@ -69,8 +70,7 @@ class AroundPlaceListView: UIView, AroundPlaceApplyFilterProtocol {
     let tableView: UITableView = {
         let tableView = UITableView()
         tableView.rowHeight = 110
-        tableView.separatorStyle = .singleLine
-        tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        tableView.separatorStyle = .none
         return tableView
     }()
     
@@ -232,7 +232,7 @@ extension AroundPlaceListView {
 }
 
 //MARK: - TableView
-extension AroundPlaceListView: UITableViewDelegate, UITableViewDataSource, StoreInfoViewButtonProtocol {
+extension AroundPlaceListView: UITableViewDelegate, UITableViewDataSource {
     func didTapStoreInfoButton(selectedIndex: Int?) {
         print(selectedIndex)
     }
@@ -243,21 +243,27 @@ extension AroundPlaceListView: UITableViewDelegate, UITableViewDataSource, Store
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: AroundStoreTableViewCell.cellId, for: indexPath) as? AroundStoreTableViewCell else { return UITableViewCell() }
-        let bookmark = indexPath.row == 2 ? true : false
-        
-        cell.cellIndex = indexPath.row
-        //cell.storeInfoView.setAttributedString(store: "[\(indexPath.row)] 세븐일레븐 염창점", distance: "50m", address: "서울특별시 강서구 양천로 677", isBookmark: bookmark)
-        cell.storeInfo = StoreInfo.convertAroundStores(aroundStore: AroundStoreModel.list![indexPath.row])
-        cell.storeInfoView.isButtonVisible = true
-        cell.storeInfoView.delegate = self
-        cell.contentView.isUserInteractionEnabled = false
-        cell.selectionStyle = .none
-        cell.separatorInset = .zero
-        return cell
-        
+        return setupCell(cell: cell, indexPath: indexPath, aroundStore: AroundStoreModel.list![indexPath.row])
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let cell = tableView.cellForRow(at: indexPath) as? AroundStoreTableViewCell else { return }
+        print("isUserInteractionEnabled:", cell.isUserInteractionEnabled)
     }
+    
+    func setupCell(cell: UITableViewCell, indexPath: IndexPath, aroundStore: AroundStores) -> UITableViewCell {
+        guard let cell = cell as? AroundStoreTableViewCell else { return UITableViewCell() }
+        let storeInfo = StoreInfo.convertAroundStores(aroundStore: aroundStore)
+        
+        cell.cellIndex = indexPath.row
+        cell.storeInfo = storeInfo
+        cell.isBookmark = storageViewModel.isStoreBookmark(storeInfo.storeID)
+        
+        cell.contentView.isUserInteractionEnabled = false
+        cell.selectionStyle = .none
+        cell.separatorInset = .zero
+        
+        return cell
+    }
+    
     
 }

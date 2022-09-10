@@ -374,18 +374,15 @@ extension MainViewController: CLLocationManagerDelegate, NMFMapViewCameraDelegat
         /// 마커의 스토어 정보
         guard let targetMarker = markerList.first(where: {$0.marker == marker }) else { return }
         let targetStore = targetMarker.store
+        print("클릭된 마커의 스토어: ", targetStore.placeName)
         var targetFeedback: [Feedback] = []
         /// AroundStores -> StoreInfo 변환
-        print(targetStore)
         for pay in targetStore.pays {
             print(pay)
             let feedback = Feedback(num: nil, storeID: nil, success: nil, fail: nil, lastState: nil, lastTime: nil, pay: pay, exist: true)
             targetFeedback.append(feedback)
         }
         let targetStoreInfo: StoreInfo = StoreInfo(num: targetStore.num, storeID: targetStore.storeID, placeName: targetStore.placeName, addressName: targetStore.addressName, roadAddressName: targetStore.roadAddressName, categoryGroupName: targetStore.categoryGroupName, phone: targetStore.phone, x: targetStore.x, y: targetStore.y, feedback: targetFeedback)
-        
-        //print(targetStoreInfo)
-        
         showDetailOverView(hide: false, storeInfo: targetStoreInfo)
     }
     
@@ -465,7 +462,18 @@ extension MainViewController: CLLocationManagerDelegate, NMFMapViewCameraDelegat
 }
 
 //MARK: - Delegate Other VC
-extension MainViewController {
+extension MainViewController: CustomToolBarShareProtocol {
+    func showShare(storeInfo: StoreInfo) {
+        var objectToShare = [String]()
+        var shareText = "\(storeInfo.placeName)의 간편결제 정보입니다.\n\n\(Constants.tapplaceBaseUrl)/app/\(storeInfo.storeID)"
+        objectToShare.append(shareText)
+        
+        let activityVC = UIActivityViewController(activityItems: objectToShare, applicationActivities: nil)
+        //activityVC.popoverPresentationController?.permittedArrowDirections = []
+        //activityVC.popoverPresentationController?.sourceView = self.view
+        self.present(activityVC, animated: true)
+    }
+    
     /**
      * @ 상세뷰 오버 뷰
      * coder : sanghyeon
@@ -504,11 +512,12 @@ extension MainViewController {
             }
             
             detailOverView.storeInfoView.titleSize = .large
+            detailOverView.toolBar.vcDelegate = self
+
             if let storeInfo = storeInfo {
-                detailOverView.storeInfoView.storeInfo = storeInfo
+                detailOverView.storeInfo = storeInfo
             }
 
-            
             detailOverView.layer.applySketchShadow(color: .black, alpha: 0.12, x: 0, y: 0, blur: 14, spread: 0)
             locationButton.snp.remakeConstraints {
                 $0.bottom.equalTo(detailOverView.snp.top).offset(-20)
@@ -596,7 +605,7 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
         if let icon = UIImage(named: StoreModel.lists[indexPath.row].id) {
             cell.icon = icon
             cell.iconColor = StoreModel.lists[indexPath.row].color
-        }
+        } 
         cell.itemText.text = StoreModel.lists[indexPath.row].title
         cell.storeId = StoreModel.lists[indexPath.row].id
         return cell

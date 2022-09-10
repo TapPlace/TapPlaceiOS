@@ -8,8 +8,17 @@
 import UIKit
 
 class DetailOverView: UIView, CustomToolBarProtocol {
-    var storeInfo: StoreInfo = StoreInfo(num: 1, storeID: "118519786", placeName: "플랜에이스터디카페 서초교대센터", addressName: "서울 서초구 서초동 1691-2", roadAddressName: "서울 서초구 서초중앙로24길 20", categoryGroupName: "", phone: "02-3143-0909", x: "127.015695735359", y: "37.4947251545286", feedback: nil)
-    
+    var storeInfo: StoreInfo? = nil {
+        willSet {
+            storeInfoView.storeInfo = newValue
+        }
+    }
+    var viewController: UIViewController = UIViewController() {
+        willSet {
+            toolBar.viewController = newValue
+        }
+    }
+     
 
     
     let toolBar = CustomToolBar()
@@ -24,6 +33,7 @@ class DetailOverView: UIView, CustomToolBarProtocol {
             return containerView
         }()
         
+        storeInfoView.storeInfo = storeInfo
         
         addSubview(toolBar)
         addSubview(containerView)

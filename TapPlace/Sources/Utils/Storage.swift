@@ -75,6 +75,30 @@ extension StorageProtocol {
             }
         }
     }
+    
+    /**
+     * @ 즐겨찾기 저장
+     * coder : sanghyeon
+     */
+    mutating func toggleBookmark(_ storeID: String) -> Bool {
+        let targetStore = dataBases?.realm.objects(UserBookmarkStore.self).where {
+            $0.storeID == storeID
+        }.first
+        if targetStore == nil {
+            let bookmarkStore = UserBookmarkStore(storeID: storeID, date: CommonUtils.getDate(Date(), type: 3))
+            try! dataBases?.realm.write {
+                dataBases?.realm.add(bookmarkStore)
+            }
+            return true
+        } else {
+            if let targetStore = targetStore {
+                try! dataBases?.realm.write {
+                    dataBases?.realm.delete(targetStore)
+                }
+            }
+            return false
+        }
+    }
 }
 
 extension Results {

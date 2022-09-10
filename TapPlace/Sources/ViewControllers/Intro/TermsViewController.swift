@@ -47,7 +47,7 @@ extension TermsViewController: CustomNavigationBarProtocol, BottomButtonProtocol
         if let user = storageViewModel.getUserInfo(uuid: Constants.userDeviceID) {
             guard let marketingIndex = allTermsLists.firstIndex(where: { $0.title == "마케팅 정보 수신 동의" }) else { return }
             let isCheckedMarketing = allTermsLists[marketingIndex].checked
-            let setUser = UserModel(uuid: user.uuid, isFirstLaunch: user.isFirstLaunch, agreeTerm: Constants.latestTerm, agreePrivacy: Constants.latestPrivacy, agreeMarketing: isCheckedMarketing ? CommonUtils.getDate(Date(), type: 3) : "", birth: "", sex: "")
+            let setUser = UserModel(uuid: user.uuid, isFirstLaunch: user.isFirstLaunch, agreeTerm: LatestTermsModel.latestServiceDate, agreePrivacy: LatestTermsModel.latestPersonalDate, agreeMarketing: isCheckedMarketing ? CommonUtils.getDate(Date(), type: 3) : "", birth: "", sex: "")
             storageViewModel.updateUser(setUser)
         }
         let vc = PrivacyViewController()

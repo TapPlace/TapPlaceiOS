@@ -16,7 +16,7 @@ class DetailToolBarButton: UIView {
     
     var icon: UIImage = UIImage() {
         willSet {
-            imageView.image = newValue.withAlignmentRectInsets(UIEdgeInsets(top: -12, left: 0, bottom: -12, right: 0)).withRenderingMode(.alwaysTemplate)
+            imageView.image = newValue.withAlignmentRectInsets(UIEdgeInsets(top: -15, left: .zero, bottom: -15, right: .zero)).withRenderingMode(.alwaysTemplate)
         }
     }
     var selected: Bool = false {

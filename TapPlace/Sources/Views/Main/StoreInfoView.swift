@@ -8,13 +8,8 @@
 import UIKit
 import CoreLocation
 
-protocol StoreInfoViewButtonProtocol {
-    func didTapStoreInfoButton(selectedIndex: Int?)
-}
-
 
 class StoreInfoView: UIView {
-    var delegate: StoreInfoViewButtonProtocol?
     
     var storeInfo: StoreInfo? = nil {
         willSet {
@@ -50,23 +45,6 @@ class StoreInfoView: UIView {
     var payLists: [String] = [] {
         willSet {
             //addPayBrand(pays: newValue)
-        }
-    }
-    
-    var isButtonVisible = false {
-        willSet {
-            if newValue {
-                rightButton.isHidden = false
-            } else {
-                rightButton.isHidden = true
-            }
-        }
-    }
-    
-    var buttonIcon: UIImage? = nil {
-        willSet {
-            guard let buttonIcon = newValue else { return }
-            rightButton.setImage(buttonIcon, for: .normal)
         }
     }
     
@@ -117,13 +95,7 @@ class StoreInfoView: UIView {
         storeDetailLabel.textColor = UIColor.init(hex: 0x9a9fb0)
         return storeDetailLabel
     }()
-    let rightButton: UIButton = {
-        let rightButton = UIButton()
 
-        rightButton.tintColor = UIColor.init(hex: 0xdbdee8)
-        rightButton.isHidden = true
-        return rightButton
-    }()
     let brandStackView: UIStackView = {
         let brandStackView = UIStackView()
         brandStackView.axis = .horizontal
@@ -165,7 +137,6 @@ extension StoreInfoView {
         containerView.addSubview(storeLabel)
         containerView.addSubview(storeGroupLabel)
         containerView.addSubview(storeDetailLabel)
-        containerView.addSubview(rightButton)
         containerView.addSubview(brandStackView)
         
         //MARK: ViewContraints
@@ -185,10 +156,6 @@ extension StoreInfoView {
             $0.leading.equalTo(storeLabel)
             $0.top.equalTo(storeLabel.snp.bottom).offset(4)
         }
-        rightButton.snp.makeConstraints {
-            $0.trailing.equalToSuperview()
-            $0.centerY.equalTo(containerView)
-        }
         brandStackView.snp.makeConstraints {
 //            $0.top.equalTo(storeDetailLabel.snp.bottom).offset(10)
             $0.height.equalTo(28)
@@ -197,7 +164,7 @@ extension StoreInfoView {
         }
         
         //MARK: ViewAddTarget
-        rightButton.addTarget(delegate, action: #selector(didTapRightButton), for: .touchUpInside)
+
         
         //MARK: Delegate
     }
@@ -211,22 +178,23 @@ extension StoreInfoView {
         let attributedString = NSMutableAttributedString(string: storeDetailText)
         storeDetailLabel.attributedText = attributedString
         storeLabel.text = store
-        if isBookmark { rightButton.tintColor = .pointBlue }
     }
     
     func addPayBrand(pays: [String]) {
-        var paysImages: [UIImageView] = []
+        var paysImages: [BrandIconImageView] = []
+        /// 같은 결제수단의 이미지가 들어가있는지 확인하기 위한 배열
+        var paysString: [String] = []
         pays.forEach {
             if let payment = PaymentModel.thisPayment(payment: $0) {
                 let payIcon = payment.payments == "" ? payment.brand : payment.payments
-                paysImages.append(BrandIconImageView(image: UIImage(named: payIcon)))
+                let payImage = BrandIconImageView(image: UIImage(named: payIcon))
+                if !paysString.contains(payIcon) {
+                    paysString.append(payIcon)
+                    paysImages.append(payImage)
+                }
             }
         }
         brandStackView.addArrangedSubviews(paysImages)
         brandStackView.addArrangedSubview(spacerView)
-    }
-    
-    @objc func didTapRightButton() {
-        delegate?.didTapStoreInfoButton(selectedIndex: thisIndex)
     }
 }

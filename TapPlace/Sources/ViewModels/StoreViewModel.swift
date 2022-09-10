@@ -22,7 +22,7 @@ class StoreViewModel {
             "y1": "\(location.latitude)",
             "pays": pays,
             "distance": 1.0
-        ]   
+        ]
         storeDataService.requestFetchAroundStore(parameter: parameter) { result, error in
             completion(result)
         }

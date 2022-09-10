@@ -153,9 +153,7 @@ extension AroundFilterViewController: FilterResetProtocol {
         
         
         //MARK: ViewPropertyManual
-        bottomButton.backgroundColor = .pointBlue
-        bottomButton.setTitle("적용", for: .normal)
-        bottomButton.setTitleColor(.white, for: .normal)
+        bottomButton.setButtonStyle(title: "적용", type: .activate, fill: true)
         storeResetView.resetLabel.text = "매장선택"
         paymentResetView.resetLabel.text = "결제수단"
         storeCollectionView.contentInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)

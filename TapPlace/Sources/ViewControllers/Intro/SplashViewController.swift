@@ -79,34 +79,6 @@ extension SplashViewController {
             switchButton.setTitleColor(.blue, for: .normal)
             return switchButton
         }()
-        view.addSubview(switchButton)
-        switchButton.snp.makeConstraints {
-            $0.top.equalTo(testLabel).offset(20)
-            $0.width.equalTo(180)
-            $0.height.equalTo(40)
-            $0.centerX.equalToSuperview()
-        }
-        switchButton.addTarget(self, action: #selector(firstLaunchToggle), for: .touchUpInside)
-    }
-    /**
-     * @ 작업 완료후 삭제!!!
-     * coder : sanghyeon
-     */
-    @objc func firstLaunchToggle() {
-        print("called: firstLaunchToggle()")
-        if UserDefaults.contains("firstLaunch") {
-            let firstLaunch = UserDefaults.standard.bool(forKey: "firstLaunch")
-            if firstLaunch {
-                print("firstLaunch will false")
-                UserDefaults.standard.set(false, forKey: "firstLaunch")
-            } else {
-                print("firstLaunch will true")
-                UserDefaults.standard.set(true, forKey: "firstLaunch")
-            }
-        } else {
-            print("firstLaunch will false")
-            UserDefaults.standard.set(false, forKey: "firstLaunch")
-        }
     }
     /**
      * @ 최신 약관 정보 요청

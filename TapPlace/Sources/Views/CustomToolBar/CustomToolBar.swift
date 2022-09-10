@@ -34,7 +34,7 @@ class CustomToolBar: UIView, DetailToolBarButtonProtocol {
             }
         case bookmarkButton.button:
             let result = storageViewModel.toggleBookmark(storeInfo.storeID)
-            bookmarkButton.selected = result ? true : false
+            bookmarkButton.selected = result
         case shareButton.button:
             let shareUrl = "\(Constants.tapplaceBaseUrl)/app/\(storeInfo.storeID)"
             vcDelegate?.showShare(storeInfo: storeInfo)
@@ -69,7 +69,6 @@ class CustomToolBar: UIView, DetailToolBarButtonProtocol {
     let bookmarkButton = DetailToolBarButton()
     let shareButton = DetailToolBarButton()
     
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = .white
@@ -102,6 +101,14 @@ class CustomToolBar: UIView, DetailToolBarButtonProtocol {
         }
         toolBarStackView.snp.makeConstraints {
             $0.edges.equalTo(toolBar)
+        }
+        
+        
+        
+        DispatchQueue.main.async {
+            if let storeID = self.delegate?.storeInfo?.storeID {
+                self.bookmarkButton.selected = self.storageViewModel.isStoreBookmark(storeID)
+            }
         }
     }
     

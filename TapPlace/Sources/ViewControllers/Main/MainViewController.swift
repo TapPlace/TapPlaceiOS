@@ -23,7 +23,7 @@ class MainViewController: CommonViewController {
     var circleOverlay: NMFCircleOverlay = NMFCircleOverlay()
     var searchBar = UIView()
     let researchButton = ResearchButton()
-    let detailOverView = DetailOverView()
+    var detailOverView: DetailOverView?
     var closeButton = UIButton()
     let listButton = MapButton()
     let locationButton = MapButton()
@@ -292,7 +292,8 @@ extension MainViewController: CLLocationManagerDelegate, NMFMapViewCameraDelegat
      * coder : sanghyeon
      */
     func showInMapViewTracking(location: NMGLatLng) {
-        getUserCurrentLocation()
+        //print("현재위치 가져오기: showInMapViewTracking")
+        //getUserCurrentLocation()
         guard let trackingLocation = UserInfo.userLocation else { return }
         /// 트래킹 아이콘
         let locationOverlay = naverMapView.locationOverlay
@@ -470,6 +471,7 @@ extension MainViewController: CustomToolBarShareProtocol {
     func showDetailOverView(hide: Bool, storeInfo: StoreInfo? = nil) {
         guard let tabBar = self.tabBarController as? TabBarViewController else { return }
         if hide {
+            guard let detailOverView = detailOverView else { return }
             detailOverView.removeFromSuperview()
             closeButton.removeFromSuperview()
             detailOverView.snp.removeConstraints()
@@ -481,6 +483,9 @@ extension MainViewController: CustomToolBarShareProtocol {
             }
             tabBar.showTabBar(hide: false)
         } else {
+            detailOverView = DetailOverView()
+            guard let detailOverView = detailOverView else { return }
+            fpc.move(to: .hidden, animated: true)
             closeButton = {
                 let closeButton = UIButton()
                 closeButton.setImage(UIImage(systemName: "xmark"), for: .normal)

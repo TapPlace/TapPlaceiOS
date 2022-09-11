@@ -118,6 +118,7 @@
 		F470A33D28C9AA36007F4F24 /* FeedbackDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F470A33C28C9AA36007F4F24 /* FeedbackDetailViewController.swift */; };
 		F470A33F28C9C27E007F4F24 /* FAQViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F470A33E28C9C27E007F4F24 /* FAQViewController.swift */; };
 		F470A34128C9CA36007F4F24 /* FeedbackDetailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F470A34028C9CA36007F4F24 /* FeedbackDetailCell.swift */; };
+		F470A34328CB6430007F4F24 /* SearchService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F470A34228CB6430007F4F24 /* SearchService.swift */; };
 		F478DA4428BCA12B003C686A /* StoreInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F478DA4328BCA12B003C686A /* StoreInfoTableViewCell.swift */; };
 		F478DA4628BCA210003C686A /* StorePaymentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F478DA4528BCA210003C686A /* StorePaymentTableViewCell.swift */; };
 		F478DA4828BCA94E003C686A /* StoreDetailModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F478DA4728BCA94E003C686A /* StoreDetailModel.swift */; };
@@ -248,6 +249,7 @@
 		F470A33C28C9AA36007F4F24 /* FeedbackDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackDetailViewController.swift; sourceTree = "<group>"; };
 		F470A33E28C9C27E007F4F24 /* FAQViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FAQViewController.swift; sourceTree = "<group>"; };
 		F470A34028C9CA36007F4F24 /* FeedbackDetailCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackDetailCell.swift; sourceTree = "<group>"; };
+		F470A34228CB6430007F4F24 /* SearchService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchService.swift; sourceTree = "<group>"; };
 		F478DA4328BCA12B003C686A /* StoreInfoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreInfoTableViewCell.swift; sourceTree = "<group>"; };
 		F478DA4528BCA210003C686A /* StorePaymentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorePaymentTableViewCell.swift; sourceTree = "<group>"; };
 		F478DA4728BCA94E003C686A /* StoreDetailModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreDetailModel.swift; sourceTree = "<group>"; };
@@ -608,6 +610,7 @@
 				DF8266A7289F1D0D00272830 /* PlaceDataService.swift */,
 				DF67A05728C9E98900435C28 /* UserDataService.swift */,
 				DF67A05F28CA34F500435C28 /* StoreDataService.swift */,
+				F470A34228CB6430007F4F24 /* SearchService.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -899,6 +902,7 @@
 				F49D36E028B6227D000D025D /* SearchModel.swift in Sources */,
 				DF67A05E28CA2F4600435C28 /* AroundStoreModel.swift in Sources */,
 				F478DA4628BCA210003C686A /* StorePaymentTableViewCell.swift in Sources */,
+				F470A34328CB6430007F4F24 /* SearchService.swift in Sources */,
 				DFDA43F928A14C61003763AC /* CommonUtils.swift in Sources */,
 				DFD6729F28C88F65000220EE /* FeedbackRequestViewController.swift in Sources */,
 				DF67A06028CA34F500435C28 /* StoreDataService.swift in Sources */,

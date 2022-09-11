@@ -195,7 +195,7 @@ extension SearchEditViewController: UITableViewDataSource, UITableViewDelegate {
         cell.backgroundColor = .white
         cell.checkButton.setImage(UIImage(systemName: "checkmark.circle"), for: .normal)
         cell.img.image = RecentSearchModel.list[indexPath.row].image
-        cell.label.text = RecentSearchModel.list[indexPath.row].storeName
+        cell.label.text = RecentSearchModel.list[indexPath.row].placeName
         cell.index = indexPath
         cell.delegate = self
         

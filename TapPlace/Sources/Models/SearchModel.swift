@@ -10,21 +10,20 @@ import UIKit
 
 struct RecentSearchModel {
     let image: UIImage?
-    let storeName: String?
+    let placeName: String?
 }
 
-struct SearchModel {
-    let image: UIImage?
-    let storeName: String?
-    let distance: Int?
+struct SearchModel: Decodable{
+    let placeName: String?
+    let distance: String?
     let address: String?
 }
 
 extension RecentSearchModel {
     static let list: [RecentSearchModel] = [
-        RecentSearchModel(image: UIImage(systemName: "fork.knife.circle.fill"), storeName: "세븐 일레븐 등촌 3호점"),
-        RecentSearchModel(image: UIImage(systemName: "fork.knife.circle.fill"), storeName: "BBQ 등촌행복점"),
-        RecentSearchModel(image: UIImage(systemName: "fork.knife.circle.fill"), storeName: "세븐 일레븐 등촌 3호점"),
-        RecentSearchModel(image: UIImage(systemName: "fork.knife.circle.fill"), storeName:  "BBQ 등촌행복점")
+        RecentSearchModel(image: UIImage(systemName: "fork.knife.circle.fill"), placeName: "세븐 일레븐 등촌 3호점"),
+        RecentSearchModel(image: UIImage(systemName: "fork.knife.circle.fill"), placeName: "BBQ 등촌행복점"),
+        RecentSearchModel(image: UIImage(systemName: "fork.knife.circle.fill"), placeName: "세븐 일레븐 등촌 3호점"),
+        RecentSearchModel(image: UIImage(systemName: "fork.knife.circle.fill"), placeName:  "BBQ 등촌행복점")
     ]
 }

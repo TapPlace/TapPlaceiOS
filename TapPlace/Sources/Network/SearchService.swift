@@ -9,22 +9,23 @@ import Alamofire
 import Foundation
 
 class SearchService {
-    static let shared = StoreDataService()
-    private let aroundSearchUrl = "\(Constants.tapplaceApiUrl)/store/around"
-    private let kakaoGeoUrl = "https://dapi.kakao.com/v2/local/geo/coord2address.json"
-    
-    func getPlace(url: URL, completion:@escaping(SearchModel?, Error?) -> ()){
-        AF.request(url, method: .get, parameters: nil, encoding: URLEncoding.default, headers: nil)
+    private let kakaoSearchUrl = "https://dapi.kakao.com/v2/local/search/keyword.json"
+
+    func getPlace(parameter: Parameters, completion:@escaping(SearchModel?, Error?) -> ()){
+        guard let kakaoApiKey = Constants.kakaoRestApiKey else { return }
+        let header: HTTPHeaders = ["Authorization": "KakaoAK " + kakaoApiKey]
+        AF.request(kakaoSearchUrl, method: .get, parameters: parameter, encoding: URLEncoding.default, headers: header)
             .validate()
             .responseDecodable(of: SearchModel.self) { (response) in
                 switch response.result {
                 case .success(let response):
                     completion(response, nil)
+                    print(response)
                 case .failure(let error):
                     completion(nil, error)
                 }
             }
-        
+
     }
 }
 

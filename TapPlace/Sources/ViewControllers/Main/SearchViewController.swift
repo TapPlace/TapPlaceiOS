@@ -83,6 +83,18 @@ extension SearchViewController: SearchContentButtonProtocol {
     
     private func setupView() {
         view.backgroundColor = .white
+        
+        let parameter: [
+            "query":,
+            "page":,
+            "size"
+                
+        ]
+        
+        SearchService().getPlace(parameter: ) { (placeInfo) in
+            
+        }
+        
     }
     
     override func viewDidLayoutSubviews() {
@@ -233,7 +245,7 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: SearchTableViewCell.identifier, for: indexPath) as! SearchTableViewCell
         cell.backgroundColor = .white
         cell.img.image = RecentSearchModel.list[indexPath.row].image
-        cell.label.text = RecentSearchModel.list[indexPath.row].storeName
+        cell.label.text = RecentSearchModel.list[indexPath.row].placeName
         cell.deleteButton.setImage(UIImage(systemName: "xmark"), for: .normal)
         cell.index = indexPath
         cell.delegate = self

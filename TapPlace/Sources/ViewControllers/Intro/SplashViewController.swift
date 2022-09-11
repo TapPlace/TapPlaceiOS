@@ -15,7 +15,6 @@ class SplashViewController: UIViewController {
         super.viewDidLoad()
         print(storageViewModel.dataBases?.location)
         print(Constants.userDeviceID)
-        loadTerms()
         setupView()
         setTestLayout()
         userInfoSetting()
@@ -23,6 +22,7 @@ class SplashViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         var nextVC: UIViewController?
+        loadTerms()
         if isFirstLaunch() {
             /// 초기실행일 경우 온보딩 뷰 이동
             nextVC = OnBoardingViewController()
@@ -34,10 +34,24 @@ class SplashViewController: UIViewController {
                         /// 관심결제수단 설정 되었음
                         self.navigationController?.navigationBar.isHidden = true
                         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
-                        lazy var vc = TabBarViewController()
-                        //vc.showStoreInfo(storeID: "", isShowNavigation: false)
-                        moveViewController(vc, present: true)
-                        //                        moveViewController(FeedbackListViewController(), present: true)
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) { [self] in
+                            if checkTerms() == .success {
+                                lazy var vc = TabBarViewController()
+                                //vc.showStoreInfo(storeID: "", isShowNavigation: false)
+                                moveViewController(vc, present: true)
+                            } else {
+                                let vc = TermsWebViewViewController()
+                                switch checkTerms() {
+                                case .service:
+                                    vc.term = TermsModel.lists.first(where: {$0.title == "서비스 이용약관"})
+                                    self.navigationController?.pushViewController(vc, animated: true)
+                                case .privacy:
+                                    vc.term = TermsModel.lists.first(where: {$0.title == "개인정보 수집 및 이용동의"})
+                                    self.navigationController?.pushViewController(vc, animated: true)
+                                default: showToast(message: "예기치 못한 오류가 발생했습니다.\n앱을 껐다가 다시 시도해주세요.", view: self.view)
+                                }
+                            }
+                        }
                     } else {
                         /// 관심결제수단 설정 안됨
                         nextVC = PickPaymentsViewController()
@@ -79,34 +93,6 @@ extension SplashViewController {
             switchButton.setTitleColor(.blue, for: .normal)
             return switchButton
         }()
-        view.addSubview(switchButton)
-        switchButton.snp.makeConstraints {
-            $0.top.equalTo(testLabel).offset(20)
-            $0.width.equalTo(180)
-            $0.height.equalTo(40)
-            $0.centerX.equalToSuperview()
-        }
-        switchButton.addTarget(self, action: #selector(firstLaunchToggle), for: .touchUpInside)
-    }
-    /**
-     * @ 작업 완료후 삭제!!!
-     * coder : sanghyeon
-     */
-    @objc func firstLaunchToggle() {
-        print("called: firstLaunchToggle()")
-        if UserDefaults.contains("firstLaunch") {
-            let firstLaunch = UserDefaults.standard.bool(forKey: "firstLaunch")
-            if firstLaunch {
-                print("firstLaunch will false")
-                UserDefaults.standard.set(false, forKey: "firstLaunch")
-            } else {
-                print("firstLaunch will true")
-                UserDefaults.standard.set(true, forKey: "firstLaunch")
-            }
-        } else {
-            print("firstLaunch will false")
-            UserDefaults.standard.set(false, forKey: "firstLaunch")
-        }
     }
     /**
      * @ 최신 약관 정보 요청
@@ -118,6 +104,26 @@ extension SplashViewController {
             LatestTermsModel.latestServiceDate = result.serviceDate
             LatestTermsModel.latestPersonalDate = result.personalDate
         }
+    }
+    /**
+     * @ 유저가 동의한 약관과 최신 약관 비교
+     * coder : sanghyeon
+     */
+    func checkTerms() -> TermResultType {
+        if let user = storageViewModel.getUserInfo(uuid: Constants.userDeviceID) {
+            print("유저의 서비스 이용약관 날짜: \(user.agreeTerm), 유저의 개인정보 처리방침 날짜: \(user.agreePrivacy)")
+            print("최신 이용약관 날짜: \(LatestTermsModel.latestServiceDate), 최신 개인정보 처리방침 날짜: \(LatestTermsModel.latestPersonalDate)")
+            if user.agreeTerm != LatestTermsModel.latestServiceDate {
+                print("서비스 이용약관 날짜 다름")
+                return .service
+            } else if user.agreePrivacy != LatestTermsModel.latestPersonalDate {
+                print("서비스 개인정보 처리방침 날짜 다름")
+                return .privacy
+            } else {
+                return .success
+            }
+        }
+        return .fail
     }
     /**
      * @ 초기 레이아웃 설정

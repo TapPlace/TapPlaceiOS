@@ -14,9 +14,29 @@ class StoreTabCollectionViewCell: UICollectionViewCell {
     
     var icon: UIImage = UIImage() {
         willSet {
-            itemIcon.image = newValue.withAlignmentRectInsets(UIEdgeInsets(top: -7, left: 0, bottom: -7, right: 0))
+            itemIcon.image = newValue.withAlignmentRectInsets(UIEdgeInsets(top: -7, left: 0, bottom: -7, right: 0)).withRenderingMode(.alwaysTemplate)
         }
     }
+    var iconColor: UIColor = .black {
+        willSet {
+            itemIcon.tintColor = newValue
+        }
+    }
+    var cellSelected: Bool = false {
+        willSet {
+            if newValue {
+                itemFrame.backgroundColor = .pointBlue
+                itemIcon.tintColor = .white
+                itemText.textColor = .white
+            } else {
+                itemFrame.backgroundColor = .white
+                itemIcon.tintColor = iconColor
+                itemText.textColor = .black.withAlphaComponent(0.7)
+                
+            }
+        }
+    }
+    
     let itemFrame: UIView = {
         let itemFrame = UIView()
         itemFrame.backgroundColor = .white
@@ -30,7 +50,7 @@ class StoreTabCollectionViewCell: UICollectionViewCell {
     }()
     let itemIcon: UIImageView = {
         let itemIcon = UIImageView()
-        itemIcon.image = UIImage(systemName: "apple.logo")
+        itemIcon.image = UIImage(systemName: "apple.logo")?.withRenderingMode(.alwaysTemplate)
         itemIcon.tintColor = .black
         itemIcon.contentMode = .scaleAspectFit
         return itemIcon
@@ -38,9 +58,9 @@ class StoreTabCollectionViewCell: UICollectionViewCell {
     let itemText: UILabel = {
         let itemText = UILabel()
         itemText.text = ""
+        itemText.textColor = .black.withAlphaComponent(0.7)
         itemText.sizeToFit()
         itemText.font = .systemFont(ofSize: CommonUtils.resizeFontSize(size: 14), weight: .regular)
-        itemText.layer.opacity = 0.7
         return itemText
     }()
     

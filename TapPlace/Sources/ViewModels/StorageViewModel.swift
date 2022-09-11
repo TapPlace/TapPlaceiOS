@@ -42,8 +42,6 @@ struct StorageViewModel: StorageProtocol {
     }
     
     mutating func loadFeedback() -> [UserFeedbackModel] {
-        var tempArray: [UserFeedbackModel] = []
-        
         let objects = dataBases?.realm.objects(UserFeedbackModel.self).toArray(ofType: UserFeedbackModel.self) as [UserFeedbackModel]
         return objects
     }

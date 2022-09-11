@@ -14,7 +14,7 @@ struct AroundStoreModel: Codable {
 }
 
 // MARK: - Store
-struct AroundStores: Codable {
+struct AroundStores: Codable, Hashable {
     let num: Int
     let storeID, placeName, addressName, roadAddressName: String
     let categoryGroupName, phone, x, y: String

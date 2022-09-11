@@ -45,9 +45,10 @@ class BookMarkEditModeCell: UITableViewCell {
         }
     }
     
-    var storeInfo: AroundStores = AroundStores(num: 0, storeID: "", placeName: "", addressName: "", roadAddressName: "", categoryGroupName: "", phone: "", x: "", y: "", distance: 0, pays: []) {
+    var storeInfo: StoreInfo = StoreInfo.emptyStoreInfo {
         willSet {
-            //storeInfoView.storeInfo = newValue
+            print(newValue.feedback)
+            storeInfoView.storeInfo = newValue
         }
     }
 

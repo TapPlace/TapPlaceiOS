@@ -18,6 +18,20 @@ class MoreListFilterTitle: UIView {
     let containerView = UIView()
     var filterButton = UIButton()
     var editButton = UIButton()
+    var storeTitleLabel = UILabel()
+    var filterCountLabel = UILabel()
+    
+    var filterName: String = "" {
+        willSet {
+            storeTitleLabel.text = newValue
+        }
+    }
+    
+    var filterCount: Int = 0 {
+        willSet {
+            filterCountLabel.text = "\(newValue)"
+        }
+    }
     
     var filterButtonSetImage: String = "chevron.down" {
         willSet {
@@ -61,7 +75,7 @@ extension MoreListFilterTitle {
      */
     func setupView() {
         //MARK: ViewDefine
-        let storeTitleLabel: UILabel = {
+        storeTitleLabel = {
             let storeTitleLabel = UILabel()
             storeTitleLabel.sizeToFit()
             storeTitleLabel.text = "가맹점"
@@ -69,7 +83,7 @@ extension MoreListFilterTitle {
             storeTitleLabel.font = .systemFont(ofSize: CommonUtils.resizeFontSize(size: 14), weight: .regular)
             return storeTitleLabel
         }()
-        let filterCountLabel: UILabel = {
+        filterCountLabel = {
             let filterCountLabel = UILabel()
             filterCountLabel.sizeToFit()
             filterCountLabel.text = "5"

@@ -91,11 +91,9 @@ extension AroundFilterViewController: FilterResetProtocol {
         case storeResetView.resetButton:
             tempStores.removeAll()
             storeCollectionView.reloadData()
-            print(tempStores)
         case paymentResetView.resetButton:
             tempPayments.removeAll()
             paymentCollectionView.reloadData()
-            print(tempPayments)
         default:
             break
         }
@@ -279,7 +277,6 @@ extension AroundFilterViewController: UICollectionViewDelegate, UICollectionView
             return StoreModel.lists.count
         case paymentCollectionView:
             let paymentList = storageViewModel.userFavoritePayments.filter({$0.payments == EasyPaymentModel.list[section].designation})
-            print("paymentList.count:",paymentList.count)
             return paymentList.count
         default:
             return 0
@@ -332,7 +329,6 @@ extension AroundFilterViewController: UICollectionViewDelegate, UICollectionView
                 guard let targetStore = tempStores.firstIndex(where: {$0.id == cell.cellVariable}) else { return }
                 tempStores.remove(at: targetStore)
             }
-            print(tempStores)
             return
         case paymentCollectionView:
             guard let cell = paymentCollectionView.cellForItem(at: indexPath) as? PickPaymentsCollectionViewCell else { return }
@@ -345,7 +341,6 @@ extension AroundFilterViewController: UICollectionViewDelegate, UICollectionView
                 guard let removePayment = tempPayments.firstIndex(where: {$0.brand == targetPayment.brand && $0.payments == targetPayment.payments}) else { return }
                 tempPayments.remove(at: removePayment)
             }
-            print(tempPayments)
             return
         default:
             return
@@ -360,7 +355,6 @@ extension AroundFilterViewController: UICollectionViewDelegate, UICollectionView
             switch kind {
             case UICollectionView.elementKindSectionHeader:
                 if EasyPaymentModel.list[indexPath.section].designation == "" || storageViewModel.userFavoritePayments.filter({$0.payments == EasyPaymentModel.list[indexPath.section].designation}).count == 0 {
-                    print("감춰야함")
                     return UICollectionReusableView()
                 }
                 let headerReusableView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "paymentsHeader", for: indexPath) as! PickPaymentsCollectionReusableView

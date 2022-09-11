@@ -25,17 +25,55 @@ class AroundPlaceListView: UIView, AroundPlaceApplyFilterProtocol {
     }
     
     func applyFilter() {
+        guard let aroundPlaceList = AroundStoreModel.list else { return }
+        
         let AroundFilter: [Int] = [
             AroundFilterModel.storeList.count,
             AroundFilterModel.paymentList.count
         ]
         storeButton.selectedCount = AroundFilter[0]
         paymentButton.selectedCount = AroundFilter[1]
+        
+        var tempCategoryFilteredArray: [AroundStores] = []
+        var tempPaymentsFilteredArray: [AroundStores] = []
+        
+        if AroundFilter[0] > 0 {
+            AroundFilterModel.storeList.forEach { category in
+                let categoryTitle = category.title == "기타" ? "" : category.title
+                let filteredCategory = aroundPlaceList.filter({$0.categoryGroupName == categoryTitle})
+                filteredCategory.forEach {
+                    tempCategoryFilteredArray.append($0)
+                }
+            }
+        } else {
+            tempCategoryFilteredArray = aroundPlaceList
+        }
+        
+        if AroundFilter[1] > 0 {
+            AroundFilterModel.paymentList.forEach { payment in
+                let filteredPayment = aroundPlaceList.filter({$0.pays.contains(PaymentModel.encodingPayment(payment: payment))})
+                filteredPayment.forEach { tempPayment in
+                    if tempPaymentsFilteredArray.first(where: {$0.storeID == tempPayment.storeID}) == nil {
+                        tempPaymentsFilteredArray.append(tempPayment)
+                    }
+                }
+            }
+        } else {
+            tempPaymentsFilteredArray = aroundPlaceList
+        }
+        
+        let setCategoryArray = Set(tempCategoryFilteredArray)
+        let setPaymentArray = Set(tempPaymentsFilteredArray)
+        filteredAroundPlaceList = Array(setCategoryArray.intersection(setPaymentArray))
+        filteredAroundPlaceList = filteredAroundPlaceList.sorted(by: {$0.distance < $1.distance})
+        tableView.reloadData()
     }
     
     var delegate: AroundPlaceControllerProtocol?
     var mainDelegate: AroundPlaceMainControllerProtocol?
     var storageViewModel = StorageViewModel()
+    
+    var filteredAroundPlaceList: [AroundStores] = []
     
     let containerView: UIView = {
         let containerView = UIView()
@@ -92,6 +130,9 @@ extension AroundPlaceListView {
      * coder : sanghyeon
      */
     func setupView() {
+        if let aroundPlaceList = AroundStoreModel.list {
+            filteredAroundPlaceList = aroundPlaceList
+        }
         //MARK: ViewDefine
         let safeArea = safeAreaLayoutGuide
         let titleView: UIView = {
@@ -238,12 +279,12 @@ extension AroundPlaceListView: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return AroundStoreModel.numberOfAroundStores
+        return filteredAroundPlaceList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: AroundStoreTableViewCell.cellId, for: indexPath) as? AroundStoreTableViewCell else { return UITableViewCell() }
-        return setupCell(cell: cell, indexPath: indexPath, aroundStore: AroundStoreModel.list![indexPath.row])
+        return setupCell(cell: cell, indexPath: indexPath, aroundStore: filteredAroundPlaceList[indexPath.row])
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let cell = tableView.cellForRow(at: indexPath) as? AroundStoreTableViewCell else { return }

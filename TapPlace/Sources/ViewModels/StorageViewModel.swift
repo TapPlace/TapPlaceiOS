@@ -20,6 +20,10 @@ struct StorageViewModel: StorageProtocol {
     var numberOfFavoritePayments: Int {
         return dataBases?.realm.objects(UserFavoritePaymentsModel.self).count ?? 0
     }
+    
+    var numberOfBookmark: Int {
+        return dataBases?.realm.objects(UserBookmarkStore.self).count ?? 0
+    }
 
     var userFavoritePayments: [PaymentModel] {
         var returnPayments: [PaymentModel] = []

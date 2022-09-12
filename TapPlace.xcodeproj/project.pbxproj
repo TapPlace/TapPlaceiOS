@@ -114,15 +114,19 @@
 		F449AEB328ACEABE008E0417 /* SearchContentButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F449AEB228ACEABE008E0417 /* SearchContentButton.swift */; };
 		F449AEB628ADD205008E0417 /* SearchingActionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F449AEB528ADD205008E0417 /* SearchingActionTableViewCell.swift */; };
 		F4551D3A28A8B651003B93F4 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4551D3928A8B651003B93F4 /* SearchViewController.swift */; };
-		F4551D3C28A9F9C6003B93F4 /* SearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4551D3B28A9F9C6003B93F4 /* SearchTableViewCell.swift */; };
+		F4551D3C28A9F9C6003B93F4 /* SearchHistoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4551D3B28A9F9C6003B93F4 /* SearchHistoryTableViewCell.swift */; };
 		F470A33D28C9AA36007F4F24 /* FeedbackDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F470A33C28C9AA36007F4F24 /* FeedbackDetailViewController.swift */; };
 		F470A33F28C9C27E007F4F24 /* FAQViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F470A33E28C9C27E007F4F24 /* FAQViewController.swift */; };
+		F470A34128C9CA36007F4F24 /* FeedbackDetailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F470A34028C9CA36007F4F24 /* FeedbackDetailCell.swift */; };
+		F470A34328CB6430007F4F24 /* SearchService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F470A34228CB6430007F4F24 /* SearchService.swift */; };
 		F478DA4428BCA12B003C686A /* StoreInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F478DA4328BCA12B003C686A /* StoreInfoTableViewCell.swift */; };
 		F478DA4628BCA210003C686A /* StorePaymentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F478DA4528BCA210003C686A /* StorePaymentTableViewCell.swift */; };
 		F478DA4828BCA94E003C686A /* StoreDetailModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F478DA4728BCA94E003C686A /* StoreDetailModel.swift */; };
 		F49D36E028B6227D000D025D /* SearchModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49D36DF28B6227D000D025D /* SearchModel.swift */; };
 		F49D36E228B62952000D025D /* PrivacyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49D36E128B62952000D025D /* PrivacyViewController.swift */; };
 		F4C6C8BD28B0A89B00FAF10A /* EditButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C6C8BC28B0A89B00FAF10A /* EditButton.swift */; };
+		F4E198D528CDDB5700619174 /* SearchListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4E198D428CDDB5700619174 /* SearchListViewModel.swift */; };
+		F4E198D728CF18F400619174 /* SearchingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4E198D628CF18F400619174 /* SearchingTableViewCell.swift */; };
 		F4F12EE528B896410060B239 /* StoreDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F12EE428B896410060B239 /* StoreDetailViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -243,15 +247,19 @@
 		F449AEB228ACEABE008E0417 /* SearchContentButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchContentButton.swift; sourceTree = "<group>"; };
 		F449AEB528ADD205008E0417 /* SearchingActionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchingActionTableViewCell.swift; sourceTree = "<group>"; };
 		F4551D3928A8B651003B93F4 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
-		F4551D3B28A9F9C6003B93F4 /* SearchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTableViewCell.swift; sourceTree = "<group>"; };
+		F4551D3B28A9F9C6003B93F4 /* SearchHistoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchHistoryTableViewCell.swift; sourceTree = "<group>"; };
 		F470A33C28C9AA36007F4F24 /* FeedbackDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackDetailViewController.swift; sourceTree = "<group>"; };
 		F470A33E28C9C27E007F4F24 /* FAQViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FAQViewController.swift; sourceTree = "<group>"; };
+		F470A34028C9CA36007F4F24 /* FeedbackDetailCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackDetailCell.swift; sourceTree = "<group>"; };
+		F470A34228CB6430007F4F24 /* SearchService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchService.swift; sourceTree = "<group>"; };
 		F478DA4328BCA12B003C686A /* StoreInfoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreInfoTableViewCell.swift; sourceTree = "<group>"; };
 		F478DA4528BCA210003C686A /* StorePaymentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorePaymentTableViewCell.swift; sourceTree = "<group>"; };
 		F478DA4728BCA94E003C686A /* StoreDetailModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreDetailModel.swift; sourceTree = "<group>"; };
 		F49D36DF28B6227D000D025D /* SearchModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchModel.swift; sourceTree = "<group>"; };
 		F49D36E128B62952000D025D /* PrivacyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyViewController.swift; sourceTree = "<group>"; };
 		F4C6C8BC28B0A89B00FAF10A /* EditButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditButton.swift; sourceTree = "<group>"; };
+		F4E198D428CDDB5700619174 /* SearchListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchListViewModel.swift; sourceTree = "<group>"; };
+		F4E198D628CF18F400619174 /* SearchingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchingTableViewCell.swift; sourceTree = "<group>"; };
 		F4F12EE428B896410060B239 /* StoreDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreDetailViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -356,11 +364,12 @@
 			children = (
 				DFF7BEDB28A685F500289F39 /* StoreTabCollectionViewCell.swift */,
 				F449AEB528ADD205008E0417 /* SearchingActionTableViewCell.swift */,
-				F4551D3B28A9F9C6003B93F4 /* SearchTableViewCell.swift */,
+				F4551D3B28A9F9C6003B93F4 /* SearchHistoryTableViewCell.swift */,
 				F41A51E928B08D3C00FE546B /* SearchEditTableViewCell.swift */,
 				DFECC8CD28ACD9CF00DC64FD /* AroundStoreTableViewCell.swift */,
 				F478DA4328BCA12B003C686A /* StoreInfoTableViewCell.swift */,
 				F478DA4528BCA210003C686A /* StorePaymentTableViewCell.swift */,
+				F4E198D628CF18F400619174 /* SearchingTableViewCell.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -594,6 +603,7 @@
 				DFF5300428BC578A00FFC302 /* StorageViewModel.swift */,
 				DF67A05928CA0A9600435C28 /* UserViewModel.swift */,
 				DF67A06128CA35E900435C28 /* StoreViewModel.swift */,
+				F4E198D428CDDB5700619174 /* SearchListViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -605,6 +615,7 @@
 				DF8266A7289F1D0D00272830 /* PlaceDataService.swift */,
 				DF67A05728C9E98900435C28 /* UserDataService.swift */,
 				DF67A05F28CA34F500435C28 /* StoreDataService.swift */,
+				F470A34228CB6430007F4F24 /* SearchService.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -710,6 +721,7 @@
 			children = (
 				F438236928C5C39300C75063 /* NoticeCell.swift */,
 				F438236D28C5D24800C75063 /* AlarmCell.swift */,
+				F470A34028C9CA36007F4F24 /* FeedbackDetailCell.swift */,
 			);
 			path = Else;
 			sourceTree = "<group>";
@@ -863,6 +875,7 @@
 				DFECC8D228AD129300DC64FD /* UIStackView+Extension.swift in Sources */,
 				DFF5300128BC515D00FFC302 /* UserModel.swift in Sources */,
 				DFA2875B28ABA8D400DD9F63 /* DetailToolBarButton.swift in Sources */,
+				F4E198D728CF18F400619174 /* SearchingTableViewCell.swift in Sources */,
 				DFC23F96289AB66400EC1090 /* AppDelegate.swift in Sources */,
 				DF5FFCF428B4FC1F00BEFFA3 /* AroundFilterViewController.swift in Sources */,
 				DF9BE0A428B6E8B9009E075D /* TermsViewController.swift in Sources */,
@@ -886,16 +899,18 @@
 				DFE5F6B028A9385C000511E9 /* MapButton.swift in Sources */,
 				DF6B69EF28B8518E009D4076 /* TermsWebViewViewController.swift in Sources */,
 				DF8266A8289F1D0D00272830 /* PlaceDataService.swift in Sources */,
+				F4E198D528CDDB5700619174 /* SearchListViewModel.swift in Sources */,
 				DFDC182F289FE8A70076EE2E /* UserDefaults+Extension.swift in Sources */,
 				DF2340CF28A2381700A9DAE1 /* PickPaymentsCollectionViewCell.swift in Sources */,
 				DF2340AA28A1D37D00A9DAE1 /* NSMutableAttributedString+Extension.swift in Sources */,
-				F4551D3C28A9F9C6003B93F4 /* SearchTableViewCell.swift in Sources */,
+				F4551D3C28A9F9C6003B93F4 /* SearchHistoryTableViewCell.swift in Sources */,
 				DFF7BEDE28A68CDD00289F39 /* TabBarViewController.swift in Sources */,
 				DFE5F6AC28A8D36A000511E9 /* Constants.swift in Sources */,
 				DF67A05328C9846900435C28 /* FeedbackListCell.swift in Sources */,
 				F49D36E028B6227D000D025D /* SearchModel.swift in Sources */,
 				DF67A05E28CA2F4600435C28 /* AroundStoreModel.swift in Sources */,
 				F478DA4628BCA210003C686A /* StorePaymentTableViewCell.swift in Sources */,
+				F470A34328CB6430007F4F24 /* SearchService.swift in Sources */,
 				DFDA43F928A14C61003763AC /* CommonUtils.swift in Sources */,
 				DFD6729F28C88F65000220EE /* FeedbackRequestViewController.swift in Sources */,
 				DF67A06028CA34F500435C28 /* StoreDataService.swift in Sources */,
@@ -927,6 +942,7 @@
 				DFECC8CE28ACD9CF00DC64FD /* AroundStoreTableViewCell.swift in Sources */,
 				F470A33F28C9C27E007F4F24 /* FAQViewController.swift in Sources */,
 				F438236A28C5C39300C75063 /* NoticeCell.swift in Sources */,
+				F470A34128C9CA36007F4F24 /* FeedbackDetailCell.swift in Sources */,
 				DFF7BEDC28A685F500289F39 /* StoreTabCollectionViewCell.swift in Sources */,
 				F449AEB328ACEABE008E0417 /* SearchContentButton.swift in Sources */,
 				DFECC8CC28AC9F1200DC64FD /* AroundFilterButton.swift in Sources */,
@@ -1097,7 +1113,7 @@
 				CODE_SIGN_ENTITLEMENTS = TapPlace/TapPlace.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 5NACCZGM3F;
+				DEVELOPMENT_TEAM = BFTA9SX898;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TapPlace/Info.plist;
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "사용자 주변의 간편결제 가맹점을 불러올 수 있도록, 현재 위치를 가져옵니다.";
@@ -1114,7 +1130,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = kr.co.tapplace.TapPlace;
+				PRODUCT_BUNDLE_IDENTIFIER = kr.co.tapplace.TapPlace1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -1134,7 +1150,7 @@
 				CODE_SIGN_ENTITLEMENTS = TapPlace/TapPlace.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 5NACCZGM3F;
+				DEVELOPMENT_TEAM = BFTA9SX898;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TapPlace/Info.plist;
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "사용자 주변의 간편결제 가맹점을 불러올 수 있도록, 현재 위치를 가져옵니다.";
@@ -1151,7 +1167,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = kr.co.tapplace.TapPlace;
+				PRODUCT_BUNDLE_IDENTIFIER = kr.co.tapplace.TapPlace1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;

@@ -58,7 +58,6 @@ class AroundFilterViewController: UIViewController {
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -91,11 +90,9 @@ extension AroundFilterViewController: FilterResetProtocol {
         case storeResetView.resetButton:
             tempStores.removeAll()
             storeCollectionView.reloadData()
-            print(tempStores)
         case paymentResetView.resetButton:
             tempPayments.removeAll()
             paymentCollectionView.reloadData()
-            print(tempPayments)
         default:
             break
         }
@@ -153,9 +150,7 @@ extension AroundFilterViewController: FilterResetProtocol {
         
         
         //MARK: ViewPropertyManual
-        bottomButton.backgroundColor = .pointBlue
-        bottomButton.setTitle("적용", for: .normal)
-        bottomButton.setTitleColor(.white, for: .normal)
+        bottomButton.setButtonStyle(title: "적용", type: .activate, fill: true)
         storeResetView.resetLabel.text = "매장선택"
         paymentResetView.resetLabel.text = "결제수단"
         storeCollectionView.contentInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
@@ -281,7 +276,6 @@ extension AroundFilterViewController: UICollectionViewDelegate, UICollectionView
             return StoreModel.lists.count
         case paymentCollectionView:
             let paymentList = storageViewModel.userFavoritePayments.filter({$0.payments == EasyPaymentModel.list[section].designation})
-            print("paymentList.count:",paymentList.count)
             return paymentList.count
         default:
             return 0
@@ -334,7 +328,6 @@ extension AroundFilterViewController: UICollectionViewDelegate, UICollectionView
                 guard let targetStore = tempStores.firstIndex(where: {$0.id == cell.cellVariable}) else { return }
                 tempStores.remove(at: targetStore)
             }
-            print(tempStores)
             return
         case paymentCollectionView:
             guard let cell = paymentCollectionView.cellForItem(at: indexPath) as? PickPaymentsCollectionViewCell else { return }
@@ -347,7 +340,6 @@ extension AroundFilterViewController: UICollectionViewDelegate, UICollectionView
                 guard let removePayment = tempPayments.firstIndex(where: {$0.brand == targetPayment.brand && $0.payments == targetPayment.payments}) else { return }
                 tempPayments.remove(at: removePayment)
             }
-            print(tempPayments)
             return
         default:
             return
@@ -362,7 +354,6 @@ extension AroundFilterViewController: UICollectionViewDelegate, UICollectionView
             switch kind {
             case UICollectionView.elementKindSectionHeader:
                 if EasyPaymentModel.list[indexPath.section].designation == "" || storageViewModel.userFavoritePayments.filter({$0.payments == EasyPaymentModel.list[indexPath.section].designation}).count == 0 {
-                    print("감춰야함")
                     return UICollectionReusableView()
                 }
                 let headerReusableView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "paymentsHeader", for: indexPath) as! PickPaymentsCollectionReusableView

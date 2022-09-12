@@ -25,16 +25,55 @@ class AroundPlaceListView: UIView, AroundPlaceApplyFilterProtocol {
     }
     
     func applyFilter() {
+        guard let aroundPlaceList = AroundStoreModel.list else { return }
+        
         let AroundFilter: [Int] = [
             AroundFilterModel.storeList.count,
             AroundFilterModel.paymentList.count
         ]
         storeButton.selectedCount = AroundFilter[0]
         paymentButton.selectedCount = AroundFilter[1]
+        
+        var tempCategoryFilteredArray: [AroundStores] = []
+        var tempPaymentsFilteredArray: [AroundStores] = []
+        
+        if AroundFilter[0] > 0 {
+            AroundFilterModel.storeList.forEach { category in
+                let categoryTitle = category.title == "기타" ? "" : category.title
+                let filteredCategory = aroundPlaceList.filter({$0.categoryGroupName == categoryTitle})
+                filteredCategory.forEach {
+                    tempCategoryFilteredArray.append($0)
+                }
+            }
+        } else {
+            tempCategoryFilteredArray = aroundPlaceList
+        }
+        
+        if AroundFilter[1] > 0 {
+            AroundFilterModel.paymentList.forEach { payment in
+                let filteredPayment = aroundPlaceList.filter({$0.pays.contains(PaymentModel.encodingPayment(payment: payment))})
+                filteredPayment.forEach { tempPayment in
+                    if tempPaymentsFilteredArray.first(where: {$0.storeID == tempPayment.storeID}) == nil {
+                        tempPaymentsFilteredArray.append(tempPayment)
+                    }
+                }
+            }
+        } else {
+            tempPaymentsFilteredArray = aroundPlaceList
+        }
+        
+        let setCategoryArray = Set(tempCategoryFilteredArray)
+        let setPaymentArray = Set(tempPaymentsFilteredArray)
+        filteredAroundPlaceList = Array(setCategoryArray.intersection(setPaymentArray))
+        filteredAroundPlaceList = filteredAroundPlaceList.sorted(by: {$0.distance < $1.distance})
+        tableView.reloadData()
     }
     
     var delegate: AroundPlaceControllerProtocol?
     var mainDelegate: AroundPlaceMainControllerProtocol?
+    var storageViewModel = StorageViewModel()
+    
+    var filteredAroundPlaceList: [AroundStores] = []
     
     let containerView: UIView = {
         let containerView = UIView()
@@ -69,8 +108,7 @@ class AroundPlaceListView: UIView, AroundPlaceApplyFilterProtocol {
     let tableView: UITableView = {
         let tableView = UITableView()
         tableView.rowHeight = 110
-        tableView.separatorStyle = .singleLine
-        tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        tableView.separatorStyle = .none
         return tableView
     }()
     
@@ -92,6 +130,9 @@ extension AroundPlaceListView {
      * coder : sanghyeon
      */
     func setupView() {
+        if let aroundPlaceList = AroundStoreModel.list {
+            filteredAroundPlaceList = aroundPlaceList
+        }
         //MARK: ViewDefine
         let safeArea = safeAreaLayoutGuide
         let titleView: UIView = {
@@ -119,16 +160,16 @@ extension AroundPlaceListView {
         
         
         //MARK: ViewDefine
-        let AroundFilter: [Int] = [
-            AroundFilterModel.storeList.count,
-            AroundFilterModel.paymentList.count
-        ]
+//        let AroundFilter: [Int] = [
+//            AroundFilterModel.storeList.count,
+//            AroundFilterModel.paymentList.count
+//        ]
         
         //MARK: ViewPropertyManual
         storeButton.title = "매장선택"
-        storeButton.selectedCount = AroundFilter[0]
+        storeButton.selectedCount = 0
         paymentButton.title = "결제수단"
-        paymentButton.selectedCount = AroundFilter[1]
+        paymentButton.selectedCount = 0
         
         //MARK: AddSubView
         addSubview(containerView)
@@ -232,32 +273,38 @@ extension AroundPlaceListView {
 }
 
 //MARK: - TableView
-extension AroundPlaceListView: UITableViewDelegate, UITableViewDataSource, StoreInfoViewButtonProtocol {
+extension AroundPlaceListView: UITableViewDelegate, UITableViewDataSource {
     func didTapStoreInfoButton(selectedIndex: Int?) {
         print(selectedIndex)
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return AroundStoreModel.numberOfAroundStores
+        return filteredAroundPlaceList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: AroundStoreTableViewCell.cellId, for: indexPath) as? AroundStoreTableViewCell else { return UITableViewCell() }
-        let bookmark = indexPath.row == 2 ? true : false
-        
-        cell.cellIndex = indexPath.row
-        //cell.storeInfoView.setAttributedString(store: "[\(indexPath.row)] 세븐일레븐 염창점", distance: "50m", address: "서울특별시 강서구 양천로 677", isBookmark: bookmark)
-        cell.storeInfo = AroundStoreModel.list![indexPath.row]
-        cell.storeInfoView.isButtonVisible = true
-        cell.storeInfoView.delegate = self
-        cell.contentView.isUserInteractionEnabled = false
-        cell.selectionStyle = .none
-        cell.separatorInset = .zero
-        return cell
-        
+        return setupCell(cell: cell, indexPath: indexPath, aroundStore: filteredAroundPlaceList[indexPath.row])
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let cell = tableView.cellForRow(at: indexPath) as? AroundStoreTableViewCell else { return }
+        print("isUserInteractionEnabled:", cell.isUserInteractionEnabled)
     }
+    
+    func setupCell(cell: UITableViewCell, indexPath: IndexPath, aroundStore: AroundStores) -> UITableViewCell {
+        guard let cell = cell as? AroundStoreTableViewCell else { return UITableViewCell() }
+        let storeInfo = StoreInfo.convertAroundStores(aroundStore: aroundStore)
+        
+        cell.cellIndex = indexPath.row
+        cell.storeInfo = storeInfo
+        cell.isBookmark = storageViewModel.isStoreBookmark(storeInfo.storeID)
+        
+        cell.contentView.isUserInteractionEnabled = false
+        cell.selectionStyle = .none
+        cell.separatorInset = .zero
+        
+        return cell
+    }
+    
     
 }

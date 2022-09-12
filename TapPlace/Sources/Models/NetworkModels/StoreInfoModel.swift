@@ -4,7 +4,8 @@
 //   let storeInfo = try? newJSONDecoder().decode(StoreInfo.self, from: jsonData)
 
 import Foundation
-// MARK: - StoreInfoElement
+
+// MARK: - StoreInfo
 struct StoreInfo: Codable {
     let num: Int
     let storeID, placeName, addressName, roadAddressName: String
@@ -20,14 +21,31 @@ struct StoreInfo: Codable {
         case categoryGroupName = "category_group_name"
         case phone, x, y, feedback
     }
+    
+    static let emptyStoreInfo = StoreInfo(num: 0, storeID: "", placeName: "", addressName: "", roadAddressName: "", categoryGroupName: "", phone: "", x: "", y: "", feedback: nil)
+    /**
+     * @ AroundStores -> StoreInfo 변환
+     * coder : sanghyeon
+     */
+    static func convertAroundStores(aroundStore: AroundStores) -> StoreInfo {
+        var storeFeedback: [Feedback] = []
+        for pay in aroundStore.pays {
+            let feedback = Feedback(num: nil, storeID: nil, success: nil, fail: nil, lastState: nil, lastTime: nil, pay: pay, exist: true)
+            storeFeedback.append(feedback)
+        }
+        let resultStoreInfo: StoreInfo = StoreInfo(num: aroundStore.num, storeID: aroundStore.storeID, placeName: aroundStore.placeName, addressName: aroundStore.addressName, roadAddressName: aroundStore.roadAddressName, categoryGroupName: aroundStore.categoryGroupName, phone: aroundStore.phone, x: aroundStore.x, y: aroundStore.y, feedback: storeFeedback)
+        
+        return resultStoreInfo
+    }
 }
-
+  
 // MARK: - Feedback
 struct Feedback: Codable {
-    let num: Int
-    let storeID: String
-    let success, fail: Int
-    let lastState, lastTime, pay: String
+    let num: Int?
+    let storeID: String?
+    let success, fail: Int?
+    let lastState, lastTime: String?
+    let pay: String
     let exist: Bool
 
     enum CodingKeys: String, CodingKey {
@@ -38,4 +56,6 @@ struct Feedback: Codable {
         case lastTime = "last_time"
         case pay, exist
     }
+    
+    static let emptyFeedback = Feedback(num: 0, storeID: "", success: 0, fail: 0, lastState: "", lastTime: "", pay: "", exist: true)
 }

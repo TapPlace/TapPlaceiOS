@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import NMapsMap
 
 // MARK: - AroundStoreModel
 struct AroundStoreModel: Codable {
@@ -13,7 +14,7 @@ struct AroundStoreModel: Codable {
 }
 
 // MARK: - Store
-struct AroundStores: Codable {
+struct AroundStores: Codable, Hashable {
     let num: Int
     let storeID, placeName, addressName, roadAddressName: String
     let categoryGroupName, phone, x, y: String
@@ -38,4 +39,27 @@ extension AroundStoreModel {
         guard let aroundStoreList = AroundStoreModel.list else { return 0 }
         return aroundStoreList.count
     }
+    
+    /**
+     * @ StoreInfo -> AroundStores 변환
+     * coder : sanghyeon
+     */
+    static func convertStoreInfo(storeInfo: StoreInfo) -> AroundStores {
+        var returnPays: [String] = []
+        if let storeFeedback = storeInfo.feedback {
+            for feedback in storeFeedback {
+                if feedback.exist {
+                    returnPays.append(feedback.pay)
+                }
+            }
+        }
+        let returnAroundStores = AroundStores(num: 0, storeID: storeInfo.storeID, placeName: storeInfo.placeName, addressName: storeInfo.addressName, roadAddressName: storeInfo.roadAddressName, categoryGroupName: storeInfo.categoryGroupName, phone: storeInfo.phone, x: storeInfo.x, y: storeInfo.y, distance: 0, pays: returnPays)
+        return returnAroundStores
+    }
+}
+
+//MARK: - 마커정보를 함께 저장할 구조체
+struct AroundStoreMarkerModel {
+    let store: AroundStores
+    let marker: NMFMarker
 }

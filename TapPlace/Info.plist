@@ -13,6 +13,8 @@
 			</array>
 		</dict>
 	</array>
+	<key>KAKAO_REST_API_KEY</key>
+	<string>${KAKAO_REST_API_KEY}</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>nmap</string>
@@ -21,6 +23,8 @@
 	<string>${NAVER_CLIENT_ID}</string>
 	<key>KAKAO_REST_API_KEY</key>
 	<string>${KAKAO_REST_API_KEY}</string>
+	<key>TAPPLACE_API_KEY</key>
+	<string>${TAPPLACE_API_KEY}</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

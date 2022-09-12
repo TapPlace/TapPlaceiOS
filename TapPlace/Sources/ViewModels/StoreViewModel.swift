@@ -22,8 +22,21 @@ class StoreViewModel {
             "y1": "\(location.latitude)",
             "pays": pays,
             "distance": 1.0
-        ]   
+        ]
         storeDataService.requestFetchAroundStore(parameter: parameter) { result, error in
+            completion(result)
+        }
+    }
+    /**
+     * @ 스토어 아이디로 가맹점 정보 요청
+     * coder : sanghyeon
+     */
+    func requestStoreInfo(storeID: String, pays: [String], completion: @escaping (StoreInfo?) -> ()) {
+        let parameter: Parameters = [
+            "store_id": storeID,
+            "pays": pays
+        ]
+        storeDataService.requestFetchStoreInfo(parameter: parameter) { result, error in
             completion(result)
         }
     }

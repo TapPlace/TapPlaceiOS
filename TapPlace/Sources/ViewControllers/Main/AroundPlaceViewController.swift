@@ -36,9 +36,17 @@ class AroundPlaceViewController: UIViewController, AroundPlaceControllerProtocol
         getGeoAddress(location: camLocation)
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        AroundFilterModel.storeList.removeAll()
+        AroundFilterModel.paymentList.removeAll()
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         aroundPlaceListView.distanceLabel.text = DistancelModel.getDistance(distance: DistancelModel.selectedDistance)
+        AroundFilterModel.storeList.removeAll()
+        AroundFilterModel.paymentList.removeAll()
     }
 }
 
@@ -78,7 +86,6 @@ extension AroundPlaceViewController {
     func getGeoAddress(location: CLLocationCoordinate2D) {
         storeViewModel.requestGeoAddress(location: location) { result in
             var address = ""
-            print(result.documents[0].roadAddress)
             if let roadAddress = result.documents[0].roadAddress {
                 address = "\(roadAddress.region2DepthName) \(roadAddress.roadName)"
             } else {

@@ -20,11 +20,11 @@ class MainViewController: CommonViewController {
     
     let customNavigationBar = CustomNavigationBar()
     var naverMapView: NMFMapView = NMFMapView()
-    var naverMapMarker: NMFMarker = NMFMarker()
     var circleOverlay: NMFCircleOverlay = NMFCircleOverlay()
     var searchBar = UIView()
     let researchButton = ResearchButton()
-    let detailOverView = DetailOverView()
+    var detailOverView: DetailOverView?
+    var closeButton = UIButton()
     let listButton = MapButton()
     let locationButton = MapButton()
     var overlayCenterPick = UIView()
@@ -34,6 +34,8 @@ class MainViewController: CommonViewController {
     let locationManager = CLLocationManager()
     var currentLocation: NMGLatLng?
     var cameraLocation: NMGLatLng?
+    var markerList: [AroundStoreMarkerModel] = []
+    var latestSelectStore: StoreTabCollectionViewCell?
 
     //MARK: ViewLifeCycle
     override func viewDidLoad() {
@@ -41,10 +43,6 @@ class MainViewController: CommonViewController {
         setupView()
         setupNaverMap()
         setupFloatingPanel()
-        
-        
-        /// 테스트 함수
-        searchAroundStore(location: UserInfo.userLocation)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -80,7 +78,10 @@ extension MainViewController: MapButtonProtocol, ResearchButtonProtocol {
             guard let location = currentLocation else { return }
             moveCamera(location: location)
             showInMapViewTracking(location: location)
+            searchAroundStore(location: UserInfo.userLocation)
             showResearchElement(hide: true)
+            showDetailOverView(hide: true)
+            resetAllMarkersSize()
         }
     }
     /**
@@ -275,6 +276,7 @@ extension MainViewController: CLLocationManagerDelegate, NMFMapViewCameraDelegat
         currentLocation = NMGLatLng(from: result)
         UserInfo.userLocation = result
         UserInfo.cameraLocation = result
+        searchAroundStore(location: result)
     }
     /**
      * @ 네이버지도 카메라 이동
@@ -291,7 +293,8 @@ extension MainViewController: CLLocationManagerDelegate, NMFMapViewCameraDelegat
      * coder : sanghyeon
      */
     func showInMapViewTracking(location: NMGLatLng) {
-        getUserCurrentLocation()
+        //print("현재위치 가져오기: showInMapViewTracking")
+        //getUserCurrentLocation()
         guard let trackingLocation = UserInfo.userLocation else { return }
         /// 트래킹 아이콘
         let locationOverlay = naverMapView.locationOverlay
@@ -313,12 +316,15 @@ extension MainViewController: CLLocationManagerDelegate, NMFMapViewCameraDelegat
      */
     
     func addMarker(markers: [AroundStores]) {
-        naverMapMarker.mapView = nil
+        for marker in markerList {
+            marker.marker.mapView = nil
+        }
+        markerList.removeAll()
         if markers.count <= 0 { return }
         for markerRow in markers {
             if let x = Double(markerRow.x), let y = Double(markerRow.y) {
                 let markerPosition = NMGLatLng(lat: y, lng: x)
-                naverMapMarker = NMFMarker(position: markerPosition)
+                let naverMapMarker = NMFMarker(position: markerPosition)
                 naverMapMarker.isHideCollidedMarkers = true
                 naverMapMarker.mapView = naverMapView
                 if let markerImage = MarkerModel.list.first(where: {$0.groupName == markerRow.categoryGroupName}) {
@@ -327,9 +333,75 @@ extension MainViewController: CLLocationManagerDelegate, NMFMapViewCameraDelegat
                 naverMapMarker.captionText = markerRow.placeName
                 naverMapMarker.captionRequestedWidth = 80
                 naverMapMarker.isHideCollidedCaptions = true
+                naverMapMarker.width = 37
+                naverMapMarker.height = 47
+
+                naverMapMarker.touchHandler = { (marker) in
+                    if let marker = marker as? NMFMarker {
+                        self.didTapMarker(marker: marker)
+                    }
+                    return true
+                }
+                markerList.append(AroundStoreMarkerModel(store: markerRow, marker: naverMapMarker))
             }
         }
     }
+    /**
+     * @ 마커 숨기기 (삭제X, 숨기기O)
+     * coder : sanghyeon
+     */
+    func hideMarker(marker: NMFMarker?) {
+        if let marker = marker {
+            marker.mapView = nil
+        } else {
+            for addedMarker in markerList {
+                addedMarker.marker.mapView = naverMapView
+            }
+        }
+    }
+    /**
+     * @ 지도상 마커 사이즈 초기화
+     * coder : sanghyeon
+     */
+    func resetAllMarkersSize() {
+        for eachMarker in markerList {
+            if let markerImage = MarkerModel.list.first(where: {$0.groupName == eachMarker.store.categoryGroupName}) {
+                eachMarker.marker.iconImage = NMFOverlayImage(name: markerImage.markerImage)
+            }
+            eachMarker.marker.width = 37
+            eachMarker.marker.height = 47
+        }
+    }
+    /**
+     * @ 마커 클릭 이벤트
+     * coder : sanghyeon
+     */
+    func didTapMarker(marker: NMFMarker?) {
+        /// 열려있는 오버뷰 닫기
+        showDetailOverView(hide: true)
+        /// 모든 마커 사이즈 초기화
+        resetAllMarkersSize()
+        /// 선택된 마커 사이즈 확장
+        guard let marker = marker else { return }
+        marker.width = 50
+        marker.height = 68
+        
+        /// 마커의 스토어 정보
+        guard let targetMarker = markerList.first(where: {$0.marker == marker }) else { return }
+        let targetStore = targetMarker.store
+        
+        if let markerImage = MarkerModel.list.first(where: {$0.groupName == targetStore.categoryGroupName}) {
+            targetMarker.marker.iconImage = NMFOverlayImage(name: "select_\(markerImage.markerImage)")
+        }
+        
+        print("클릭된 마커의 스토어: ", targetStore.placeName)
+        /// AroundStores -> StoreInfo 변환
+        let targetStoreInfo = StoreInfo.convertAroundStores(aroundStore: targetStore)
+        showDetailOverView(hide: false, storeInfo: targetStoreInfo)
+    }
+    
+    
+    
     //MARK: Camera
     func mapViewCameraIdle(_ mapView: NMFMapView) {
         let camPosition = naverMapView.cameraPosition
@@ -404,15 +476,39 @@ extension MainViewController: CLLocationManagerDelegate, NMFMapViewCameraDelegat
 }
 
 //MARK: - Delegate Other VC
-extension MainViewController {
+extension MainViewController: CustomToolBarShareProtocol, StoreInfoViewDelegate {
+    /**
+     * @ 스토어 상세 뷰컨 이동
+     * coder : sanghyeon
+     */
+    func moveStoreDetail(store: StoreInfo) {
+        let vc = StoreDetailViewController()
+        vc.storeInfo = store
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+    /**
+     * @ 공유하기
+     * coder : sanghyeon
+     */
+    func showShare(storeInfo: StoreInfo) {
+        var objectToShare = [String]()
+        let shareText = "\(storeInfo.placeName)의 간편결제 정보입니다.\n\n\(Constants.tapplaceBaseUrl)/app/\(storeInfo.storeID)"
+        objectToShare.append(shareText)
+        
+        let activityVC = UIActivityViewController(activityItems: objectToShare, applicationActivities: nil)
+        self.present(activityVC, animated: true)
+    }
+    
     /**
      * @ 상세뷰 오버 뷰
      * coder : sanghyeon
      */
-    func showDetailOverView(hide: Bool) {
+    func showDetailOverView(hide: Bool, storeInfo: StoreInfo? = nil) {
         guard let tabBar = self.tabBarController as? TabBarViewController else { return }
         if hide {
+            guard let detailOverView = detailOverView else { return }
             detailOverView.removeFromSuperview()
+            closeButton.removeFromSuperview()
             detailOverView.snp.removeConstraints()
             tabBar.showTabBar(hide: false)
             locationButton.snp.remakeConstraints {
@@ -420,13 +516,18 @@ extension MainViewController {
                 $0.trailing.equalTo(view.safeAreaLayoutGuide).offset(-20)
                 $0.width.height.equalTo(40)
             }
+            tabBar.showTabBar(hide: false)
         } else {
-            let closeButton: UIButton = {
+            detailOverView = DetailOverView()
+            guard let detailOverView = detailOverView else { return }
+            fpc.move(to: .hidden, animated: true)
+            closeButton = {
                 let closeButton = UIButton()
                 closeButton.setImage(UIImage(systemName: "xmark"), for: .normal)
                 closeButton.tintColor = .black
                 return closeButton
             }()
+            closeButton.addTarget(self, action: #selector(didTapDetailOverViewCloseButton), for: .touchUpInside)
             view.addSubview(detailOverView)
             detailOverView.addSubview(closeButton)
             detailOverView.snp.makeConstraints {
@@ -440,9 +541,13 @@ extension MainViewController {
             }
             
             detailOverView.storeInfoView.titleSize = .large
-//            detailOverView.storeInfoView.storeInfo = StoreInfo(num: 1, storeID: "118519786", placeName: "플랜에이스터디카페 서초교대센터", addressName: "서울 서초구 서초동 1691-2", roadAddressName: "서울 서초구 서초중앙로24길 20", categoryGroupName: "", phone: "02-3143-0909", x: "127.015695735359", y: "37.4947251545286", feedback: dummyFeedback)
-            
-            
+            detailOverView.toolBar.vcDelegate = self
+            detailOverView.storeInfoView.delegate = self
+
+            if let storeInfo = storeInfo {
+                detailOverView.storeInfo = storeInfo
+            }
+
             detailOverView.layer.applySketchShadow(color: .black, alpha: 0.12, x: 0, y: 0, blur: 14, spread: 0)
             locationButton.snp.remakeConstraints {
                 $0.bottom.equalTo(detailOverView.snp.top).offset(-20)
@@ -451,6 +556,10 @@ extension MainViewController {
             }
             tabBar.showTabBar(hide: true)
         }
+    }
+    @objc func didTapDetailOverViewCloseButton() {
+        showDetailOverView(hide: true)
+        resetAllMarkersSize()
     }
     /**
      * @ 네비게이션바 표시
@@ -523,12 +632,35 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
     /// 컬렉션뷰 셀 설정
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: StoreTabCollectionViewCell.cellId, for: indexPath) as! StoreTabCollectionViewCell
-        if let icon = UIImage(systemName: StoreModel.lists[indexPath.row].image) {
+        if let icon = UIImage(named: StoreModel.lists[indexPath.row].id) {
             cell.icon = icon
-        }
+            cell.iconColor = StoreModel.lists[indexPath.row].color
+        } 
         cell.itemText.text = StoreModel.lists[indexPath.row].title
         cell.storeId = StoreModel.lists[indexPath.row].id
         return cell
+    }
+    /// 컬렉션뷰 선택시 필터 적용
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let cell = collectionView.cellForItem(at: indexPath) as? StoreTabCollectionViewCell else { return }
+        latestSelectStore?.cellSelected = false
+        /// 이미 선택 된 셀을 클릭했을때
+        if cell == latestSelectStore {
+            latestSelectStore = nil
+            hideMarker(marker: nil)
+            return
+        } else {
+            cell.cellSelected = true
+            latestSelectStore = cell
+            hideMarker(marker: nil)
+            let storeCategory = cell.itemText.text == "기타" ? "" : cell.itemText.text
+            for marker in markerList {
+                
+                if marker.store.categoryGroupName != storeCategory {
+                    hideMarker(marker: marker.marker)
+                }
+            }
+        }
     }
     /// 컬렉션뷰 셀 라벨 사이즈 대비 사이즈 변경
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

@@ -25,7 +25,6 @@ class MoreViewController: CommonViewController {
         setupView()
         setupNavigation()
         setupTableView()
-        
     }
     
 
@@ -170,7 +169,8 @@ extension MoreViewController: UITableViewDelegate, UITableViewDataSource, MoreHe
         cell.selectionStyle = .none
         switch indexPath.section {
         case 0:
-            cell.title = String(menuList[indexPath.row].title)
+            cell.title = menuList[indexPath.row].title
+            cell.menuType = menuList[indexPath.row].type
             if let subTitle = menuList[indexPath.row].subTitle {
                 switch subTitle {
                 case .version:cell.subTitle = "최신버전"
@@ -190,8 +190,20 @@ extension MoreViewController: UITableViewDelegate, UITableViewDataSource, MoreHe
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch indexPath.section {
         case 0:
+            guard let cell = tableView.cellForRow(at: indexPath) as? MoreMenuTableViewCell else { return }
             if let vc = menuList[indexPath.row].vc {
                 self.navigationController?.pushViewController(vc, animated: true)
+                return
+            }
+            if let type = cell.menuType {
+                switch type {
+                case .version:
+                    break
+                case .reset:
+                    self.dismiss(animated: true)
+                    self.present(OnBoardingViewController(), animated: true)
+                default: break
+                }
             }
         case 1:
             break

@@ -15,6 +15,7 @@ protocol TermsProtocol {
 class TermsWebViewViewController: UIViewController {
 
     var delegate: TermsProtocol?
+    var storageViewModel = StorageViewModel()
     var term: TermsModel?
     var termIndex: Int = 0
     
@@ -50,6 +51,17 @@ extension TermsWebViewViewController: CustomNavigationBarProtocol, UIScrollViewD
         /// 옵셔널 바인딩
         guard let term = term else { return }
         delegate?.checkReceiveTerm(term: term, currentTermIndex: termIndex)
+        switch term.title {
+        case "서비스 이용약관":
+            guard let user = storageViewModel.getUserInfo(uuid: Constants.userDeviceID) else { return }
+            let setUser = UserModel(uuid: user.uuid, isFirstLaunch: user.isFirstLaunch, agreeTerm: LatestTermsModel.latestServiceDate, agreePrivacy: user.agreePrivacy, agreeMarketing: user.agreeMarketing, birth: user.birth, sex: user.sex)
+            storageViewModel.updateUser(setUser)
+        case "개인정보 수집 및 이용동의":
+            guard let user = storageViewModel.getUserInfo(uuid: Constants.userDeviceID) else { return }
+            let setUser = UserModel(uuid: user.uuid, isFirstLaunch: user.isFirstLaunch, agreeTerm: user.agreeTerm, agreePrivacy: LatestTermsModel.latestPersonalDate, agreeMarketing: user.agreeMarketing, birth: user.birth, sex: user.sex)
+            storageViewModel.updateUser(setUser)
+        default: break
+        }
         self.navigationController?.popViewController(animated: true)
     }
     
@@ -124,8 +136,8 @@ extension TermsWebViewViewController: CustomNavigationBarProtocol, UIScrollViewD
      * coder : sanghyeon
      */
     func loadTermsWeb(term: TermsModel) {
-        let tURL = URL(string: Constants.tapplaceBaseUrl + "/tapplace" + term.link)
-        var request = URLRequest(url: tURL!)
+        let tURL = URL(string: term.link)
+        let request = URLRequest(url: tURL!)
         webView.load(request)
     }
 

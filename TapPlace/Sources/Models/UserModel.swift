@@ -76,9 +76,9 @@ class UserFavoritePaymentsModel: Object {
 /// 즐겨찾는 매장
 class UserBookmarkStore: Object {
     @Persisted var storeID: String = ""
-    @Persisted var date: Date = Date()
+    @Persisted var date: String = ""
     
-    convenience init(storeID: String, date: Date) {
+    convenience init(storeID: String, date: String) {
         self.init()
         self.storeID = storeID
         self.date = date

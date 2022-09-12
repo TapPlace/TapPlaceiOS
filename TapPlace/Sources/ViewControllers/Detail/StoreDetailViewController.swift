@@ -432,8 +432,10 @@ extension StoreDetailViewController: CustomNavigationBarProtocol {
                     let cameraUpdate = NMFCameraUpdate(scrollTo: NMGLatLng(from: storeLocation!))
                     self.naverMapView.moveCamera(cameraUpdate)
                     if let markerImage = MarkerModel.list.first(where: {$0.groupName == storeInfo.categoryGroupName}) {
-                        let markerImage = NMFOverlayImage(name: markerImage.markerImage)
+                        let markerImage = NMFOverlayImage(name: "select_\(markerImage.markerImage)")
                         let marker: NMFMarker = NMFMarker(position: NMGLatLng(from: storeLocation!), iconImage: markerImage)
+                        marker.width = 37
+                        marker.height = 47
                         marker.captionText = storeInfo.placeName
                         marker.mapView = self.naverMapView
                     }

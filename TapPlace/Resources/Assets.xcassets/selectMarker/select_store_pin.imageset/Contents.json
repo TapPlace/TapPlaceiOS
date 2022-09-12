@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "Group 21.png",
+      "filename" : "select_store_pin.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "Group 21@2x.png",
+      "filename" : "select_store_pin@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "Group 21@3x.png",
+      "filename" : "select_store_pin@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

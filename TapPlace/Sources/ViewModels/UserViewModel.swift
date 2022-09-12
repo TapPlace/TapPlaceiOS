@@ -20,8 +20,6 @@ class UserViewModel {
             "key": "\(Constants.tapplaceApiKey)"
         ]
         
-        print(parameter)
-        
         userDataService.requestFetchLatestTerms(parameter: parameter) { result, error in
             completion(result)
         }

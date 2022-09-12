@@ -13,10 +13,24 @@ struct RecentSearchModel {
     let placeName: String?
 }
 
-struct SearchModel: Decodable{
-    let placeName: String?
-    let distance: String?
-    let address: String?
+struct SearchList: Decodable {
+    let documents: [SearchModel]
+}
+
+struct SearchModel: Decodable {
+    let addressName: String
+    let distance, id, phone, placeName: String
+    let placeURL: String
+    let roadAddressName, x, y: String
+
+    enum CodingKeys: String, CodingKey {
+        case addressName = "address_name"
+        case distance, id, phone
+        case placeName = "place_name"
+        case placeURL = "place_url"
+        case roadAddressName = "road_address_name"
+        case x, y
+    }
 }
 
 extension RecentSearchModel {

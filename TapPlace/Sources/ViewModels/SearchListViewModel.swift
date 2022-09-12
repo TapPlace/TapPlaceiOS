@@ -8,7 +8,7 @@
 import Foundation
 
 struct SearchListViewModel {
-    let searchLists: [SearchModel]
+    let documents: [SearchModel]
 }
 
 extension SearchListViewModel {
@@ -17,38 +17,37 @@ extension SearchListViewModel {
     }
     
     func numberOfRowsInSection(_ section: Int) -> Int {
-        return self.searchLists.count
+        return self.documents.count
     }
     
     func searchAtIndex(_ index: Int) -> SearchViewModel {
-        let place = self.searchLists[index]
+        let place = self.documents[index]
         return SearchViewModel(place)
     }
     
 }
 
 struct SearchViewModel {
-    private let place: SearchModel
+    private let searchModel: SearchModel
 }
 
 extension SearchViewModel {
-    // 기사를 받는 초기화 메소드
-    init(_ store: SearchModel) {
-        self.place = store
+    init(_ searchModel: SearchModel) {
+        self.searchModel = searchModel
     }
 }
 
 extension SearchViewModel {
     var placeName: String? {
-        return self.place.placeName
+        return self.searchModel.placeName
     }
     
     var distance: String? {
-        return self.place.distance
+        return self.searchModel.distance
     }
     
-    var address: String? {
-        return self.place.address
+    var addressName: String? {
+        return self.searchModel.addressName
     }
 }
 

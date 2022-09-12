@@ -8,6 +8,8 @@
 import Foundation
 import SnapKit
 import UIKit
+import Alamofire
+import CoreLocation
 
 
 // MARK: - 검색화면
@@ -22,11 +24,13 @@ class SearchViewController: CommonViewController {
         UIImage(systemName: "fork.knife.circle.fill")
     ]
     
+    private var searchListVM: SearchListViewModel!
+    var searchMode: Bool = false
+    
     let customNavigationBar = CustomNavigationBar()// 커스텀 네비게이션 바
     let searchField = UITextField()  // 검색 필드
     let recentSearchButton = SearchContentButton() // 최근 검색어 버튼
     let favoriteSearchButton = SearchContentButton() // 즐겨찾는 가맹점 버튼
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,13 +45,18 @@ class SearchViewController: CommonViewController {
         customNavigationBar.isUseLeftButton = true
         
         searchField.delegate = self
+        searchField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
+        print(searchMode)
     }
     
     // 검색 테이블 뷰
     private lazy var searchTableView: UITableView = {
         let searchTableView = UITableView()
         searchTableView.translatesAutoresizingMaskIntoConstraints = false
-        searchTableView.register(SearchTableViewCell.self, forCellReuseIdentifier: SearchTableViewCell.identifier)
+        searchTableView.register(SearchHistoryTableViewCell.self, forCellReuseIdentifier: SearchHistoryTableViewCell.identifier)
+        searchTableView.register(SearchingTableViewCell.self, forCellReuseIdentifier: SearchingTableViewCell.identifier)
+        searchTableView.separatorInset.left = 20
+        searchTableView.separatorInset.right = 20
         searchTableView.allowsSelection = true
         return searchTableView
     }()
@@ -58,6 +67,36 @@ class SearchViewController: CommonViewController {
         self.searchTableView.delegate = self
         self.searchTableView.backgroundColor = .white
         self.searchTableView.keyboardDismissMode = .onDrag // 테이블 뷰 스크롤시 키보드 내리기
+    }
+    
+    @objc func textFieldDidChange(_ sender: UITextField) {
+        if sender.text == nil {
+            searchMode = false
+            DispatchQueue.main.async {
+                self.searchTableView.reloadData()
+            }
+        } else {
+            searchMode = true
+        }
+        let parameter: [String: Any] = [
+            "query": searchField.text!,
+            "x": "\(UserInfo.userLocation?.longitude ?? 0)",
+            "y": "\(UserInfo.userLocation?.latitude ?? 0)",
+            "radius": 1000,
+            "sort" : "distance" // 거리순으로 정렬
+        ]
+        
+        SearchService().getPlace(parameter: parameter) { (documents) in
+            if let documents = documents {
+                self.searchListVM = SearchListViewModel(documents: documents)
+            }
+            
+            DispatchQueue.main.async {
+                self.searchTableView.reloadData()
+            }
+        }
+        
+        
     }
 }
 
@@ -83,18 +122,6 @@ extension SearchViewController: SearchContentButtonProtocol {
     
     private func setupView() {
         view.backgroundColor = .white
-        
-        let parameter: [
-            "query":,
-            "page":,
-            "size"
-                
-        ]
-        
-        SearchService().getPlace(parameter: ) { (placeInfo) in
-            
-        }
-        
     }
     
     override func viewDidLayoutSubviews() {
@@ -186,7 +213,7 @@ extension SearchViewController: SearchContentButtonProtocol {
             $0.height.equalTo(1)
         }
         
-        // 하단 뷰 AutoLayout
+        // 하단 뷰 AutoLayout (최근 검색어, 즐겨찾는 가맹점)
         view.addSubview(bottomView)
         bottomView.snp.makeConstraints {
             $0.top.equalTo(lineView.snp.bottom)
@@ -237,25 +264,61 @@ extension SearchViewController: SearchContentButtonProtocol {
 
 // MARK: - 테이블 뷰 셀에 대한 설정
 extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        RecentSearchModel.list.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: SearchTableViewCell.identifier, for: indexPath) as! SearchTableViewCell
-        cell.backgroundColor = .white
-        cell.img.image = RecentSearchModel.list[indexPath.row].image
-        cell.label.text = RecentSearchModel.list[indexPath.row].placeName
-        cell.deleteButton.setImage(UIImage(systemName: "xmark"), for: .normal)
-        cell.index = indexPath
-        cell.delegate = self
-        
-        return cell
-    }
     
     // 셀의 높이
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 54
+        switch self.searchMode {
+        case false:
+            return 54
+        case true:
+            return 72
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        switch self.searchMode {
+        case false:
+            return RecentSearchModel.list.count
+            print("나와라 \(RecentSearchModel.list.count)")
+        case true:
+            return self.searchListVM.numberOfRowsInSection(1)
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        switch self.searchMode {
+        case false:
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: SearchHistoryTableViewCell.identifier, for: indexPath) as? SearchHistoryTableViewCell else { fatalError("no matched articleTableViewCell identifier") }
+            cell.selectionStyle = .none
+            cell.backgroundColor = .white
+            cell.img.image = RecentSearchModel.list[indexPath.row].image
+            cell.label.text = RecentSearchModel.list[indexPath.row].placeName
+            cell.deleteButton.setImage(UIImage(systemName: "xmark"), for: .normal)
+            cell.index = indexPath
+            cell.delegate = self
+            return cell
+            
+        case true:
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: SearchingTableViewCell.identifier, for: indexPath) as? SearchingTableViewCell else { fatalError("no matched articleTableViewCell identifier") }
+            cell.selectionStyle = .none
+            let searchVM = self.searchListVM.searchAtIndex(indexPath.row)
+            cell.prepare(img: UIImage(named: ""), placeName: searchVM.placeName, distance: searchVM.distance, address: searchVM.addressName)
+            return cell
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        switch self.searchMode {
+        case true:
+            // 가맹점 상세창에서 받아야 할 데이터
+            let searchVM = self.searchListVM.searchAtIndex(indexPath.row)
+            print(searchVM)
+            let storeDetailVC = StoreDetailViewController()
+            self.navigationController?.pushViewController(storeDetailVC, animated: true)
+        case false:
+            return
+        }
     }
 }
 

@@ -13,7 +13,7 @@ protocol XBtnProtocol {
 }
 
 // 검색 테이블 뷰 셀
-class SearchTableViewCell: UITableViewCell {
+class SearchHistoryTableViewCell: UITableViewCell {
     
     static let identifier = "SearchRecordCell"
     var delegate:XBtnProtocol?

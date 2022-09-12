@@ -36,9 +36,17 @@ class AroundPlaceViewController: UIViewController, AroundPlaceControllerProtocol
         getGeoAddress(location: camLocation)
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        AroundFilterModel.storeList.removeAll()
+        AroundFilterModel.paymentList.removeAll()
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         aroundPlaceListView.distanceLabel.text = DistancelModel.getDistance(distance: DistancelModel.selectedDistance)
+        AroundFilterModel.storeList.removeAll()
+        AroundFilterModel.paymentList.removeAll()
     }
 }
 

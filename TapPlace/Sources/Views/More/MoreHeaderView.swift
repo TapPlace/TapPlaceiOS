@@ -8,6 +8,8 @@
 import UIKit
 
 class MoreHeaderView: UIView {
+    var storageViewModel = StorageViewModel()
+    
     let paymentsFrame: UIView = {
         let paymentsFrame = UIView()
         paymentsFrame.backgroundColor = .init(hex: 0xDBDEE8, alpha: 0.2)
@@ -66,6 +68,7 @@ extension MoreHeaderView {
         
         self.backgroundColor = .white
         itemBookmark.title = "즐겨찾기"
+        itemBookmark.countOfItem = storageViewModel.numberOfBookmark
         itemFeedback.title = "피드백"
         itemStores.title = "등록가게"
         

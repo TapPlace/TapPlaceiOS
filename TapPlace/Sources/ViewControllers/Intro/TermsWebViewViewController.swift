@@ -136,8 +136,8 @@ extension TermsWebViewViewController: CustomNavigationBarProtocol, UIScrollViewD
      * coder : sanghyeon
      */
     func loadTermsWeb(term: TermsModel) {
-        let tURL = URL(string: Constants.tapplaceBaseUrl + "/tapplace" + term.link)
-        var request = URLRequest(url: tURL!)
+        let tURL = URL(string: term.link)
+        let request = URLRequest(url: tURL!)
         webView.load(request)
     }
 

@@ -56,8 +56,9 @@ class SearchingTableViewCell: UITableViewCell {
     
     private func setLayout() {
         img.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(21)
+            $0.top.equalToSuperview().offset(19)
             $0.leading.equalToSuperview().offset(22)
+            $0.width.height.equalTo(15)
         }
         
         placeNameLbl.snp.makeConstraints {
@@ -71,8 +72,12 @@ class SearchingTableViewCell: UITableViewCell {
         }
     }
     
-    func prepare(img: UIImage?, placeName: String?, distance: String?, address: String?) {
-        self.img.image = UIImage(named: "")
+    func prepare(categoryGroupCode: String?, placeName: String?, distance: String?, address: String?) {
+        guard let categoryGroupCode = categoryGroupCode else {
+            return
+        }
+
+        self.img.image = UIImage(named: "\(categoryGroupCode)")
         self.placeNameLbl.text = placeName
         self.distanceAddressLbl.text = "\(String(describing: distance!))m · \(String(describing: address!))"
     }

@@ -100,6 +100,15 @@ extension SplashViewController {
      */
     func loadTerms() {
         userViewModel.requestLatestTerms(uuid: Constants.userDeviceID) { result in
+            if let _ = result as? LatestTermsModel {
+                
+            } else {
+                showToast(message: "서버와의 연동에 실패했습니다.\n잠시 후 앱을 종료합니다.", view: self.view)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                    UIApplication.shared.perform(#selector(NSXPCConnection.suspend))
+                    exit(0)
+                }
+            }
             guard let result = result else { return }
             LatestTermsModel.latestServiceDate = result.serviceDate
             LatestTermsModel.latestPersonalDate = result.personalDate
@@ -132,6 +141,7 @@ extension SplashViewController {
     private func setupView() {
         /// 뷰컨트롤러 배경색 지정
         view.backgroundColor = .white
+        self.navigationController?.navigationBar.isHidden = true
     }
     /**
      * @ 초기 실행 여부 확인

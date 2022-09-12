@@ -18,13 +18,15 @@ struct SearchList: Decodable {
 }
 
 struct SearchModel: Decodable {
-    let addressName: String
+    let addressName, categoryGroupCode, categoryGroupName: String
     let distance, id, phone, placeName: String
     let placeURL: String
     let roadAddressName, x, y: String
-
+    
     enum CodingKeys: String, CodingKey {
         case addressName = "address_name"
+        case categoryGroupCode = "category_group_code"
+        case categoryGroupName = "category_group_name"
         case distance, id, phone
         case placeName = "place_name"
         case placeURL = "place_url"

@@ -38,6 +38,10 @@ extension SearchViewModel {
 }
 
 extension SearchViewModel {
+    var categoryGroupCode: String? {
+        return self.searchModel.categoryGroupCode
+    }
+    
     var placeName: String? {
         return self.searchModel.placeName
     }

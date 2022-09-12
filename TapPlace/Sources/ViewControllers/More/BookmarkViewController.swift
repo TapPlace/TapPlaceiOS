@@ -8,6 +8,9 @@
 import UIKit
 
 class BookmarkViewController: CommonViewController {
+    var storageViewModel = StorageViewModel()
+    var storeViewModel = StoreViewModel()
+    
     let customNavigationBar = CustomNavigationBar()
     let navigationRightButton = UIButton(type: .system)
     let filterTitle = MoreListFilterTitle()
@@ -20,11 +23,12 @@ class BookmarkViewController: CommonViewController {
     var filterAsc: Bool = false
     var isEditMode: Bool = false
     
+    var dataSource: [UserBookmarkStore] = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavigation()
         setupView()
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -44,6 +48,7 @@ extension BookmarkViewController: CustomNavigationBarProtocol, FilterTitleProtoc
      * coder : sanghyeon
      */
     func setupView() {
+        self.dataSource = storageViewModel.bookmarkDataSource
         //MARK: ViewDefine
         let safeArea = view.safeAreaLayoutGuide
         let storeTableView: UITableView = {
@@ -58,6 +63,8 @@ extension BookmarkViewController: CustomNavigationBarProtocol, FilterTitleProtoc
         //MARK: ViewPropertyManual
         self.view.backgroundColor = .white
         filterTitle.setFilterName = "등록순"
+        filterTitle.filterName = "가맹점"
+        filterTitle.filterCount = self.dataSource.count
         
         
         //MARK: AddSubView
@@ -228,13 +235,17 @@ extension BookmarkViewController: CustomNavigationBarProtocol, FilterTitleProtoc
 extension BookmarkViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 20
+        return self.dataSource.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
         guard let cell = tableView.dequeueReusableCell(withIdentifier: BookMarkEditModeCell.cellId, for: indexPath) as? BookMarkEditModeCell else { return UITableViewCell() }
+        let cellDataSource = self.dataSource[indexPath.row]
         cell.cellIndex = indexPath.row
+        storeViewModel.requestStoreInfo(storeID: cellDataSource.storeID, pays: storageViewModel.userFavoritePaymentsString) { result in
+            guard let storeInfo = result else { return }
+            cell.storeInfo = storeInfo//AroundStoreModel.convertStoreInfo(storeInfo: storeInfo)
+        }
 
         cell.selectionStyle = .none
         cell.isEditMode = isEditMode

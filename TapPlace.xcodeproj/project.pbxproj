@@ -400,7 +400,6 @@
 		DF1CD4B128AF71FE000D23E4 /* Common */ = {
 			isa = PBXGroup;
 			children = (
-				DF4BDF7828C749E2000F15FA /* More */,
 				DF4BDF7528C74018000F15FA /* NavigationBar */,
 				DF1CD4B228AF7205000D23E4 /* Button */,
 				DF4A14A128ABBAEF0068D1AD /* VerticalAlignLabel.swift */,
@@ -626,6 +625,7 @@
 			children = (
 				DF1CD4B128AF71FE000D23E4 /* Common */,
 				DF1CD4AF28AF7194000D23E4 /* Intro */,
+				DF4BDF7828C749E2000F15FA /* More */,
 				DF1CD4B028AF71D9000D23E4 /* Main */,
 				DF4A14A528ABDB7B0068D1AD /* CustomToolBar */,
 			);

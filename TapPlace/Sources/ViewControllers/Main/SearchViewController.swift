@@ -303,7 +303,7 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: SearchingTableViewCell.identifier, for: indexPath) as? SearchingTableViewCell else { fatalError("no matched articleTableViewCell identifier") }
             cell.selectionStyle = .none
             let searchVM = self.searchListVM.searchAtIndex(indexPath.row)
-            cell.prepare(img: UIImage(named: ""), placeName: searchVM.placeName, distance: searchVM.distance, address: searchVM.addressName)
+            cell.prepare(categoryGroupCode: searchVM.categoryGroupCode, placeName: searchVM.placeName, distance: searchVM.distance, address: searchVM.addressName)
             return cell
         }
     }

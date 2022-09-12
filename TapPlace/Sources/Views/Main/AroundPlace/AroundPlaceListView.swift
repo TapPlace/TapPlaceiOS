@@ -160,16 +160,16 @@ extension AroundPlaceListView {
         
         
         //MARK: ViewDefine
-        let AroundFilter: [Int] = [
-            AroundFilterModel.storeList.count,
-            AroundFilterModel.paymentList.count
-        ]
+//        let AroundFilter: [Int] = [
+//            AroundFilterModel.storeList.count,
+//            AroundFilterModel.paymentList.count
+//        ]
         
         //MARK: ViewPropertyManual
         storeButton.title = "매장선택"
-        storeButton.selectedCount = AroundFilter[0]
+        storeButton.selectedCount = 0
         paymentButton.title = "결제수단"
-        paymentButton.selectedCount = AroundFilter[1]
+        paymentButton.selectedCount = 0
         
         //MARK: AddSubView
         addSubview(containerView)

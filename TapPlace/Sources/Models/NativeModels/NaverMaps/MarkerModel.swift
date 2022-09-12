@@ -14,6 +14,10 @@ struct MarkerModel {
 
 extension MarkerModel {
     static let list = [
-        MarkerModel(groupName: "편의점", markerImage: "convenience")
+        MarkerModel(groupName: "편의점", markerImage: "convenience"),
+        MarkerModel(groupName: "마트", markerImage: "mart"),
+        MarkerModel(groupName: "음식점", markerImage: "food"),
+        MarkerModel(groupName: "카페", markerImage: "cafe"),
+        MarkerModel(groupName: "주유소", markerImage: "oil")
     ]
 }

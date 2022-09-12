@@ -20,6 +20,27 @@ struct StorageViewModel: StorageProtocol {
     var numberOfFavoritePayments: Int {
         return dataBases?.realm.objects(UserFavoritePaymentsModel.self).count ?? 0
     }
+    
+    var numberOfBookmark: Int {
+        return dataBases?.realm.objects(UserBookmarkStore.self).count ?? 0
+    }
+    
+    var userFavoritePaymentsString: [String] {
+        var returnPayments: [String] = []
+        for payment in userFavoritePayments {
+            returnPayments.append(PaymentModel.encodingPayment(payment: payment))
+        }
+        return returnPayments
+    }
+    
+    var bookmarkDataSource: [UserBookmarkStore] {
+        var returnBookmarks: [UserBookmarkStore] = []
+        guard let userAllbookmark = dataBases?.realm.objects(UserBookmarkStore.self) else { return [] }
+        userAllbookmark.forEach {
+            returnBookmarks.append($0 as UserBookmarkStore)
+        }
+        return returnBookmarks
+    }
 
     var userFavoritePayments: [PaymentModel] {
         var returnPayments: [PaymentModel] = []
@@ -33,13 +54,6 @@ struct StorageViewModel: StorageProtocol {
         return returnPayments
     }
     
-    var userFavoritePaymentsString: [String] {
-        var returnPayments: [String] = []
-        for payment in userFavoritePayments {
-            returnPayments.append(PaymentModel.encodingPayment(payment: payment))
-        }
-        return returnPayments
-    }
     
     mutating func loadFeedback() -> [UserFeedbackModel] {
         let objects = dataBases?.realm.objects(UserFeedbackModel.self).toArray(ofType: UserFeedbackModel.self) as [UserFeedbackModel]

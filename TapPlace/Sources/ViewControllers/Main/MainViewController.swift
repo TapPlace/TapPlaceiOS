@@ -468,7 +468,20 @@ extension MainViewController: CLLocationManagerDelegate, NMFMapViewCameraDelegat
 }
 
 //MARK: - Delegate Other VC
-extension MainViewController: CustomToolBarShareProtocol {
+extension MainViewController: CustomToolBarShareProtocol, StoreInfoViewDelegate {
+    /**
+     * @ 스토어 상세 뷰컨 이동
+     * coder : sanghyeon
+     */
+    func moveStoreDetail(store: StoreInfo) {
+        let vc = StoreDetailViewController()
+        vc.storeInfo = store
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+    /**
+     * @ 공유하기
+     * coder : sanghyeon
+     */
     func showShare(storeInfo: StoreInfo) {
         var objectToShare = [String]()
         let shareText = "\(storeInfo.placeName)의 간편결제 정보입니다.\n\n\(Constants.tapplaceBaseUrl)/app/\(storeInfo.storeID)"
@@ -521,6 +534,7 @@ extension MainViewController: CustomToolBarShareProtocol {
             
             detailOverView.storeInfoView.titleSize = .large
             detailOverView.toolBar.vcDelegate = self
+            detailOverView.storeInfoView.delegate = self
 
             if let storeInfo = storeInfo {
                 detailOverView.storeInfo = storeInfo

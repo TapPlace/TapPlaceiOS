@@ -164,7 +164,7 @@ extension FeedbackDoneViewController: UITableViewDataSource, UITableViewDelegate
         let cell = tableView.dequeueReusableCell(withIdentifier: StorePaymentTableViewCell.identifier, for: indexPath) as! StorePaymentTableViewCell
         
         let storePaymentModel = StorePaymentModel.lists[indexPath.row]
-        cell.prepare(payName: storePaymentModel.payName, success: storePaymentModel.success, successDate: storePaymentModel.successDate, successRate: storePaymentModel.successRate)
+        cell.prepare(pay: nil, payName: storePaymentModel.payName, success: storePaymentModel.success, successDate: storePaymentModel.successDate, successRate: storePaymentModel.successRate)
         
         return cell
     }

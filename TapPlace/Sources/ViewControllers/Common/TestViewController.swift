@@ -7,7 +7,7 @@
 
 import UIKit
 
-class TestViewController: UIViewController, CustomNavigationBarProtocol {
+class TestViewController: CommonViewController, CustomNavigationBarProtocol {
     func didTapLeftButton() {
         print("뷰컨트롤에서 함수 실행됨")
     }
@@ -31,5 +31,9 @@ class TestViewController: UIViewController, CustomNavigationBarProtocol {
             $0.top.leading.trailing.equalToSuperview()
             $0.bottom.equalTo(customNavigationBar.containerView)
         }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        tabBar?.showTabBar(hide: true)
     }
 }

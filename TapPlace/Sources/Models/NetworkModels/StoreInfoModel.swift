@@ -56,4 +56,6 @@ struct Feedback: Codable {
         case lastTime = "last_time"
         case pay, exist
     }
+    
+    static let emptyFeedback = Feedback(num: 0, storeID: "", success: 0, fail: 0, lastState: "", lastTime: "", pay: "", exist: true)
 }

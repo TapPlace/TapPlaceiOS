@@ -58,6 +58,7 @@
 		DFA2875728AB684200DD9F63 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFA2875628AB684200DD9F63 /* UIView+Extension.swift */; };
 		DFA2875928AB94C700DD9F63 /* DetailOverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFA2875828AB94C700DD9F63 /* DetailOverView.swift */; };
 		DFA2875B28ABA8D400DD9F63 /* DetailToolBarButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFA2875A28ABA8D400DD9F63 /* DetailToolBarButton.swift */; };
+		DFB6CD6028CEE3A90095C9FA /* UIApplication+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFB6CD5F28CEE3A90095C9FA /* UIApplication+Extension.swift */; };
 		DFC23F96289AB66400EC1090 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFC23F95289AB66400EC1090 /* AppDelegate.swift */; };
 		DFC23F98289AB66400EC1090 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFC23F97289AB66400EC1090 /* SceneDelegate.swift */; };
 		DFC23F9F289AB66600EC1090 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DFC23F9E289AB66600EC1090 /* Assets.xcassets */; };
@@ -189,6 +190,7 @@
 		DFA2875628AB684200DD9F63 /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		DFA2875828AB94C700DD9F63 /* DetailOverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailOverView.swift; sourceTree = "<group>"; };
 		DFA2875A28ABA8D400DD9F63 /* DetailToolBarButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailToolBarButton.swift; sourceTree = "<group>"; };
+		DFB6CD5F28CEE3A90095C9FA /* UIApplication+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+Extension.swift"; sourceTree = "<group>"; };
 		DFC23F92289AB66400EC1090 /* TapPlace.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TapPlace.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DFC23F95289AB66400EC1090 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DFC23F97289AB66400EC1090 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -645,6 +647,7 @@
 				DFECC8D128AD129300DC64FD /* UIStackView+Extension.swift */,
 				DF9BE0A528B6EEEA009E075D /* UILabel+Extension.swift */,
 				DF85D8CA28C4C22300465D6A /* CLLocation+Extension.swift */,
+				DFB6CD5F28CEE3A90095C9FA /* UIApplication+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -891,6 +894,7 @@
 				DFC23F98289AB66400EC1090 /* SceneDelegate.swift in Sources */,
 				DF85D8CB28C4C22300465D6A /* CLLocation+Extension.swift in Sources */,
 				DF9BE0AE28B7271F009E075D /* TermsTableViewCell.swift in Sources */,
+				DFB6CD6028CEE3A90095C9FA /* UIApplication+Extension.swift in Sources */,
 				DFDBB83728B0BB69008D2E09 /* AroundPlaceListView.swift in Sources */,
 				DFC23FB5289AB6F000EC1090 /* EmptyNetwork.swift in Sources */,
 				DF2340D328A270C700A9DAE1 /* PaymentModel.swift in Sources */,

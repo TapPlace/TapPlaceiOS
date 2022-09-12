@@ -8,8 +8,13 @@
 import UIKit
 import CoreLocation
 
+protocol StoreInfoViewDelegate {
+    func moveStoreDetail(store: StoreInfo)
+}
 
 class StoreInfoView: UIView {
+    
+    var delegate: StoreInfoViewDelegate?
     
     var storeInfo: StoreInfo? = nil {
         willSet {
@@ -110,6 +115,11 @@ class StoreInfoView: UIView {
         return spacerView
     }()
     
+    let moveButton: UIButton = {
+        let moveButton = UIButton()
+        return moveButton
+    }()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupView()
@@ -138,6 +148,7 @@ extension StoreInfoView {
         containerView.addSubview(storeGroupLabel)
         containerView.addSubview(storeDetailLabel)
         containerView.addSubview(brandStackView)
+        containerView.addSubview(moveButton)
         
         //MARK: ViewContraints
         containerView.snp.makeConstraints {
@@ -162,11 +173,20 @@ extension StoreInfoView {
             $0.leading.trailing.equalTo(containerView)
             $0.bottom.equalTo(containerView)
         }
+        moveButton.snp.makeConstraints {
+            $0.edges.equalTo(containerView)
+        }
         
         //MARK: ViewAddTarget
-
+        moveButton.addTarget(self, action: #selector(didTapStoreButton), for: .touchUpInside)
         
         //MARK: Delegate
+    }
+    
+    @objc func didTapStoreButton() {
+        print("스토어 상세뷰 터치")
+        guard let storeInfo = storeInfo else { return }
+        delegate?.moveStoreDetail(store: storeInfo)
     }
     
     

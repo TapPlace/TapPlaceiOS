@@ -12,6 +12,39 @@ class StorePaymentTableViewCell: UITableViewCell {
     
     static let identifier = "StorePaymentTableViewCell"
     
+    var feedback: Feedback = Feedback.emptyFeedback {
+        willSet {
+            if let thisPay = PaymentModel.thisPayment(payment: newValue.pay) {
+                paymentImg.image = thisPay.payments == "" ? UIImage.init(named: thisPay.brand) : UIImage.init(named: thisPay.payments)
+                paymentLbl.text = thisPay.designation
+                if let payResult = newValue.lastState {
+                    if payResult == "success" {
+                        self.whetherToPayLbl.text = "최근결제: 성공"
+                        self.whetherToPayLbl.textColor = .pointBlue
+                        self.whetherToPayLbl.font = .systemFont(ofSize: CommonUtils.resizeFontSize(size: 14), weight: .semibold)
+                    } else {
+                        self.whetherToPayLbl.text = "최근결제: 실패"
+                        self.whetherToPayLbl.textColor = .init(hex: 0x707070)
+                        self.whetherToPayLbl.font = .systemFont(ofSize: CommonUtils.resizeFontSize(size: 14), weight: .medium)
+                    }
+                } else {
+                    self.whetherToPayLbl.text = "최근결제: 없음"
+                    self.whetherToPayLbl.textColor = .init(hex: 0x707070)
+                    self.whetherToPayLbl.font = .systemFont(ofSize: CommonUtils.resizeFontSize(size: 14), weight: .medium)
+                }
+                if let lastDate = newValue.lastTime {
+                    successDateLbl.text = "\(lastDate.split(separator: " ")[0])"
+                }
+                let successCount = newValue.success ?? 0
+                let failCount = newValue.fail ?? 0
+                let totalCount = successCount + failCount
+                let successRate = ( successCount / totalCount ) * 100
+                successRateLbl.text = "성공 \(successRate)%"
+                successRateProgressView.progress = Float(successRate / 100)
+            }
+        }
+    }
+    
     let paymentImg: UIImageView = {
         let paymentImg = UIImageView()
         return paymentImg
@@ -43,8 +76,8 @@ class StorePaymentTableViewCell: UITableViewCell {
     let successRateProgressView: UIProgressView = {
         let successRateProgressView = UIProgressView()
         successRateProgressView.progressViewStyle = .default
-        successRateProgressView.backgroundColor = .lightGray
-        successRateProgressView.progressTintColor = .systemBlue
+        successRateProgressView.backgroundColor = .init(hex: 0xE6E6E6)
+        successRateProgressView.progressTintColor = .pointBlue
         successRateProgressView.progress = 0.1
         successRateProgressView.layer.cornerRadius = 6
         successRateProgressView.clipsToBounds = true
@@ -127,12 +160,12 @@ class StorePaymentTableViewCell: UITableViewCell {
         }
     }
     
-    func prepare(payName: String?, success: Bool?, successDate: String?, successRate: Int?) {
+    func prepare(pay: String?, payName: String?, success: Bool?, successDate: String?, successRate: Int?) {
         self.paymentImg.image = UIImage(named: "")
         self.paymentLbl.text = payName
         if success == true {
             self.whetherToPayLbl.text = "최근결제: 성공"
-            self.whetherToPayLbl.textColor = .systemBlue
+            self.whetherToPayLbl.textColor = .pointBlue
         }else {
             self.whetherToPayLbl.text = "최근결제: 실패"
         }

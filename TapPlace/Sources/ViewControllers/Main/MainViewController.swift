@@ -333,8 +333,8 @@ extension MainViewController: CLLocationManagerDelegate, NMFMapViewCameraDelegat
                 naverMapMarker.captionText = markerRow.placeName
                 naverMapMarker.captionRequestedWidth = 80
                 naverMapMarker.isHideCollidedCaptions = true
-                naverMapMarker.width = 40
-                naverMapMarker.height = 53
+                naverMapMarker.width = 37
+                naverMapMarker.height = 47
 
                 naverMapMarker.touchHandler = { (marker) in
                     if let marker = marker as? NMFMarker {
@@ -365,8 +365,11 @@ extension MainViewController: CLLocationManagerDelegate, NMFMapViewCameraDelegat
      */
     func resetAllMarkersSize() {
         for eachMarker in markerList {
-            eachMarker.marker.width = 40
-            eachMarker.marker.height = 53
+            if let markerImage = MarkerModel.list.first(where: {$0.groupName == eachMarker.store.categoryGroupName}) {
+                eachMarker.marker.iconImage = NMFOverlayImage(name: markerImage.markerImage)
+            }
+            eachMarker.marker.width = 37
+            eachMarker.marker.height = 47
         }
     }
     /**
@@ -381,11 +384,16 @@ extension MainViewController: CLLocationManagerDelegate, NMFMapViewCameraDelegat
         /// 선택된 마커 사이즈 확장
         guard let marker = marker else { return }
         marker.width = 50
-        marker.height = 66
+        marker.height = 68
         
         /// 마커의 스토어 정보
         guard let targetMarker = markerList.first(where: {$0.marker == marker }) else { return }
         let targetStore = targetMarker.store
+        
+        if let markerImage = MarkerModel.list.first(where: {$0.groupName == targetStore.categoryGroupName}) {
+            targetMarker.marker.iconImage = NMFOverlayImage(name: "select_\(markerImage.markerImage)")
+        }
+        
         print("클릭된 마커의 스토어: ", targetStore.placeName)
         /// AroundStores -> StoreInfo 변환
         let targetStoreInfo = StoreInfo.convertAroundStores(aroundStore: targetStore)
@@ -468,7 +476,20 @@ extension MainViewController: CLLocationManagerDelegate, NMFMapViewCameraDelegat
 }
 
 //MARK: - Delegate Other VC
-extension MainViewController: CustomToolBarShareProtocol {
+extension MainViewController: CustomToolBarShareProtocol, StoreInfoViewDelegate {
+    /**
+     * @ 스토어 상세 뷰컨 이동
+     * coder : sanghyeon
+     */
+    func moveStoreDetail(store: StoreInfo) {
+        let vc = StoreDetailViewController()
+        vc.storeInfo = store
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+    /**
+     * @ 공유하기
+     * coder : sanghyeon
+     */
     func showShare(storeInfo: StoreInfo) {
         var objectToShare = [String]()
         let shareText = "\(storeInfo.placeName)의 간편결제 정보입니다.\n\n\(Constants.tapplaceBaseUrl)/app/\(storeInfo.storeID)"
@@ -521,6 +542,7 @@ extension MainViewController: CustomToolBarShareProtocol {
             
             detailOverView.storeInfoView.titleSize = .large
             detailOverView.toolBar.vcDelegate = self
+            detailOverView.storeInfoView.delegate = self
 
             if let storeInfo = storeInfo {
                 detailOverView.storeInfo = storeInfo

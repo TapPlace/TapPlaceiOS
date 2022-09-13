@@ -3,7 +3,7 @@
 //  TapPlace
 //
 //  Created by 이상준 on 2022/09/08.
-//
+// 
 
 import UIKit
 
@@ -68,15 +68,18 @@ class FeedbackDetailCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func prepare(img: UIImage?, payName: String?, whetherToPay: String?) {
-        self.imgView.image = img
-        self.payNameLbl.text = payName
-        self.whetherToPayLbl.text = whetherToPay
+    func prepare(feedback: UserFeedbackModel) {
+        guard let payment = PaymentModel.thisPayment(payment: feedback.pay) else { return }
+        let iconName = payment.payments == "" ? payment.brand : payment.payments
+        self.imgView.image = .init(named: iconName)
+        self.payNameLbl.text = payment.designation
+        self.whetherToPayLbl.text = feedback.feedback ? "결제성공" : "결제실패"
+        self.whetherToPayLbl.textColor = feedback.feedback ? .init(hex: 0x4E77FB) : .init(hex: 0x707070)
         
-        if whetherToPay == "결제성공" {
-            DispatchQueue.main.async {
-                self.whetherToPayLbl.textColor = .init(hex: 0x4E77FB)
-            }
-        }
+//        if whetherToPay == "결제성공" {
+//            DispatchQueue.main.async {
+//                self.whetherToPayLbl.textColor = .init(hex: 0x4E77FB)
+//            }
+//        }
     }
 }

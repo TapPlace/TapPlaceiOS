@@ -41,6 +41,8 @@
 		DF6B69F128B8BCA4009D4076 /* ToastMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF6B69F028B8BCA4009D4076 /* ToastMessage.swift */; };
 		DF6B69F728B90BA2009D4076 /* FilterResetButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF6B69F628B90BA2009D4076 /* FilterResetButtonView.swift */; };
 		DF71EB4028C7683300AB693F /* MoreMenuTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF71EB3F28C7683300AB693F /* MoreMenuTableViewCell.swift */; };
+		DF81E40728D07A77000FF975 /* FeedbackDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF81E40628D07A77000FF975 /* FeedbackDataService.swift */; };
+		DF81E40928D07C0A000FF975 /* FeedbackViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF81E40828D07C0A000FF975 /* FeedbackViewModel.swift */; };
 		DF826698289CA0EC00272830 /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF826697289CA0EC00272830 /* SplashViewController.swift */; };
 		DF82669A289CA10800272830 /* OnBoardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF826699289CA10800272830 /* OnBoardingViewController.swift */; };
 		DF82669C289CA11700272830 /* PickPaymentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF82669B289CA11700272830 /* PickPaymentsViewController.swift */; };
@@ -69,6 +71,7 @@
 		DFC23FBB289AB70C00EC1090 /* EmptyExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFC23FBA289AB70C00EC1090 /* EmptyExtension.swift */; };
 		DFC449A228C8A9490029DD5E /* FeedbackRequestTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFC449A128C8A9490029DD5E /* FeedbackRequestTableViewCell.swift */; };
 		DFC449A428C8B4700029DD5E /* FeedbackButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFC449A328C8B4700029DD5E /* FeedbackButton.swift */; };
+		DFC81D3528D09C2A00E400EB /* FeedbackResultModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFC81D3428D09C2A00E400EB /* FeedbackResultModel.swift */; };
 		DFC87B3128CAD7CB00F53D1D /* KakaoGeoAddressModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFC87B3028CAD7CB00F53D1D /* KakaoGeoAddressModel.swift */; };
 		DFC87B3428CAE9D000F53D1D /* MarkerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFC87B3328CAE9D000F53D1D /* MarkerModel.swift */; };
 		DFCB0B2228B3369200BF9BE7 /* AroundDistanceFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFCB0B2128B3369200BF9BE7 /* AroundDistanceFilterViewController.swift */; };
@@ -170,6 +173,8 @@
 		DF6B69F028B8BCA4009D4076 /* ToastMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastMessage.swift; sourceTree = "<group>"; };
 		DF6B69F628B90BA2009D4076 /* FilterResetButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterResetButtonView.swift; sourceTree = "<group>"; };
 		DF71EB3F28C7683300AB693F /* MoreMenuTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreMenuTableViewCell.swift; sourceTree = "<group>"; };
+		DF81E40628D07A77000FF975 /* FeedbackDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackDataService.swift; sourceTree = "<group>"; };
+		DF81E40828D07C0A000FF975 /* FeedbackViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackViewModel.swift; sourceTree = "<group>"; };
 		DF826697289CA0EC00272830 /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
 		DF826699289CA10800272830 /* OnBoardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardingViewController.swift; sourceTree = "<group>"; };
 		DF82669B289CA11700272830 /* PickPaymentsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickPaymentsViewController.swift; sourceTree = "<group>"; };
@@ -200,6 +205,7 @@
 		DFC23FBA289AB70C00EC1090 /* EmptyExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyExtension.swift; sourceTree = "<group>"; };
 		DFC449A128C8A9490029DD5E /* FeedbackRequestTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackRequestTableViewCell.swift; sourceTree = "<group>"; };
 		DFC449A328C8B4700029DD5E /* FeedbackButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackButton.swift; sourceTree = "<group>"; };
+		DFC81D3428D09C2A00E400EB /* FeedbackResultModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackResultModel.swift; sourceTree = "<group>"; };
 		DFC87B3028CAD7CB00F53D1D /* KakaoGeoAddressModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoGeoAddressModel.swift; sourceTree = "<group>"; };
 		DFC87B3328CAE9D000F53D1D /* MarkerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkerModel.swift; sourceTree = "<group>"; };
 		DFCB0B2128B3369200BF9BE7 /* AroundDistanceFilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AroundDistanceFilterViewController.swift; sourceTree = "<group>"; };
@@ -484,6 +490,7 @@
 		DF85D8C728C4BF5E00465D6A /* NetworkModels */ = {
 			isa = PBXGroup;
 			children = (
+				DFC81D3328D09C1800E400EB /* Feedback */,
 				DF85D8C828C4BFAD00465D6A /* StoreInfoModel.swift */,
 				DF67A05B28CA0F1B00435C28 /* LatestTermsModel.swift */,
 				DF67A05D28CA2F4600435C28 /* AroundStoreModel.swift */,
@@ -597,6 +604,7 @@
 				DF67A05928CA0A9600435C28 /* UserViewModel.swift */,
 				DF67A06128CA35E900435C28 /* StoreViewModel.swift */,
 				F4E198D428CDDB5700619174 /* SearchListViewModel.swift */,
+				DF81E40828D07C0A000FF975 /* FeedbackViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -609,6 +617,7 @@
 				DF67A05728C9E98900435C28 /* UserDataService.swift */,
 				DF67A05F28CA34F500435C28 /* StoreDataService.swift */,
 				F470A34228CB6430007F4F24 /* SearchService.swift */,
+				DF81E40628D07A77000FF975 /* FeedbackDataService.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -664,6 +673,15 @@
 			path = Feedback;
 			sourceTree = "<group>";
 		};
+		DFC81D3328D09C1800E400EB /* Feedback */ = {
+			isa = PBXGroup;
+			children = (
+				DFD672A228C8A71B000220EE /* FeedbackRequestModel.swift */,
+				DFC81D3428D09C2A00E400EB /* FeedbackResultModel.swift */,
+			);
+			path = Feedback;
+			sourceTree = "<group>";
+		};
 		DFC87B3228CAE9BF00F53D1D /* NaverMaps */ = {
 			isa = PBXGroup;
 			children = (
@@ -685,7 +703,6 @@
 		DFD672A128C8A708000220EE /* Feedback */ = {
 			isa = PBXGroup;
 			children = (
-				DFD672A228C8A71B000220EE /* FeedbackRequestModel.swift */,
 			);
 			path = Feedback;
 			sourceTree = "<group>";
@@ -880,6 +897,7 @@
 				DFC23FBB289AB70C00EC1090 /* EmptyExtension.swift in Sources */,
 				DFCB0B2428B3A61300BF9BE7 /* AroundModel.swift in Sources */,
 				DFC23F98289AB66400EC1090 /* SceneDelegate.swift in Sources */,
+				DFC81D3528D09C2A00E400EB /* FeedbackResultModel.swift in Sources */,
 				DF85D8CB28C4C22300465D6A /* CLLocation+Extension.swift in Sources */,
 				DF9BE0AE28B7271F009E075D /* TermsTableViewCell.swift in Sources */,
 				DFB6CD6028CEE3A90095C9FA /* UIApplication+Extension.swift in Sources */,
@@ -918,6 +936,7 @@
 				DFC23FAF289AB6C900EC1090 /* EmptyModel.swift in Sources */,
 				DF01A89628C5D6CE00124788 /* TestViewController.swift in Sources */,
 				F470A33D28C9AA36007F4F24 /* FeedbackDetailViewController.swift in Sources */,
+				DF81E40928D07C0A000FF975 /* FeedbackViewModel.swift in Sources */,
 				DF51DCC228A7779400D0AE1E /* MoreViewController.swift in Sources */,
 				DFA2875928AB94C700DD9F63 /* DetailOverView.swift in Sources */,
 				DFECC8CA28AC95E800DC64FD /* AroundPlaceViewController.swift in Sources */,
@@ -955,6 +974,7 @@
 				DF9EAF8528AA00F5001B3D74 /* ResearchButton.swift in Sources */,
 				DF4BD37C28A76F8100C4C5B4 /* UIImage+Extension.swift in Sources */,
 				DF4A14A428ABBEF50068D1AD /* CustomToolBar.swift in Sources */,
+				DF81E40728D07A77000FF975 /* FeedbackDataService.swift in Sources */,
 				F438236028C3120C00C75063 /* StickyHeader.swift in Sources */,
 				DF1CD4B828AF7BEC000D23E4 /* AroundPlaceFilterView.swift in Sources */,
 				DFDBB83528B094FE008D2E09 /* CommonViewController.swift in Sources */,
@@ -1105,7 +1125,7 @@
 				CODE_SIGN_ENTITLEMENTS = TapPlace/TapPlace.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = BFTA9SX898;
+				DEVELOPMENT_TEAM = 5NACCZGM3F;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TapPlace/Info.plist;
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "사용자 주변의 간편결제 가맹점을 불러올 수 있도록, 현재 위치를 가져옵니다.";
@@ -1122,7 +1142,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = kr.co.tapplace.TapPlace1;
+				PRODUCT_BUNDLE_IDENTIFIER = kr.co.tapplace.TapPlace;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -1142,7 +1162,7 @@
 				CODE_SIGN_ENTITLEMENTS = TapPlace/TapPlace.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = BFTA9SX898;
+				DEVELOPMENT_TEAM = 5NACCZGM3F;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TapPlace/Info.plist;
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "사용자 주변의 간편결제 가맹점을 불러올 수 있도록, 현재 위치를 가져옵니다.";
@@ -1159,7 +1179,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = kr.co.tapplace.TapPlace1;
+				PRODUCT_BUNDLE_IDENTIFIER = kr.co.tapplace.TapPlace;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;

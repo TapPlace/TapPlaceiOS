@@ -22,7 +22,13 @@ class MoreHeaderView: UIView {
     
     var countOfBookmark: Int = 0 {
         willSet {
-            itemBookmark.countOfItem = countOfBookmark
+            itemBookmark.countOfItem = newValue
+        }
+    }
+    
+    var countOfFeedback: Int = 0 {
+        willSet {
+            itemFeedback.countOfItem = newValue
         }
     }
     

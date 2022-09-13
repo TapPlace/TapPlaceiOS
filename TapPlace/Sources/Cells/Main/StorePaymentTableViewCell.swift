@@ -35,12 +35,12 @@ class StorePaymentTableViewCell: UITableViewCell {
                 if let lastDate = newValue.lastTime {
                     successDateLbl.text = "\(lastDate.split(separator: " ")[0])"
                 }
-                let successCount = newValue.success ?? 0
-                let failCount = newValue.fail ?? 0
+                let successCount = Double(newValue.success ?? 0)
+                let failCount = Double(newValue.fail ?? 0)
                 let totalCount = successCount + failCount
-                let successRate = ( successCount / totalCount ) * 100
+                let successRate = Int((successCount / totalCount) * 100)
                 successRateLbl.text = "성공 \(successRate)%"
-                successRateProgressView.progress = Float(successRate / 100)
+                successRateProgressView.progress = Float(Double(successRate) / 100)
             }
         }
     }

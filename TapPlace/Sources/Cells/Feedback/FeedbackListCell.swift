@@ -11,7 +11,7 @@ import CoreLocation
 class FeedbackListCell: UITableViewCell {
 
     static let cellId = "feedbackListItem"
-    var feedback: UserFeedbackModel? = nil {
+    var feedback: UserFeedbackStoreModel? = nil {
         willSet {
             guard let feedback = newValue else { return }
             dateLabel.text = feedback.date

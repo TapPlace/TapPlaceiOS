@@ -43,6 +43,8 @@ class MainViewController: CommonViewController {
         setupView()
         setupNaverMap()
         setupFloatingPanel()
+        
+        print("numberOfTodayFeedback: \(storageViewModel.numberOfTodayFeedback)")
     }
     
     override func viewWillDisappear(_ animated: Bool) {

@@ -86,7 +86,6 @@ class PickViewControllerTitleView: UIView {
     }
     
     @objc func didTapClearButton() {
-        print("델리게이트 함수 호출 전")
         delegate?.didTapTitleViewClearButton()
     }
     

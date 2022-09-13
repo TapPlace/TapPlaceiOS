@@ -21,7 +21,6 @@ class BookMarkEditModeCell: UITableViewCell {
     var cellSelected: Bool = false {
         willSet {
             if newValue {
-                print("아이콘 색상이 포인트 블루로 변경될 예정")
                 iconImage.tintColor = .pointBlue
             } else {
                 iconImage.tintColor = .init(hex: 0xCDD2DF)

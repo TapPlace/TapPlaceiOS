@@ -8,6 +8,8 @@
 import UIKit
 
 class FeedbackRequestViewController: CommonViewController {
+    var storageViewModel = StorageViewModel()
+    var feedbackViewModel = FeedbackViewModel()
     let customNavigationBar = CustomNavigationBar()
     var tableView = UITableView()
     let bottomButton = BottomButton()
@@ -15,37 +17,26 @@ class FeedbackRequestViewController: CommonViewController {
     var myPayments: [FeedbackRequestModel] = []
     var dummyPayments: [FeedbackRequestModel] = []
     var otherPayments: [FeedbackRequestModel] = []
-    var successFeedback: [String] = []
-    var failFeedback: [String] = []
+    var successFeedback: [LoadFeedbackList] = []
+    var failFeedback: [LoadFeedbackList] = []
     
     var isLoadedAllPayments: Bool = false
+    var storeInfo: StoreInfo? = StoreInfo.emptyStoreInfo {
+        willSet {
+            if let _ = newValue {} else {
+                showToast(message: "가맹점 정보가 올바르지 않습니다.\n다시 시도해주세요.", view: self.view)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                    self.navigationController?.popViewController(animated: true)
+                }
+            }
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavigation()
         setupView()
-        
-        
-        myPayments = [
-            FeedbackRequestModel(payment: PaymentModel.thisPayment(payment: "kakaopay"), selected: nil),
-            FeedbackRequestModel(payment: PaymentModel.thisPayment(payment: "apple_visa"), selected: nil),
-            FeedbackRequestModel(payment: PaymentModel.thisPayment(payment: "apple_master"), selected: nil),
-            FeedbackRequestModel(payment: PaymentModel.thisPayment(payment: "conless_visa"), selected: nil),
-            FeedbackRequestModel(payment: PaymentModel.thisPayment(payment: "zeropay"), selected: nil)
-        ]
-        dummyPayments = [
-            FeedbackRequestModel(payment: PaymentModel.thisPayment(payment: "naverpay"), selected: nil),
-            FeedbackRequestModel(payment: PaymentModel.thisPayment(payment: "payco"), selected: nil),
-            FeedbackRequestModel(payment: PaymentModel.thisPayment(payment: "apple_jcb"), selected: nil),
-            FeedbackRequestModel(payment: PaymentModel.thisPayment(payment: "google_visa"), selected: nil),
-            FeedbackRequestModel(payment: PaymentModel.thisPayment(payment: "google_master"), selected: nil),
-            FeedbackRequestModel(payment: PaymentModel.thisPayment(payment: "google_maestro"), selected: nil),
-            FeedbackRequestModel(payment: PaymentModel.thisPayment(payment: "conless_master"), selected: nil),
-            FeedbackRequestModel(payment: PaymentModel.thisPayment(payment: "conless_union"), selected: nil),
-            FeedbackRequestModel(payment: PaymentModel.thisPayment(payment: "conless_amex"), selected: nil),
-            FeedbackRequestModel(payment: PaymentModel.thisPayment(payment: "conless_jcb"), selected: nil)
-        ]
-        
+        getFeedbackOfUserPayments()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -61,7 +52,43 @@ class FeedbackRequestViewController: CommonViewController {
     }
 }
 //MARK: - Layout
-extension FeedbackRequestViewController {
+extension FeedbackRequestViewController: CustomNavigationBarProtocol, BottomButtonProtocol {
+    func didTapBottomButton() {
+        if !bottomButton.isActive { return }
+        bottomButton.setButtonStyle(title: "피드백 완료", type: .disabled, fill: true)
+        bottomButton.isActive = false
+        guard let storeID = storeInfo?.storeID else { return }
+        feedbackViewModel.requestUpdateFeedback(storeID: storeID, feedback: [successFeedback, failFeedback]) { result in
+            if let result = result {
+                if let storeInfo = self.storeInfo {
+                    self.successFeedback.forEach {
+                        let tempFeedbackStore = UserFeedbackStoreModel(storeID: storeInfo.storeID, storeName: storeInfo.placeName, storeCategory: storeInfo.categoryGroupName, locationX: Double(storeInfo.x) ?? 0, locationY: Double(storeInfo.y) ?? 0, address: storeInfo.roadAddressName == "" ? storeInfo.addressName : storeInfo.roadAddressName, date: Date().getDate(3))
+                        let tempFeedback = UserFeedbackModel(storeID: storeInfo.storeID, pay: $0.pay, feedback: true, date: Date().getDate(3))
+                        self.storageViewModel.addFeedbackHistory(store: tempFeedbackStore, feedback: tempFeedback)
+                    }
+                    self.failFeedback.forEach {
+                        let tempFeedbackStore = UserFeedbackStoreModel(storeID: storeInfo.storeID, storeName: storeInfo.placeName, storeCategory: storeInfo.categoryGroupName, locationX: Double(storeInfo.x) ?? 0, locationY: Double(storeInfo.y) ?? 0, address: storeInfo.roadAddressName == "" ? storeInfo.addressName : storeInfo.roadAddressName, date: Date().getDate(3))
+                        let tempFeedback = UserFeedbackModel(storeID: storeInfo.storeID, pay: $0.pay, feedback: false, date: Date().getDate(3))
+                        self.storageViewModel.addFeedbackHistory(store: tempFeedbackStore, feedback: tempFeedback)
+                    }
+                }
+                let vc = FeedbackDoneViewController()
+                vc.feedbackResult = result.feedbackResult
+                vc.storeID = storeID
+                self.navigationController?.pushViewController(vc, animated: true)
+            } else {
+                showToast(message: "알 수 없는 이유로 처리되지 않았습니다.\n다시 시도해주시기 바랍니다.", view: self.view)
+                self.bottomButton.setButtonStyle(title: "피드백 완료", type: .activate, fill: true)
+                self.bottomButton.isActive = true
+            }
+        }
+        
+    }
+    
+    func didTapLeftButton() {
+        self.navigationController?.popViewController(animated: true)
+    }
+    
     /**
      * @ 초기 레이아웃 설정
      * coder : sanghyeon
@@ -108,10 +135,10 @@ extension FeedbackRequestViewController {
         
         
         //MARK: Delegate
+        bottomButton.delegate = self
         
         
         //MARK: TableView
-        
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(FeedbackRequestTableViewCell.self, forCellReuseIdentifier: FeedbackRequestTableViewCell.cellId)
@@ -123,29 +150,85 @@ extension FeedbackRequestViewController {
     func setupNavigation() {
         customNavigationBar.titleText = "결제여부 피드백"
         customNavigationBar.isUseLeftButton = true
-
+        customNavigationBar.delegate = self
+    }
+}
+//MARK: - Feedback {
+extension FeedbackRequestViewController {
+    /**
+     * @ 서버로부터 유저 결제수단의 피드백 목록 가져오기
+     * coder : sanghyeon
+     */
+    func getFeedbackOfUserPayments() {
+        let userPayments = storageViewModel.userFavoritePaymentsString
+        guard let storeInfo = storeInfo else { return }
+        feedbackViewModel.requestUserPaymentFeedback(storeInfo: storeInfo, userPayments: userPayments) { result in
+            guard let result = result else { return }
+            result.feedback.forEach {
+                print("[loaded feedback] feedback: \($0)")
+                self.myPayments.append(FeedbackRequestModel(feedback: $0, selected: .none))
+            }
+            self.tableView.reloadData()
+        }
+    }
+    /**
+     * @ 서버로부터 유저 결제수단의 피드백 목록 가져오기
+     * coder : sanghyeon
+     */
+    func getFeedbackOfMorePayments() {
+        let userPayments = storageViewModel.userFavoritePaymentsString
+        guard let storeInfo = storeInfo else { return }
+        var allPayments: [PaymentModel] = PaymentModel.list
+        var morePayments: [String] = []
+        
+        allPayments.forEach {
+            let paymentString = PaymentModel.encodingPayment(payment: $0)
+            if let _ = userPayments.firstIndex(of: paymentString) {} else {
+                morePayments.append(paymentString)
+            }
+        }
+        
+        feedbackViewModel.requestMorePaymentFeedback(storeID: storeInfo.storeID, otherPayments: morePayments) { result in
+            guard let result = result else { return }
+            result.feedback.forEach {
+                print("[loaded feedback] feedback: \($0)")
+                self.otherPayments.append(FeedbackRequestModel(feedback: $0, selected: .none))
+            }
+            self.tableView.reloadData()
+        }
     }
 }
 //MARK: - TableView
 extension FeedbackRequestViewController: UITableViewDelegate, UITableViewDataSource, FeedbackRequestCellProtocol {
-    func didTapFeedbackButton(indexPath: IndexPath, payment: String, type: FeedbackButton.FeedbackButtonStyle) {
+    func didTapFeedbackButton(indexPath: IndexPath, payment: String, exist: Bool, type: FeedbackButton.FeedbackButtonStyle) {
         print("버튼을 선택한...", indexPath, type, payment)
         guard let cell = tableView.cellForRow(at: indexPath) as? FeedbackRequestTableViewCell else { return }
         cell.setButtonStyle = type == .success ? .success : .fail
+        let feedbackModel = LoadFeedbackList(exist: exist, pay: payment)
         if type == .success {
-            if let index = successFeedback.firstIndex(where: {$0 == payment}) { } else {
-                successFeedback.append(payment)
+            if let _ = successFeedback.firstIndex(where: {$0.pay == payment}) { } else {
+                successFeedback.append(feedbackModel)
             }
-            if let index = failFeedback.firstIndex(where: {$0 == payment}) {
+            if let index = failFeedback.firstIndex(where: {$0.pay == payment}) {
                 failFeedback.remove(at: index)
             }
         } else {
-            if let index = failFeedback.firstIndex(where: {$0 == payment}) { } else {
-                failFeedback.append(payment)
+            if let _ = failFeedback.firstIndex(where: {$0.pay == payment}) { } else {
+                failFeedback.append(feedbackModel)
             }
-            if let index = successFeedback.firstIndex(where: {$0 == payment}) {
+            if let index = successFeedback.firstIndex(where: {$0.pay == payment}) {
                 successFeedback.remove(at: index)
             }
+        }
+        print("successFeedback: \(successFeedback)")
+        print("failFeedback: \(failFeedback)")
+        
+        if successFeedback.count + failFeedback.count > 0 {
+            bottomButton.isActive = true
+            bottomButton.setButtonStyle(title: "피드백 완료", type: .activate, fill: true)
+        } else {
+            bottomButton.isActive = false
+            bottomButton.setButtonStyle(title: "피드백 완료", type: .disabled, fill: true)
         }
     }
     
@@ -170,10 +253,9 @@ extension FeedbackRequestViewController: UITableViewDelegate, UITableViewDataSou
         default: cell.feedbackModel = nil
         }
         
-        if let payment = cell.feedbackModel?.payment {
+        if let payString = cell.feedbackModel?.feedback?.pay, let payment = PaymentModel.thisPayment(payment: payString) {
             cell.setButtonStyle = checkFeedback(payment: payment)
         }
-        
         cell.cellIndexPath = indexPath
         cell.contentView.isUserInteractionEnabled = false
         cell.delegate = self
@@ -224,8 +306,7 @@ extension FeedbackRequestViewController: UITableViewDelegate, UITableViewDataSou
     }
     @objc func didTapLoadAllPaymentButton() {
         isLoadedAllPayments = true
-        otherPayments = dummyPayments
-        tableView.reloadData()
+        getFeedbackOfMorePayments()
     }
     
     /**
@@ -233,13 +314,12 @@ extension FeedbackRequestViewController: UITableViewDelegate, UITableViewDataSou
      * coder : sanghyeon
      */
     func checkFeedback(payment: PaymentModel) -> FeedbackButton.FeedbackButtonStyle {
-        if let _ = successFeedback.firstIndex(of: PaymentModel.encodingPayment(payment: payment)) {
+        if let _ = successFeedback.firstIndex(where: {$0.pay == PaymentModel.encodingPayment(payment: payment)}) {
             return .success
         }
-        if let _ = failFeedback.firstIndex(of: PaymentModel.encodingPayment(payment: payment)) {
+        if let _ = failFeedback.firstIndex(where: {$0.pay == PaymentModel.encodingPayment(payment: payment)}) {
             return .fail
         }
         return .base
     }
-    
 }

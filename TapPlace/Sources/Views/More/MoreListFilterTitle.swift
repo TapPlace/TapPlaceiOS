@@ -86,7 +86,7 @@ extension MoreListFilterTitle {
         filterCountLabel = {
             let filterCountLabel = UILabel()
             filterCountLabel.sizeToFit()
-            filterCountLabel.text = "5"
+            filterCountLabel.text = "0"
             filterCountLabel.textColor = .pointBlue
             filterCountLabel.font = .systemFont(ofSize: CommonUtils.resizeFontSize(size: 14), weight: .bold)
             return filterCountLabel

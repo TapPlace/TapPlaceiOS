@@ -9,6 +9,16 @@ import UIKit
 
 class FeedbackDetailViewController: UIViewController {
     
+    var feedbackStore: UserFeedbackStoreModel? = nil {
+        willSet {
+            guard let store = newValue else { return }
+            print("store: \(store)")
+            customNavigationBar.titleText = store.storeName
+        }
+    }
+    
+    var feedbackList: [UserFeedbackModel]? = nil
+    
     private let customNavigationBar = CustomNavigationBar()
     private let tableView: UITableView = {
         let tableView = UITableView()
@@ -39,7 +49,6 @@ class FeedbackDetailViewController: UIViewController {
         customNavigationBar.delegate = self
         customNavigationBar.isDrawShadow = false
         customNavigationBar.isDrawBottomLine = false
-        customNavigationBar.titleText = "세븐일레븐 염창점"
         customNavigationBar.isUseLeftButton = true
         
         configureTableView()
@@ -87,12 +96,14 @@ extension FeedbackDetailViewController: UITableViewDelegate, UITableViewDataSour
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 4
+        guard let feedbackList = feedbackList else { return 0 }
+        return feedbackList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: FeedbackDetailCell.identifier, for: indexPath) as! FeedbackDetailCell
-        cell.prepare(img: UIImage(named: "kakaopay"), payName: "카카오 페이", whetherToPay: "결제실패")
+        guard let feedbackList = feedbackList else { return UITableViewCell() }
+        cell.prepare(feedback: feedbackList[indexPath.row])
         return cell
     }
 }

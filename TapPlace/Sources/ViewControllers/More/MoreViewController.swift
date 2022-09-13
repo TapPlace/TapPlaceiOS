@@ -30,6 +30,7 @@ class MoreViewController: CommonViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tabBar?.showTabBar(hide: false)
+        tableView.reloadData()
     }
 }
 //MARK: - Layouyt
@@ -134,7 +135,14 @@ extension MoreViewController: NavigationBarButtonProtocol {
 }
 
 //MARK: - TableView
-extension MoreViewController: UITableViewDelegate, UITableViewDataSource, MoreHeaderButtonProtocol {
+extension MoreViewController: UITableViewDelegate, UITableViewDataSource, MoreHeaderButtonProtocol, MoreHeaderViewProtocol {
+    func didTapPaymentsButton() {
+        let vc = PickPaymentsViewController()
+        vc.isEditMode = true
+        tabBar?.showTabBar(hide: true)
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
     func didTapMoreHeaderItemButton(_ sender: UIButton) {
         guard let headerView = headerView else { return }
         switch sender {
@@ -224,11 +232,20 @@ extension MoreViewController: UITableViewDelegate, UITableViewDataSource, MoreHe
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if section == 0 {
             headerView = MoreHeaderView()
+            headerView?.delegate = self
             headerView?.itemBookmark.delegate = self
             headerView?.itemFeedback.delegate = self
             headerView?.itemStores.delegate = self
             headerView?.countOfBookmark = storageViewModel.numberOfBookmark
             headerView?.countOfFeedback = storageViewModel.numberOfFeedback
+            let userPaymentsEncodedString = storageViewModel.userFavoritePaymentsString
+            var userPaymentsString: String = ""
+            userPaymentsEncodedString.forEach {
+                if let payment = PaymentModel.thisPayment(payment: $0) {
+                    userPaymentsString += payment.designation + ", "
+                }
+            }
+            headerView?.payments = userPaymentsString
             return headerView
         }
         return nil

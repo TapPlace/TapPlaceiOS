@@ -483,7 +483,7 @@ extension MainViewController: CustomToolBarShareProtocol, StoreInfoViewDelegate 
      */
     func moveStoreDetail(store: StoreInfo) {
         let vc = StoreDetailViewController()
-        vc.storeInfo = store
+        vc.storeID = store.storeID
         self.navigationController?.pushViewController(vc, animated: true)
     }
     /**

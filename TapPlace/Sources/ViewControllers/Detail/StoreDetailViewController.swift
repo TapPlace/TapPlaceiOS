@@ -17,8 +17,9 @@ class StoreDetailViewController: CommonViewController {
     var feedbackList: [Feedback]?
     var naverMapViewHeight: CGFloat = 0
     
-    var storeInfo: StoreInfo = .emptyStoreInfo {
+    var storeID: String? = "" {
         willSet {
+            guard let newValue = newValue else { return }
             getStore(store: newValue)
         }
     }
@@ -416,8 +417,9 @@ extension StoreDetailViewController: CustomNavigationBarProtocol {
      * @ 스토어 정보 조회
      * coder : sanghyeon
      */
-    func getStore(store: StoreInfo) {
-        storeViewModel.requestStoreInfo(storeID: store.storeID, pays: storageViewModel.userFavoritePaymentsString) { result in
+    func getStore(store: String) {
+        print("store: \(store)")
+        storeViewModel.requestStoreInfo(storeID: store, pays: storageViewModel.userFavoritePaymentsString) { result in
             if let storeInfo = result as? StoreInfo {
                 self.customNavigationBar.titleText = storeInfo.placeName
                 self.storeLabel.text = storeInfo.placeName

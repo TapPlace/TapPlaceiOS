@@ -70,7 +70,7 @@ class SearchViewController: CommonViewController {
     }
     
     @objc func textFieldDidChange(_ sender: UITextField) {
-        if sender.text == nil {
+        if sender.text == "" {
             searchMode = false
             DispatchQueue.main.async {
                 self.searchTableView.reloadData()
@@ -303,6 +303,7 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: SearchingTableViewCell.identifier, for: indexPath) as? SearchingTableViewCell else { fatalError("no matched articleTableViewCell identifier") }
             cell.selectionStyle = .none
             let searchVM = self.searchListVM.searchAtIndex(indexPath.row)
+            
             cell.prepare(categoryGroupCode: searchVM.categoryGroupCode, placeName: searchVM.placeName, distance: searchVM.distance, address: searchVM.addressName)
             return cell
         }
@@ -312,9 +313,11 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
         switch self.searchMode {
         case true:
             // 가맹점 상세창에서 받아야 할 데이터
-            let searchVM = self.searchListVM.searchAtIndex(indexPath.row)
+            let searchVM: SearchViewModel = self.searchListVM.searchAtIndex(indexPath.row)
             print(searchVM)
             let storeDetailVC = StoreDetailViewController()
+            storeDetailVC.storeID = searchVM.storeID
+            
             self.navigationController?.pushViewController(storeDetailVC, animated: true)
         case false:
             return

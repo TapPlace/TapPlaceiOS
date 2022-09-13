@@ -33,6 +33,15 @@ struct SearchModel: Decodable {
         case roadAddressName = "road_address_name"
         case x, y
     }
+    
+    /**
+     * @ SearchModel -> StoreInfo 변환
+     * coder : sanghyeon
+     */
+    static func convertStoreInfo(searchModel: SearchModel) -> StoreInfo {
+        let tempStoreInfo = StoreInfo(num: 0, storeID: searchModel.id, placeName: searchModel.placeName, addressName: searchModel.addressName, roadAddressName: searchModel.roadAddressName, categoryGroupName: searchModel.categoryGroupName, phone: searchModel.phone, x: searchModel.x, y: searchModel.y, feedback: nil)
+        return tempStoreInfo
+    }
 }
 
 extension RecentSearchModel {

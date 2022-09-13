@@ -25,6 +25,19 @@ struct StorageViewModel: StorageProtocol {
         return dataBases?.realm.objects(UserBookmarkStore.self).count ?? 0
     }
     
+    var numberOfFeedback: Int {
+        return dataBases?.realm.objects(UserFeedbackStoreModel.self).count ?? 0
+    }
+    
+    /// 1일 허용 피드백수 제한
+    let numberOfAllowFeedback: Int = 3
+    var numberOfTodayFeedback: Int {
+        let today = "\(Date().getDate(3).split(separator: " ")[0])"
+        return dataBases?.realm.objects(UserFeedbackStoreModel.self).filter {
+            $0.date == today
+        }.count ?? 0
+    }
+    
     var userFavoritePaymentsString: [String] {
         var returnPayments: [String] = []
         for payment in userFavoritePayments {
@@ -55,8 +68,19 @@ struct StorageViewModel: StorageProtocol {
     }
     
     
-    mutating func loadFeedback() -> [UserFeedbackModel] {
-        let objects = dataBases?.realm.objects(UserFeedbackModel.self).toArray(ofType: UserFeedbackModel.self) as [UserFeedbackModel]
+    mutating func loadFeedbackStore() -> [UserFeedbackStoreModel] {
+        let objects = dataBases?.realm.objects(UserFeedbackStoreModel.self).toArray(ofType: UserFeedbackStoreModel.self) as [UserFeedbackStoreModel]
         return objects
+    }
+    mutating func loadFeedback(store: UserFeedbackStoreModel) -> [UserFeedbackModel] {
+        var tempFeedback: [UserFeedbackModel] = []
+        let objects = dataBases?.realm.objects(UserFeedbackModel.self).filter {
+            $0.date == store.date &&
+            $0.storeID == store.storeID
+        }
+        objects?.forEach {
+            tempFeedback.append($0)
+        }
+        return tempFeedback
     }
 }

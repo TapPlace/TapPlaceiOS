@@ -29,7 +29,7 @@ class MoreViewController: CommonViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        headerView?.countOfBookmark = storageViewModel.numberOfBookmark
+        tabBar?.showTabBar(hide: false)
     }
 }
 //MARK: - Layouyt
@@ -227,6 +227,8 @@ extension MoreViewController: UITableViewDelegate, UITableViewDataSource, MoreHe
             headerView?.itemBookmark.delegate = self
             headerView?.itemFeedback.delegate = self
             headerView?.itemStores.delegate = self
+            headerView?.countOfBookmark = storageViewModel.numberOfBookmark
+            headerView?.countOfFeedback = storageViewModel.numberOfFeedback
             return headerView
         }
         return nil

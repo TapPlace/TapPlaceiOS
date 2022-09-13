@@ -38,18 +38,16 @@ class UserModel: Object {
 }
 
 /// 유저 피드백
-class UserFeedbackModel: Object {
+class UserFeedbackStoreModel: Object {
     @Persisted var storeID: String = ""
     @Persisted var storeName: String = ""
     @Persisted var storeCategory: String = ""
     @Persisted var locationX: Double = 0.0
     @Persisted var locationY: Double = 0.0
     @Persisted var address: String = ""
-    @Persisted var pay: String = ""
-    @Persisted var feedback: Bool = false
     @Persisted var date: String = ""
     
-    convenience init(storeID: String, storeName: String, storeCategory: String, locationX: Double, locationY: Double, address: String, pay: String, feedback: Bool, date: String) {
+    convenience init(storeID: String, storeName: String, storeCategory: String, locationX: Double, locationY: Double, address: String, date: String) {
         self.init()
         self.storeID = storeID
         self.storeName = storeName
@@ -57,6 +55,18 @@ class UserFeedbackModel: Object {
         self.locationX = locationX
         self.locationY = locationY
         self.address = address
+        self.date = date
+    }
+}
+class UserFeedbackModel: Object {
+    @Persisted var storeID: String = ""
+    @Persisted var pay: String = ""
+    @Persisted var feedback: Bool = false
+    @Persisted var date: String = ""
+    
+    convenience init(storeID: String, pay: String, feedback: Bool, date: String) {
+        self.init()
+        self.storeID = storeID
         self.pay = pay
         self.feedback = feedback
         self.date = date

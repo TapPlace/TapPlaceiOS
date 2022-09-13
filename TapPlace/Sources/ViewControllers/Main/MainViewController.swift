@@ -83,13 +83,15 @@ extension MainViewController: MapButtonProtocol, ResearchButtonProtocol {
             showDetailOverView(hide: true)
             resetAllMarkersSize()
         }
-        
-        // 플로팅 버튼 클릭시 화면전환
-        func clickFloatingBtn() {
-            let vc = SearchViewController()
-            vc.isClickFloatingButton = true
-            self.navigationController?.pushViewController(vc, animated: true)
-        }
+    }
+    /**
+     * @ 플로팅 버튼 클릭시 화면전환
+     * coder : 이상준
+     */
+    func clickFloatingBtn() {
+        let vc = SearchViewController()
+        vc.isClickFloatingButton = true
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     /**
      * @ 검색창 클릭시 액션

@@ -4,7 +4,7 @@
 //   let storeInfo = try? newJSONDecoder().decode(StoreInfo.self, from: jsonData)
 
 import Foundation
-
+ 
 // MARK: - StoreInfo
 struct StoreInfo: Codable {
     let num: Int

@@ -17,8 +17,9 @@ class StoreDetailViewController: CommonViewController {
     var feedbackList: [Feedback]?
     var naverMapViewHeight: CGFloat = 0
     
-    var storeInfo: StoreInfo = .emptyStoreInfo {
+    var storeID: String? = "" {
         willSet {
+            guard let newValue = newValue else { return }
             getStore(store: newValue)
         }
     }
@@ -176,6 +177,7 @@ extension StoreDetailViewController: CustomNavigationBarProtocol {
             dummyTableView.rowHeight = 140
             dummyTableView.separatorInset = .zero
             dummyTableView.contentInset = UIEdgeInsets(top: 16, left: 0, bottom: 16, right: 0)
+            dummyTableView.isScrollEnabled = false
             return dummyTableView
         }()
         tableView = dummyTableView
@@ -416,8 +418,9 @@ extension StoreDetailViewController: CustomNavigationBarProtocol {
      * @ 스토어 정보 조회
      * coder : sanghyeon
      */
-    func getStore(store: StoreInfo) {
-        storeViewModel.requestStoreInfo(storeID: store.storeID, pays: storageViewModel.userFavoritePaymentsString) { result in
+    func getStore(store: String) {
+        print("store: \(store)")
+        storeViewModel.requestStoreInfo(storeID: store, pays: storageViewModel.userFavoritePaymentsString) { result in
             if let storeInfo = result as? StoreInfo {
                 self.customNavigationBar.titleText = storeInfo.placeName
                 self.storeLabel.text = storeInfo.placeName
@@ -515,6 +518,8 @@ extension StoreDetailViewController: UITableViewDelegate, UITableViewDataSource 
             return feedbackButton
         }()
         
+        feedbackButton.addTarget(self, action: #selector(didTapFeedbackButton), for: .touchUpInside)
+        
         headerView.addSubview(headerTitleLabel)
         headerView.addSubview(feedbackButton)
         
@@ -528,6 +533,11 @@ extension StoreDetailViewController: UITableViewDelegate, UITableViewDataSource 
         }
         
         return headerView
+    }
+    
+    @objc func didTapFeedbackButton() {
+        let vc = FeedbackRequestViewController()
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {

@@ -29,11 +29,13 @@ extension SearchListViewModel {
 
 struct SearchViewModel {
     private let searchModel: SearchModel
+    var searchModelEach: SearchModel?
 }
 
 extension SearchViewModel {
     init(_ searchModel: SearchModel) {
         self.searchModel = searchModel
+        self.searchModelEach = searchModel
     }
 }
 
@@ -52,6 +54,10 @@ extension SearchViewModel {
     
     var addressName: String? {
         return self.searchModel.addressName
+    }
+    
+    var storeID: String? {
+        return self.searchModel.id
     }
 }
 

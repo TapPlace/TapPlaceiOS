@@ -31,6 +31,7 @@ class SearchViewController: CommonViewController {
     let searchField = UITextField()  // 검색 필드
     let recentSearchButton = SearchContentButton() // 최근 검색어 버튼
     let favoriteSearchButton = SearchContentButton() // 즐겨찾는 가맹점 버튼
+    var bottomView = UIView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -70,13 +71,21 @@ class SearchViewController: CommonViewController {
     }
     
     @objc func textFieldDidChange(_ sender: UITextField) {
-        if sender.text == nil {
+        if sender.text == "" {
             searchMode = false
+            searchTableView.snp.remakeConstraints {
+                $0.top.equalTo(bottomView.snp.bottom)
+                $0.leading.trailing.bottom.equalTo(view.safeAreaLayoutGuide)
+            }
             DispatchQueue.main.async {
                 self.searchTableView.reloadData()
             }
         } else {
             searchMode = true
+            searchTableView.snp.remakeConstraints {
+                $0.top.equalTo(customNavigationBar.snp.bottom)
+                $0.leading.trailing.bottom.equalTo(view.safeAreaLayoutGuide)
+            }
         }
         let parameter: [String: Any] = [
             "query": searchField.text!,
@@ -158,7 +167,7 @@ extension SearchViewController: SearchContentButtonProtocol {
         }()
         
         // 하단 뷰
-        let bottomView: UIView = {
+        bottomView = {
             let bottomView = UIView()
             bottomView.backgroundColor = .white
             return bottomView
@@ -303,6 +312,7 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: SearchingTableViewCell.identifier, for: indexPath) as? SearchingTableViewCell else { fatalError("no matched articleTableViewCell identifier") }
             cell.selectionStyle = .none
             let searchVM = self.searchListVM.searchAtIndex(indexPath.row)
+            
             cell.prepare(categoryGroupCode: searchVM.categoryGroupCode, placeName: searchVM.placeName, distance: searchVM.distance, address: searchVM.addressName)
             return cell
         }
@@ -312,9 +322,10 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
         switch self.searchMode {
         case true:
             // 가맹점 상세창에서 받아야 할 데이터
-            let searchVM = self.searchListVM.searchAtIndex(indexPath.row)
+            let searchVM: SearchViewModel = self.searchListVM.searchAtIndex(indexPath.row)
             print(searchVM)
             let storeDetailVC = StoreDetailViewController()
+            storeDetailVC.storeID = searchVM.storeID
             self.navigationController?.pushViewController(storeDetailVC, animated: true)
         case false:
             return

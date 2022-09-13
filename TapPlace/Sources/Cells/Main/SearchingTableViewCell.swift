@@ -12,6 +12,7 @@ import UIKit
 class SearchingTableViewCell: UITableViewCell {
     
     static let identifier = "SearchingCell"
+    var searchModel: SearchModel?
     
     // 테이블 뷰 안 이미지 뷰
     private let img: UIImageView = {

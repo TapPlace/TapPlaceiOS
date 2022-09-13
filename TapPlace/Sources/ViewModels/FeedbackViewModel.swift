@@ -27,10 +27,8 @@ struct FeedbackViewModel {
             "pays": userPayments,
             "road_address_name": storeInfo.roadAddressName
         ]
-        print("parameter: \(parameter)")
         feedbackDataService.requestFetchUserPaymentFeedback(parameter: parameter) { result, error in
             if let result = result {
-                print(result)
                 completion(result)
             }
         }
@@ -44,10 +42,8 @@ struct FeedbackViewModel {
             "store_id": storeID,
             "pays": otherPayments
         ]
-        print("parameter: \(parameter)")
         feedbackDataService.requestFetchMorePaymentFeedback(parameter: parameter) { result, error in
             if let result = result {
-                print(result)
                 completion(result)
             }
         }

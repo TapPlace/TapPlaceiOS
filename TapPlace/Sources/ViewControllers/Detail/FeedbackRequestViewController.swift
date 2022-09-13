@@ -62,11 +62,12 @@ extension FeedbackRequestViewController: CustomNavigationBarProtocol, BottomButt
             if let result = result {
                 let vc = FeedbackDoneViewController()
                 vc.feedbackResult = result.feedbackResult
+                vc.storeID = storeID
                 self.navigationController?.pushViewController(vc, animated: true)
             } else {
                 showToast(message: "알 수 없는 이유로 처리되지 않았습니다.\n다시 시도해주시기 바랍니다.", view: self.view)
-                bottomButton.setButtonStyle(title: "피드백 완료", type: .activate, fill: true)
-                bottomButton.isActive = true
+                self.bottomButton.setButtonStyle(title: "피드백 완료", type: .activate, fill: true)
+                self.bottomButton.isActive = true
             }
         }
         

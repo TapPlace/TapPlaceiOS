@@ -23,7 +23,6 @@ struct FeedbackDataService {
         AF.request(url, method: .post, parameters: parameter, encoding: JSONEncoding.default, headers: nil)
             .validate()
             .responseDecodable(of: LoadFeedbackModel.self) { (response) in
-                print(response)
                 switch response.result {
                 case .success(let response):
                     completion(response, nil)
@@ -41,7 +40,6 @@ struct FeedbackDataService {
         AF.request(url, method: .post, parameters: parameter, encoding: JSONEncoding.default, headers: nil)
             .validate()
             .responseDecodable(of: LoadFeedbackModel.self) { (response) in
-                print(response)
                 switch response.result {
                 case .success(let response):
                     completion(response, nil)

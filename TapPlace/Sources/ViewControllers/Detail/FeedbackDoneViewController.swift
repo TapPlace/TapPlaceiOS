@@ -12,6 +12,7 @@ class FeedbackDoneViewController: CommonViewController {
     
     let customNavigationBar = CustomNavigationBar()
     var feedbackResult: [FeedbackResult]? = nil
+    var storeID: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -54,10 +55,14 @@ class FeedbackDoneViewController: CommonViewController {
     }
 }
 
-extension FeedbackDoneViewController {
+extension FeedbackDoneViewController: BottomButtonProtocol {
+    func didTapBottomButton() {
+        didTapLeftButton()
+    }
     
     private func setupView() {
         view.backgroundColor = .white
+        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
     }
     
     private func setLayout() {
@@ -105,6 +110,7 @@ extension FeedbackDoneViewController {
             button.setButtonStyle(title: "확인", type: .activate, fill: true)
             return button
         }()
+        button.delegate = self
         
         view.addSubview(customNavigationBar)
         customNavigationBar.snp.makeConstraints {
@@ -161,7 +167,14 @@ extension FeedbackDoneViewController {
 
 extension FeedbackDoneViewController: CustomNavigationBarProtocol {
     func didTapLeftButton() {
-        self.navigationController?.popViewController(animated: true)
+        guard let vcStack = self.navigationController?.viewControllers else { return }
+        guard let storeID = storeID else { return }
+        for viewController in vcStack {
+            if let vc = viewController as? StoreDetailViewController {
+                vc.storeID = storeID
+                self.navigationController?.popToViewController(vc, animated: true)
+            }
+        }
     }
 }
 

@@ -9,7 +9,7 @@ import Foundation
 import RealmSwift
 
 struct DB {
-    let realm = try! Realm(configuration: Realm.Configuration(schemaVersion: 2))
+    let realm = try! Realm(configuration: Realm.Configuration(schemaVersion: 3))
     
 //    static let configuration = Realm.Configuration(schemaVersion: 2)
 //    let realm = try! Realm(configuration: DB.configuration)
@@ -77,14 +77,13 @@ extension StorageProtocol {
      * @ 즐겨찾기 저장
      * coder : sanghyeon
      */
-    mutating func toggleBookmark(_ storeID: String) -> Bool {
+    mutating func toggleBookmark(_ userBookmarkStore: UserBookmarkStore) -> Bool {
         let targetStore = dataBases?.realm.objects(UserBookmarkStore.self).where {
-            $0.storeID == storeID
+            $0.storeID == userBookmarkStore.storeID
         }.first
         if targetStore == nil {
-            let bookmarkStore = UserBookmarkStore(storeID: storeID, date: CommonUtils.getDate(Date(), type: 3))
             try! dataBases?.realm.write {
-                dataBases?.realm.add(bookmarkStore)
+                dataBases?.realm.add(userBookmarkStore)
             }
             return true
         } else {
@@ -96,7 +95,19 @@ extension StorageProtocol {
             return false
         }
     }
-    
+    /**
+     * @ 즐겨찾기 삭제
+     * coder : sanghyeon
+     */
+    mutating func deleteBookmark(_ userBookmarkStore: UserBookmarkStore) {
+        let targetBookmark = dataBases?.realm.objects(UserBookmarkStore.self).where {
+            $0.storeID == userBookmarkStore.storeID
+        }.first
+        guard let targetBookmark = targetBookmark else { return }
+        try! dataBases?.realm.write {
+            dataBases?.realm.delete(targetBookmark)
+        }
+    }
     /**
      * @ 즐겨찾기 여부 확인
      * coder : sanghyeon

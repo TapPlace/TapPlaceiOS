@@ -20,6 +20,12 @@ class MoreHeaderView: UIView {
     let itemFeedback = MoreHeaderViewItem()
     let itemStores = MoreHeaderViewItem()
     
+    var countOfBookmark: Int = 0 {
+        willSet {
+            itemBookmark.countOfItem = countOfBookmark
+        }
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupView()

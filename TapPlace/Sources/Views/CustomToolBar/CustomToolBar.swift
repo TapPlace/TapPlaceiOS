@@ -33,7 +33,7 @@ class CustomToolBar: UIView, DetailToolBarButtonProtocol {
               UIApplication.shared.open(appStoreURL)
             }
         case bookmarkButton.button:
-            let result = storageViewModel.toggleBookmark(storeInfo.storeID)
+            let result = storageViewModel.toggleBookmark(storeInfo.convertBookmark())
             bookmarkButton.selected = result
         case shareButton.button:
             let shareUrl = "\(Constants.tapplaceBaseUrl)/app/\(storeInfo.storeID)"

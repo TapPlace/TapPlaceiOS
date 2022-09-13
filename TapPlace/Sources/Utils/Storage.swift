@@ -95,7 +95,19 @@ extension StorageProtocol {
             return false
         }
     }
-    
+    /**
+     * @ 즐겨찾기 삭제
+     * coder : sanghyeon
+     */
+    mutating func deleteBookmark(_ userBookmarkStore: UserBookmarkStore) {
+        let targetBookmark = dataBases?.realm.objects(UserBookmarkStore.self).where {
+            $0.storeID == userBookmarkStore.storeID
+        }.first
+        guard let targetBookmark = targetBookmark else { return }
+        try! dataBases?.realm.write {
+            dataBases?.realm.delete(targetBookmark)
+        }
+    }
     /**
      * @ 즐겨찾기 여부 확인
      * coder : sanghyeon

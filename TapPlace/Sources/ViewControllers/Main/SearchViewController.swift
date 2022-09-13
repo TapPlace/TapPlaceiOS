@@ -25,7 +25,12 @@ class SearchViewController: CommonViewController {
     ]
     
     private var searchListVM: SearchListViewModel!
+    
+    // 검색 필드 활성화 여부
     var searchMode: Bool = false
+    
+    // MainVC 플로팅 버튼 클릭 여부
+    var isClickFloatingButton: Bool? = false
     
     let customNavigationBar = CustomNavigationBar()// 커스텀 네비게이션 바
     let searchField = UITextField()  // 검색 필드
@@ -47,7 +52,6 @@ class SearchViewController: CommonViewController {
         
         searchField.delegate = self
         searchField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
-        print(searchMode)
     }
     
     // 검색 테이블 뷰
@@ -70,6 +74,14 @@ class SearchViewController: CommonViewController {
         self.searchTableView.keyboardDismissMode = .onDrag // 테이블 뷰 스크롤시 키보드 내리기
     }
     
+    // 검색시 텍스트 필드 입력 문자만 SearchingTableViewCell 라벨 생상 변경
+    func keywordColorChange(label: UILabel) {
+        let attributedString = NSMutableAttributedString(string: label.text!)
+        attributedString.addAttribute(.foregroundColor, value: UIColor.init(hex: 0x4E77FB), range: (label.text! as NSString).range(of: searchField.text!))
+        label.attributedText = attributedString
+    }
+    
+    // 텍스트 필드에 값을 입력했을 경우 이벤트
     @objc func textFieldDidChange(_ sender: UITextField) {
         if sender.text == "" {
             searchMode = false
@@ -87,6 +99,8 @@ class SearchViewController: CommonViewController {
                 $0.leading.trailing.bottom.equalTo(view.safeAreaLayoutGuide)
             }
         }
+        
+        // 카카오 검색 API 파라미터
         let parameter: [String: Any] = [
             "query": searchField.text!,
             "x": "\(UserInfo.userLocation?.longitude ?? 0)",
@@ -95,6 +109,7 @@ class SearchViewController: CommonViewController {
             "sort" : "distance" // 거리순으로 정렬
         ]
         
+        // 카카오 검색 API 통신 사용
         SearchService().getPlace(parameter: parameter) { (documents) in
             if let documents = documents {
                 self.searchListVM = SearchListViewModel(documents: documents)
@@ -104,12 +119,10 @@ class SearchViewController: CommonViewController {
                 self.searchTableView.reloadData()
             }
         }
-        
-        
     }
 }
 
-// MARK: - UI
+// MARK: - 최근 검색어, 즐겨찾는 가맹점 버튼 클릭시 UI 변경 이벤트
 extension SearchViewController: SearchContentButtonProtocol {
     func didTapButton(_ sender: SearchContentButton) {
         if sender.tag == 1 {
@@ -288,14 +301,12 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
         switch self.searchMode {
         case false:
             return RecentSearchModel.list.count
-            print("나와라 \(RecentSearchModel.list.count)")
         case true:
             return self.searchListVM.numberOfRowsInSection(1)
         }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
         switch self.searchMode {
         case false:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: SearchHistoryTableViewCell.identifier, for: indexPath) as? SearchHistoryTableViewCell else { fatalError("no matched articleTableViewCell identifier") }
@@ -313,7 +324,8 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
             cell.selectionStyle = .none
             let searchVM = self.searchListVM.searchAtIndex(indexPath.row)
             
-            cell.prepare(categoryGroupCode: searchVM.categoryGroupCode, placeName: searchVM.placeName, distance: searchVM.distance, address: searchVM.addressName)
+            cell.prepare(categoryGroupCode: searchVM.categoryGroupCode, placeName: searchVM.placeName, distance: searchVM.distance, roadAddress: searchVM.roadAddressName, address: searchVM.addressName)
+            self.keywordColorChange(label: cell.placeNameLbl)
             return cell
         }
     }
@@ -321,12 +333,19 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch self.searchMode {
         case true:
-            // 가맹점 상세창에서 받아야 할 데이터
-            let searchVM: SearchViewModel = self.searchListVM.searchAtIndex(indexPath.row)
-            print(searchVM)
-            let storeDetailVC = StoreDetailViewController()
-            storeDetailVC.storeID = searchVM.storeID
-            self.navigationController?.pushViewController(storeDetailVC, animated: true)
+            
+            if isClickFloatingButton == true {
+                let searchVM: SearchViewModel = self.searchListVM.searchAtIndex(indexPath.row)
+                let feedbackRequestVC = FeedbackRequestViewController()
+//                feedbackRequestVC.storeId = searchVM.storeID
+                self.navigationController?.pushViewController(feedbackRequestVC, animated: true)
+            } else {
+                // 가맹점 상세창에서 받아야 할 데이터
+                let searchVM: SearchViewModel = self.searchListVM.searchAtIndex(indexPath.row)
+                let storeDetailVC = StoreDetailViewController()
+                storeDetailVC.storeID = searchVM.storeID
+                self.navigationController?.pushViewController(storeDetailVC, animated: true)
+            }
         case false:
             return
         }

@@ -57,6 +57,7 @@ extension FeedbackDoneViewController {
         
         let imgView: UIImageView = {
             let imgView = UIImageView()
+            imgView.image = UIImage(named: "AppIcon")
             return imgView
         }()
         

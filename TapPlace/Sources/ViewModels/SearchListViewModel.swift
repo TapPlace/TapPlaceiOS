@@ -52,6 +52,12 @@ extension SearchViewModel {
         return self.searchModel.distance
     }
     
+    // 도로명 주소
+    var roadAddressName: String? {
+        return self.searchModel.roadAddressName
+    }
+    
+    // 지번 주소
     var addressName: String? {
         return self.searchModel.addressName
     }

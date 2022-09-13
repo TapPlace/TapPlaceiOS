@@ -17,9 +17,7 @@ class BookmarkViewController: CommonViewController {
     var tableView = UITableView()
     let allSelectButton = BottomButton()
     let deleteButton = BottomButton()
-    var selectLabel = UILabel()
-    var selectedCountLabel = UILabel()
-    
+
     var filterAsc: Bool = false
     var isEditMode: Bool = false
     
@@ -158,67 +156,40 @@ extension BookmarkViewController: CustomNavigationBarProtocol, FilterTitleProtoc
      * coder : sanghyeon
      */
     func didTapFilterEditButton() {
-        if self.dataSource.count <= 0 { return }
+//        if self.dataSource.count <= 0 { return }
         let safeArea = self.view.safeAreaLayoutGuide
         
         self.isEditMode.toggle()
         tableView.reloadData()
         
         if self.isEditMode {
-            selectLabel = {
-                let selectLabel = UILabel()
-                selectLabel.sizeToFit()
-                selectLabel.text = "선택"
-                selectLabel.textColor = .black
-                selectLabel.font = .systemFont(ofSize: CommonUtils.resizeFontSize(size: 14), weight: .regular)
-                return selectLabel
-            }()
-            selectedCountLabel = {
-                let selectedCountLabel = UILabel()
-                selectedCountLabel.sizeToFit()
-                selectedCountLabel.text = "0"
-                selectedCountLabel.textColor = .pointBlue
-                selectedCountLabel.font = .systemFont(ofSize: CommonUtils.resizeFontSize(size: 14), weight: .bold)
-                return selectedCountLabel
-            }()
-            
             allSelectButton.addTarget(self, action: #selector(didTapAllSelectButton), for: .touchUpInside)
             deleteButton.addTarget(self, action: #selector(didTapDeleteButton), for: .touchUpInside)
-            
-            self.view.addSubview(selectLabel)
-            self.view.addSubview(selectedCountLabel)
+
             self.view.addSubview(allSelectButton)
             self.view.addSubview(deleteButton)
             
-            allSelectButton.setButtonStyle(title: "전체선택", type: .activate, fill: false)
-            deleteButton.setButtonStyle(title: "삭제", type: .disabled, fill: false)
+            allSelectButton.setButtonStyle(title: "전체선택", type: .activate, fill: true)
+            deleteButton.setButtonStyle(title: "삭제", type: .disabled, fill: true)
             
             allSelectButton.snp.makeConstraints {
-                $0.leading.bottom.equalTo(safeArea)
+                $0.left.bottom.equalToSuperview()
+                $0.top.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-50)
                 $0.height.equalTo(50)
                 $0.width.equalTo(self.view.frame.width / 2)
             }
             deleteButton.snp.makeConstraints {
-                $0.trailing.bottom.equalTo(safeArea)
+                $0.right.bottom.equalToSuperview()
+                $0.top.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-50)
                 $0.height.equalTo(50)
                 $0.width.equalTo(self.view.frame.width / 2)
-            }
-            selectLabel.snp.makeConstraints {
-                $0.leading.equalTo(safeArea).offset(20)
-                $0.bottom.equalTo(allSelectButton.snp.top).offset(-10)
-            }
-            selectedCountLabel.snp.makeConstraints {
-                $0.leading.equalTo(selectLabel.snp.trailing).offset(5)
-                $0.centerY.equalTo(selectLabel)
             }
             tableView.snp.remakeConstraints {
                 $0.top.equalTo(filterTitle.snp.bottom)
                 $0.leading.trailing.equalTo(safeArea).inset(20)
-                $0.bottom.equalTo(selectLabel.snp.top).offset(-10)
+                $0.bottom.equalTo(deleteButton.snp.top)
             }
         } else {
-            selectLabel.removeFromSuperview()
-            selectedCountLabel.removeFromSuperview()
             allSelectButton.removeFromSuperview()
             deleteButton.removeFromSuperview()
             
@@ -230,7 +201,7 @@ extension BookmarkViewController: CustomNavigationBarProtocol, FilterTitleProtoc
         }
     }
     @objc func didTapAllSelectButton() {
-        selectBookmark(allSelect: true)
+        selectBookmark(allSelect: self.dataSource.count == checkedCellIndex.count ? false : true)
     }
     @objc func didTapDeleteButton() {
         print("삭제 버튼 탭")
@@ -297,7 +268,8 @@ extension BookmarkViewController: UITableViewDelegate, UITableViewDataSource {
                 }
             }
         }
-        selectedCountLabel.text = "\(checkedCellIndex.count)"
+        
+        print("updateButtonState()")
         updateButtonState()
     }
     
@@ -306,8 +278,12 @@ extension BookmarkViewController: UITableViewDelegate, UITableViewDataSource {
      * coder : sanghyeon
      */
     func updateButtonState() {
-        deleteButton.setButtonStyle(title: "삭제", type: checkedCellIndex.count > 0 ? .activate : .disabled, fill: false)
+        let deleteCount: String = checkedCellIndex.count > 0 ? " \(checkedCellIndex.count)" : ""
+        print("deleteCount: \(deleteCount)")
+        deleteButton.setButtonStyle(title: "삭제\(deleteCount)", type: checkedCellIndex.count > 0 ? .activate : .disabled, fill: true)
         deleteButton.isActive = checkedCellIndex.count > 0
+        
+        allSelectButton.setButtonStyle(title: checkedCellIndex.count == self.dataSource.count ? "선택해제" : "전체선택", type: .activate, fill: true)
     }
     
     /**
@@ -315,6 +291,7 @@ extension BookmarkViewController: UITableViewDelegate, UITableViewDataSource {
      * coder : sanghyeon
      */
     func deleteBookmark(index: [Int]?) {
+        print("isEditMode: \(isEditMode)")
         guard let index = index else { return }
         index.forEach {
             let targetBookmark = self.dataSource[$0]
@@ -322,7 +299,11 @@ extension BookmarkViewController: UITableViewDelegate, UITableViewDataSource {
         }
         self.dataSource = storageViewModel.bookmarkDataSource
         checkedCellIndex.removeAll()
-        didTapFilterEditButton()
+        if self.dataSource.count <= 0 {
+            didTapFilterEditButton()
+        }
+        selectBookmark(allSelect: false)
+        filterTitle.filterCount = self.dataSource.count
         tableView.reloadData()
     }
 }

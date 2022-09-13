@@ -77,7 +77,7 @@ extension StoreDetailViewController: CustomNavigationBarProtocol {
             backButtonFrame.layer.applySketchShadow(color: .black, alpha: 0.25, x: 0, y: 2, blur: 8, spread: 0)
             return backButtonFrame
         }()
-        let backButtonIcon = {
+        let backButtonIcon: UIImageView = {
             let backButtonIcon = UIImageView()
             backButtonIcon.image = .init(systemName: "chevron.backward")
             backButtonIcon.contentMode = .scaleAspectFit
@@ -110,14 +110,14 @@ extension StoreDetailViewController: CustomNavigationBarProtocol {
             storeCategory.text = "카테고리"
             return storeCategory
         }()
-        let locationIcon = {
+        let locationIcon: UIImageView = {
             let locationIcon = UIImageView()
             locationIcon.image = .init(named: "location")?.withRenderingMode(.alwaysTemplate)
             locationIcon.tintColor = .init(hex: 0xDBDEE8)
             locationIcon.contentMode = .scaleAspectFit
             return locationIcon
         }()
-        let telephoneIcon = {
+        let telephoneIcon: UIImageView = {
             let telephoneIcon = UIImageView()
             telephoneIcon.image = .init(named: "telephone")?.withRenderingMode(.alwaysTemplate).withAlignmentRectInsets(UIEdgeInsets(top: -2, left: -2, bottom: -2, right: -2))
             telephoneIcon.tintColor = .init(hex: 0xDBDEE8)
@@ -138,20 +138,20 @@ extension StoreDetailViewController: CustomNavigationBarProtocol {
             storeTelLabel.font = .systemFont(ofSize: CommonUtils.resizeFontSize(size: 14), weight: .regular)
             return storeTelLabel
         }()
-        let separatorLine = {
+        let separatorLine: UIView = {
             let separatorLine = UIView()
             separatorLine.backgroundColor = .init(hex: 0xDBDEE8).withAlphaComponent(0.4)
             return separatorLine
         }()
         let requestButtonFrame = UIButton()
-        let pencilIcon = {
+        let pencilIcon: UIImageView = {
             let pencilIcon = UIImageView()
             pencilIcon.image = .init(named: "pencil")?.withRenderingMode(.alwaysTemplate).withAlignmentRectInsets(UIEdgeInsets(top: -2, left: -2, bottom: -2, right: -2))
             pencilIcon.tintColor = .init(hex: 0xDBDEE8)
             pencilIcon.contentMode = .scaleAspectFit
             return pencilIcon
         }()
-        let requestLabel = {
+        let requestLabel: UILabel = {
             let requestLabel = UILabel()
             requestLabel.sizeToFit()
             requestLabel.text = "정보 수정 요청"
@@ -159,7 +159,7 @@ extension StoreDetailViewController: CustomNavigationBarProtocol {
             requestLabel.textColor = .init(hex: 0x707070)
             return requestLabel
         }()
-        let arrowIcon = {
+        let arrowIcon: UIImageView = {
             let arrowIcon = UIImageView()
             let pencilIcon = UIImageView()
             pencilIcon.image = .init(systemName: "chevron.forward")
@@ -172,7 +172,7 @@ extension StoreDetailViewController: CustomNavigationBarProtocol {
             separatorView.backgroundColor = .init(hex: 0xF1F2F7, alpha: 1)
             return separatorView
         }()
-        let dummyTableView = {
+        let dummyTableView: UITableView = {
             let dummyTableView = UITableView()
             dummyTableView.rowHeight = 140
             dummyTableView.separatorInset = .zero
@@ -181,7 +181,7 @@ extension StoreDetailViewController: CustomNavigationBarProtocol {
             return dummyTableView
         }()
         tableView = dummyTableView
-        let logoImageView = {
+        let logoImageView: UIImageView = {
             let logoImageView = UIImageView()
             logoImageView.contentMode = .scaleAspectFit
             logoImageView.image = .init(named: "fullLogo")
@@ -499,7 +499,7 @@ extension StoreDetailViewController: UITableViewDelegate, UITableViewDataSource 
         let headerView = UIView()
         headerView.backgroundColor = .white
         
-        let headerTitleLabel = {
+        let headerTitleLabel: UILabel = {
             let headerTitleLabel = UILabel()
             headerTitleLabel.sizeToFit()
             headerTitleLabel.text = "결제수단"
@@ -507,7 +507,7 @@ extension StoreDetailViewController: UITableViewDelegate, UITableViewDataSource 
             headerTitleLabel.font = .systemFont(ofSize: CommonUtils.resizeFontSize(size: 17), weight: .semibold)
             return headerTitleLabel
         }()
-        let feedbackButton = {
+        let feedbackButton: UIButton = {
             let feedbackButton = UIButton()
             feedbackButton.setImage(.init(named: "feedback")?.withRenderingMode(.alwaysTemplate), for: .normal)
             feedbackButton.setTitle("나도 피드백 하기", for: .normal)

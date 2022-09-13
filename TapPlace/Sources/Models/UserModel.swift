@@ -45,10 +45,11 @@ class UserFeedbackModel: Object {
     @Persisted var locationX: Double = 0.0
     @Persisted var locationY: Double = 0.0
     @Persisted var address: String = ""
+    @Persisted var pay: String = ""
     @Persisted var feedback: Bool = false
     @Persisted var date: String = ""
     
-    convenience init(storeID: String, storeName: String, storeCategory: String, locationX: Double, locationY: Double, address: String, feedback: Bool, date: String) {
+    convenience init(storeID: String, storeName: String, storeCategory: String, locationX: Double, locationY: Double, address: String, pay: String, feedback: Bool, date: String) {
         self.init()
         self.storeID = storeID
         self.storeName = storeName
@@ -56,6 +57,7 @@ class UserFeedbackModel: Object {
         self.locationX = locationX
         self.locationY = locationY
         self.address = address
+        self.pay = pay
         self.feedback = feedback
         self.date = date
     }

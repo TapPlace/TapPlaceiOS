@@ -12,6 +12,15 @@ struct FeedbackRequestModel {
         case success, fail
     }
     
-    let payment: PaymentModel?
+    let feedback: LoadFeedbackList?
     let selected: SelectPaymentFeedback?
+}
+
+struct LoadFeedbackModel: Codable {
+    let feedback: [LoadFeedbackList]
+}
+
+struct LoadFeedbackList: Codable {
+    let exist: Bool
+    let pay: String
 }

@@ -39,6 +39,7 @@ class StoreDetailViewController: CommonViewController {
     let requestButton = UIButton()
     var tableView = UITableView()
     var contentViewHeight: CGFloat = 0
+    var feedbackVC: UIViewController?
     
     
     override func viewDidLoad() {
@@ -187,6 +188,8 @@ extension StoreDetailViewController: CustomNavigationBarProtocol {
             logoImageView.image = .init(named: "fullLogo")
             return logoImageView
         }()
+        
+        feedbackVC = FeedbackRequestViewController()
 
         //MARK: ViewPropertyManual
         view.backgroundColor = .white
@@ -422,6 +425,9 @@ extension StoreDetailViewController: CustomNavigationBarProtocol {
         print("store: \(store)")
         storeViewModel.requestStoreInfo(storeID: store, pays: storageViewModel.userFavoritePaymentsString) { result in
             if let storeInfo = result as? StoreInfo {
+                guard let feedbackVC = self.feedbackVC as? FeedbackRequestViewController else { return }
+                feedbackVC.storeInfo = storeInfo
+                print("feedbackVC: \(feedbackVC)")
                 self.customNavigationBar.titleText = storeInfo.placeName
                 self.storeLabel.text = storeInfo.placeName
                 self.storeCategory.text = storeInfo.categoryGroupName
@@ -536,8 +542,8 @@ extension StoreDetailViewController: UITableViewDelegate, UITableViewDataSource 
     }
     
     @objc func didTapFeedbackButton() {
-        let vc = FeedbackRequestViewController()
-        self.navigationController?.pushViewController(vc, animated: true)
+        guard let feedbackVC = feedbackVC else { return }
+        self.navigationController?.pushViewController(feedbackVC, animated: true)
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {

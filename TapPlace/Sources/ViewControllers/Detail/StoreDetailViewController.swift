@@ -177,6 +177,7 @@ extension StoreDetailViewController: CustomNavigationBarProtocol {
             dummyTableView.rowHeight = 140
             dummyTableView.separatorInset = .zero
             dummyTableView.contentInset = UIEdgeInsets(top: 16, left: 0, bottom: 16, right: 0)
+            dummyTableView.isScrollEnabled = false
             return dummyTableView
         }()
         tableView = dummyTableView
@@ -517,6 +518,8 @@ extension StoreDetailViewController: UITableViewDelegate, UITableViewDataSource 
             return feedbackButton
         }()
         
+        feedbackButton.addTarget(self, action: #selector(didTapFeedbackButton), for: .touchUpInside)
+        
         headerView.addSubview(headerTitleLabel)
         headerView.addSubview(feedbackButton)
         
@@ -530,6 +533,11 @@ extension StoreDetailViewController: UITableViewDelegate, UITableViewDataSource 
         }
         
         return headerView
+    }
+    
+    @objc func didTapFeedbackButton() {
+        let vc = FeedbackRequestViewController()
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {

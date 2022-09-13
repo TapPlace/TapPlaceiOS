@@ -31,6 +31,7 @@ class SearchViewController: CommonViewController {
     let searchField = UITextField()  // 검색 필드
     let recentSearchButton = SearchContentButton() // 최근 검색어 버튼
     let favoriteSearchButton = SearchContentButton() // 즐겨찾는 가맹점 버튼
+    var bottomView = UIView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -72,11 +73,19 @@ class SearchViewController: CommonViewController {
     @objc func textFieldDidChange(_ sender: UITextField) {
         if sender.text == "" {
             searchMode = false
+            searchTableView.snp.remakeConstraints {
+                $0.top.equalTo(bottomView.snp.bottom)
+                $0.leading.trailing.bottom.equalTo(view.safeAreaLayoutGuide)
+            }
             DispatchQueue.main.async {
                 self.searchTableView.reloadData()
             }
         } else {
             searchMode = true
+            searchTableView.snp.remakeConstraints {
+                $0.top.equalTo(customNavigationBar.snp.bottom)
+                $0.leading.trailing.bottom.equalTo(view.safeAreaLayoutGuide)
+            }
         }
         let parameter: [String: Any] = [
             "query": searchField.text!,
@@ -158,7 +167,7 @@ extension SearchViewController: SearchContentButtonProtocol {
         }()
         
         // 하단 뷰
-        let bottomView: UIView = {
+        bottomView = {
             let bottomView = UIView()
             bottomView.backgroundColor = .white
             return bottomView
@@ -317,7 +326,6 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
             print(searchVM)
             let storeDetailVC = StoreDetailViewController()
             storeDetailVC.storeID = searchVM.storeID
-            
             self.navigationController?.pushViewController(storeDetailVC, animated: true)
         case false:
             return

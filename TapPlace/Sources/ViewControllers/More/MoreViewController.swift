@@ -141,6 +141,8 @@ extension MoreViewController: UITableViewDelegate, UITableViewDataSource, MoreHe
             self.navigationController?.pushViewController(vc, animated: true)
         case headerView.itemFeedback.button:
             print("피드백 탭")
+            let vc = FeedbackListViewController()
+            self.navigationController?.pushViewController(vc, animated: true)
         case headerView.itemStores.button:
             print("등록가게 탭")
         default:

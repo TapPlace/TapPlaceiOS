@@ -16,7 +16,6 @@ class SplashViewController: UIViewController {
         print(storageViewModel.dataBases?.location)
         print(Constants.userDeviceID)
         setupView()
-        setTestLayout()
         userInfoSetting()
     }
     
@@ -72,29 +71,6 @@ class SplashViewController: UIViewController {
 //MARK: - Logic Functions
 extension SplashViewController {
     /**
-     * @ 테스트 모드 레이아웃, 작업 완료 후 삭제 요망
-     * coder : sanghyeon
-     */
-    private func setTestLayout() {
-        let testLabel: UILabel = {
-            let testLabel = UILabel()
-            testLabel.text = "SplashVC"
-            testLabel.sizeToFit()
-            return testLabel
-        }()
-        view.addSubview(testLabel)
-        testLabel.snp.makeConstraints {
-            $0.centerX.centerY.equalToSuperview()
-        }
-        
-        let switchButton: UIButton = {
-            let switchButton = UIButton()
-            switchButton.setTitle("firstLaunch Toggle", for: .normal)
-            switchButton.setTitleColor(.blue, for: .normal)
-            return switchButton
-        }()
-    }
-    /**
      * @ 최신 약관 정보 요청
      * coder : sanghyeon
      */
@@ -142,6 +118,20 @@ extension SplashViewController {
         /// 뷰컨트롤러 배경색 지정
         view.backgroundColor = .white
         self.navigationController?.navigationBar.isHidden = true
+        
+        let logoImageView: UIImageView = {
+            let logoImageView = UIImageView()
+            logoImageView.image = .init(named: "fullLogo")
+            logoImageView.contentMode = .scaleAspectFit
+            return logoImageView
+        }()
+        
+        view.addSubview(logoImageView)
+        
+        logoImageView.snp.makeConstraints {
+            $0.center.equalTo(view.safeAreaLayoutGuide)
+            $0.height.equalTo(50)
+        }
     }
     /**
      * @ 초기 실행 여부 확인

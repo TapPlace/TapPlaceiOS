@@ -22,7 +22,7 @@ class SearchingTableViewCell: UITableViewCell {
     }()
     
     // 테이블 뷰 안 라벨
-    private let placeNameLbl: UILabel = {
+    let placeNameLbl: UILabel = {
         let placeNameLbl = UILabel()
         placeNameLbl.text = ""
         placeNameLbl.textColor = UIColor.init(red: 0, green: 0, blue: 0, alpha: 0.7)
@@ -73,14 +73,17 @@ class SearchingTableViewCell: UITableViewCell {
         }
     }
     
-    func prepare(categoryGroupCode: String?, placeName: String?, distance: String?, address: String?) {
+    func prepare(categoryGroupCode: String?, placeName: String?, distance: String?, roadAddress: String? ,address: String?) {
         guard let categoryGroupCode = categoryGroupCode else {
             return
         }
 
+        // 도로명 주소가 없을 경우 지번 주소 사용
+        let storeAddress: String? = roadAddress == "" ? address : roadAddress
+        
         self.img.image = UIImage(named: "\(categoryGroupCode)")
         self.placeNameLbl.text = placeName
-        self.distanceAddressLbl.text = "\(String(describing: distance!))m · \(String(describing: address!))"
+        self.distanceAddressLbl.text = "\(String(describing: distance!))m · \(String(describing: storeAddress!))"
     }
 }
 

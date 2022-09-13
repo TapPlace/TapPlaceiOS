@@ -43,6 +43,9 @@ class TabBarViewController: UITabBarController {
         }
     }
     
+    // 플로팅 버튼 클릭 여부
+    var isClickFloatingButton: Bool? = false
+    
     var tempViewHeight: CGFloat = 0
     
     private let optionMenu = UIAlertController(title: nil, message: "New", preferredStyle: .actionSheet)
@@ -153,8 +156,13 @@ class TabBarViewController: UITabBarController {
         return tempVCArray
     }
     
+    // 플로팅 버튼 클릭시 이벤트
     @objc private func menuButtonAction(sender: UIButton) {
-        print("플로팅버튼 눌림")
+        print("플로팅 버튼 클릭")
+        let vc = SearchViewController()
+        print(vc)
+        vc.isClickFloatingButton = true
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     /**

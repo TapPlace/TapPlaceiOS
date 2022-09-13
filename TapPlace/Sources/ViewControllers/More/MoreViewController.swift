@@ -9,7 +9,7 @@ import UIKit
 import NMapsMap
 
 class MoreViewController: CommonViewController {
-    
+    let storageViewModel = StorageViewModel()
     var headerView: MoreHeaderView?
     let customNavigationBar = CustomNavigationBar()
     let menuList = MoreMenuModel.list
@@ -27,7 +27,10 @@ class MoreViewController: CommonViewController {
         setupTableView()
     }
     
-
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        headerView?.countOfBookmark = storageViewModel.numberOfBookmark
+    }
 }
 //MARK: - Layouyt
 extension MoreViewController: NavigationBarButtonProtocol {

@@ -23,6 +23,7 @@ extension MarkerModel {
         MarkerModel(groupName: "병원", markerImage: "hospital_pin"),
         MarkerModel(groupName: "약국", markerImage: "drugstore_pin"),
         MarkerModel(groupName: "숙박", markerImage: "accommodation_pin"),
-        MarkerModel(groupName: "공공기관", markerImage: "institutions_pin")
+        MarkerModel(groupName: "공공기관", markerImage: "institutions_pin"),
+        MarkerModel(groupName: "", markerImage: "etc_pin")
     ]
 }

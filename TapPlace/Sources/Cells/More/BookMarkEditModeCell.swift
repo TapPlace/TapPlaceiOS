@@ -47,7 +47,6 @@ class BookMarkEditModeCell: UITableViewCell {
     
     var storeInfo: StoreInfo = StoreInfo.emptyStoreInfo {
         willSet {
-            print(newValue.feedback)
             storeInfoView.storeInfo = newValue
         }
     }

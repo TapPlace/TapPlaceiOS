@@ -238,6 +238,7 @@ extension UITextField {
 
 // MARK: - 텍스트 필드 델리게이트
 extension InquiryViewController: UITextFieldDelegate {
+    // 키보드 자판 return 클릭시 문의내용 텍스트 뷰로 넘어가기
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if textField == titleField {
             contentTextView.becomeFirstResponder()
@@ -253,6 +254,7 @@ extension InquiryViewController: UITextFieldDelegate {
         return true
     }
     
+    // 문의 제목 텍스트 수 20자 적용
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString text: String) -> Bool {
         if textField == titleField {
             let currentText = titleField.text ?? ""
@@ -267,7 +269,7 @@ extension InquiryViewController: UITextFieldDelegate {
     }
 }
 
-// MARK: - 텍스트 뷰 델리게이트
+// MARK: - 텍스트 뷰 델리게이트(placeholder처리)
 extension InquiryViewController: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
         if textView.textColor == .systemGray3 {
@@ -281,15 +283,6 @@ extension InquiryViewController: UITextViewDelegate {
             textView.text = "문의하실 내용을 남겨주세요."
             textView.textColor = .systemGray3
         }
-    }
-    
-    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        if (text == "\n") {
-            emailField.becomeFirstResponder()
-        } else {
-            emailField.resignFirstResponder()
-        }
-        return true
     }
 }
 

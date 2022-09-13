@@ -80,7 +80,7 @@ extension AroundStoreTableViewCell {
      * coder : sanghyeon
      */
     @objc func didTapBookmarkButton() {
-        self.isBookmark = storageViewModel.toggleBookmark(storeInfo.storeID)
+        self.isBookmark = storageViewModel.toggleBookmark(storeInfo.convertBookmark())
     }
     
 }

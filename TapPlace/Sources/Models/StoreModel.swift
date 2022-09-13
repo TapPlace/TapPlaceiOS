@@ -21,11 +21,11 @@ extension StoreModel {
         StoreModel(id: "CS2", title: "편의점", color: .init(hex: 0x15AEEF)),
         StoreModel(id: "MT1", title: "마트", color: .init(hex: 0x15AEEF)),
         StoreModel(id: "OL7", title: "주유소", color: .init(hex: 0x2C4BEE)),
-        StoreModel(id: "PK6", title: "주차장"),
-        StoreModel(id: "PO3", title: "공공기관"),
-        StoreModel(id: "AD5", title: "숙박"),
-        StoreModel(id: "HP8", title: "병원"),
-        StoreModel(id: "PM9", title: "약국"),
-        StoreModel(id: "", title: "기타")
+        StoreModel(id: "PK6", title: "주차장", color: .init(hex: 0x2C4BEE)),
+        StoreModel(id: "PO3", title: "공공기관", color: .init(hex: 0xA8AAAF)),
+        StoreModel(id: "AD5", title: "숙박", color: .init(hex: 0xEA3863)),
+        StoreModel(id: "HP8", title: "병원", color: .init(hex: 0x5BDABB)),
+        StoreModel(id: "PM9", title: "약국", color: .init(hex: 0x5BDABB)),
+        StoreModel(id: "etc", title: "기타", color: .pointBlue)
     ]
 }

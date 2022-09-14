@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "contactless.png",
+      "filename" : "conless.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "contactless@2x.png",
+      "filename" : "conless@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "contactless@3x.png",
+      "filename" : "conless@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

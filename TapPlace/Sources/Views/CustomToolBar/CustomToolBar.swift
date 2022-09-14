@@ -12,7 +12,7 @@ protocol CustomToolBarProtocol {
 }
 
 protocol CustomToolBarShareProtocol {
-    func showShare(storeInfo: StoreInfo)
+    func showShare(storeID: String)
 }
 
 class CustomToolBar: UIView, DetailToolBarButtonProtocol {
@@ -37,7 +37,7 @@ class CustomToolBar: UIView, DetailToolBarButtonProtocol {
             bookmarkButton.selected = result
         case shareButton.button:
             let shareUrl = "\(Constants.tapplaceBaseUrl)/app/\(storeInfo.storeID)"
-            vcDelegate?.showShare(storeInfo: storeInfo)
+            vcDelegate?.showShare(storeID: storeInfo.storeID)
         default:
             break
         }

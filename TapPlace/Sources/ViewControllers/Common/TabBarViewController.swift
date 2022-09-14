@@ -26,10 +26,10 @@ class TabBarViewController: UITabBarController {
         let floatingButton = UIButton()
         floatingButton.backgroundColor = .pointBlue
         floatingButton.layer.cornerRadius = 25
-        floatingButton.layer.shadowColor = UIColor.black.cgColor
-        floatingButton.layer.shadowRadius = 3
-        floatingButton.layer.shadowOpacity = 0.3
-        floatingButton.layer.shadowOffset = CGSize(width: 0, height: 3)
+        floatingButton.layer.shadowColor = UIColor(hex: 0xABBFFF).cgColor
+        floatingButton.layer.shadowRadius = 12
+        floatingButton.layer.shadowOpacity = 1
+        floatingButton.layer.shadowOffset = CGSize(width: 0, height: 4)
         return floatingButton
     }()
     
@@ -60,6 +60,9 @@ class TabBarViewController: UITabBarController {
         super.viewDidLoad()
         
         self.navigationController?.navigationBar.isHidden = true
+        
+        
+        self.tabBar.layer.applySketchShadow(color: .black, alpha: 0.12, x: 0, y: 0, blur: 14, spread: 0)
         
         tabBar.tintColor = .tabBarTintColor
         tabBar.unselectedItemTintColor = .tabBarUnTintColor

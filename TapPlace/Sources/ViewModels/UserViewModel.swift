@@ -43,4 +43,22 @@ class UserViewModel {
             completion(result)
         }
     }
+    
+    /**
+     * @ 유저 정보 삭제
+     * coder : sanghyeon
+     */
+    func dropUserInfo(completion: @escaping (Any) -> ()) {
+        let parameter: [String: Any] = [
+            "user_id": "\(Constants.userDeviceID)",
+            "key": "\(Constants.tapplaceApiKey)"
+        ]
+        
+        userDataService.requestFetchDropUser(parameter: parameter) { result, error in
+            if let error = error {
+                completion(error)
+            }
+            completion(result)
+        }
+    }
 }

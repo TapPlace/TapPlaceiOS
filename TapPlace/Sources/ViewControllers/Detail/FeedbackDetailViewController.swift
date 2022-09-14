@@ -30,7 +30,7 @@ class FeedbackDetailViewController: UIViewController {
     }()
     
     private let locationBtn: UIButton = {
-        let locationBtn = UIButton()
+        let locationBtn = UIButton(type: .system)
         locationBtn.setImage(named: "location")
         locationBtn.tintColor = .init(hex: 0x4E77FB)
         return locationBtn

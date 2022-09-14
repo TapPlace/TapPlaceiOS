@@ -19,6 +19,30 @@ class TermsWebViewViewController: UIViewController {
     var term: TermsModel?
     var termIndex: Int = 0
     
+    var isReadOnly: Bool = false {
+        willSet {
+            let safeArea = view.safeAreaLayoutGuide
+            if newValue {
+                bottomButton.isHidden = true
+                webViewFrame.snp.remakeConstraints {
+                    $0.top.equalTo(customNavigationBar.snp.bottom)
+                    $0.bottom.equalTo(safeArea)
+                    $0.leading.trailing.equalTo(safeArea)
+                }
+                customNavigationBar.isUseLeftButton = true
+                customNavigationBar.delegate = self
+            } else {
+                bottomButton.isHidden = false
+                webViewFrame.snp.remakeConstraints {
+                    $0.top.equalTo(customNavigationBar.snp.bottom)
+                    $0.bottom.equalTo(bottomButton.snp.top)
+                    $0.leading.trailing.equalTo(safeArea)
+                }
+                customNavigationBar.isUseLeftButton = false
+            }
+        }
+    }
+    
     let bottomButton = BottomButton()
     let customNavigationBar = CustomNavigationBar()
     var webViewFrame = UIView()
@@ -84,10 +108,12 @@ extension TermsWebViewViewController: CustomNavigationBarProtocol, UIScrollViewD
     
     func didTapLeftButton() {
         /// 네비게이션바로 돌아갈때는 체크여부 해제
-        term?.read = false
-        term?.checked = false
-        guard let term = term else { return }
-        delegate?.checkReceiveTerm(term: term, currentTermIndex: termIndex)
+        if !isReadOnly {
+            term?.read = false
+            term?.checked = false
+            guard let term = term else { return }
+            delegate?.checkReceiveTerm(term: term, currentTermIndex: termIndex)
+        }
         self.navigationController?.popViewController(animated: true)
     }
     
@@ -159,6 +185,7 @@ extension TermsWebViewViewController: CustomNavigationBarProtocol, UIScrollViewD
     }
 
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        if isReadOnly { return }
         if scrollView.contentOffset.y >= (scrollView.contentSize.height - scrollView.frame.size.height) {
             bottomButton.setButtonStyle(title: "동의", type: .activate, fill: true)
             bottomButton.isActive = true

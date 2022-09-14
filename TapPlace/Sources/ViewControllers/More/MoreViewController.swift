@@ -221,7 +221,12 @@ extension MoreViewController: UITableViewDelegate, UITableViewDataSource, MoreHe
                 }
             }
         case 1:
-            break
+            let targetTerm = TermsModel.lists.filter({$0.isTerm == true})
+            let vc = TermsWebViewViewController()
+            vc.term = targetTerm[indexPath.row]
+            vc.isReadOnly = true
+            tabBar?.isShowFloatingButton = false
+            self.navigationController?.pushViewController(vc, animated: true)
         default: break
         }
     }
@@ -344,7 +349,7 @@ extension MoreViewController: UITableViewDelegate, UITableViewDataSource, MoreHe
         actionSheet.addAction(cancel)
         
         present(actionSheet, animated: true, completion: nil)
-    }
+    } //Function: 초기화 액션시트
     
     
 }

@@ -35,8 +35,6 @@ class OnBoardingViewController: UIViewController {
 
 //MARK: - Layout
 extension OnBoardingViewController: UIScrollViewDelegate, BottomButtonProtocol{
-    
-    
     func didTapBottomButton() {
         guard let buttonText = skipButton.titleLabel?.text else { return }
         if buttonText == "건너뛰기" {

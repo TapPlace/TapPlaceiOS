@@ -29,7 +29,6 @@ class FeedbackRequestTableViewCell: UITableViewCell {
             guard let payment = PaymentModel.thisPayment(payment: feedback.pay) else { return }
             paymentIcon.image = UIImage(named: payment.payments == "" ? payment.brand : payment.payments )
             paymentLabel.text = payment.designation
-            
         }
     }
     

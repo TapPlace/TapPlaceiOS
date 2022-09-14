@@ -10,6 +10,7 @@ import UIKit
 class InquiryViewController: CommonViewController {
     var term = TermsModel(title: "개인정보 수집, 이용동의", isTerm: true, require: true, link: "", checked: false)
     var numberOfLetter: Int = 0 // 타이틀 글자수
+    var type: MoreMenuModel.MoreMenuType = .qna
     
     let customNavigationBar = CustomNavigationBar()
     
@@ -312,5 +313,36 @@ extension InquiryViewController: UITableViewDataSource, UITableViewDelegate {
             term.checked = true
             cell.setCheck(check: term.checked)
         }
+    }
+}
+
+extension InquiryViewController: BottomButtonProtocol {
+    func didTapBottomButton() {
+        
+        var writeDate = Date()
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        let convertWriteDate = dateFormatter.string(from: writeDate)
+        
+        var answerCheck = 0
+        if term.checked  == true {
+            answerCheck = 1
+        }
+        
+        
+//        let parameter: [String: Any] = [
+//            "user_id": "\(Constants.userDeviceID)",
+//            "category": "edit",
+//            "title": self.titleField.text,
+//            "content": self.contentTextView.text,
+//            "write_date": convertWriteDate,
+//            "answer_check": answerCheck,
+//            "email": self.emailField.text,
+//            "os": "iOS"
+//        ]
+//
+//        InquiryService().postInquiry(parameter: parameter) {
+//
+//        }
     }
 }

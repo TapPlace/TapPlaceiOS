@@ -1,14 +1,14 @@
 PODS:
   - Alamofire (5.6.2)
   - AlignedCollectionViewFlowLayout (1.1.2)
-  - FloatingPanel (2.5.3)
+  - FloatingPanel (2.5.4)
   - IQKeyboardManagerSwift (6.5.10)
-  - NMapsMap (3.15.0)
-  - Realm (10.28.5):
-    - Realm/Headers (= 10.28.5)
-  - Realm/Headers (10.28.5)
-  - RealmSwift (10.28.5):
-    - Realm (= 10.28.5)
+  - NMapsMap (3.16.0)
+  - Realm (10.29.0):
+    - Realm/Headers (= 10.29.0)
+  - Realm/Headers (10.29.0)
+  - RealmSwift (10.29.0):
+    - Realm (= 10.29.0)
   - SnapKit (5.6.0)
 
 DEPENDENCIES:
@@ -34,11 +34,11 @@ SPEC REPOS:
 SPEC CHECKSUMS:
   Alamofire: d368e1ff8a298e6dde360e35a3e68e6c610e7204
   AlignedCollectionViewFlowLayout: ee2ef451e741ec08f8e0967d828001e2f051c20a
-  FloatingPanel: 3cee815e9ded75b632543fa73ab655a1ef941452
+  FloatingPanel: 387377aa46a9b088e5f8f5f2a8d2c00c61e67298
   IQKeyboardManagerSwift: 52962c76ab33532f15ad9f3ff4e5715eda5335bb
-  NMapsMap: f151761c088d6516064c59da03ab6503769486e6
-  Realm: eb7f6a7a8395906822e6fab71eb8496d6d52b318
-  RealmSwift: 6b54904d4a236de143f3411a757641fd74e9cb3d
+  NMapsMap: a2593320fca2bb09e521c05b4dffee4da42e96ed
+  Realm: 5596770daeff1ad76c8eb10d5947dc10472da779
+  RealmSwift: 35d8d318b7e5a8dbc7096c2a243184e4d19abcc0
   SnapKit: e01d52ebb8ddbc333eefe2132acf85c8227d9c25
 
 PODFILE CHECKSUM: bfb429dbd7be4240a4ef5bbbbfe80eb37a508ed6

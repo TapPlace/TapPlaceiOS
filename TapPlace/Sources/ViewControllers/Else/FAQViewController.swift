@@ -13,6 +13,7 @@ class FAQViewController: UIViewController {
     let customNavigationBar = CustomNavigationBar()
     
     override func viewDidLoad() {
+        super.viewDidLoad()
         setupView()
         setLayout()
         
@@ -35,7 +36,6 @@ extension FAQViewController {
             $0.top.leading.trailing.equalToSuperview()
             $0.bottom.equalTo(customNavigationBar.containerView)
         }
-        
     }
 }
 

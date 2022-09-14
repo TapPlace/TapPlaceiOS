@@ -10,7 +10,7 @@ import UIKit
 
 struct MoreMenuModel {
     enum MoreMenuType {
-        case notice, version, faq, qna, request, reset
+        case notice, version, faq, qna, edit, reset
     }
     
     let title: String
@@ -25,7 +25,7 @@ extension MoreMenuModel {
         MoreMenuModel(title: "버전정보", type: .version, subTitle: .version, vc: nil),
         MoreMenuModel(title: "자주 묻는 질문", type: .faq, subTitle: nil, vc: FAQViewController()),
         MoreMenuModel(title: "문의하기", type: .qna, subTitle: nil, vc: InquiryViewController()),
-        MoreMenuModel(title: "수정제안", type: .request, subTitle: nil, vc: InquiryViewController()),
+        MoreMenuModel(title: "수정제안", type: .edit, subTitle: nil, vc: InquiryViewController()),
         MoreMenuModel(title: "활동내역 초기화", type: .reset, subTitle: nil, vc: nil)
     ]
 }

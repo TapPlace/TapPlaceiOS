@@ -59,7 +59,7 @@ struct FeedbackViewModel {
                 "pay": $0.pay,
                 "exist": $0.exist,
                 "feed": true
-            ]
+            ] as [String : Any]
             requestFeedback.append(tempFeedback)
         }
         feedback[1].forEach {
@@ -67,7 +67,7 @@ struct FeedbackViewModel {
                 "pay": $0.pay,
                 "exist": $0.exist,
                 "feed": false
-            ]
+            ] as [String : Any]
             requestFeedback.append(tempFeedback)
         }
         let parameter: Parameters = [

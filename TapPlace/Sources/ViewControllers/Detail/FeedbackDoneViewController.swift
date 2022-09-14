@@ -75,7 +75,7 @@ extension FeedbackDoneViewController: BottomButtonProtocol {
         
         let imgView: UIImageView = {
             let imgView = UIImageView()
-            imgView.image = UIImage(named: "AppIcon")
+            imgView.image = UIImage(named: "feedback_image")
             return imgView
         }()
         

@@ -33,6 +33,7 @@ class MoreViewController: CommonViewController {
         tableView.reloadData()
     }
 }
+
 //MARK: - Layouyt
 extension MoreViewController: NavigationBarButtonProtocol {
     /**
@@ -164,7 +165,7 @@ extension MoreViewController: UITableViewDelegate, UITableViewDataSource, MoreHe
     func numberOfSections(in tableView: UITableView) -> Int {
         return 2
     }
-   
+    
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
@@ -205,13 +206,9 @@ extension MoreViewController: UITableViewDelegate, UITableViewDataSource, MoreHe
         switch indexPath.section {
         case 0:
             guard let cell = tableView.cellForRow(at: indexPath) as? MoreMenuTableViewCell else { return }
-            let inquiryVC = InquiryViewController()
-            if let vc = menuList[indexPath.row].vc {
-                if vc == inquiryVC {
-                    inquiryVC.type = menuList[indexPath.row].type
-                }
+            if let vc = menuList[indexPath.row].vc as? InquiryViewController {
+                vc.type = menuList[indexPath.row].type
                 self.navigationController?.pushViewController(vc, animated: true)
-                
                 return
             }
             if let type = cell.menuType {
@@ -315,7 +312,7 @@ extension MoreViewController: UITableViewDelegate, UITableViewDataSource, MoreHe
             alertAction.addAction(alertConfirm)
             alertAction.addAction(alertDismiss)
             self.present(alertAction, animated: true, completion: nil)
-
+            
         }
         let cancel = UIAlertAction(title: "취소", style: .cancel) { action in
             print("취소 탭")

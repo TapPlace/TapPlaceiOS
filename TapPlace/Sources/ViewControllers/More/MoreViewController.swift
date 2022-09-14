@@ -241,11 +241,17 @@ extension MoreViewController: UITableViewDelegate, UITableViewDataSource, MoreHe
             headerView?.countOfFeedback = storageViewModel.numberOfFeedback
             let userPaymentsEncodedString = storageViewModel.userFavoritePaymentsString
             var userPaymentsString: String = ""
-            userPaymentsEncodedString.forEach {
-                if let payment = PaymentModel.thisPayment(payment: $0) {
-                    userPaymentsString += payment.designation + ", "
+            
+            for i in 0...userPaymentsEncodedString.count - 1 {
+                if let payment = PaymentModel.thisPayment(payment: userPaymentsEncodedString[i]) {
+                    if i == userPaymentsEncodedString.count - 1 {
+                        userPaymentsString += payment.designation
+                    } else {
+                        userPaymentsString += payment.designation + ", "
+                    }
                 }
             }
+            
             headerView?.payments = userPaymentsString
             return headerView
         }

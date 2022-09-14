@@ -6,9 +6,13 @@
 //
 
 import UIKit
+protocol MoreHeaderViewProtocol {
+    func didTapPaymentsButton()
+}
 
 class MoreHeaderView: UIView {
     var storageViewModel = StorageViewModel()
+    var delegate: MoreHeaderViewProtocol?
     
     let paymentsFrame: UIView = {
         let paymentsFrame = UIView()
@@ -16,13 +20,30 @@ class MoreHeaderView: UIView {
         paymentsFrame.layer.cornerRadius = 6
         return paymentsFrame
     }()
+    
+    var payments: String = "" {
+        willSet {
+            paymentsLabel.text = newValue
+            print(newValue)
+        }
+    }
+    
+    var paymentsLabel = UILabel()
+
+    let paymentsButton = UIButton()
     let itemBookmark = MoreHeaderViewItem()
     let itemFeedback = MoreHeaderViewItem()
     let itemStores = MoreHeaderViewItem()
     
     var countOfBookmark: Int = 0 {
         willSet {
-            itemBookmark.countOfItem = countOfBookmark
+            itemBookmark.countOfItem = newValue
+        }
+    }
+    
+    var countOfFeedback: Int = 0 {
+        willSet {
+            itemFeedback.countOfItem = newValue
         }
     }
     
@@ -47,11 +68,12 @@ extension MoreHeaderView {
         }()
         let arrowImageView: UIImageView = {
             let arrowImageView = UIImageView()
+            arrowImageView.contentMode = .scaleAspectFit
             arrowImageView.image = UIImage(systemName: "chevron.forward")
             arrowImageView.tintColor = .init(hex: 0x707070)
             return arrowImageView
         }()
-        let paymentsLabel: UILabel = {
+        paymentsLabel = {
             let paymentsLabel = UILabel()
             paymentsLabel.text = "카카오페이, 네이버페이, 제로페이, 애플페이 비자, 컨택리스 마스터"
             paymentsLabel.font = .systemFont(ofSize: CommonUtils.resizeFontSize(size: 14), weight: .regular)
@@ -82,6 +104,7 @@ extension MoreHeaderView {
         paymentsFrame.addSubview(paymentTitleLabel)
         paymentsFrame.addSubview(arrowImageView)
         paymentsFrame.addSubview(paymentsLabel)
+        paymentsFrame.addSubview(paymentsButton)
         self.addSubview(itemStackView)
         self.addSubview(footerView)
         itemStackView.addArrangedSubviews([itemBookmark, itemFeedback, itemStores])
@@ -98,11 +121,15 @@ extension MoreHeaderView {
         arrowImageView.snp.makeConstraints {
             $0.centerY.equalTo(paymentsFrame)
             $0.trailing.equalTo(paymentsFrame).offset(-20)
+            $0.width.equalTo(20)
         }
         paymentsLabel.snp.makeConstraints {
             $0.leading.equalTo(paymentTitleLabel.snp.trailing).offset(20)
             $0.trailing.equalTo(arrowImageView.snp.leading).offset(-10)
             $0.centerY.equalTo(paymentsFrame)
+        }
+        paymentsButton.snp.makeConstraints {
+            $0.edges.equalTo(paymentsFrame)
         }
         itemStackView.snp.makeConstraints {
             $0.top.equalTo(paymentsFrame.snp.bottom).offset(20)
@@ -115,6 +142,11 @@ extension MoreHeaderView {
             $0.height.equalTo(6)
         }
 
+        paymentsButton.addTarget(self, action: #selector(didTapPaymentsButton), for: .touchUpInside)
+    }
+    
+    @objc func didTapPaymentsButton() {
+        delegate?.didTapPaymentsButton()
     }
 }
 

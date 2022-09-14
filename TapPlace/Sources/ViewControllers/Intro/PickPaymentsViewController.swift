@@ -10,6 +10,7 @@ import SnapKit
 import AlignedCollectionViewFlowLayout
 
 class PickPaymentsViewController: CommonPickViewController {
+    var isEditMode: Bool = false
     var selectedPayments: [String] = []
     
     var storageViewModel = StorageViewModel()
@@ -36,12 +37,16 @@ extension PickPaymentsViewController: BottomButtonProtocol, TitleViewProtocol {
         if bottomButton.isActive {
             print("액션 실행 가능")
             storageViewModel.setPayments(selectedPayments)
-            let vc = TabBarViewController()
-            vc.modalTransitionStyle = .crossDissolve
-            vc.modalPresentationStyle = .fullScreen
-
-            userViewModel.sendUserInfo(user: storageViewModel.getUserInfo(uuid: Constants.userDeviceID)!, payments: selectedPayments) { result in
-                self.present(vc, animated: true)
+            if isEditMode {
+                self.navigationController?.popViewController(animated: true)
+            } else {
+                let vc = TabBarViewController()
+                vc.modalTransitionStyle = .crossDissolve
+                vc.modalPresentationStyle = .fullScreen
+                
+                userViewModel.sendUserInfo(user: storageViewModel.getUserInfo(uuid: Constants.userDeviceID)!, payments: selectedPayments) { result in
+                    self.present(vc, animated: true)
+                }
             }
         } else {
             showToast(message: "최소 1개의 결제수단을 선택하세요.", view: self.view)

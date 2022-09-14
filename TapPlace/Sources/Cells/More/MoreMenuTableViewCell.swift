@@ -21,19 +21,14 @@ class MoreMenuTableViewCell: UITableViewCell {
     var subTitle: String = "" {
         willSet {
             if newValue != "" {
-                let menuSubTitleLabel: UILabel = {
-                    let menuSubTitleLabel = UILabel()
-                    menuSubTitleLabel.sizeToFit()
-                    menuSubTitleLabel.text = newValue
-                    menuSubTitleLabel.textColor = .init(hex: 0x9E9E9E)
-                    menuSubTitleLabel.font = .systemFont(ofSize: CommonUtils.resizeFontSize(size: 13), weight: .regular)
-                    return menuSubTitleLabel
-                }()
+                menuSubTitleLabel.text = newValue
                 self.addSubview(menuSubTitleLabel)
                 menuSubTitleLabel.snp.makeConstraints {
                     $0.trailing.equalToSuperview().offset(-20)
                     $0.centerY.equalToSuperview()
                 }
+            } else {
+                
             }
         }
     }
@@ -46,6 +41,14 @@ class MoreMenuTableViewCell: UITableViewCell {
         return menuTitleLabel
     }()
     
+    let menuSubTitleLabel: UILabel = {
+        let menuSubTitleLabel = UILabel()
+        menuSubTitleLabel.sizeToFit()
+        menuSubTitleLabel.textColor = .init(hex: 0x9E9E9E)
+        menuSubTitleLabel.font = .systemFont(ofSize: CommonUtils.resizeFontSize(size: 13), weight: .regular)
+        return menuSubTitleLabel
+    }()
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super .init(style: style, reuseIdentifier: reuseIdentifier)
         setupCell()
@@ -53,6 +56,11 @@ class MoreMenuTableViewCell: UITableViewCell {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        menuSubTitleLabel.text = ""
     }
 }
 

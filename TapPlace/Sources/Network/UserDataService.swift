@@ -38,7 +38,7 @@ struct UserDataService {
     /**
      * @ 유저정보 최초설정
      * coder : sanghyeon
-     */
+     */ 
     func requestFetchAddUser(parameter: [String: Any], payments: [String], completion: @escaping (Any?, Error?) -> ()) {
         let url = "\(userApiUrl)"
         

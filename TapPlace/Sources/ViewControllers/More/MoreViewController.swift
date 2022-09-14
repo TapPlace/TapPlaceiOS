@@ -300,21 +300,13 @@ extension MoreViewController: UITableViewDelegate, UITableViewDataSource, MoreHe
             }
             
         }
-        let feedback = UIAlertAction(title: "피드백 항목 초기화", style: .default) { action in
-            print("피드백 초기화 탭")
-            self.storageViewModel.deleteAllFeedback() { result in
-                if result {
-                    self.tableView.reloadData()
-                }
-            }
-        }
+
         let clear = UIAlertAction(title: "모든 항목 초기화", style: .default) { action in
             print("모든 항목 초기화 탭")
             let alertAction = UIAlertController(title: "모든 항목 초기화", message: "이 작업은 되돌릴 수 없으며, 앱에 저장된 가맹점 정보 및 서버에 저장된 데이터 모두 삭제합니다.", preferredStyle: .alert)
             let alertConfirm = UIAlertAction(title: "초기화", style: .destructive) { action in
                 self.userViewModel.dropUserInfo() { result in
                     self.storageViewModel.deleteAllBookmark { result in }
-                    self.storageViewModel.deleteAllFeedback { result in }
                     self.storageViewModel.deleteAllPayments {}
                     if let deleteResult = result as? Bool {
                         print("moreVC, dropUserIfo, Success")
@@ -344,7 +336,6 @@ extension MoreViewController: UITableViewDelegate, UITableViewDataSource, MoreHe
         }
         
         actionSheet.addAction(bookmark)
-        actionSheet.addAction(feedback)
         actionSheet.addAction(clear)
         actionSheet.addAction(cancel)
         

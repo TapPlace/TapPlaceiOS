@@ -34,7 +34,7 @@ class StoreInfoView: UIView {
             
             let storeAddress: String = store.roadAddressName == "" ? store.addressName : store.roadAddressName
             
-            self.setAttributedString(store: store.placeName, distance: DistancelModel.getDistance(distance: placeDistance! / 1000), address: storeAddress)
+            self.setAttributedString(store: store.placeName, distance: DistancelModel.getDistance(distance: placeDistance!), address: storeAddress)
             
             if let _ = newValue?.feedback {
                 guard let feedback = newValue?.feedback else { return }
@@ -186,7 +186,8 @@ extension StoreInfoView {
     @objc func didTapStoreButton() {
         print("스토어 상세뷰 터치")
         guard let storeInfo = storeInfo else { return }
-        delegate?.moveStoreDetail(store: storeInfo)
+        guard let mainViewController = mainViewController as? MainViewController else { return }
+        mainViewController.moveStoreDetail(store: storeInfo)
     }
     
     

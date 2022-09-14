@@ -11,6 +11,7 @@ struct UserDataService {
     static let shared = UserDataService()
     private let userApiUrl = "\(Constants.tapplaceApiUrl)/user"
     private let userlogApiUrl = "\(Constants.tapplaceApiUrl)/userlog"
+    private let userDropApiUrl = "\(Constants.tapplaceApiUrl)/user/drop"
     
     /**
      * @ 최신 약관 정보 요청
@@ -52,6 +53,25 @@ struct UserDataService {
                     completion(nil, error)
                 }
             }
+    }
+    
+    /**
+     * @ 유저정보 삭제
+     * coder : sanghyeon
+     */
+    func requestFetchDropUser(parameter: [String: Any], completion: @escaping (Bool?, Error?) -> ()) {
+        let url = "\(userDropApiUrl)"
         
+        AF.request(url, method: .patch, parameters: parameter, encoding: URLEncoding.default, headers: nil)
+            .validate()
+            .response() { (response) in
+                print("drop user result: \(response.result)")
+                switch response.result {
+                case .success:
+                        completion(true, nil)
+                case .failure(let error):
+                    completion(nil, error)
+                }
+            }
     }
 }

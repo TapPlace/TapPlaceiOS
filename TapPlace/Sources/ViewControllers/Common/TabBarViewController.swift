@@ -26,10 +26,10 @@ class TabBarViewController: UITabBarController {
         let floatingButton = UIButton()
         floatingButton.backgroundColor = .pointBlue
         floatingButton.layer.cornerRadius = 25
-        floatingButton.layer.shadowColor = UIColor.black.cgColor
-        floatingButton.layer.shadowRadius = 3
-        floatingButton.layer.shadowOpacity = 0.3
-        floatingButton.layer.shadowOffset = CGSize(width: 0, height: 3)
+        floatingButton.layer.shadowColor = UIColor(hex: 0xABBFFF).cgColor
+        floatingButton.layer.shadowRadius = 12
+        floatingButton.layer.shadowOpacity = 1
+        floatingButton.layer.shadowOffset = CGSize(width: 0, height: 4)
         return floatingButton
     }()
     

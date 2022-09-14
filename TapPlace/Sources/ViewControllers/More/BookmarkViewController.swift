@@ -123,13 +123,13 @@ extension BookmarkViewController: CustomNavigationBarProtocol, FilterTitleProtoc
         navigationRightButton.setTitle("지도보기", for: .normal)
         navigationRightButton.tintColor = .pointBlue
         navigationRightButton.addTarget(self, action: #selector(didTapNavigationRightButton), for: .touchUpInside)
+        navigationRightButton.isHidden = true
     }
     /**
      * @ 네비게이션 좌측 버튼 클릭 함수
      * coder : sanghyeon
      */
     func didTapLeftButton() {
-        print("네비게이션 좌측 버튼 탭")
         self.navigationController?.popViewController(animated: true)
     }
     /**
@@ -198,6 +198,8 @@ extension BookmarkViewController: CustomNavigationBarProtocol, FilterTitleProtoc
                 $0.bottom.equalTo(safeArea)
                 $0.top.equalTo(filterTitle.snp.bottom)
             }
+            
+            checkedCellIndex.removeAll()
         }
     }
     @objc func didTapAllSelectButton() {
@@ -225,15 +227,23 @@ extension BookmarkViewController: UITableViewDelegate, UITableViewDataSource {
             guard let storeInfo = result else { return }
             cell.storeInfo = storeInfo//AroundStoreModel.convertStoreInfo(storeInfo: storeInfo)
         }
-
+        if let _ = checkedCellIndex.firstIndex(of: indexPath.row) {
+            cell.cellSelected = true
+        }
         cell.selectionStyle = .none
         cell.isEditMode = isEditMode
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if !isEditMode { return }
-        selectBookmark(indexPath: indexPath)
+        if isEditMode {
+            selectBookmark(indexPath: indexPath)
+        } else {
+            let storeID = self.dataSource[indexPath.row].storeID
+            let vc = StoreDetailViewController()
+            vc.storeID = storeID
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
     }
     
     /**

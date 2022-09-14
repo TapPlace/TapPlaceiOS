@@ -71,6 +71,7 @@
 		DFC23FBB289AB70C00EC1090 /* EmptyExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFC23FBA289AB70C00EC1090 /* EmptyExtension.swift */; };
 		DFC449A228C8A9490029DD5E /* FeedbackRequestTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFC449A128C8A9490029DD5E /* FeedbackRequestTableViewCell.swift */; };
 		DFC449A428C8B4700029DD5E /* FeedbackButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFC449A328C8B4700029DD5E /* FeedbackButton.swift */; };
+		DFC4719928D19EB700677A85 /* SearchMarkerPin.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFC4719828D19EB700677A85 /* SearchMarkerPin.swift */; };
 		DFC81D3528D09C2A00E400EB /* FeedbackResultModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFC81D3428D09C2A00E400EB /* FeedbackResultModel.swift */; };
 		DFC87B3128CAD7CB00F53D1D /* KakaoGeoAddressModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFC87B3028CAD7CB00F53D1D /* KakaoGeoAddressModel.swift */; };
 		DFC87B3428CAE9D000F53D1D /* MarkerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFC87B3328CAE9D000F53D1D /* MarkerModel.swift */; };
@@ -206,6 +207,7 @@
 		DFC23FBA289AB70C00EC1090 /* EmptyExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyExtension.swift; sourceTree = "<group>"; };
 		DFC449A128C8A9490029DD5E /* FeedbackRequestTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackRequestTableViewCell.swift; sourceTree = "<group>"; };
 		DFC449A328C8B4700029DD5E /* FeedbackButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackButton.swift; sourceTree = "<group>"; };
+		DFC4719828D19EB700677A85 /* SearchMarkerPin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchMarkerPin.swift; sourceTree = "<group>"; };
 		DFC81D3428D09C2A00E400EB /* FeedbackResultModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackResultModel.swift; sourceTree = "<group>"; };
 		DFC87B3028CAD7CB00F53D1D /* KakaoGeoAddressModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoGeoAddressModel.swift; sourceTree = "<group>"; };
 		DFC87B3328CAE9D000F53D1D /* MarkerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkerModel.swift; sourceTree = "<group>"; };
@@ -397,6 +399,7 @@
 				DFA2875828AB94C700DD9F63 /* DetailOverView.swift */,
 				DFECC8CF28ACFFE000DC64FD /* BrandIconImageView.swift */,
 				DF85D8C528C48F1600465D6A /* StoreInfoView.swift */,
+				DFC4719828D19EB700677A85 /* SearchMarkerPin.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -697,17 +700,9 @@
 			isa = PBXGroup;
 			children = (
 				DFC87B3228CAE9BF00F53D1D /* NaverMaps */,
-				DFD672A128C8A708000220EE /* Feedback */,
 				DF67A05428C9BA4700435C28 /* MoreViewMenuModel.swift */,
 			);
 			path = NativeModels;
-			sourceTree = "<group>";
-		};
-		DFD672A128C8A708000220EE /* Feedback */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Feedback;
 			sourceTree = "<group>";
 		};
 		DFDA43F728A14C56003763AC /* Utils */ = {
@@ -941,6 +936,7 @@
 				F470A33D28C9AA36007F4F24 /* FeedbackDetailViewController.swift in Sources */,
 				DF81E40928D07C0A000FF975 /* FeedbackViewModel.swift in Sources */,
 				DF51DCC228A7779400D0AE1E /* MoreViewController.swift in Sources */,
+				DFC4719928D19EB700677A85 /* SearchMarkerPin.swift in Sources */,
 				DFA2875928AB94C700DD9F63 /* DetailOverView.swift in Sources */,
 				DFECC8CA28AC95E800DC64FD /* AroundPlaceViewController.swift in Sources */,
 				DF67A05828C9E98900435C28 /* UserDataService.swift in Sources */,

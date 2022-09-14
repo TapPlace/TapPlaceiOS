@@ -3,7 +3,7 @@
 //  TapPlace
 //
 //  Created by 이상준 on 2022/09/04.
-//
+// 
 
 import UIKit
 
@@ -11,6 +11,7 @@ import UIKit
 class FeedbackDoneViewController: CommonViewController {
     
     let customNavigationBar = CustomNavigationBar()
+    var storageViewModel = StorageViewModel()
     var feedbackResult: [FeedbackResult]? = nil
     var storeID: String?
     
@@ -81,7 +82,7 @@ extension FeedbackDoneViewController: BottomButtonProtocol {
         
         let label: UILabel = {
             let label = UILabel()
-            label.text = "피드백이 완료되었습니다!\n오늘 피드백 횟수가 2번 남아있어요."
+            label.text = "피드백이 완료되었습니다!\n오늘 피드백 횟수가 \(storageViewModel.numberOfAllowFeedback - storageViewModel.numberOfTodayFeedback)번 남아있어요."
             label.textColor = .init(hex: 0x707070)
             label.font = .systemFont(ofSize: 15)
             label.numberOfLines = 2

@@ -8,7 +8,6 @@
 import UIKit
 
 class FeedbackRequestViewController: CommonViewController {
-    var storageViewModel = StorageViewModel()
     var feedbackViewModel = FeedbackViewModel()
     let customNavigationBar = CustomNavigationBar()
     var tableView = UITableView()

@@ -10,7 +10,6 @@
 import UIKit
 
 class FeedbackListViewController: CommonViewController {
-    var storageViewModel = StorageViewModel()
     var feedbackStoreList: [UserFeedbackStoreModel] = []
     var feedbackListArray: [String: [UserFeedbackStoreModel]] = [:]
     

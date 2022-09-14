@@ -13,8 +13,6 @@ import SnapKit
 import FloatingPanel
 
 class MainViewController: CommonViewController {
-    var storageViewModel = StorageViewModel()
-    var storeViewModel = StoreViewModel()
     
     var aroundStoreList: [AroundStores]?
     
@@ -495,13 +493,8 @@ extension MainViewController: CustomToolBarShareProtocol, StoreInfoViewDelegate 
      * @ 공유하기
      * coder : sanghyeon
      */
-    func showShare(storeInfo: StoreInfo) {
-        var objectToShare = [String]()
-        let shareText = "\(storeInfo.placeName)의 간편결제 정보입니다.\n\n\(Constants.tapplaceBaseUrl)/app/\(storeInfo.storeID)"
-        objectToShare.append(shareText)
-        
-        let activityVC = UIActivityViewController(activityItems: objectToShare, applicationActivities: nil)
-        self.present(activityVC, animated: true)
+    func showShare(storeID: String) {
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "showShare"), object: storeID)
     }
     
     /**

@@ -61,6 +61,9 @@ class TabBarViewController: UITabBarController {
         
         self.navigationController?.navigationBar.isHidden = true
         
+        
+        self.tabBar.layer.applySketchShadow(color: .black, alpha: 0.12, x: 0, y: 0, blur: 14, spread: 0)
+        
         tabBar.tintColor = .tabBarTintColor
         tabBar.unselectedItemTintColor = .tabBarUnTintColor
         tabBar.backgroundColor = .white

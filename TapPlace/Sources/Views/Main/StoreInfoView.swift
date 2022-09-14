@@ -47,12 +47,6 @@ class StoreInfoView: UIView {
         }
     }
     
-    var payLists: [String] = [] {
-        willSet {
-            //addPayBrand(pays: newValue)
-        }
-    }
-    
     enum TitleSize {
         case small, medium, large
     }
@@ -111,7 +105,7 @@ class StoreInfoView: UIView {
     }()
     let spacerView: UIView = {
         let spacerView = UIView()
-        spacerView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+        spacerView.setContentCompressionResistancePriority(.required, for: .horizontal)
         return spacerView
     }()
     

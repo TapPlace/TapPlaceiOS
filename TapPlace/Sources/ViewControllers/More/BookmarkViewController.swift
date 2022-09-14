@@ -8,8 +8,6 @@
 import UIKit
  
 class BookmarkViewController: CommonViewController {
-    var storageViewModel = StorageViewModel()
-    var storeViewModel = StoreViewModel()
     
     let customNavigationBar = CustomNavigationBar()
     let navigationRightButton = UIButton(type: .system)

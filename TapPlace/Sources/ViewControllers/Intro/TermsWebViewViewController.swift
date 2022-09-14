@@ -36,6 +36,11 @@ class TermsWebViewViewController: UIViewController {
             let script: WKUserScript = WKUserScript(source: source, injectionTime: .atDocumentEnd, forMainFrameOnly: true)
             configuration.userContentController.addUserScript(script)
             let webView = WKWebView(frame: self.webViewFrame.frame, configuration: configuration)
+            webView.evaluateJavaScript("navigator.userAgent") { (result, error) in
+                let originUserAgent = result as! String
+                let agent = "\(originUserAgent)/TAPPLACE_APP"
+                self.webView.customUserAgent = agent
+            }
             return webView
         }()
         

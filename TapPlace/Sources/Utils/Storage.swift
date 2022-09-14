@@ -82,7 +82,16 @@ extension StorageProtocol {
             }
         }
     }
-    
+    /**
+     * @ 결제수단 모두 삭제
+     * coder : sanghyeon
+     */
+    mutating func deleteAllPayments(completion: () -> ()) {
+        guard let targetPayment = dataBases?.realm.objects(UserFavoritePaymentsModel.self) else { return }
+        try! dataBases?.realm.write {
+            dataBases?.realm.delete(targetPayment)
+        }
+    }
     /**
      * @ 즐겨찾기 저장
      * coder : sanghyeon
@@ -109,12 +118,13 @@ extension StorageProtocol {
      * @ 즐겨찾기 모두 삭제
      * coder : sanghyeon
      */
-    mutating func deleteAllBookmark(completion: () -> ()) {
+    mutating func deleteAllBookmark(completion: (Bool) -> ()) {
         let targetBookmark = dataBases?.realm.objects(UserBookmarkStore.self)
         guard let targetBookmark = targetBookmark else { return }
         try! dataBases?.realm.write {
             dataBases?.realm.delete(targetBookmark)
         }
+        completion(true)
     }
     /**
      * @ 즐겨찾기 삭제
@@ -147,7 +157,7 @@ extension StorageProtocol {
      * @ 피드백 모두 삭제
      * coder : sanghyeon
      */
-    mutating func deleteAllFeedback(completion: () -> ()) {
+    mutating func deleteAllFeedback(completion: (Bool) -> ()) {
         let targetFeedbackStore = dataBases?.realm.objects(UserFeedbackStoreModel.self)
         guard let targetFeedbackStore = targetFeedbackStore else { return  }
         try! dataBases?.realm.write {
@@ -158,6 +168,7 @@ extension StorageProtocol {
         try! dataBases?.realm.write {
             dataBases?.realm.delete(targetFeedback)
         }
+        completion(true)
     }
     /**
      * @ 피드백 이력 저장

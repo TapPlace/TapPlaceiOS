@@ -43,7 +43,7 @@ extension MoreViewController: NavigationBarButtonProtocol {
     func setupView() {
         //MARK: ViewDefine
         let safeArea = view.safeAreaLayoutGuide
-        
+        headerView = MoreHeaderView()
         
         //MARK: ViewPropertyManual
         self.view.backgroundColor = .white
@@ -233,7 +233,6 @@ extension MoreViewController: UITableViewDelegate, UITableViewDataSource, MoreHe
     //MARK: Header & Footer
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if section == 0 {
-            headerView = MoreHeaderView()
             headerView?.delegate = self
             headerView?.itemBookmark.delegate = self
             headerView?.itemFeedback.delegate = self
@@ -283,30 +282,37 @@ extension MoreViewController: UITableViewDelegate, UITableViewDataSource, MoreHe
         let actionSheet = UIAlertController(title: "활동내역 초기화", message: "초기화하신 후 되돌릴 수 없습니다.", preferredStyle: .actionSheet)
         let bookmark = UIAlertAction(title: "즐겨찾기 항목 초기화", style: .default) { action in
             print("즐겨찾기 초기화 탭")
-            self.storageViewModel.deleteAllBookmark() {
-                self.tableView.reloadData()
+            self.storageViewModel.deleteAllBookmark() { result in
+                if result {
+                    self.tableView.reloadData()
+                }
             }
             
         }
         let feedback = UIAlertAction(title: "피드백 항목 초기화", style: .default) { action in
             print("피드백 초기화 탭")
-            self.storageViewModel.deleteAllFeedback() {
-                self.tableView.reloadData()
+            self.storageViewModel.deleteAllFeedback() { result in
+                if result {
+                    self.tableView.reloadData()
+                }
             }
         }
         let clear = UIAlertAction(title: "모든 항목 초기화", style: .default) { action in
             print("모든 항목 초기화 탭")
             let alertAction = UIAlertController(title: "모든 항목 초기화", message: "이 작업은 되돌릴 수 없으며, 앱에 저장된 가맹점 정보 및 서버에 저장된 데이터 모두 삭제합니다.", preferredStyle: .alert)
             let alertConfirm = UIAlertAction(title: "초기화", style: .destructive) { action in
-                print("완전 초기화!!")
                 self.userViewModel.dropUserInfo() { result in
-                    
+                    self.storageViewModel.deleteAllBookmark { result in }
+                    self.storageViewModel.deleteAllFeedback { result in }
+                    self.storageViewModel.deleteAllPayments {}
                     if let deleteResult = result as? Bool {
                         print("moreVC, dropUserIfo, Success")
                         self.storageViewModel.deleteUser() { result in
                             if deleteResult == true {
-                                self.dismiss(animated: true)
-                                self.present(SplashViewController(), animated: true)
+                                DispatchQueue.main.async {
+                                    self.dismiss(animated: true)
+                                    self.present(SplashViewController(), animated: true)
+                                }
                             } else {
                                 showToast(message: "알 수 없는 이유로 초기화에 실패했습니다.\n다시 시도해주시기 바랍니다.", view: self.view)
                             }
@@ -333,4 +339,6 @@ extension MoreViewController: UITableViewDelegate, UITableViewDataSource, MoreHe
         
         present(actionSheet, animated: true, completion: nil)
     }
+    
+    
 }

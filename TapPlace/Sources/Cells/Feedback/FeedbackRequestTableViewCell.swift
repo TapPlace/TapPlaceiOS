@@ -28,7 +28,6 @@ class FeedbackRequestTableViewCell: UITableViewCell {
             guard let payment = newValue?.payment else { return }
             paymentIcon.image = UIImage(named: payment.payments == "" ? payment.brand : payment.payments )
             paymentLabel.text = payment.designation
-            
         }
     }
     

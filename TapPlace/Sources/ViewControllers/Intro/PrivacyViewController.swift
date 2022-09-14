@@ -20,6 +20,7 @@ class PrivacyViewController: UIViewController {
     var storageViewModel = StorageViewModel()
     
     override func viewDidLoad() {
+        super.viewDidLoad()
         setupView()
         setLayout()
         

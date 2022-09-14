@@ -109,6 +109,7 @@
 		F438237028C7085200C75063 /* AlarmViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F438236F28C7085200C75063 /* AlarmViewController.swift */; };
 		F438237228C709E100C75063 /* AlarmModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F438237128C709E100C75063 /* AlarmModel.swift */; };
 		F438237428C7188A00C75063 /* InquiryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F438237328C7188A00C75063 /* InquiryViewController.swift */; };
+		F43CA9FB28D095B9009E8845 /* InquiryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43CA9FA28D095B9009E8845 /* InquiryService.swift */; };
 		F449AEB328ACEABE008E0417 /* SearchContentButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F449AEB228ACEABE008E0417 /* SearchContentButton.swift */; };
 		F449AEB628ADD205008E0417 /* SearchingActionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F449AEB528ADD205008E0417 /* SearchingActionTableViewCell.swift */; };
 		F4551D3A28A8B651003B93F4 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4551D3928A8B651003B93F4 /* SearchViewController.swift */; };
@@ -240,6 +241,7 @@
 		F438236F28C7085200C75063 /* AlarmViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmViewController.swift; sourceTree = "<group>"; };
 		F438237128C709E100C75063 /* AlarmModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmModel.swift; sourceTree = "<group>"; };
 		F438237328C7188A00C75063 /* InquiryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquiryViewController.swift; sourceTree = "<group>"; };
+		F43CA9FA28D095B9009E8845 /* InquiryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquiryService.swift; sourceTree = "<group>"; };
 		F449AEB228ACEABE008E0417 /* SearchContentButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchContentButton.swift; sourceTree = "<group>"; };
 		F449AEB528ADD205008E0417 /* SearchingActionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchingActionTableViewCell.swift; sourceTree = "<group>"; };
 		F4551D3928A8B651003B93F4 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
@@ -609,6 +611,7 @@
 				DF67A05728C9E98900435C28 /* UserDataService.swift */,
 				DF67A05F28CA34F500435C28 /* StoreDataService.swift */,
 				F470A34228CB6430007F4F24 /* SearchService.swift */,
+				F43CA9FA28D095B9009E8845 /* InquiryService.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -952,6 +955,7 @@
 				DFC87B3428CAE9D000F53D1D /* MarkerModel.swift in Sources */,
 				DF85D8C928C4BFAD00465D6A /* StoreInfoModel.swift in Sources */,
 				DF9BE0A828B71711009E075D /* TermsModel.swift in Sources */,
+				F43CA9FB28D095B9009E8845 /* InquiryService.swift in Sources */,
 				DF9EAF8528AA00F5001B3D74 /* ResearchButton.swift in Sources */,
 				DF4BD37C28A76F8100C4C5B4 /* UIImage+Extension.swift in Sources */,
 				DF4A14A428ABBEF50068D1AD /* CustomToolBar.swift in Sources */,

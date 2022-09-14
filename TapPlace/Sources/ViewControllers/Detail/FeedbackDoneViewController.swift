@@ -14,6 +14,7 @@ class FeedbackDoneViewController: UIViewController {
     let customNavigationBar = CustomNavigationBar()
     
     override func viewDidLoad() {
+        super.viewDidLoad()
         setupView()
         setLayout()
         

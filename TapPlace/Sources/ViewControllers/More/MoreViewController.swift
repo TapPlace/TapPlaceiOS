@@ -196,8 +196,13 @@ extension MoreViewController: UITableViewDelegate, UITableViewDataSource, MoreHe
         switch indexPath.section {
         case 0:
             guard let cell = tableView.cellForRow(at: indexPath) as? MoreMenuTableViewCell else { return }
+            let inquiryVC = InquiryViewController()
             if let vc = menuList[indexPath.row].vc {
+                if vc == inquiryVC {
+                    inquiryVC.type = menuList[indexPath.row].type
+                }
                 self.navigationController?.pushViewController(vc, animated: true)
+                
                 return
             }
             if let type = cell.menuType {

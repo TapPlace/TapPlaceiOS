@@ -25,7 +25,6 @@ class SearchService {
                     print(error.localizedDescription)
                 }
             }
-
     }
 }
 

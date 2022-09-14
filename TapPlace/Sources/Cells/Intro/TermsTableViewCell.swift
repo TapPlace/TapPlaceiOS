@@ -18,6 +18,7 @@ class TermsTableViewCell: UITableViewCell {
                 $0.top.leading.trailing.equalTo(containerView)
                 $0.height.equalTo(1)
             }
+            linkButton.isHidden = true
         }
         //MARK: 타이틀 설정
         titleLabel.text = title
@@ -75,7 +76,7 @@ class TermsTableViewCell: UITableViewCell {
         return titleLabel
     }()
     let linkButton: UIButton = {
-        let linkButton = UIButton()
+        let linkButton = UIButton(type: .system)
         linkButton.titleLabel?.font = .systemFont(ofSize: CommonUtils.resizeFontSize(size: 15))
         let text = "보기"
         linkButton.setTitle(text, for: .normal)
@@ -102,8 +103,8 @@ class TermsTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setupCell() {
 
+    func setupCell() {
         //MARK: ViewDefine
 
         
@@ -154,5 +155,7 @@ class TermsTableViewCell: UITableViewCell {
         separatorLine.backgroundColor = .clear
         requireLabel.text = ""
         titleLabel.text = "Title Label"
+        linkButton.tintColor = UIColor.init(hex: 0xCCCCCC)
+        linkButton.isHidden = false
     }
 }

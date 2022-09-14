@@ -5,9 +5,11 @@
 //  Created by 박상현 on 2022/08/29.
 //
 
-import Foundation
+import UIKit
 import RealmSwift
 import CoreLocation
+
+public var mainViewController: UIViewController?
 
 /// 유저 정보
 struct UserInfo {

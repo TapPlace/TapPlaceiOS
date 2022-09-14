@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "google.png",
+      "filename" : "refresh.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "google@2x.png",
+      "filename" : "refresh@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "google@3x.png",
+      "filename" : "refresh@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

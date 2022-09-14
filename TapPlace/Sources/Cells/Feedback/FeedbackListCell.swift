@@ -26,7 +26,7 @@ class FeedbackListCell: UITableViewCell {
                 placeDistance = 0
             }
             
-            setAttributedString(distance: DistancelModel.getDistance(distance: placeDistance! / 1000), address: feedback.address)
+            setAttributedString(distance: DistancelModel.getDistance(distance: placeDistance!), address: feedback.address)
         }
     }
     

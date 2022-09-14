@@ -13,8 +13,6 @@ import SnapKit
 import FloatingPanel
 
 class MainViewController: CommonViewController {
-    var storageViewModel = StorageViewModel()
-    var storeViewModel = StoreViewModel()
     
     var aroundStoreList: [AroundStores]?
     
@@ -27,7 +25,7 @@ class MainViewController: CommonViewController {
     var closeButton = UIButton()
     let listButton = MapButton()
     let locationButton = MapButton()
-    var overlayCenterPick = UIView()
+    var overlayCenterPick = SearchMarkerPin()
     var collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     var fpc: FloatingPanelController!
     var isHiddenFloatingPanel = true
@@ -45,6 +43,7 @@ class MainViewController: CommonViewController {
         setupFloatingPanel()
         
         print("numberOfTodayFeedback: \(storageViewModel.numberOfTodayFeedback)")
+        mainViewController = self
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -144,13 +143,6 @@ extension MainViewController: MapButtonProtocol, ResearchButtonProtocol {
             collectionView.showsHorizontalScrollIndicator = false
             return collectionView
         }()
-        overlayCenterPick = {
-            let overlayCenterPick = UIView()
-            overlayCenterPick.layer.borderColor = UIColor.red.cgColor
-            overlayCenterPick.layer.borderWidth = 2
-            overlayCenterPick.isHidden = true
-            return overlayCenterPick
-        }()
         
 
         //MARK: ViewPropertyManual
@@ -209,12 +201,12 @@ extension MainViewController: MapButtonProtocol, ResearchButtonProtocol {
         }
         overlayCenterPick.snp.makeConstraints {
             $0.center.equalToSuperview()
-            $0.width.height.equalTo(20)
+            $0.width.height.equalTo(10)
         }
         researchButton.snp.makeConstraints {
             $0.centerX.equalToSuperview()
             $0.centerY.equalTo(listButton)
-            $0.width.equalTo(150)
+            $0.leading.trailing.equalTo(researchButton.buttonFrame)
             $0.height.equalTo(30)
         }
 
@@ -501,13 +493,8 @@ extension MainViewController: CustomToolBarShareProtocol, StoreInfoViewDelegate 
      * @ 공유하기
      * coder : sanghyeon
      */
-    func showShare(storeInfo: StoreInfo) {
-        var objectToShare = [String]()
-        let shareText = "\(storeInfo.placeName)의 간편결제 정보입니다.\n\n\(Constants.tapplaceBaseUrl)/app/\(storeInfo.storeID)"
-        objectToShare.append(shareText)
-        
-        let activityVC = UIActivityViewController(activityItems: objectToShare, applicationActivities: nil)
-        self.present(activityVC, animated: true)
+    func showShare(storeID: String) {
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "showShare"), object: storeID)
     }
     
     /**

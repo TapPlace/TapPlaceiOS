@@ -10,9 +10,9 @@ import NMapsMap
 import CoreLocation
 import SnapKit
 
-class StoreDetailViewController: CommonViewController {
-    var storageViewModel = StorageViewModel()
-    var storeViewModel = StoreViewModel()
+class StoreDetailViewController: CommonViewController, CustomToolBarProtocol {
+    var storeInfo: StoreInfo?
+    
     var isFirstLoaded: Bool = true
     var feedbackList: [Feedback]?
     var naverMapViewHeight: CGFloat = 0
@@ -23,6 +23,7 @@ class StoreDetailViewController: CommonViewController {
             getStore(store: newValue)
         }
     }
+    
     
     var naverMapView = NMFMapView()
     var backButtonFrame = UIView()
@@ -35,6 +36,7 @@ class StoreDetailViewController: CommonViewController {
     var storeCategory = VerticalAlignLabel()
     var storeDetailLabel = UILabel()
     var storeTelLabel = UILabel()
+    var storeTelButton = UIButton()
     var feedbackButton = UIButton()
     var separatorView = UIView()
     let requestButton = UIButton()
@@ -65,7 +67,11 @@ class StoreDetailViewController: CommonViewController {
     
 }
 
-extension StoreDetailViewController: CustomNavigationBarProtocol {
+extension StoreDetailViewController: CustomNavigationBarProtocol, CustomToolBarShareProtocol {
+    func showShare(storeID: String) {
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "showShare"), object: storeID)
+    }
+    
     /**
      * @ 초기 레이아웃 설정
      * coder : sanghyeon
@@ -215,6 +221,7 @@ extension StoreDetailViewController: CustomNavigationBarProtocol {
         storeInfoViewInnerWrap.addSubview(telephoneIcon)
         storeInfoViewInnerWrap.addSubview(storeDetailLabel)
         storeInfoViewInnerWrap.addSubview(storeTelLabel)
+        storeInfoViewInnerWrap.addSubview(storeTelButton)
         storeInfoViewInnerWrap.addSubview(separatorLine)
         storeInfoViewInnerWrap.addSubview(requestButtonFrame)
         requestButtonFrame.addSubview(pencilIcon)
@@ -290,6 +297,9 @@ extension StoreDetailViewController: CustomNavigationBarProtocol {
             $0.leading.equalTo(storeDetailLabel)
             $0.centerY.equalTo(telephoneIcon)
         }
+        storeTelButton.snp.makeConstraints {
+            $0.edges.equalTo(storeTelLabel)
+        }
         separatorLine.snp.makeConstraints {
             $0.leading.trailing.equalTo(storeInfoViewInnerWrap)
             $0.top.equalTo(telephoneIcon.snp.bottom).offset(10)
@@ -339,6 +349,8 @@ extension StoreDetailViewController: CustomNavigationBarProtocol {
         tableView.delegate = self
         tableView.dataSource = self
         scrollView.delegate = self
+        toolBar.delegate = self
+        toolBar.vcDelegate = self
     }
     /**
      * @ 레이아웃 업데이트
@@ -419,12 +431,16 @@ extension StoreDetailViewController: CustomNavigationBarProtocol {
     func getStore(store: String) {
         storeViewModel.requestStoreInfo(storeID: store, pays: storageViewModel.userFavoritePaymentsString) { result in
             if let storeInfo = result as? StoreInfo {
+                self.storeInfo = storeInfo
                 guard let feedbackVC = self.feedbackVC as? FeedbackRequestViewController else { return }
                 feedbackVC.storeInfo = storeInfo
                 self.customNavigationBar.titleText = storeInfo.placeName
                 self.storeLabel.text = storeInfo.placeName
                 self.storeCategory.text = storeInfo.categoryGroupName
                 self.storeTelLabel.text = storeInfo.phone == "" ? "정보 없음" : storeInfo.phone
+                if storeInfo.phone != "" {
+                    self.storeTelButton.addTarget(self, action: #selector(self.didTapTelButton), for: .touchUpInside)
+                }
                 self.feedbackList = storeInfo.feedback?.filter({$0.exist == true})
                 var storeLocation: CLLocationCoordinate2D?
                 var storeDistance: String = "알 수 없음"
@@ -454,6 +470,18 @@ extension StoreDetailViewController: CustomNavigationBarProtocol {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                     self.popViewController()
                 }
+            }
+        }
+    }
+    /**
+     * @ 전화걸기
+     * coder : sanghyeon
+     */
+    @objc func didTapTelButton() {
+        if let tel = storeTelLabel.text?.replacingOccurrences(of: "-", with: ""), let telUrl = URL(string: "telprompt://\(tel)") {
+            print("tel: \(tel)")
+            if UIApplication.shared.canOpenURL(telUrl) {
+                UIApplication.shared.open(telUrl)
             }
         }
     }

@@ -15,16 +15,24 @@ class ResearchButton: UIView {
     var delegate: ResearchButtonProtocol?
     
     let buttonFrame: UIView = {
-        let buttonFrame = UILabel()
+        let buttonFrame = UIView()
         buttonFrame.backgroundColor = .white
         return buttonFrame
+    }()
+    
+    let refreshIcon: UIImageView = {
+        let refreshIcon = UIImageView()
+        refreshIcon.image = .init(named: "refresh")?.withRenderingMode(.alwaysTemplate)
+        refreshIcon.tintColor = .pointBlue
+        refreshIcon.contentMode = .scaleAspectFit
+        return refreshIcon
     }()
     
     let buttonTitle: UILabel = {
         let buttonTitle = UILabel()
         buttonTitle.sizeToFit()
         buttonTitle.textColor = .pointBlue
-        buttonTitle.text = "현 지도에서 검색"
+        buttonTitle.text = "현 위치에서 가맹점 재탐색"
         buttonTitle.font = .systemFont(ofSize: CommonUtils.resizeFontSize(size: 14), weight: .regular)
         return buttonTitle
     }()
@@ -51,18 +59,26 @@ class ResearchButton: UIView {
     
     func setupButton() {
         addSubview(buttonFrame)
+        buttonFrame.addSubview(refreshIcon)
         buttonFrame.addSubview(buttonTitle)
         addSubview(button)
         
         buttonFrame.snp.makeConstraints {
-            $0.top.bottom.leading.trailing.equalToSuperview()
+            $0.top.bottom.equalToSuperview()
+            $0.leading.equalTo(refreshIcon).offset(-10)
+            $0.trailing.equalTo(buttonTitle).offset(10)
             $0.center.equalToSuperview()
         }
+        refreshIcon.snp.makeConstraints {
+            $0.trailing.equalTo(buttonTitle.snp.leading).offset(-10)
+            $0.top.bottom.equalTo(buttonTitle)
+            $0.width.equalTo(20)
+        }
         buttonTitle.snp.makeConstraints {
-            $0.center.equalTo(buttonFrame)
+            $0.centerY.equalTo(buttonFrame)
         }
         button.snp.makeConstraints {
-            $0.top.bottom.leading.trailing.equalTo(buttonFrame)
+            $0.edges.equalTo(buttonFrame)
         }
     }
 

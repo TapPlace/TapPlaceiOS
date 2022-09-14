@@ -298,7 +298,6 @@ extension AroundPlaceListView: UITableViewDelegate, UITableViewDataSource {
         cell.cellIndex = indexPath.row
         cell.storeInfo = storeInfo
         cell.isBookmark = storageViewModel.isStoreBookmark(storeInfo.storeID)
-        
         cell.contentView.isUserInteractionEnabled = false
         cell.selectionStyle = .none
         cell.separatorInset = .zero

@@ -9,7 +9,11 @@ import UIKit
 import FloatingPanel
 import CoreLocation
 
-
+/*
+ mainVC > aroundPlaceVC > tavleViewCell > StoreInfoView
+ 
+ 
+ */
 
 class AroundPlaceViewController: UIViewController, AroundPlaceControllerProtocol, AroundDistanceFilterProtocol {
     func showFilterView() {

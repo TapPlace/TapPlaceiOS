@@ -39,14 +39,11 @@ extension TermsViewController: CustomNavigationBarProtocol, BottomButtonProtocol
     func didTapBottomButton() {
         if bottomButton.isActive == false {
             showToast(message: "약관을 모두 확인해주세요.", duration: 3.0, view: self.view)
-            /// 임시로 그냥 통과함
-            let vc = PrivacyViewController()
-            self.navigationController?.pushViewController(vc, animated: true)
             return
         }
         if let user = storageViewModel.getUserInfo(uuid: Constants.userDeviceID) {
-            guard let marketingIndex = allTermsLists.firstIndex(where: { $0.title == "마케팅 정보 수신 동의" }) else { return }
-            let isCheckedMarketing = allTermsLists[marketingIndex].checked
+            //guard let marketingIndex = allTermsLists.firstIndex(where: { $0.title == "마케팅 정보 수신 동의" }) else { return }
+            let isCheckedMarketing = false //allTermsLists[marketingIndex].checked
             let setUser = UserModel(uuid: user.uuid, isFirstLaunch: user.isFirstLaunch, agreeTerm: LatestTermsModel.latestServiceDate, agreePrivacy: LatestTermsModel.latestPersonalDate, agreeMarketing: isCheckedMarketing ? CommonUtils.getDate(Date(), type: 3) : "", birth: "", sex: "")
             storageViewModel.updateUser(setUser)
         }

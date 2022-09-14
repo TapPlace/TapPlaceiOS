@@ -68,6 +68,7 @@ extension MoreHeaderView {
         }()
         let arrowImageView: UIImageView = {
             let arrowImageView = UIImageView()
+            arrowImageView.contentMode = .scaleAspectFit
             arrowImageView.image = UIImage(systemName: "chevron.forward")
             arrowImageView.tintColor = .init(hex: 0x707070)
             return arrowImageView
@@ -120,6 +121,7 @@ extension MoreHeaderView {
         arrowImageView.snp.makeConstraints {
             $0.centerY.equalTo(paymentsFrame)
             $0.trailing.equalTo(paymentsFrame).offset(-20)
+            $0.width.equalTo(20)
         }
         paymentsLabel.snp.makeConstraints {
             $0.leading.equalTo(paymentTitleLabel.snp.trailing).offset(20)

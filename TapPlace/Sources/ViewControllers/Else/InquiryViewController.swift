@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import RealmSwift
 
 class InquiryViewController: CommonViewController {
     var term = TermsModel(title: "개인정보 수집, 이용동의", isTerm: true, require: true, link: "", checked: false)
@@ -329,20 +330,20 @@ extension InquiryViewController: BottomButtonProtocol {
             answerCheck = 1
         }
         
-        
-//        let parameter: [String: Any] = [
-//            "user_id": "\(Constants.userDeviceID)",
-//            "category": "edit",
-//            "title": self.titleField.text,
-//            "content": self.contentTextView.text,
-//            "write_date": convertWriteDate,
-//            "answer_check": answerCheck,
-//            "email": self.emailField.text,
-//            "os": "iOS"
-//        ]
-//
-//        InquiryService().postInquiry(parameter: parameter) {
-//
-//        }
+        let parameter: [String: Any] = [
+            "key": "\(Constants.tapplaceApiKey)",
+            "user_id": "\(Constants.userDeviceID)",
+            "category": type,
+            "title": self.titleField.text,
+            "content": self.contentTextView.text,
+            "write_date": convertWriteDate,
+            "answer_check": answerCheck,
+            "email": self.emailField.text,
+            "os": "iOS"
+        ]
+
+        InquiryService().postInquiry(parameter: parameter) { response,error in
+            print(response)
+        }
     }
 }

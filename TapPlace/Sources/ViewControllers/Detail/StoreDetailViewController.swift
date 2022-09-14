@@ -39,6 +39,7 @@ class StoreDetailViewController: CommonViewController {
     let requestButton = UIButton()
     var tableView = UITableView()
     var contentViewHeight: CGFloat = 0
+    var feedbackVC: UIViewController?
     
     
     override func viewDidLoad() {
@@ -54,6 +55,7 @@ class StoreDetailViewController: CommonViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         tabBar?.showTabBar(hide: true)
+        feedbackVC = FeedbackRequestViewController()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -187,6 +189,7 @@ extension StoreDetailViewController: CustomNavigationBarProtocol {
             logoImageView.image = .init(named: "fullLogo")
             return logoImageView
         }()
+
 
         //MARK: ViewPropertyManual
         view.backgroundColor = .white
@@ -345,12 +348,6 @@ extension StoreDetailViewController: CustomNavigationBarProtocol {
         let storeInfoViewHeight: CGFloat = storeInfoView.frame.height
         let headerViewSize: CGFloat = 36 + 36
         let tableViewRowHeight: CGFloat = CGFloat(140 * feedbackList.count)
-        
-        print("storeInfoViewHeight: \(storeInfoViewHeight)")
-        print("naverMapViewHeight: \(naverMapViewHeight)")
-        print("headerViewSize: \(headerViewSize)")
-        print("tableViewRowHeight: \(tableViewRowHeight)")
-    
     
         contentViewHeight = storeInfoViewHeight + headerViewSize + tableViewRowHeight
         
@@ -419,9 +416,10 @@ extension StoreDetailViewController: CustomNavigationBarProtocol {
      * coder : sanghyeon
      */
     func getStore(store: String) {
-        print("store: \(store)")
         storeViewModel.requestStoreInfo(storeID: store, pays: storageViewModel.userFavoritePaymentsString) { result in
             if let storeInfo = result as? StoreInfo {
+                guard let feedbackVC = self.feedbackVC as? FeedbackRequestViewController else { return }
+                feedbackVC.storeInfo = storeInfo
                 self.customNavigationBar.titleText = storeInfo.placeName
                 self.storeLabel.text = storeInfo.placeName
                 self.storeCategory.text = storeInfo.categoryGroupName
@@ -448,7 +446,6 @@ extension StoreDetailViewController: CustomNavigationBarProtocol {
                 }
                 var storeAddress = storeInfo.roadAddressName == "" ? storeInfo.addressName : storeInfo.roadAddressName
                 self.storeDetailLabel.text = "\(storeDistance) · \(storeAddress)"
-                print("피드백 정보: \(self.feedbackList)")
                 self.updateLayout()
                 self.tableView.reloadData()
             } else {
@@ -480,15 +477,12 @@ extension StoreDetailViewController: CustomNavigationBarProtocol {
 extension StoreDetailViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard let feedbackList = feedbackList else { return 0 }
-        print("셀 카운트: \(feedbackList.count)")
         return feedbackList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: StorePaymentTableViewCell.identifier, for: indexPath) as? StorePaymentTableViewCell else { return UITableViewCell() }
         guard let feedbackList = feedbackList else { return UITableViewCell() }
-        print("현재 셀 indexPath: \(indexPath)")
-        print("현재 셀의 feedback: \(feedbackList[indexPath.row])")
         cell.feedback = feedbackList[indexPath.row]
         cell.selectionStyle = .none
         return cell
@@ -536,8 +530,8 @@ extension StoreDetailViewController: UITableViewDelegate, UITableViewDataSource 
     }
     
     @objc func didTapFeedbackButton() {
-        let vc = FeedbackRequestViewController()
-        self.navigationController?.pushViewController(vc, animated: true)
+        guard let feedbackVC = feedbackVC else { return }
+        self.navigationController?.pushViewController(feedbackVC, animated: true)
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {

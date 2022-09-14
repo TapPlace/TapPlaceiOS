@@ -11,23 +11,20 @@ import UIKit
 
 class FeedbackListViewController: CommonViewController {
     var storageViewModel = StorageViewModel()
-    var feedbackList: [UserFeedbackModel] = []
-    var feedbackListArray: [String: [UserFeedbackModel]] = [:]
+    var feedbackStoreList: [UserFeedbackStoreModel] = []
+    var feedbackListArray: [String: [UserFeedbackStoreModel]] = [:]
     
     let customNavigationBar = CustomNavigationBar()
     let filterTitle = MoreListFilterTitle()
     var tableView = UITableView()
     
-    var filterAsc: Bool = false
+    var filterAsc: Bool = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
         loadFeedback()
         setupNavigation()
         setupView()
-        
-        print(feedbackListArray.count)
-        feedbackListArray.sorted {$0.0 > $1.0}
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -37,7 +34,11 @@ class FeedbackListViewController: CommonViewController {
 }
 
 //MARK: - Layout
-extension FeedbackListViewController: FilterTitleProtocol {
+extension FeedbackListViewController: FilterTitleProtocol, CustomNavigationBarProtocol {
+    func didTapLeftButton() {
+        self.navigationController?.popViewController(animated: true)
+    }
+    
     /**
      * @ 초기 레이아웃 설정
      * coder : sanghyeon
@@ -59,6 +60,7 @@ extension FeedbackListViewController: FilterTitleProtocol {
         self.view.backgroundColor = .white
         filterTitle.isUseEditMode = false
         filterTitle.setFilterName = "등록순"
+        filterTitle.filterCount = storageViewModel.numberOfFeedback
 
         
         
@@ -100,7 +102,7 @@ extension FeedbackListViewController: FilterTitleProtocol {
     func setupNavigation() {
         customNavigationBar.titleText = "내가 한 피드백"
         customNavigationBar.isUseLeftButton = true
-
+        customNavigationBar.delegate = self
     }
     /**
      * @ 필터 정렬 버튼 클릭 함수
@@ -109,9 +111,9 @@ extension FeedbackListViewController: FilterTitleProtocol {
     func didTapFilterSortButton() {
         self.filterAsc.toggle()
         if filterAsc {
-            filterTitle.filterButtonSetImage = "chevron.up"
-        } else {
             filterTitle.filterButtonSetImage = "chevron.down"
+        } else {
+            filterTitle.filterButtonSetImage = "chevron.up"
 
         }
         tableView.reloadData()
@@ -132,16 +134,16 @@ extension FeedbackListViewController {
      * coder : sanghyeon
      */
     func loadFeedback() {
-        feedbackList = storageViewModel.loadFeedback()
-        feedbackListArray = setupFeedbackArray(feedback: feedbackList)
+        feedbackStoreList = storageViewModel.loadFeedbackStore()
+        feedbackListArray = setupFeedbackArray(feedback: feedbackStoreList)
     }
     /**
      * @ 피드백 배열 날짜별 그룹화
      * coder : sanghyeon
      */
-    func setupFeedbackArray(feedback: [UserFeedbackModel]) -> [String: [UserFeedbackModel]] {
+    func setupFeedbackArray(feedback: [UserFeedbackStoreModel]) -> [String: [UserFeedbackStoreModel]] {
         let tempDic = Dictionary
-            .init(grouping: feedbackList, by: {$0.date})
+            .init(grouping: feedbackStoreList, by: {$0.date})
         return tempDic
     }
 }
@@ -149,27 +151,63 @@ extension FeedbackListViewController {
 //MARK: - TableView
 extension FeedbackListViewController: UITableViewDelegate, UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return feedbackListArray.count
+        let sortedFeedbackListArray = feedbackListArray.sorted { (first, second) in
+            if filterAsc {
+                return first.key > second.key
+            } else {
+                return first.key < second.key
+            }
+        }
+        return sortedFeedbackListArray.count
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let sectionTitle = Array(feedbackListArray)[section].key
+        let sortedFeedbackListArray = feedbackListArray.sorted { (first, second) in
+            if filterAsc {
+                return first.key > second.key
+            } else {
+                return first.key < second.key
+            }
+        }
+        let sectionTitle = Array(sortedFeedbackListArray)[section].key
         let numberOfSection = feedbackListArray[sectionTitle]
         guard let numberOfSection = numberOfSection else { return 0 }
         return numberOfSection.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let feedback = Array(feedbackListArray)[indexPath.section].value[indexPath.row]
+        let sortedFeedbackListArray = feedbackListArray.sorted { (first, second) in
+            if filterAsc {
+                return first.key > second.key
+            } else {
+                return first.key < second.key
+            }
+        }
+        let feedback = Array(sortedFeedbackListArray)[indexPath.section].value[indexPath.row]
         guard let cell = tableView.dequeueReusableCell(withIdentifier: FeedbackListCell.cellId, for: indexPath) as? FeedbackListCell else { return UITableViewCell() }
         cell.feedback = feedback
-                
+        cell.selectionStyle = .none
         return cell
+    }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let vc = FeedbackDetailViewController()
+        guard let cell = tableView.cellForRow(at: indexPath) as? FeedbackListCell else { return }
+        guard let feedback = cell.feedback else { return }
+        vc.feedbackStore = feedback
+        vc.feedbackList = storageViewModel.loadFeedback(store: feedback)
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     //MARK: Header & Footer
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        return setupHeaderView(title: Array(feedbackListArray)[section].key)
+        let sortedFeedbackListArray = feedbackListArray.sorted { (first, second) in
+            if filterAsc {
+                return first.key > second.key
+            } else {
+                return first.key < second.key
+            }
+        }
+        return setupHeaderView(title: Array(sortedFeedbackListArray)[section].key)
     }
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 50

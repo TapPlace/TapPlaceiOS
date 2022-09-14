@@ -9,10 +9,7 @@ import Foundation
 import RealmSwift
 
 struct DB {
-    let realm = try! Realm(configuration: Realm.Configuration(schemaVersion: 3))
-    
-//    static let configuration = Realm.Configuration(schemaVersion: 2)
-//    let realm = try! Realm(configuration: DB.configuration)
+    let realm = try! Realm(configuration: Realm.Configuration(schemaVersion: 5))
     let location: URL = Realm.Configuration.defaultConfiguration.fileURL!
     var userObject: Results<UserModel>?
     var userFeedbackObject: Results<UserFeedbackModel>?
@@ -120,6 +117,33 @@ extension StorageProtocol {
             return false
         } else {
             return true
+        }
+    }
+    /**
+     * @ 피드백 이력 저장
+     * coder : sanghyeon
+     */
+    mutating func addFeedbackHistory(store: UserFeedbackStoreModel, feedback:UserFeedbackModel) {
+        let searchFeedbackStore = dataBases?.realm.objects(UserFeedbackStoreModel.self).where {
+            $0.storeID == feedback.storeID &&
+            $0.date == feedback.date
+        }.first
+        if searchFeedbackStore == nil {
+            try! dataBases?.realm.write {
+                dataBases?.realm.add(store)
+            }
+        }
+        
+        let searchFeedback = dataBases?.realm.objects(UserFeedbackModel.self).where {
+            $0.storeID == feedback.storeID &&
+            $0.pay == feedback.pay &&
+            $0.feedback == feedback.feedback &&
+            $0.date == feedback.date
+        }.first
+        if searchFeedback == nil {
+            try! dataBases?.realm.write {
+                dataBases?.realm.add(feedback)
+            }
         }
     }
 }

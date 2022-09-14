@@ -8,7 +8,7 @@
 import UIKit
 
 protocol FeedbackRequestCellProtocol {
-    func didTapFeedbackButton(indexPath: IndexPath, payment: String, type: FeedbackButton.FeedbackButtonStyle)
+    func didTapFeedbackButton(indexPath: IndexPath, payment: String, exist: Bool, type: FeedbackButton.FeedbackButtonStyle)
 }
 
 class FeedbackRequestTableViewCell: UITableViewCell {
@@ -25,7 +25,8 @@ class FeedbackRequestTableViewCell: UITableViewCell {
     
     var feedbackModel: FeedbackRequestModel? = nil {
         willSet {
-            guard let payment = newValue?.payment else { return }
+            guard let feedback = newValue?.feedback else { return }
+            guard let payment = PaymentModel.thisPayment(payment: feedback.pay) else { return }
             paymentIcon.image = UIImage(named: payment.payments == "" ? payment.brand : payment.payments )
             paymentLabel.text = payment.designation
         }
@@ -114,14 +115,15 @@ extension FeedbackRequestTableViewCell {
     
     @objc func didTapFeedbackButton(_ sender: UIButton) {
         var paymentString: String = ""
-        if let payment = feedbackModel?.payment {
-            paymentString = PaymentModel.encodingPayment(payment: payment)
-        }
+        guard let feedback = feedbackModel?.feedback else { return }
+        guard let payment = PaymentModel.thisPayment(payment: feedback.pay) else { return }
+        paymentString = PaymentModel.encodingPayment(payment: payment)
+        
         switch sender {
         case feedbackSuccessButton.button:
-            delegate?.didTapFeedbackButton(indexPath: cellIndexPath, payment: paymentString, type: .success)
+            delegate?.didTapFeedbackButton(indexPath: cellIndexPath, payment: paymentString, exist: feedback.exist, type: .success)
         case feedbackFailButton.button:
-            delegate?.didTapFeedbackButton(indexPath: cellIndexPath, payment: paymentString, type: .fail)
+            delegate?.didTapFeedbackButton(indexPath: cellIndexPath, payment: paymentString, exist: feedback.exist, type: .fail)
         default: break
         }
     }

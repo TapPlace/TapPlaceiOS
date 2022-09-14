@@ -16,7 +16,6 @@ class TermsItemView: UIView {
 
     var checked: Bool = false {
         willSet {
-            print("새로 바뀔 bool:", newValue)
             if newValue {
                 checkImageView.image = UIImage(systemName: "checkmark.circle.fill")
                 checkImageView.tintColor = .pointBlue

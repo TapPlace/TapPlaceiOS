@@ -10,11 +10,6 @@ import AlignedCollectionViewFlowLayout
 
 //MARK: - PickPayments, PickStores 뷰컨트롤러 공통
 class CommonPickViewController: UIViewController {
-
-
-    
-
-    
     //MARK: 뷰 요소 선언
     let titleView = PickViewControllerTitleView()
     let bottomButton = BottomButton()
@@ -34,7 +29,6 @@ class CommonPickViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupCommonView()
-
     }
     
     override func viewDidAppear(_ animated: Bool) {

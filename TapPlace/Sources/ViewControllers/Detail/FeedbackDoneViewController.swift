@@ -5,13 +5,14 @@
 //  Created by 이상준 on 2022/09/04.
 //
 
-import Foundation
 import UIKit
 
 
-class FeedbackDoneViewController: UIViewController {
+class FeedbackDoneViewController: CommonViewController {
     
     let customNavigationBar = CustomNavigationBar()
+    var feedbackResult: [FeedbackResult]? = nil
+    var storeID: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,12 +41,28 @@ class FeedbackDoneViewController: UIViewController {
         self.storePaymentTableView.delegate = self
         self.storePaymentTableView.backgroundColor = .white
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tabBar?.showTabBar(hide: true)
+        tabBar?.isShowFloatingButton = false
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        tabBar?.showTabBar(hide: false)
+        tabBar?.isShowFloatingButton = true
+    }
 }
 
-extension FeedbackDoneViewController {
+extension FeedbackDoneViewController: BottomButtonProtocol {
+    func didTapBottomButton() {
+        didTapLeftButton()
+    }
     
     private func setupView() {
         view.backgroundColor = .white
+        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
     }
     
     private func setLayout() {
@@ -93,6 +110,7 @@ extension FeedbackDoneViewController {
             button.setButtonStyle(title: "확인", type: .activate, fill: true)
             return button
         }()
+        button.delegate = self
         
         view.addSubview(customNavigationBar)
         customNavigationBar.snp.makeConstraints {
@@ -149,7 +167,14 @@ extension FeedbackDoneViewController {
 
 extension FeedbackDoneViewController: CustomNavigationBarProtocol {
     func didTapLeftButton() {
-        self.navigationController?.popViewController(animated: true)
+        guard let vcStack = self.navigationController?.viewControllers else { return }
+        guard let storeID = storeID else { return }
+        for viewController in vcStack {
+            if let vc = viewController as? StoreDetailViewController {
+                vc.storeID = storeID
+                self.navigationController?.popToViewController(vc, animated: true)
+            }
+        }
     }
 }
 
@@ -159,14 +184,19 @@ extension FeedbackDoneViewController: UITableViewDataSource, UITableViewDelegate
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        StorePaymentModel.lists.count
+        guard let feedbackResult = feedbackResult else { return 0 }
+        return feedbackResult.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let feedbackResult = feedbackResult else { return UITableViewCell() }
         let cell = tableView.dequeueReusableCell(withIdentifier: StorePaymentTableViewCell.identifier, for: indexPath) as! StorePaymentTableViewCell
         
-        let storePaymentModel = StorePaymentModel.lists[indexPath.row]
-        cell.prepare(pay: nil, payName: storePaymentModel.payName, success: storePaymentModel.success, successDate: storePaymentModel.successDate, successRate: storePaymentModel.successRate)
+        //let storePaymentModel = StorePaymentModel.lists[indexPath.row]
+        let feedback = feedbackResult[indexPath.row]
+        print(feedback)
+        cell.feedback = Feedback(num: 0, storeID: nil, success: feedback.success, fail: feedback.fail, lastState: feedback.lastState, lastTime: nil, pay: feedback.pay, exist: true)
+        //cell.prepare(pay: nil, payName: storePaymentModel.payName, success: storePaymentModel.success, successDate: storePaymentModel.successDate, successRate: storePaymentModel.successRate)
         
         return cell
     }

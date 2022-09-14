@@ -27,7 +27,7 @@ class MainViewController: CommonViewController {
     var closeButton = UIButton()
     let listButton = MapButton()
     let locationButton = MapButton()
-    var overlayCenterPick = UIView()
+    var overlayCenterPick = SearchMarkerPin()
     var collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     var fpc: FloatingPanelController!
     var isHiddenFloatingPanel = true
@@ -145,13 +145,6 @@ extension MainViewController: MapButtonProtocol, ResearchButtonProtocol {
             collectionView.showsHorizontalScrollIndicator = false
             return collectionView
         }()
-        overlayCenterPick = {
-            let overlayCenterPick = UIView()
-            overlayCenterPick.layer.borderColor = UIColor.red.cgColor
-            overlayCenterPick.layer.borderWidth = 2
-            overlayCenterPick.isHidden = true
-            return overlayCenterPick
-        }()
         
 
         //MARK: ViewPropertyManual
@@ -210,12 +203,12 @@ extension MainViewController: MapButtonProtocol, ResearchButtonProtocol {
         }
         overlayCenterPick.snp.makeConstraints {
             $0.center.equalToSuperview()
-            $0.width.height.equalTo(20)
+            $0.width.height.equalTo(10)
         }
         researchButton.snp.makeConstraints {
             $0.centerX.equalToSuperview()
             $0.centerY.equalTo(listButton)
-            $0.width.equalTo(150)
+            $0.leading.trailing.equalTo(researchButton.buttonFrame)
             $0.height.equalTo(30)
         }
 

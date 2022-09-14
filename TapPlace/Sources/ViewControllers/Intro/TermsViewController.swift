@@ -169,7 +169,7 @@ extension TermsViewController: UITableViewDelegate, UITableViewDataSource, Terms
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: TermsTableViewCell.cellId, for: indexPath) as? TermsTableViewCell else { return UITableViewCell() }
         cell.selectionStyle = .none
-        cell.contentView.isUserInteractionEnabled = false
+        cell.contentView.isUserInteractionEnabled = true
         let term = allTermsLists[indexPath.row]
         cell.setInitCell(isTerm: term.isTerm, require: term.require, title: term.title, link: term.link)
         cell.setCheck(check: term.checked)

@@ -32,8 +32,4 @@ class TestViewController: CommonViewController, CustomNavigationBarProtocol {
             $0.bottom.equalTo(customNavigationBar.containerView)
         }
     }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        tabBar?.showTabBar(hide: true)
-    }
 }

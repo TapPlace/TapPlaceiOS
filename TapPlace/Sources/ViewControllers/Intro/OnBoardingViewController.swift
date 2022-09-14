@@ -38,7 +38,7 @@ extension OnBoardingViewController: UIScrollViewDelegate, BottomButtonProtocol{
     func didTapBottomButton() {
         guard let buttonText = skipButton.titleLabel?.text else { return }
         if buttonText == "건너뛰기" {
-            UIView.animate(withDuration: 0.1, animations: {
+            UIView.animate(withDuration: 0.5, animations: {
                 self.scrollView.contentOffset = CGPoint(x: 255 * (self.images.count - 1), y: 0)
                 self.pageControl.currentPage = 2
                 self.checkLastPage(self.pageControl.currentPage)

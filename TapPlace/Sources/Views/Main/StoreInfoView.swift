@@ -34,7 +34,7 @@ class StoreInfoView: UIView {
             
             let storeAddress: String = store.roadAddressName == "" ? store.addressName : store.roadAddressName
             
-            self.setAttributedString(store: store.placeName, distance: DistancelModel.getDistance(distance: placeDistance! / 1000), address: storeAddress)
+            self.setAttributedString(store: store.placeName, distance: DistancelModel.getDistance(distance: placeDistance!), address: storeAddress)
             
             if let _ = newValue?.feedback {
                 guard let feedback = newValue?.feedback else { return }

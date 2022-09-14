@@ -130,7 +130,6 @@ extension BookmarkViewController: CustomNavigationBarProtocol, FilterTitleProtoc
      * coder : sanghyeon
      */
     func didTapLeftButton() {
-        print("네비게이션 좌측 버튼 탭")
         self.navigationController?.popViewController(animated: true)
     }
     /**

@@ -2,7 +2,7 @@
 //  StoreDetailViewController.swift
 //  TapPlace
 //
-//  Created by 이상준 on 2022/08/26.
+//  Created by 박상현 on 2022/09/12.
 //
 
 import UIKit
@@ -35,6 +35,7 @@ class StoreDetailViewController: CommonViewController {
     var storeCategory = VerticalAlignLabel()
     var storeDetailLabel = UILabel()
     var storeTelLabel = UILabel()
+    var feedbackButton = UIButton()
     var separatorView = UIView()
     let requestButton = UIButton()
     var tableView = UITableView()
@@ -501,7 +502,7 @@ extension StoreDetailViewController: UITableViewDelegate, UITableViewDataSource 
             headerTitleLabel.font = .systemFont(ofSize: CommonUtils.resizeFontSize(size: 17), weight: .semibold)
             return headerTitleLabel
         }()
-        let feedbackButton: UIButton = {
+        feedbackButton = {
             let feedbackButton = UIButton()
             feedbackButton.setImage(.init(named: "feedback")?.withRenderingMode(.alwaysTemplate), for: .normal)
             feedbackButton.setTitle("나도 피드백 하기", for: .normal)
@@ -530,6 +531,10 @@ extension StoreDetailViewController: UITableViewDelegate, UITableViewDataSource 
     }
     
     @objc func didTapFeedbackButton() {
+        if !storageViewModel.isAllowFeedback {
+            showToast(message: "금일 \(storageViewModel.numberOfAllowFeedback)번의 피드백을 모두 하셨습니다.\n내일 다시 시도해주시기 바랍니다.", view: self.view)
+            return
+        }
         guard let feedbackVC = feedbackVC else { return }
         self.navigationController?.pushViewController(feedbackVC, animated: true)
     }

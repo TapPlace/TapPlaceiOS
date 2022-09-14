@@ -37,6 +37,13 @@ struct StorageViewModel: StorageProtocol {
             $0.date == today
         }.count ?? 0
     }
+    var isAllowFeedback: Bool {
+        if numberOfTodayFeedback >= numberOfAllowFeedback {
+            return false
+        } else {
+            return true
+        }
+    }
     
     var userFavoritePaymentsString: [String] {
         var returnPayments: [String] = []

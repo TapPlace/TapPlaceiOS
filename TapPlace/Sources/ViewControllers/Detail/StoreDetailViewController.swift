@@ -170,10 +170,9 @@ extension StoreDetailViewController: CustomNavigationBarProtocol, CustomToolBarS
         }()
         let arrowIcon: UIImageView = {
             let arrowIcon = UIImageView()
-            let pencilIcon = UIImageView()
-            pencilIcon.image = .init(systemName: "chevron.forward")
-            pencilIcon.tintColor = .init(hex: 0xDBDEE8)
-            pencilIcon.contentMode = .scaleAspectFit
+            arrowIcon.image = .init(systemName: "chevron.forward")
+            arrowIcon.tintColor = .init(hex: 0xDBDEE8)
+            arrowIcon.contentMode = .scaleAspectFit
             return arrowIcon
         }()
         separatorView = {
@@ -322,6 +321,7 @@ extension StoreDetailViewController: CustomNavigationBarProtocol, CustomToolBarS
         arrowIcon.snp.makeConstraints {
             $0.trailing.equalTo(requestButtonFrame)
             $0.width.height.equalTo(20)
+            $0.centerY.equalTo(requestLabel)
         }
         requestButton.snp.makeConstraints {
             $0.edges.equalTo(requestButtonFrame)
@@ -342,6 +342,7 @@ extension StoreDetailViewController: CustomNavigationBarProtocol, CustomToolBarS
         
         //MARK: ViewAddTarget & Register
         backButton.addTarget(self, action: #selector(popViewController), for: .touchUpInside)
+        requestButton.addTarget(self, action: #selector(didTapRequestButton), for: .touchUpInside)
         tableView.register(StorePaymentTableViewCell.self, forCellReuseIdentifier: StorePaymentTableViewCell.identifier)
         
         
@@ -484,6 +485,16 @@ extension StoreDetailViewController: CustomNavigationBarProtocol, CustomToolBarS
                 UIApplication.shared.open(telUrl)
             }
         }
+    }
+    /**
+     * @ 정보 수정 요청 버튼 클릭함수
+     * coder : sanghyeon
+     */
+    @objc func didTapRequestButton() {
+        print("정보수정요청")
+        let vc = InquiryViewController()
+        vc.type = .edit
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     /**
      * @ 네비게이션바 좌측 버튼 클릭함수

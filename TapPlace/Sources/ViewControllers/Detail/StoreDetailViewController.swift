@@ -24,6 +24,7 @@ class StoreDetailViewController: CommonViewController {
         }
     }
     
+    
     var naverMapView = NMFMapView()
     var backButtonFrame = UIView()
     let scrollView = UIScrollView()
@@ -35,6 +36,7 @@ class StoreDetailViewController: CommonViewController {
     var storeCategory = VerticalAlignLabel()
     var storeDetailLabel = UILabel()
     var storeTelLabel = UILabel()
+    var storeTelButton = UIButton()
     var feedbackButton = UIButton()
     var separatorView = UIView()
     let requestButton = UIButton()
@@ -215,6 +217,7 @@ extension StoreDetailViewController: CustomNavigationBarProtocol {
         storeInfoViewInnerWrap.addSubview(telephoneIcon)
         storeInfoViewInnerWrap.addSubview(storeDetailLabel)
         storeInfoViewInnerWrap.addSubview(storeTelLabel)
+        storeInfoViewInnerWrap.addSubview(storeTelButton)
         storeInfoViewInnerWrap.addSubview(separatorLine)
         storeInfoViewInnerWrap.addSubview(requestButtonFrame)
         requestButtonFrame.addSubview(pencilIcon)
@@ -289,6 +292,9 @@ extension StoreDetailViewController: CustomNavigationBarProtocol {
         storeTelLabel.snp.makeConstraints {
             $0.leading.equalTo(storeDetailLabel)
             $0.centerY.equalTo(telephoneIcon)
+        }
+        storeTelButton.snp.makeConstraints {
+            $0.edges.equalTo(storeTelLabel)
         }
         separatorLine.snp.makeConstraints {
             $0.leading.trailing.equalTo(storeInfoViewInnerWrap)
@@ -425,6 +431,9 @@ extension StoreDetailViewController: CustomNavigationBarProtocol {
                 self.storeLabel.text = storeInfo.placeName
                 self.storeCategory.text = storeInfo.categoryGroupName
                 self.storeTelLabel.text = storeInfo.phone == "" ? "정보 없음" : storeInfo.phone
+                if storeInfo.phone != "" {
+                    self.storeTelButton.addTarget(self, action: #selector(self.didTapTelButton), for: .touchUpInside)
+                }
                 self.feedbackList = storeInfo.feedback?.filter({$0.exist == true})
                 var storeLocation: CLLocationCoordinate2D?
                 var storeDistance: String = "알 수 없음"
@@ -454,6 +463,18 @@ extension StoreDetailViewController: CustomNavigationBarProtocol {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                     self.popViewController()
                 }
+            }
+        }
+    }
+    /**
+     * @ 전화걸기
+     * coder : sanghyeon
+     */
+    @objc func didTapTelButton() {
+        if let tel = storeTelLabel.text?.replacingOccurrences(of: "-", with: ""), let telUrl = URL(string: "telprompt://\(tel)") {
+            print("tel: \(tel)")
+            if UIApplication.shared.canOpenURL(telUrl) {
+                UIApplication.shared.open(telUrl)
             }
         }
     }

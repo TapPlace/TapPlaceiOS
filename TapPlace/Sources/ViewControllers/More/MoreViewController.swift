@@ -188,7 +188,7 @@ extension MoreViewController: UITableViewDelegate, UITableViewDataSource, MoreHe
                 switch subTitle {
                 case .version:cell.subTitle = "최신버전"
                 default: break
-                }
+                } 
             }
             return cell
         case 1:

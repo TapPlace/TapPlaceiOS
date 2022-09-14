@@ -697,17 +697,9 @@
 			isa = PBXGroup;
 			children = (
 				DFC87B3228CAE9BF00F53D1D /* NaverMaps */,
-				DFD672A128C8A708000220EE /* Feedback */,
 				DF67A05428C9BA4700435C28 /* MoreViewMenuModel.swift */,
 			);
 			path = NativeModels;
-			sourceTree = "<group>";
-		};
-		DFD672A128C8A708000220EE /* Feedback */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Feedback;
 			sourceTree = "<group>";
 		};
 		DFDA43F728A14C56003763AC /* Utils */ = {

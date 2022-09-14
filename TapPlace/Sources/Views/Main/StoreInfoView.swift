@@ -186,7 +186,8 @@ extension StoreInfoView {
     @objc func didTapStoreButton() {
         print("스토어 상세뷰 터치")
         guard let storeInfo = storeInfo else { return }
-        delegate?.moveStoreDetail(store: storeInfo)
+        guard let mainViewController = mainViewController as? MainViewController else { return }
+        mainViewController.moveStoreDetail(store: storeInfo)
     }
     
     

@@ -111,6 +111,9 @@ class InquiryViewController: CommonViewController {
         titleField.delegate = self
         contentTextView.delegate = self
         emailField.delegate = self
+        button.delegate = self
+        
+        button.isActive = true
         
         configureTableView()
     }
@@ -319,31 +322,50 @@ extension InquiryViewController: UITableViewDataSource, UITableViewDelegate {
 
 extension InquiryViewController: BottomButtonProtocol {
     func didTapBottomButton() {
-        
-        var writeDate = Date()
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        let convertWriteDate = dateFormatter.string(from: writeDate)
+        if !button.isActive { return }
+        button.isActive = false
+        button.setButtonStyle(title: "문의하기", type: .disabled, fill: true)
+        print("문의하기 버튼 눌림")
+
         
         var answerCheck = 0
         if term.checked  == true {
             answerCheck = 1
         }
         
-        let parameter: [String: Any] = [
-            "key": "\(Constants.tapplaceApiKey)",
-            "user_id": "\(Constants.userDeviceID)",
-            "category": type,
-            "title": self.titleField.text,
-            "content": self.contentTextView.text,
-            "write_date": convertWriteDate,
-            "answer_check": answerCheck,
-            "email": self.emailField.text,
-            "os": "iOS"
-        ]
-
-        InquiryService().postInquiry(parameter: parameter) { response,error in
-            print(response)
+        if let titleText = titleField.text, let contentText = contentTextView.text, let emailText = emailField.text {
+            print("옵셔널 바인딩 성공")
+            
+            let parameter: [String: Any] = [
+                "key": "\(Constants.tapplaceApiKey)",
+                "user_id": "\(Constants.userDeviceID)",
+                "category": type,
+                "title": titleText,
+                "content": contentText,
+                "answer_check": answerCheck,
+                "email": emailText,
+                "os": "iOS"
+            ]
+            
+            print(parameter)
+            
+            InquiryService().postInquiry(parameter: parameter) { response,error in
+                if let error = error {
+                    showToast(message: "서버에 오류가 있습니다.\n잠시후 다시 시도해주시기 바랍니다.", view: self.view)
+                    self.button.setButtonStyle(title: "문의하기", type: .activate, fill: true)
+                    return
+                }
+                if response == true {
+                    showToast(message: "문의가 정상적으로 등록 되었습니다.", duration: 3, view: self.view)
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                        self.navigationController?.popViewController(animated: true)
+                        self.button.setButtonStyle(title: "문의하기", type: .activate, fill: true)
+                    }
+                } else {
+                    showToast(message: "알 수 없는 오류가 발생했습니다.\n입력 값을 확인 후 다시 시도해주시기 바랍니다.", view: self.view)
+                    self.button.setButtonStyle(title: "문의하기", type: .activate, fill: true)
+                }
+            }
         }
     }
 }

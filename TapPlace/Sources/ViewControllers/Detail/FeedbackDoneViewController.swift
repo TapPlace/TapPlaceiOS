@@ -11,7 +11,6 @@ import UIKit
 class FeedbackDoneViewController: CommonViewController {
     
     let customNavigationBar = CustomNavigationBar()
-    var storageViewModel = StorageViewModel()
     var feedbackResult: [FeedbackResult]? = nil
     var storeID: String?
     

@@ -9,7 +9,6 @@ import UIKit
 import NMapsMap
 
 class MoreViewController: CommonViewController {
-    var storageViewModel = StorageViewModel()
     var userViewModel = UserViewModel()
     var headerView: MoreHeaderView?
     let customNavigationBar = CustomNavigationBar()

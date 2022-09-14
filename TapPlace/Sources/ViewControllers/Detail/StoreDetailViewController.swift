@@ -10,9 +10,9 @@ import NMapsMap
 import CoreLocation
 import SnapKit
 
-class StoreDetailViewController: CommonViewController {
-    var storageViewModel = StorageViewModel()
-    var storeViewModel = StoreViewModel()
+class StoreDetailViewController: CommonViewController, CustomToolBarProtocol {
+    var storeInfo: StoreInfo?
+    
     var isFirstLoaded: Bool = true
     var feedbackList: [Feedback]?
     var naverMapViewHeight: CGFloat = 0
@@ -67,7 +67,11 @@ class StoreDetailViewController: CommonViewController {
     
 }
 
-extension StoreDetailViewController: CustomNavigationBarProtocol {
+extension StoreDetailViewController: CustomNavigationBarProtocol, CustomToolBarShareProtocol {
+    func showShare(storeID: String) {
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "showShare"), object: storeID)
+    }
+    
     /**
      * @ 초기 레이아웃 설정
      * coder : sanghyeon
@@ -345,6 +349,8 @@ extension StoreDetailViewController: CustomNavigationBarProtocol {
         tableView.delegate = self
         tableView.dataSource = self
         scrollView.delegate = self
+        toolBar.delegate = self
+        toolBar.vcDelegate = self
     }
     /**
      * @ 레이아웃 업데이트
@@ -425,6 +431,7 @@ extension StoreDetailViewController: CustomNavigationBarProtocol {
     func getStore(store: String) {
         storeViewModel.requestStoreInfo(storeID: store, pays: storageViewModel.userFavoritePaymentsString) { result in
             if let storeInfo = result as? StoreInfo {
+                self.storeInfo = storeInfo
                 guard let feedbackVC = self.feedbackVC as? FeedbackRequestViewController else { return }
                 feedbackVC.storeInfo = storeInfo
                 self.customNavigationBar.titleText = storeInfo.placeName

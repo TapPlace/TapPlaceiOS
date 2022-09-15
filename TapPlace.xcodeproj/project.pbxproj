@@ -1002,6 +1002,7 @@
 /* Begin XCBuildConfiguration section */
 		DFC23FA4289AB66600EC1090 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DF49AD8C28A0AB2A004EDC34 /* Debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -1063,6 +1064,7 @@
 		};
 		DFC23FA5289AB66600EC1090 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DF49AD8D28A0AB3F004EDC34 /* Production.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;

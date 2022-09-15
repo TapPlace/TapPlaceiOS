@@ -33,7 +33,7 @@ class SearchViewController: CommonViewController {
     var isBookmarkTap: Bool = false
     
     // MainVC 플로팅 버튼 클릭 여부
-    var isClickFloatingButton: Bool? = false
+    var isClickFloatingButton: Bool = false
     
     let customNavigationBar = CustomNavigationBar()// 커스텀 네비게이션 바
     let searchField = UITextField()  // 검색 필드
@@ -157,14 +157,12 @@ extension SearchViewController: SearchContentButtonProtocol {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         // 탭바
-//        print("뷰 사라집니다.")
         tabBar?.showTabBar(hide: false)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         // 탭바
-//        print("뷰 나타납니다.")
         tabBar?.showTabBar(hide: true)
         searchTableView.reloadData()
     }
@@ -350,35 +348,39 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch self.searchMode {
-        case true:
+        case true: // 검색중일때
             let searchVM: SearchViewModel = self.searchListVM.searchAtIndex(indexPath.row)
-            if isClickFloatingButton == true {
-                let feedbackRequestVC = FeedbackRequestViewController()
-//                feedbackRequestVC.storeId = searchVM.storeID
-                self.navigationController?.pushViewController(feedbackRequestVC, animated: true)
-            } else {
-                // 가맹점 상세창에서 받아야 할 데이터
-                let storeDetailVC = StoreDetailViewController()
-                storeDetailVC.storeID = searchVM.storeID
-                guard let searchModelEach = searchVM.searchModelEach else { return }
-                storeViewModel.requestStoreInfoCheck(searchModel: searchModelEach, pays: storageViewModel.userFavoritePaymentsString) { result in
-                    if let result = result {
-                        var storeInfo = SearchModel.convertStoreInfo(searchModel: searchModelEach)
-                        storeInfo.feedback = result
-                        storeDetailVC.storeInfo = storeInfo
-                        self.navigationController?.pushViewController(storeDetailVC, animated: true)
+            guard let searchModelEach = searchVM.searchModelEach else { return }
+            storeViewModel.requestStoreInfoCheck(searchModel: searchModelEach, pays: storageViewModel.userFavoritePaymentsString) { result in
+                if let result = result {
+                    let storeInfo = SearchModel.convertStoreInfo(searchModel: searchModelEach)
+                    if self.isClickFloatingButton {
+                        // 플로팅 버튼을 눌러서 접근했을 때
+                        if result == nil {
+                            showToast(message: "알 수 없는 이유로 가맹점 정보를 불러오지 못했습니다.\n잠시 후 다시 시도해주시기 바랍니다.", view: self.view)
+                            return
+                        }
+                        let storeDatailVC = StoreDetailViewController()
+                        var targetStoreInfo = storeInfo
+                        targetStoreInfo.feedback = result
+                        storeDatailVC.storeInfo = targetStoreInfo
+                        self.navigationController?.pushViewController(storeDatailVC, animated: true)
                     } else {
-                        showToast(message: "알 수 없는 오류가 발생했습니다.\n잠시후 다시 시도해주시기 바랍니다.", view: self.view)
+                        // 검색창을 눌러서 접근했을 떄
+                        let mainVC = MainViewController()
+                        mainVC.storeInfo = storeInfo
+                        mainVC.isMainMode = false
+                        self.navigationController?.pushViewController(mainVC, animated: true)
                     }
                 }
             }
             if let storeID = searchVM.storeID,
-                let placeName = searchVM.placeName,
-                let x = searchVM.locationX,
-                let y = searchVM.locationY,
-                let addressName = searchVM.addressName,
-                let roadAddressName = searchVM.roadAddressName,
-                let storeCategory = searchVM.categortGroupName {
+               let placeName = searchVM.placeName,
+               let x = searchVM.locationX,
+               let y = searchVM.locationY,
+               let addressName = searchVM.addressName,
+               let roadAddressName = searchVM.roadAddressName,
+               let storeCategory = searchVM.categortGroupName {
                 let latestSearchStore = LatestSearchStore(storeID: storeID, placeName: placeName, locationX: Double(x) ?? 0, locationY: Double(y) ?? 0, addressName: addressName, roadAddressName: roadAddressName, storeCategory: storeCategory, phone: "", date: Date().getDate(3))
                 storageViewModel.addLatestSearchStore(store: latestSearchStore )
             }
@@ -398,7 +400,7 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
             
             // 가맹점 상세창에서 받아야 할 데이터
             storeDetailVC.storeID = storeID
-
+            
             guard let searchModelEach = searchModelEach else { return }
             storeViewModel.requestStoreInfoCheck(searchModel: searchModelEach, pays: storageViewModel.userFavoritePaymentsString) { result in
                 if let result = result {

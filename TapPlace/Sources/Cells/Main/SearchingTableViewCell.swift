@@ -31,6 +31,13 @@ class SearchingTableViewCell: UITableViewCell {
         return placeNameLbl
     }()
     
+    // 테이블 뷰 셀 안 하단 선
+    let bottomLine: UIView = {
+        let bottomLine = UIView()
+        bottomLine.backgroundColor = .init(hex: 0xDBDEE8, alpha: 0.4)
+        return bottomLine
+    }()
+    
     private let distanceAddressLbl: UILabel = {
         let distanceAddressLbl = UILabel()
         distanceAddressLbl.text = ""
@@ -53,6 +60,7 @@ class SearchingTableViewCell: UITableViewCell {
         contentView.addSubview(img)
         contentView.addSubview(placeNameLbl)
         contentView.addSubview(distanceAddressLbl)
+        contentView.addSubview(bottomLine)
     }
     
     private func setLayout() {
@@ -70,6 +78,12 @@ class SearchingTableViewCell: UITableViewCell {
         distanceAddressLbl.snp.makeConstraints {
             $0.top.equalTo(placeNameLbl.snp.bottom).offset(4)
             $0.leading.equalTo(img.snp.trailing).offset(10)
+        }
+        
+        bottomLine.snp.makeConstraints {
+            $0.leading.trailing.equalTo(contentView).inset(20)
+            $0.bottom.equalTo(contentView)
+            $0.height.equalTo(1)
         }
     }
     

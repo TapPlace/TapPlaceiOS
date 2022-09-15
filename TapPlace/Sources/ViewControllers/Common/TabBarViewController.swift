@@ -30,18 +30,18 @@ class TabBarViewController: UITabBarController {
         floatingButton.layer.shadowRadius = 12
         floatingButton.layer.shadowOpacity = 1
         floatingButton.layer.shadowOffset = CGSize(width: 0, height: 4)
-        floatingButton.isHidden = true // 베타버전 임시 강제 true
+        //floatingButton.isHidden = true // 베타버전 임시 강제 true
         return floatingButton
     }()
     
     var isShowFloatingButton: Bool = true {
         willSet {
-// 베타버전 임시 주석
-//            if newValue {
-//                floatingButton.isHidden = false
-//            } else {
-//                floatingButton.isHidden = true
-//            }
+ //베타버전 임시 주석
+            if newValue {
+                floatingButton.isHidden = false
+            } else {
+                floatingButton.isHidden = true
+            }
         }
     }
     
@@ -177,10 +177,10 @@ class TabBarViewController: UITabBarController {
     func showTabBar(hide: Bool) {
         if hide {
             self.tabBar.isHidden = true
-//            self.floatingButton.isHidden = true // 베타버전 임시 주석
+            self.floatingButton.isHidden = true // 베타버전 임시 주석
         } else {
             self.tabBar.isHidden = false
-//            self.floatingButton.isHidden = false // 베타버전 임시 주석
+            self.floatingButton.isHidden = false // 베타버전 임시 주석
         }
         let currentFrame = view.frame
         view.frame = currentFrame.insetBy(dx: 0, dy: 1)

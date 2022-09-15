@@ -442,55 +442,6 @@ extension StoreDetailViewController: CustomNavigationBarProtocol, CustomToolBarS
         
         customNavigationBar.delegate = self
     }
-    /**
-     * @ 스토어 정보 조회
-     * coder : sanghyeon
-     */
-    func getStore(store: String) {
-        storeViewModel.requestStoreInfo(storeID: store, pays: storageViewModel.userFavoritePaymentsString) { result in
-            if let storeInfo = result as? StoreInfo {
-                self.storeInfo = storeInfo
-                guard let feedbackVC = self.feedbackVC as? FeedbackRequestViewController else { return }
-                feedbackVC.storeInfo = storeInfo
-                self.customNavigationBar.titleText = storeInfo.placeName
-                self.storeLabel.text = storeInfo.placeName
-                self.storeCategory.text = storeInfo.categoryGroupName
-                self.storeTelLabel.text = storeInfo.phone == "" ? "정보 없음" : storeInfo.phone
-                if storeInfo.phone != "" {
-                    self.storeTelButton.addTarget(self, action: #selector(self.didTapTelButton), for: .touchUpInside)
-                }
-                self.feedbackList = storeInfo.feedback//?.filter({$0.exist == true})
-                var storeLocation: CLLocationCoordinate2D?
-                var storeDistance: String = "알 수 없음"
-                if let x = Double(storeInfo.x), let y = Double(storeInfo.y) {
-                    storeLocation = CLLocationCoordinate2D(latitude: y, longitude: x)
-                    /// 맵뷰 설정
-                    let cameraUpdate = NMFCameraUpdate(scrollTo: NMGLatLng(from: storeLocation!))
-                    self.naverMapView.moveCamera(cameraUpdate)
-                    if let markerImage = MarkerModel.list.first(where: {$0.groupName == storeInfo.categoryGroupName}) {
-                        let markerImage = NMFOverlayImage(name: "select_\(markerImage.markerImage)")
-                        let marker: NMFMarker = NMFMarker(position: NMGLatLng(from: storeLocation!), iconImage: markerImage)
-                        marker.width = 37
-                        marker.height = 47
-                        marker.captionText = storeInfo.placeName
-                        marker.mapView = self.naverMapView
-                    }
-                }
-                if let storeLocation = storeLocation, let userLocation = UserInfo.userLocation {
-                    storeDistance = DistancelModel.getDistance(distance: storeLocation.distance(from: userLocation))
-                }
-                var storeAddress = storeInfo.roadAddressName == "" ? storeInfo.addressName : storeInfo.roadAddressName
-                self.storeDetailLabel.text = "\(storeDistance) · \(storeAddress)"
-                self.updateLayout()
-                self.tableView.reloadData()
-            } else {
-                showToast(message: "스토어 정보를 불러오는데 실패했습니다.\n다시 시도해주세요.", view: self.view)
-                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                    self.popViewController()
-                }
-            }
-        }
-    }
     
     /**
      * @ 넘겨받은 스토어 정보로 화면 채우기
@@ -512,14 +463,17 @@ extension StoreDetailViewController: CustomNavigationBarProtocol, CustomToolBarS
             /// 맵뷰 설정
             let cameraUpdate = NMFCameraUpdate(scrollTo: NMGLatLng(from: storeLocation!))
             naverMapView.moveCamera(cameraUpdate)
-            if let markerImage = MarkerModel.list.first(where: {$0.groupName == storeInfo.categoryGroupName}) {
-                let markerImage = NMFOverlayImage(name: "select_\(markerImage.markerImage)")
-                let marker: NMFMarker = NMFMarker(position: NMGLatLng(from: storeLocation!), iconImage: markerImage)
-                marker.width = 37
-                marker.height = 47
-                marker.captionText = storeInfo.placeName
-                marker.mapView = self.naverMapView
+            /// 마커 설정
+            var markerImageName = "select_etc_pin"
+            if let markerModel = MarkerModel.list.first(where: {$0.groupName == storeInfo.categoryGroupName}) {
+                markerImageName = "select_\(markerModel.markerImage)"
             }
+            let marker: NMFMarker = NMFMarker(position: NMGLatLng(from: storeLocation!), iconImage: NMFOverlayImage(name: markerImageName))
+            marker.width = 36
+            marker.height = 51
+            marker.captionText = storeInfo.placeName
+            marker.mapView = self.naverMapView
+
         }
         if let storeLocation = storeLocation, let userLocation = UserInfo.userLocation {
             storeDistance = DistancelModel.getDistance(distance: storeLocation.distance(from: userLocation))

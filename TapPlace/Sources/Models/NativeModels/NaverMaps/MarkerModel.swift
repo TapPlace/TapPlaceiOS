@@ -17,7 +17,7 @@ extension MarkerModel {
         MarkerModel(groupName: "편의점", markerImage: "store_pin"),
         MarkerModel(groupName: "마트", markerImage: "shop_pin"),
         MarkerModel(groupName: "음식점", markerImage: "restaurant_pin"),
-        MarkerModel(groupName: "카페", markerImage: "cafe_fin"),
+        MarkerModel(groupName: "카페", markerImage: "cafe_pin"),
         MarkerModel(groupName: "주유소", markerImage: "gas_pin"),
         MarkerModel(groupName: "주차장", markerImage: "parking_pin"),
         MarkerModel(groupName: "병원", markerImage: "hospital_pin"),

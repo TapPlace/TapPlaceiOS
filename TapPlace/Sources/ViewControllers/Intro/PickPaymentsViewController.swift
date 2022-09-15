@@ -30,12 +30,13 @@ extension PickPaymentsViewController: BottomButtonProtocol, TitleViewProtocol {
     func didTapTitleViewClearButton() {
         selectedPayments.removeAll()
         collectionView.reloadData()
+        bottomButtonUpdate()
     }
     
     
     func didTapBottomButton() {
         if bottomButton.isActive {
-            print("액션 실행 가능")
+//            print("액션 실행 가능")
             storageViewModel.setPayments(selectedPayments)
             if isEditMode {
                 self.navigationController?.popViewController(animated: true)
@@ -100,7 +101,7 @@ extension PickPaymentsViewController: UICollectionViewDelegate, UICollectionView
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("셀 선택 됨")
+//        print("셀 선택 됨")
         guard let cell = collectionView.cellForItem(at: indexPath) as? PickPaymentsCollectionViewCell else { return }
         let sectionTitle = EasyPaymentModel.list[indexPath.section].designation
 
@@ -112,7 +113,7 @@ extension PickPaymentsViewController: UICollectionViewDelegate, UICollectionView
             selectedPayments.append(cell.cellVariable)
         } else {
             guard let targetPayments = selectedPayments.firstIndex(where: {$0 == cell.cellVariable}) else { return }
-            print(targetPayments)
+//            print(targetPayments)
             selectedPayments.remove(at: targetPayments)
         }
         
@@ -120,7 +121,7 @@ extension PickPaymentsViewController: UICollectionViewDelegate, UICollectionView
             cell.cellSelected.toggle()
         })
         
-        print(selectedPayments)
+//        print(selectedPayments)
         bottomButtonUpdate()
     }
     

@@ -10,7 +10,7 @@ struct StoreInfo: Codable {
     let num: Int
     let storeID, placeName, addressName, roadAddressName: String
     let categoryGroupName, phone, x, y: String
-    let feedback: [Feedback]?
+    var feedback: [Feedback]?
 
     enum CodingKeys: String, CodingKey {
         case num
@@ -39,6 +39,11 @@ struct StoreInfo: Codable {
     }
 }
   
+// MARK: - SearchFeedbackCheckModel
+struct SearchFeedbackCheckModel: Codable {
+    let feedback: [Feedback]
+}
+
 // MARK: - Feedback
 struct Feedback: Codable {
     let num: Int?

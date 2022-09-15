@@ -24,7 +24,7 @@ extension SearchListViewModel {
         let place = self.documents[index]
         return SearchViewModel(place)
     }
-    
+     
 }
 
 struct SearchViewModel {
@@ -42,6 +42,10 @@ extension SearchViewModel {
 extension SearchViewModel {
     var categoryGroupCode: String? {
         return self.searchModel.categoryGroupCode
+    }
+    
+    var categortGroupName: String? {
+        return self.searchModel.categoryGroupName
     }
     
     var placeName: String? {
@@ -64,6 +68,14 @@ extension SearchViewModel {
     
     var storeID: String? {
         return self.searchModel.id
+    }
+    
+    var locationX: String? {
+        return self.searchModel.x
+    }
+    
+    var locationY: String? {
+        return self.searchModel.y
     }
 }
 

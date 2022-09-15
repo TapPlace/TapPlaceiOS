@@ -13,7 +13,7 @@ class SplashViewController: UIViewController {
     //MARK: - ViewController Lift Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        print(storageViewModel.dataBases?.location)
+        print("TAPPLACE_API_URL: \(Constants.tapplaceApiUrl)")
         print(Constants.userDeviceID)
         setupView()
         userInfoSetting()
@@ -96,13 +96,13 @@ extension SplashViewController {
      */
     func checkTerms() -> TermResultType {
         if let user = storageViewModel.getUserInfo(uuid: Constants.userDeviceID) {
-            print("유저의 서비스 이용약관 날짜: \(user.agreeTerm), 유저의 개인정보 처리방침 날짜: \(user.agreePrivacy)")
-            print("최신 이용약관 날짜: \(LatestTermsModel.latestServiceDate), 최신 개인정보 처리방침 날짜: \(LatestTermsModel.latestPersonalDate)")
+//            print("유저의 서비스 이용약관 날짜: \(user.agreeTerm), 유저의 개인정보 처리방침 날짜: \(user.agreePrivacy)")
+//            print("최신 이용약관 날짜: \(LatestTermsModel.latestServiceDate), 최신 개인정보 처리방침 날짜: \(LatestTermsModel.latestPersonalDate)")
             if user.agreeTerm != LatestTermsModel.latestServiceDate {
-                print("서비스 이용약관 날짜 다름")
+//                print("서비스 이용약관 날짜 다름")
                 return .service
             } else if user.agreePrivacy != LatestTermsModel.latestPersonalDate {
-                print("서비스 개인정보 처리방침 날짜 다름")
+//                print("서비스 개인정보 처리방침 날짜 다름")
                 return .privacy
             } else {
                 return .success

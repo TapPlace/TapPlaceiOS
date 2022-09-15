@@ -26,16 +26,23 @@ class SearchingTableViewCell: UITableViewCell {
         let placeNameLbl = UILabel()
         placeNameLbl.text = ""
         placeNameLbl.textColor = UIColor.init(red: 0, green: 0, blue: 0, alpha: 0.7)
-        placeNameLbl.font = .systemFont(ofSize: 15)
+        placeNameLbl.font = .systemFont(ofSize: CommonUtils.resizeFontSize(size: 15))
         placeNameLbl.sizeToFit()
         return placeNameLbl
+    }()
+    
+    // 테이블 뷰 셀 안 하단 선
+    let bottomLine: UIView = {
+        let bottomLine = UIView()
+        bottomLine.backgroundColor = .init(hex: 0xDBDEE8, alpha: 0.4)
+        return bottomLine
     }()
     
     private let distanceAddressLbl: UILabel = {
         let distanceAddressLbl = UILabel()
         distanceAddressLbl.text = ""
         distanceAddressLbl.textColor = .init(hex: 0x707070)
-        distanceAddressLbl.font = .systemFont(ofSize: 12)
+        distanceAddressLbl.font = .systemFont(ofSize: CommonUtils.resizeFontSize(size: 12))
         return distanceAddressLbl
     }()
     
@@ -53,6 +60,7 @@ class SearchingTableViewCell: UITableViewCell {
         contentView.addSubview(img)
         contentView.addSubview(placeNameLbl)
         contentView.addSubview(distanceAddressLbl)
+        contentView.addSubview(bottomLine)
     }
     
     private func setLayout() {
@@ -71,19 +79,34 @@ class SearchingTableViewCell: UITableViewCell {
             $0.top.equalTo(placeNameLbl.snp.bottom).offset(4)
             $0.leading.equalTo(img.snp.trailing).offset(10)
         }
+        
+        bottomLine.snp.makeConstraints {
+            $0.leading.trailing.equalTo(contentView).inset(20)
+            $0.bottom.equalTo(contentView)
+            $0.height.equalTo(1)
+        }
     }
     
     func prepare(categoryGroupCode: String?, placeName: String?, distance: String?, roadAddress: String? ,address: String?) {
-        guard let categoryGroupCode = categoryGroupCode else {
-            return
+        
+        if let categoryGroupCode = categoryGroupCode {
+            self.img.image = UIImage(named: "\(categoryGroupCode)")
+            
+            if self.img.image == UIImage(named: "") {
+                self.img.image = UIImage(named: "etc")
+            }
         }
-
+        
         // 도로명 주소가 없을 경우 지번 주소 사용
         let storeAddress: String? = roadAddress == "" ? address : roadAddress
-        
-        self.img.image = UIImage(named: "\(categoryGroupCode)")
         self.placeNameLbl.text = placeName
         self.distanceAddressLbl.text = "\(String(describing: distance!))m · \(String(describing: storeAddress!))"
+    }
+
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        placeNameLbl.textColor = UIColor.init(red: 0, green: 0, blue: 0, alpha: 0.7)
     }
 }
 

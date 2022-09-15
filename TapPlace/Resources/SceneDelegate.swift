@@ -24,35 +24,35 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
-        var storageViewModel = StorageViewModel()
-        guard let windowScene = (scene as? UIWindowScene) else { return }
-        var vc: UIViewController = SplashViewController()
-        
-        let window = UIWindow(windowScene: windowScene)
-        if storageViewModel.existUser(uuid: Constants.userDeviceID) {
-            print("회원정보 있음")
-            
-            guard let url = URLContexts.first?.url else { return }
-            
-            guard url.scheme == "tapplace", url.host == "store" else { return }
-            let urlString = url.absoluteString
-            guard urlString.contains("place_id") else { return }
-            let components = URLComponents(string: urlString)
-            let urlQueryItems = components?.queryItems ?? []
-            var dictionaryData = [String: String]()
-            urlQueryItems.forEach { dictionaryData[$0.name] = $0.value }
-            guard let placeID = dictionaryData["place_id"] else { return }
-            
-            guard let vc = TabBarViewController() as? TabBarViewController else { return }
-            vc.showStoreInfo(storeID: placeID)
-        } else {
-            print("회원정보 없음")
-            vc = SplashViewController()
-        }
-        
-        window.rootViewController = UINavigationController(rootViewController: vc)
-        window.makeKeyAndVisible()
-        self.window = window
+//        var storageViewModel = StorageViewModel()
+//        guard let windowScene = (scene as? UIWindowScene) else { return }
+//        var vc: UIViewController = SplashViewController()
+//        
+//        let window = UIWindow(windowScene: windowScene)
+//        if storageViewModel.existUser(uuid: Constants.userDeviceID) {
+//            print("회원정보 있음")
+//            
+//            guard let url = URLContexts.first?.url else { return }
+//            
+//            guard url.scheme == "tapplace", url.host == "store" else { return }
+//            let urlString = url.absoluteString
+//            guard urlString.contains("place_id") else { return }
+//            let components = URLComponents(string: urlString)
+//            let urlQueryItems = components?.queryItems ?? []
+//            var dictionaryData = [String: String]()
+//            urlQueryItems.forEach { dictionaryData[$0.name] = $0.value }
+//            guard let placeID = dictionaryData["place_id"] else { return }
+//            
+//            guard let vc = TabBarViewController() as? TabBarViewController else { return }
+//            vc.showStoreInfo(storeID: placeID)
+//        } else {
+//            print("회원정보 없음")
+//            vc = SplashViewController()
+//        }
+//        
+//        window.rootViewController = UINavigationController(rootViewController: vc)
+//        window.makeKeyAndVisible()
+//        self.window = window
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

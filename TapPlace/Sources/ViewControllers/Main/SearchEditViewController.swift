@@ -9,7 +9,7 @@ import UIKit
 
 class SearchEditViewController: CommonViewController {
     
-    var chooseItem = 0 // 편집할 셀 갯수
+    var selectedStoreID: [String] = []
     
     let customNavigationBar = CustomNavigationBar() // 커스텀 네비게이션 바
     let leftBtn = EditButton() // 전체 선택 버튼
@@ -37,6 +37,7 @@ class SearchEditViewController: CommonViewController {
         editTableView.translatesAutoresizingMaskIntoConstraints = false
         editTableView.register(SearchEditTableViewCell.self, forCellReuseIdentifier: SearchEditTableViewCell.identifier)
         editTableView.allowsSelection = true
+        editTableView.separatorStyle = .none
         return editTableView
     }()
     
@@ -49,14 +50,15 @@ class SearchEditViewController: CommonViewController {
     }
     
     // 셀이 선택 되었을 경우 하단 버튼 UI 변경하는 메소드
-    private func changeButtonUI(_ chooseItem: Int) {
-        if chooseItem > 0 {
+    private func changeButtonUI() {
+//        print(selectedStoreID.count)
+        if selectedStoreID.count > 0 {
             leftBtn.setTitleColor(UIColor.pointBlue, for: .normal)
             leftBtn.setTitle("선택해제", for: .normal)
             
             rightBtn.backgroundColor = UIColor.pointBlue
             rightBtn.setTitleColor(.white, for: .normal)
-            rightBtn.setTitle("삭제 \(chooseItem)", for: .normal)
+            rightBtn.setTitle("삭제 \(selectedStoreID.count)", for: .normal)
         } else {
             leftBtn.setTitle("전체선택", for: .normal)
             leftBtn.setTitleColor(UIColor(red: 0.722, green: 0.741, blue: 0.8, alpha: 1), for: .normal)
@@ -138,14 +140,14 @@ extension SearchEditViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         // 탭바
-        print("뷰 사라집니다.")
+//        print("뷰 사라집니다.")
         tabBar?.showTabBar(hide: false)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         // 탭바
-        print("뷰 나타납니다.")
+//        print("뷰 나타납니다.")
         tabBar?.showTabBar(hide: true)
     }
 }
@@ -161,43 +163,58 @@ extension SearchEditViewController: CustomNavigationBarProtocol {
 extension SearchEditViewController: EditButtonProtocol {
     func didTapButton(_ sender: EditButton) {
         if sender == leftBtn {
-            if chooseItem == 0 {
-                for i in 0..<RecentSearchModel.list.count {
+            if selectedStoreID.count == 0 {
+                for i in 0..<storageViewModel.latestSearchStore.count {
                     let indexPath = IndexPath(row: i, section: 0)
                     let cell = editTableView.cellForRow(at: indexPath) as! SearchEditTableViewCell
                     cell.cellSeclected = true
+                    if let storeID = cell.storeID {
+                        selectedStoreID.append(storeID)
+                    }
                 }
-                chooseItem = RecentSearchModel.list.count
-                changeButtonUI(chooseItem)
             } else {
-                for i in 0..<RecentSearchModel.list.count {
+                for i in 0..<storageViewModel.latestSearchStore.count {
                     let indexPath = IndexPath(row: i, section: 0)
                     let cell = editTableView.cellForRow(at: indexPath) as! SearchEditTableViewCell
                     cell.cellSeclected = false
                 }
-                chooseItem = 0
-                changeButtonUI(chooseItem)
+                selectedStoreID.removeAll()
             }
         } else {
+            storageViewModel.deleteLatestSearchStore(store: selectedStoreID)
+            for id in selectedStoreID {
+                if let firstIndex = selectedStoreID.firstIndex(where: {$0 == id}) {
+                    selectedStoreID.remove(at: firstIndex)
+                }
+            }
         }
+        changeButtonUI()
+        editTableView.reloadData()
     }
 }
 
 // MARK: - 테이블 뷰 데이터 소스, 델리게이트 설정
 extension SearchEditViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        RecentSearchModel.list.count
+        storageViewModel.latestSearchStore.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: SearchEditTableViewCell.identifier, for: indexPath) as! SearchEditTableViewCell
+        let storeInfo = storageViewModel.latestSearchStore[indexPath.row]
         cell.selectionStyle = .none
         cell.backgroundColor = .white
-        cell.checkButton.setImage(UIImage(systemName: "checkmark.circle"), for: .normal)
-        cell.img.image = RecentSearchModel.list[indexPath.row].image
-        cell.label.text = RecentSearchModel.list[indexPath.row].placeName
+        
+        if let store = StoreModel.lists.first(where: {$0.title == storeInfo.storeCategory}) {
+            cell.img.image = StoreModel.lists.first(where: {$0.title == storeInfo.storeCategory}) == nil ? UIImage(named: "etc") : UIImage(named: store.id)
+        } else {
+            cell.img.image = UIImage(named: "etc")
+        }
+        
+        cell.label.text = storeInfo.placeName
         cell.index = indexPath
-        cell.delegate = self
+        cell.storeID = storeInfo.storeID
+        cell.isUserInteractionEnabled = true
         
         return cell
     }
@@ -209,21 +226,16 @@ extension SearchEditViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let cell = tableView.cellForRow(at: indexPath) as? SearchEditTableViewCell else { return }
-        if cell.cellSeclected {
-            cell.cellSeclected = false
-            self.chooseItem -= 1
-            self.changeButtonUI(chooseItem)
-        } else {
-            cell.cellSeclected = true
-            self.chooseItem += 1
-            self.changeButtonUI(chooseItem)
-        }
-    }
-}
-
-// MARK: - Cell 체크 버튼 프로토콜
-extension SearchEditViewController: CheckButtonProtocol {
-    func check(index: Int) {
+        cell.cellSeclected.toggle()
         
+        if let selectedIndex = selectedStoreID.firstIndex(where: {$0 == cell.storeID ?? ""}) {
+            selectedStoreID.remove(at: selectedIndex)
+        }
+        if cell.cellSeclected {
+            guard let storeID = cell.storeID else { return }
+            selectedStoreID.append(storeID)
+        }
+
+        changeButtonUI()
     }
 }

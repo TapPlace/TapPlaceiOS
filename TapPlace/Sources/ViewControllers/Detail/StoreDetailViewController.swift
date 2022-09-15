@@ -19,10 +19,12 @@ class StoreDetailViewController: CommonViewController, CustomToolBarProtocol {
     
     var storeID: String? = "" {
         willSet {
-            guard let newValue = newValue else { return }
-            getStore(store: newValue)
+            //guard let newValue = newValue else { return }
+            //getStore(store: newValue)
         }
     }
+    
+
     
     
     var naverMapView = NMFMapView()
@@ -50,18 +52,25 @@ class StoreDetailViewController: CommonViewController, CustomToolBarProtocol {
         setupNaverMapView()
         setupView()
         setupNavigation()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            self.isFirstLoaded = false
+                
+        DispatchQueue.main.async {
+            guard let storeInfo = self.storeInfo else { return }
+            self.setStore(storeInfo: storeInfo)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                self.isFirstLoaded = false
+            }
         }
     }
     
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         tabBar?.showTabBar(hide: true)
-        feedbackVC = FeedbackRequestViewController()
+        updateFeedback()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
         tabBar?.showTabBar(hide: false)
     }
     
@@ -70,6 +79,14 @@ class StoreDetailViewController: CommonViewController, CustomToolBarProtocol {
 extension StoreDetailViewController: CustomNavigationBarProtocol, CustomToolBarShareProtocol {
     func showShare(storeID: String) {
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "showShare"), object: storeID)
+    }
+    func updateFeedback() {
+        if self.isFirstLoaded { return }
+        guard let storeInfo = storeInfo else { return }
+        storeViewModel.requestStoreInfoCheck(searchModel: SearchModel.convertSearchModel(storeInfo: storeInfo), pays: storageViewModel.userFavoritePaymentsString) { result in
+            self.feedbackList = result
+            self.tableView.reloadData()
+        }
     }
     
     /**
@@ -425,62 +442,53 @@ extension StoreDetailViewController: CustomNavigationBarProtocol, CustomToolBarS
         
         customNavigationBar.delegate = self
     }
+    
     /**
-     * @ 스토어 정보 조회
+     * @ 넘겨받은 스토어 정보로 화면 채우기
      * coder : sanghyeon
      */
-    func getStore(store: String) {
-        storeViewModel.requestStoreInfo(storeID: store, pays: storageViewModel.userFavoritePaymentsString) { result in
-            if let storeInfo = result as? StoreInfo {
-                self.storeInfo = storeInfo
-                guard let feedbackVC = self.feedbackVC as? FeedbackRequestViewController else { return }
-                feedbackVC.storeInfo = storeInfo
-                self.customNavigationBar.titleText = storeInfo.placeName
-                self.storeLabel.text = storeInfo.placeName
-                self.storeCategory.text = storeInfo.categoryGroupName
-                self.storeTelLabel.text = storeInfo.phone == "" ? "정보 없음" : storeInfo.phone
-                if storeInfo.phone != "" {
-                    self.storeTelButton.addTarget(self, action: #selector(self.didTapTelButton), for: .touchUpInside)
-                }
-                self.feedbackList = storeInfo.feedback?.filter({$0.exist == true})
-                var storeLocation: CLLocationCoordinate2D?
-                var storeDistance: String = "알 수 없음"
-                if let x = Double(storeInfo.x), let y = Double(storeInfo.y) {
-                    storeLocation = CLLocationCoordinate2D(latitude: y, longitude: x)
-                    /// 맵뷰 설정
-                    let cameraUpdate = NMFCameraUpdate(scrollTo: NMGLatLng(from: storeLocation!))
-                    self.naverMapView.moveCamera(cameraUpdate)
-                    if let markerImage = MarkerModel.list.first(where: {$0.groupName == storeInfo.categoryGroupName}) {
-                        let markerImage = NMFOverlayImage(name: "select_\(markerImage.markerImage)")
-                        let marker: NMFMarker = NMFMarker(position: NMGLatLng(from: storeLocation!), iconImage: markerImage)
-                        marker.width = 37
-                        marker.height = 47
-                        marker.captionText = storeInfo.placeName
-                        marker.mapView = self.naverMapView
-                    }
-                }
-                if let storeLocation = storeLocation, let userLocation = UserInfo.userLocation {
-                    storeDistance = DistancelModel.getDistance(distance: storeLocation.distance(from: userLocation))
-                }
-                var storeAddress = storeInfo.roadAddressName == "" ? storeInfo.addressName : storeInfo.roadAddressName
-                self.storeDetailLabel.text = "\(storeDistance) · \(storeAddress)"
-                self.updateLayout()
-                self.tableView.reloadData()
-            } else {
-                showToast(message: "스토어 정보를 불러오는데 실패했습니다.\n다시 시도해주세요.", view: self.view)
-                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                    self.popViewController()
-                }
-            }
+    func setStore(storeInfo: StoreInfo) {
+        feedbackList = storeInfo.feedback//?.filter({$0.exist == true})
+        customNavigationBar.titleText = storeInfo.placeName
+        storeLabel.text = storeInfo.placeName
+        storeCategory.text = storeInfo.categoryGroupName
+        storeTelLabel.text = storeInfo.phone == "" ? "정보 없음" : storeInfo.phone
+        if storeInfo.phone != "" {
+            storeTelButton.addTarget(self, action: #selector(self.didTapTelButton), for: .touchUpInside)
         }
+        var storeLocation: CLLocationCoordinate2D?
+        var storeDistance: String = "알 수 없음"
+        if let x = Double(storeInfo.x), let y = Double(storeInfo.y) {
+            storeLocation = CLLocationCoordinate2D(latitude: y, longitude: x)
+            /// 맵뷰 설정
+            let cameraUpdate = NMFCameraUpdate(scrollTo: NMGLatLng(from: storeLocation!))
+            naverMapView.moveCamera(cameraUpdate)
+            /// 마커 설정
+            var markerImageName = "select_etc_pin"
+            if let markerModel = MarkerModel.list.first(where: {$0.groupName == storeInfo.categoryGroupName}) {
+                markerImageName = "select_\(markerModel.markerImage)"
+            }
+            let marker: NMFMarker = NMFMarker(position: NMGLatLng(from: storeLocation!), iconImage: NMFOverlayImage(name: markerImageName))
+            marker.width = 36
+            marker.height = 51
+            marker.captionText = storeInfo.placeName
+            marker.mapView = self.naverMapView
+        }
+        if let storeLocation = storeLocation, let userLocation = UserInfo.userLocation {
+            storeDistance = DistancelModel.getDistance(distance: storeLocation.distance(from: userLocation))
+        }
+        let storeAddress = storeInfo.roadAddressName == "" ? storeInfo.addressName : storeInfo.roadAddressName
+        storeDetailLabel.text = "\(storeDistance) · \(storeAddress)"
+        updateLayout()
+        tableView.reloadData()
     }
+    
     /**
      * @ 전화걸기
      * coder : sanghyeon
      */
     @objc func didTapTelButton() {
         if let tel = storeTelLabel.text?.replacingOccurrences(of: "-", with: ""), let telUrl = URL(string: "telprompt://\(tel)") {
-            print("tel: \(tel)")
             if UIApplication.shared.canOpenURL(telUrl) {
                 UIApplication.shared.open(telUrl)
             }
@@ -491,7 +499,6 @@ extension StoreDetailViewController: CustomNavigationBarProtocol, CustomToolBarS
      * coder : sanghyeon
      */
     @objc func didTapRequestButton() {
-        print("정보수정요청")
         let vc = InquiryViewController()
         vc.type = .edit
         self.navigationController?.pushViewController(vc, animated: true)
@@ -574,8 +581,13 @@ extension StoreDetailViewController: UITableViewDelegate, UITableViewDataSource 
             showToast(message: "금일 \(storageViewModel.numberOfAllowFeedback)번의 피드백을 모두 하셨습니다.\n내일 다시 시도해주시기 바랍니다.", view: self.view)
             return
         }
-        guard let feedbackVC = feedbackVC else { return }
-        self.navigationController?.pushViewController(feedbackVC, animated: true)
+        feedbackVC = FeedbackRequestViewController()
+        if let feedbackVC = feedbackVC as? FeedbackRequestViewController {
+            feedbackVC.storeInfo = storeInfo
+            self.navigationController?.pushViewController(feedbackVC, animated: true)
+        } else {
+            showToast(message: "알 수 없는 문제로 피드백 요청을 불러올 수 없습니다.\n잠시 후 다시 시도해주시기 바랍니다.", view: self.view)
+        }
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {

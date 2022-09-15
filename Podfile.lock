@@ -17,7 +17,7 @@ DEPENDENCIES:
   - FloatingPanel
   - IQKeyboardManagerSwift
   - NMapsMap
-  - RealmSwift
+  - RealmSwift (~> 10)
   - SnapKit (~> 5.6.0)
 
 SPEC REPOS:
@@ -41,6 +41,6 @@ SPEC CHECKSUMS:
   RealmSwift: 35d8d318b7e5a8dbc7096c2a243184e4d19abcc0
   SnapKit: e01d52ebb8ddbc333eefe2132acf85c8227d9c25
 
-PODFILE CHECKSUM: bfb429dbd7be4240a4ef5bbbbfe80eb37a508ed6
+PODFILE CHECKSUM: bc0ccb01696f9293457d50acf0f2dada92de653b
 
 COCOAPODS: 1.11.3

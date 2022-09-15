@@ -42,13 +42,13 @@ struct SearchModel: Decodable {
         let tempStoreInfo = StoreInfo(num: 0, storeID: searchModel.id, placeName: searchModel.placeName, addressName: searchModel.addressName, roadAddressName: searchModel.roadAddressName, categoryGroupName: searchModel.categoryGroupName, phone: searchModel.phone, x: searchModel.x, y: searchModel.y, feedback: nil)
         return tempStoreInfo
     }
-}
-
-extension RecentSearchModel {
-    static let list: [RecentSearchModel] = [
-        RecentSearchModel(image: UIImage(systemName: "fork.knife.circle.fill"), placeName: "세븐 일레븐 등촌 3호점"),
-        RecentSearchModel(image: UIImage(systemName: "fork.knife.circle.fill"), placeName: "BBQ 등촌행복점"),
-        RecentSearchModel(image: UIImage(systemName: "fork.knife.circle.fill"), placeName: "세븐 일레븐 등촌 3호점"),
-        RecentSearchModel(image: UIImage(systemName: "fork.knife.circle.fill"), placeName:  "BBQ 등촌행복점")
-    ]
+    /**
+     * @ StoreInfo -> SearchModel 변환
+     * coder : sanghyeon
+     */
+    static func convertSearchModel(storeInfo: StoreInfo) -> SearchModel {
+        let tempSearchModel = SearchModel(addressName: storeInfo.addressName, categoryGroupCode: "", categoryGroupName: storeInfo.categoryGroupName, distance: "", id: storeInfo.storeID, phone: storeInfo.phone, placeName: storeInfo.placeName, placeURL: "", roadAddressName: storeInfo.roadAddressName, x: storeInfo.x, y: storeInfo.y)
+        return tempSearchModel
+                
+    }
 }

@@ -194,7 +194,7 @@ extension FeedbackDoneViewController: UITableViewDataSource, UITableViewDelegate
         
         //let storePaymentModel = StorePaymentModel.lists[indexPath.row]
         let feedback = feedbackResult[indexPath.row]
-        print(feedback)
+//        print(feedback)
         cell.feedback = Feedback(num: 0, storeID: nil, success: feedback.success, fail: feedback.fail, lastState: feedback.lastState, lastTime: nil, pay: feedback.pay, exist: true)
         //cell.prepare(pay: nil, payName: storePaymentModel.payName, success: storePaymentModel.success, successDate: storePaymentModel.successDate, successRate: storePaymentModel.successRate)
         

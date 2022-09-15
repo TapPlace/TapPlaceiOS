@@ -164,7 +164,7 @@ extension FeedbackRequestViewController {
         feedbackViewModel.requestUserPaymentFeedback(storeInfo: storeInfo, userPayments: userPayments) { result in
             guard let result = result else { return }
             result.feedback.forEach {
-                print("[loaded feedback] feedback: \($0)")
+//                print("[loaded feedback] feedback: \($0)")
                 self.myPayments.append(FeedbackRequestModel(feedback: $0, selected: .none))
             }
             self.tableView.reloadData()
@@ -190,7 +190,7 @@ extension FeedbackRequestViewController {
         feedbackViewModel.requestMorePaymentFeedback(storeID: storeInfo.storeID, otherPayments: morePayments) { result in
             guard let result = result else { return }
             result.feedback.forEach {
-                print("[loaded feedback] feedback: \($0)")
+//                print("[loaded feedback] feedback: \($0)")
                 self.otherPayments.append(FeedbackRequestModel(feedback: $0, selected: .none))
             }
             self.tableView.reloadData()
@@ -200,7 +200,7 @@ extension FeedbackRequestViewController {
 //MARK: - TableView
 extension FeedbackRequestViewController: UITableViewDelegate, UITableViewDataSource, FeedbackRequestCellProtocol {
     func didTapFeedbackButton(indexPath: IndexPath, payment: String, exist: Bool, type: FeedbackButton.FeedbackButtonStyle) {
-        print("버튼을 선택한...", indexPath, type, payment)
+//        print("버튼을 선택한...", indexPath, type, payment)
         guard let cell = tableView.cellForRow(at: indexPath) as? FeedbackRequestTableViewCell else { return }
         cell.setButtonStyle = type == .success ? .success : .fail
         let feedbackModel = LoadFeedbackList(exist: exist, pay: payment)
@@ -219,8 +219,8 @@ extension FeedbackRequestViewController: UITableViewDelegate, UITableViewDataSou
                 successFeedback.remove(at: index)
             }
         }
-        print("successFeedback: \(successFeedback)")
-        print("failFeedback: \(failFeedback)")
+//        print("successFeedback: \(successFeedback)")
+//        print("failFeedback: \(failFeedback)")
         
         if successFeedback.count + failFeedback.count > 0 {
             bottomButton.isActive = true

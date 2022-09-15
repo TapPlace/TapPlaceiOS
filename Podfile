@@ -5,7 +5,7 @@ target 'TapPlace' do
   # Comment the next line if you don't want to use dynamic frameworks
   use_frameworks!
 
-  pod 'RealmSwift'
+  pod 'RealmSwift', '~>10'
   pod 'SnapKit', '~> 5.6.0'
   pod 'NMapsMap'
   pod 'Alamofire'

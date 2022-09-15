@@ -6,11 +6,9 @@
 	<array>
 		<dict>
 			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
+			<string>None</string>
 			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>tapplace</string>
-			</array>
+			<array/>
 		</dict>
 	</array>
 	<key>KAKAO_REST_API_KEY</key>
@@ -21,6 +19,8 @@
 	</array>
 	<key>NAVER_CLIENT_ID</key>
 	<string>${NAVER_CLIENT_ID}</string>
+	<key>TAPPLACE_API_URL</key>
+	<string>${TAPPLACE_API_URL}</string>
 	<key>TAPPLACE_API_KEY</key>
 	<string>${TAPPLACE_API_KEY}</string>
 	<key>UIApplicationSceneManifest</key>

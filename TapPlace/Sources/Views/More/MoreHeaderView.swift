@@ -24,7 +24,6 @@ class MoreHeaderView: UIView {
     var payments: String = "" {
         willSet {
             paymentsLabel.text = newValue
-            print(newValue)
         }
     }
     
@@ -143,6 +142,9 @@ extension MoreHeaderView {
         }
 
         paymentsButton.addTarget(self, action: #selector(didTapPaymentsButton), for: .touchUpInside)
+        
+        // 베타 버전 임시 숨김
+        itemStores.isHidden = true
     }
     
     @objc func didTapPaymentsButton() {

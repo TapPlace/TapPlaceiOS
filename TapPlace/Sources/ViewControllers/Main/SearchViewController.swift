@@ -35,6 +35,9 @@ class SearchViewController: CommonViewController {
     // MainVC 플로팅 버튼 클릭 여부
     var isClickFloatingButton: Bool = false
     
+    // 중복 실행 막기
+    var isLoading: Bool = false
+    
     let customNavigationBar = CustomNavigationBar()// 커스텀 네비게이션 바
     let searchField = UITextField()  // 검색 필드
     let recentSearchButton = SearchContentButton() // 최근 검색어 버튼
@@ -347,6 +350,9 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     } 
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if isLoading { return }
+        print("셀클릭")
+        isLoading = true
         switch self.searchMode {
         case true: // 검색중일때
             let searchVM: SearchViewModel = self.searchListVM.searchAtIndex(indexPath.row)
@@ -373,6 +379,7 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
                         self.navigationController?.pushViewController(mainVC, animated: true)
                     }
                 }
+                self.isLoading = false
             }
             if let storeID = searchVM.storeID,
                let placeName = searchVM.placeName,

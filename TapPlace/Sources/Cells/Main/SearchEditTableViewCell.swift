@@ -9,21 +9,18 @@ import UIKit
 class SearchEditTableViewCell: UITableViewCell {
     static let identifier = "SearchEditCell"
     var index: IndexPath?
-    let checkButtonColor: [UIColor] = [.init(hex: 0xCDD2DF), .pointBlue]
     var storeID: String?
     
     // 셀 선택 여부
     var cellSeclected: Bool = false {
         willSet {
-            let arrRow = newValue ? 1 : 0
-            checkImage.tintColor = checkButtonColor[arrRow]
+            checkImage.image = newValue ? UIImage(named: "checkCircleFill") : UIImage(named: "checkCircle")
         }
     }
     
     let checkImage: UIImageView = {
         let checkImage = UIImageView()
-        checkImage.image = UIImage(named: "checkmark")?.withRenderingMode(.alwaysTemplate)
-        checkImage.tintColor = .init(hex: 0xCDD2DF)
+        checkImage.image = UIImage(named: "checkCircle")
         checkImage.contentMode = .scaleAspectFit
         return checkImage
     }()
@@ -40,9 +37,16 @@ class SearchEditTableViewCell: UITableViewCell {
         let label = UILabel()
         label.text = ""
         label.textColor = UIColor(red: 0.302, green: 0.302, blue: 0.302, alpha: 1)
-        label.font = UIFont(name: "AppleSDGothicNeoM00-Regular", size: 15)
+        label.font = .systemFont(ofSize: CommonUtils.resizeFontSize(size: 15), weight: .medium)
         label.sizeToFit()
         return label
+    }()
+    
+    // 테이블 뷰 셀 하단 선
+    let bottomLine: UIView = {
+        let bottomLine = UIView()
+        bottomLine.backgroundColor = .init(hex: 0xDBDEE8, alpha: 0.4)
+        return bottomLine
     }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -56,6 +60,7 @@ class SearchEditTableViewCell: UITableViewCell {
         contentView.addSubview(checkImage)
         contentView.addSubview(img)
         contentView.addSubview(label)
+        contentView.addSubview(bottomLine)
     }
     
     private func setLayout() {
@@ -63,19 +68,26 @@ class SearchEditTableViewCell: UITableViewCell {
         let safeArea = contentView.safeAreaLayoutGuide
         
         checkImage.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
+            $0.centerY.equalTo(contentView)
             $0.leading.equalTo(safeArea).offset(21)
-            $0.width.height.equalTo(14)
+            $0.width.height.equalTo(16)
         }
         
         img.snp.makeConstraints {
             $0.leading.equalTo(checkImage.snp.trailing).offset(15)
-            $0.centerY.equalToSuperview()
+            $0.centerY.equalTo(contentView)
+            $0.width.height.equalTo(15)
         }
         
         label.snp.makeConstraints {
             $0.leading.equalTo(img.snp.trailing).offset(11)
-            $0.centerY.equalToSuperview()
+            $0.centerY.equalTo(contentView)
+        }
+        
+        bottomLine.snp.makeConstraints {
+            $0.bottom.equalTo(contentView)
+            $0.leading.trailing.equalToSuperview().inset(20)
+            $0.height.equalTo(1)
         }
     }
     
@@ -86,6 +98,6 @@ class SearchEditTableViewCell: UITableViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        checkImage.tintColor = checkButtonColor[0]
+        checkImage.image = UIImage(named: "checkCircle")
     }
 }

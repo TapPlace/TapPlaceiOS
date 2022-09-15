@@ -26,7 +26,7 @@ class SearchingTableViewCell: UITableViewCell {
         let placeNameLbl = UILabel()
         placeNameLbl.text = ""
         placeNameLbl.textColor = UIColor.init(red: 0, green: 0, blue: 0, alpha: 0.7)
-        placeNameLbl.font = .systemFont(ofSize: 15)
+        placeNameLbl.font = .systemFont(ofSize: CommonUtils.resizeFontSize(size: 15))
         placeNameLbl.sizeToFit()
         return placeNameLbl
     }()
@@ -35,7 +35,7 @@ class SearchingTableViewCell: UITableViewCell {
         let distanceAddressLbl = UILabel()
         distanceAddressLbl.text = ""
         distanceAddressLbl.textColor = .init(hex: 0x707070)
-        distanceAddressLbl.font = .systemFont(ofSize: 12)
+        distanceAddressLbl.font = .systemFont(ofSize: CommonUtils.resizeFontSize(size: 12))
         return distanceAddressLbl
     }()
     
@@ -85,6 +85,7 @@ class SearchingTableViewCell: UITableViewCell {
         self.placeNameLbl.text = placeName
         self.distanceAddressLbl.text = "\(String(describing: distance!))m · \(String(describing: storeAddress!))"
     }
+
     
     override func prepareForReuse() {
         super.prepareForReuse()

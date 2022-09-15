@@ -74,6 +74,17 @@ struct StorageViewModel: StorageProtocol {
         return returnPayments
     }
     
+    var latestSearchStore: [LatestSearchStore] {
+        var returnLatestSearchStore: [LatestSearchStore] = []
+        guard let stores = dataBases?.realm.objects(LatestSearchStore.self) else { return returnLatestSearchStore }
+        for store in stores {
+            let tempStore = LatestSearchStore(storeID: store.storeID, placeName: store.placeName, locationX: store.locationX, locationY: store.locationY, addressName: store.addressName, roadAddressName: store.roadAddressName, storeCategory: store.storeCategory, date: store.date)
+            returnLatestSearchStore.append(tempStore)
+        }
+        return returnLatestSearchStore
+    }
+    
+    
     
     mutating func loadFeedbackStore() -> [UserFeedbackStoreModel] {
         let objects = dataBases?.realm.objects(UserFeedbackStoreModel.self).toArray(ofType: UserFeedbackStoreModel.self) as [UserFeedbackStoreModel]

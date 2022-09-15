@@ -162,6 +162,7 @@ extension SearchViewController: SearchContentButtonProtocol {
         // 탭바
         print("뷰 나타납니다.")
         tabBar?.showTabBar(hide: true)
+        searchTableView.reloadData()
     }
     
     // 레이아웃 구성
@@ -300,20 +301,22 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch self.searchMode {
         case false:
-            return RecentSearchModel.list.count
+            return storageViewModel.latestSearchStore.count
         case true:
             return self.searchListVM.numberOfRowsInSection(1)
         }
     }
-    
+     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch self.searchMode {
         case false:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: SearchHistoryTableViewCell.identifier, for: indexPath) as? SearchHistoryTableViewCell else { fatalError("no matched articleTableViewCell identifier") }
             cell.selectionStyle = .none
             cell.backgroundColor = .white
-            cell.img.image = RecentSearchModel.list[indexPath.row].image
-            cell.label.text = RecentSearchModel.list[indexPath.row].placeName
+            let latestSearch = storageViewModel.latestSearchStore[indexPath.row]
+            cell.storeCategory = latestSearch.storeCategory
+            cell.label.text = latestSearch.placeName
+            cell.storeInfo = latestSearch.convertStoreInfo()
             cell.deleteButton.setImage(UIImage(systemName: "xmark"), for: .normal)
             cell.index = indexPath
             cell.delegate = self
@@ -353,7 +356,16 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
                         showToast(message: "알 수 없는 오류가 발생했습니다.\n잠시후 다시 시도해주시기 바랍니다.", view: self.view)
                     }
                 }
-                
+            }
+            if let storeID = searchVM.storeID,
+                let placeName = searchVM.placeName,
+                let x = searchVM.locationX,
+                let y = searchVM.locationY,
+                let addressName = searchVM.addressName,
+                let roadAddressName = searchVM.roadAddressName,
+                let storeCategory = searchVM.categortGroupName {
+                let latestSearchStore = LatestSearchStore(storeID: storeID, placeName: placeName, locationX: Double(x) ?? 0, locationY: Double(y) ?? 0, addressName: addressName, roadAddressName: roadAddressName, storeCategory: storeCategory, date: Date().getDate(3))
+                storageViewModel.addLatestSearchStore(store: latestSearchStore )
             }
         case false:
             return
@@ -371,9 +383,8 @@ extension SearchViewController: CustomNavigationBarProtocol {
 
 // MARK: - 최근 검색어 삭제
 extension SearchViewController: XBtnProtocol {
-    func deleteCell(index: Int) {
-        self.searchingData.remove(at: index)
-        self.img.remove(at: index)
+    func deleteCell(storeID: String) {
+        storageViewModel.deleteLatestSearchStore(store: storeID)
         self.searchTableView.reloadData()
     }
 }

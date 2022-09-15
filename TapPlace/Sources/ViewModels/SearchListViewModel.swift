@@ -44,6 +44,10 @@ extension SearchViewModel {
         return self.searchModel.categoryGroupCode
     }
     
+    var categortGroupName: String? {
+        return self.searchModel.categoryGroupName
+    }
+    
     var placeName: String? {
         return self.searchModel.placeName
     }
@@ -64,6 +68,14 @@ extension SearchViewModel {
     
     var storeID: String? {
         return self.searchModel.id
+    }
+    
+    var locationX: String? {
+        return self.searchModel.x
+    }
+    
+    var locationY: String? {
+        return self.searchModel.y
     }
 }
 

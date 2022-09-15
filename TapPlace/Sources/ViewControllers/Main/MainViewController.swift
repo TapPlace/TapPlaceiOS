@@ -414,9 +414,9 @@ extension MainViewController: CLLocationManagerDelegate, NMFMapViewCameraDelegat
                 naverMapMarker.captionText = markerRow.placeName
                 naverMapMarker.captionRequestedWidth = 80
                 naverMapMarker.isHideCollidedCaptions = true
-                naverMapMarker.width = 37
-                naverMapMarker.height = 47
-
+                naverMapMarker.width = 36
+                naverMapMarker.height = 48
+                naverMapMarker.zIndex = 10000
                 naverMapMarker.touchHandler = { (marker) in
                     if let marker = marker as? NMFMarker {
                         self.didTapMarker(marker: marker)
@@ -448,9 +448,10 @@ extension MainViewController: CLLocationManagerDelegate, NMFMapViewCameraDelegat
         for eachMarker in markerList {
             if let markerImage = MarkerModel.list.first(where: {$0.groupName == eachMarker.store.categoryGroupName}) {
                 eachMarker.marker.iconImage = NMFOverlayImage(name: markerImage.markerImage)
+                eachMarker.marker.zIndex = 10000
             }
-            eachMarker.marker.width = 37
-            eachMarker.marker.height = 47
+            eachMarker.marker.width = 36
+            eachMarker.marker.height = 48
         }
     }
     /**
@@ -465,8 +466,9 @@ extension MainViewController: CLLocationManagerDelegate, NMFMapViewCameraDelegat
         resetAllMarkersSize()
         /// 선택된 마커 사이즈 확장
         guard let marker = marker else { return }
-        marker.width = 50
-        marker.height = 68
+        marker.width = 51
+        marker.height = 72
+        marker.zIndex = 10001
         
         /// 마커의 스토어 정보
         guard let targetMarker = markerList.first(where: {$0.marker == marker }) else { return }

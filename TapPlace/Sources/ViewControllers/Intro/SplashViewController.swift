@@ -14,7 +14,7 @@ class SplashViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 //        print(storageViewModel.dataBases?.location)
-//        print(Constants.userDeviceID)
+        print(Constants.userDeviceID)
         setupView()
         userInfoSetting()
     }

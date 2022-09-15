@@ -229,7 +229,7 @@ extension MainViewController: MapButtonProtocol, ResearchButtonProtocol, CustomN
         locationButton.layer.applySketchShadow(color: .black, alpha: 0.12, x: 0, y: 1, blur: 8, spread: 0)
         overlayCenterPick.isHidden = true
         researchButton.isHidden = true
-        researchButton.layer.applySketchShadow(color: .black, alpha: 0.12, x: 0, y: 1, blur: 8, spread: 0)
+        researchButton.layer.applySketchShadow(color: .black, alpha: 0.16, x: 0, y: 2, blur: 4, spread: 0)
         
         
         //MARK: AddSubView
@@ -282,7 +282,7 @@ extension MainViewController: MapButtonProtocol, ResearchButtonProtocol, CustomN
             $0.centerX.equalToSuperview()
             $0.centerY.equalTo(listButton)
             $0.leading.trailing.equalTo(researchButton.buttonFrame)
-            $0.height.equalTo(30)
+            $0.height.equalTo(35)
         }
 
         
@@ -386,9 +386,9 @@ extension MainViewController: CLLocationManagerDelegate, NMFMapViewCameraDelegat
         /// 반경 설정
         circleOverlay.mapView = nil
         circleOverlay = NMFCircleOverlay(location, radius: 1000)
-        circleOverlay.fillColor = .pointBlue.withAlphaComponent(0.1)
+        circleOverlay.fillColor = .pointBlue.withAlphaComponent(0.03)
         circleOverlay.outlineWidth = 1
-        circleOverlay.outlineColor = .pointBlue
+        circleOverlay.outlineColor = .pointBlue.withAlphaComponent(0.5)
         circleOverlay.mapView = naverMapView
     }
     /**

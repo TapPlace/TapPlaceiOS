@@ -171,7 +171,7 @@ extension SearchViewController: SearchContentButtonProtocol {
     private func setLayout() {
         let safeArea = view.safeAreaLayoutGuide
         
-        searchField.font = UIFont(name: "AppleSDGothicNeoM00", size: 16)
+        searchField.font = .systemFont(ofSize: CommonUtils.resizeFontSize(size: 16), weight: .medium)
         searchField.placeholder = "등록하려는 가맹점을 찾아보세요."
         searchField.clearButtonMode = .always
     

@@ -36,7 +36,6 @@ class TabBarViewController: UITabBarController {
     
     var isShowFloatingButton: Bool = true {
         willSet {
- //베타버전 임시 주석
             if newValue {
                 floatingButton.isHidden = false
             } else {

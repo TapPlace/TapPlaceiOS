@@ -56,6 +56,15 @@ extension AroundStoreModel {
         let returnAroundStores = AroundStores(num: 0, storeID: storeInfo.storeID, placeName: storeInfo.placeName, addressName: storeInfo.addressName, roadAddressName: storeInfo.roadAddressName, categoryGroupName: storeInfo.categoryGroupName, phone: storeInfo.phone, x: storeInfo.x, y: storeInfo.y, distance: 0, pays: returnPays)
         return returnAroundStores
     }
+    /**
+     * @ StoreInfo -> SearchMdel 변환
+     * coder : sanghyeon
+     */
+    static func convertSearchModel(storeInfo: StoreInfo) -> SearchModel {
+        let returnSearchModel = SearchModel(addressName: storeInfo.addressName, categoryGroupCode: "", categoryGroupName: storeInfo.categoryGroupName, distance: "", id: storeInfo.storeID, phone: storeInfo.phone, placeName: storeInfo.placeName, placeURL: "", roadAddressName: storeInfo.roadAddressName, x: storeInfo.x, y: storeInfo.y)
+        
+        return returnSearchModel
+    }
 }
 
 //MARK: - 마커정보를 함께 저장할 구조체

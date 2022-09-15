@@ -333,18 +333,27 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch self.searchMode {
         case true:
-            
+            let searchVM: SearchViewModel = self.searchListVM.searchAtIndex(indexPath.row)
             if isClickFloatingButton == true {
-                let searchVM: SearchViewModel = self.searchListVM.searchAtIndex(indexPath.row)
                 let feedbackRequestVC = FeedbackRequestViewController()
 //                feedbackRequestVC.storeId = searchVM.storeID
                 self.navigationController?.pushViewController(feedbackRequestVC, animated: true)
             } else {
                 // 가맹점 상세창에서 받아야 할 데이터
-                let searchVM: SearchViewModel = self.searchListVM.searchAtIndex(indexPath.row)
                 let storeDetailVC = StoreDetailViewController()
                 storeDetailVC.storeID = searchVM.storeID
-                self.navigationController?.pushViewController(storeDetailVC, animated: true)
+                guard let searchModelEach = searchVM.searchModelEach else { return }
+                storeViewModel.requestStoreInfoCheck(searchModel: searchModelEach, pays: storageViewModel.userFavoritePaymentsString) { result in
+                    if let result = result {
+                        var storeInfo = SearchModel.convertStoreInfo(searchModel: searchModelEach)
+                        storeInfo.feedback = result
+                        storeDetailVC.storeInfo = storeInfo
+                        self.navigationController?.pushViewController(storeDetailVC, animated: true)
+                    } else {
+                        showToast(message: "알 수 없는 오류가 발생했습니다.\n잠시후 다시 시도해주시기 바랍니다.", view: self.view)
+                    }
+                }
+                
             }
         case false:
             return

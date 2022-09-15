@@ -399,8 +399,12 @@ extension MainViewController: CLLocationManagerDelegate, NMFMapViewCameraDelegat
         
         print("클릭된 마커의 스토어: ", targetStore.placeName)
         /// AroundStores -> StoreInfo 변환
-        let targetStoreInfo = StoreInfo.convertAroundStores(aroundStore: targetStore)
-        showDetailOverView(hide: false, storeInfo: targetStoreInfo)
+        var targetStoreInfo = StoreInfo.convertAroundStores(aroundStore: targetStore)
+        storeViewModel.requestStoreInfoCheck(searchModel: AroundStoreModel.convertSearchModel(storeInfo: targetStoreInfo), pays: storageViewModel.userFavoritePaymentsString) { result in
+            targetStoreInfo.feedback = result
+            self.showDetailOverView(hide: false, storeInfo: targetStoreInfo)
+        }
+        
     }
     
     
@@ -483,11 +487,14 @@ extension MainViewController: CustomToolBarShareProtocol, StoreInfoViewDelegate 
     /**
      * @ 스토어 상세 뷰컨 이동
      * coder : sanghyeon
-     */
+     */ 
     func moveStoreDetail(store: StoreInfo) {
         let vc = StoreDetailViewController()
-        vc.storeID = store.storeID
+        print("상세뷰 이동")
+        //vc.storeID = store.storeID
+        vc.storeInfo = store
         self.navigationController?.pushViewController(vc, animated: true)
+        
     }
     /**
      * @ 공유하기

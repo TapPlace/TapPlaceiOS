@@ -24,7 +24,7 @@ extension SearchListViewModel {
         let place = self.documents[index]
         return SearchViewModel(place)
     }
-    
+     
 }
 
 struct SearchViewModel {

@@ -473,7 +473,6 @@ extension StoreDetailViewController: CustomNavigationBarProtocol, CustomToolBarS
             marker.height = 51
             marker.captionText = storeInfo.placeName
             marker.mapView = self.naverMapView
-
         }
         if let storeLocation = storeLocation, let userLocation = UserInfo.userLocation {
             storeDistance = DistancelModel.getDistance(distance: storeLocation.distance(from: userLocation))

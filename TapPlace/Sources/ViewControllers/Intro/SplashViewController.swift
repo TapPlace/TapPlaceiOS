@@ -13,8 +13,8 @@ class SplashViewController: UIViewController {
     //MARK: - ViewController Lift Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-//        print(storageViewModel.dataBases?.location)
-//        print(Constants.userDeviceID)
+        print("TAPPLACE_API_URL: \(Constants.tapplaceApiUrl)")
+        print(Constants.userDeviceID)
         setupView()
         userInfoSetting()
     }

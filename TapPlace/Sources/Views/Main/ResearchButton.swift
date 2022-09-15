@@ -33,7 +33,7 @@ class ResearchButton: UIView {
         buttonTitle.sizeToFit()
         buttonTitle.textColor = .pointBlue
         buttonTitle.text = "현 위치에서 가맹점 재탐색"
-        buttonTitle.font = .systemFont(ofSize: CommonUtils.resizeFontSize(size: 14), weight: .regular)
+        buttonTitle.font = .systemFont(ofSize: CommonUtils.resizeFontSize(size: 14), weight: .medium)
         return buttonTitle
     }()
     
@@ -65,14 +65,14 @@ class ResearchButton: UIView {
         
         buttonFrame.snp.makeConstraints {
             $0.top.bottom.equalToSuperview()
-            $0.leading.equalTo(refreshIcon).offset(-10)
-            $0.trailing.equalTo(buttonTitle).offset(10)
+            $0.leading.equalTo(refreshIcon).offset(-15)
+            $0.trailing.equalTo(buttonTitle).offset(15)
             $0.center.equalToSuperview()
         }
         refreshIcon.snp.makeConstraints {
-            $0.trailing.equalTo(buttonTitle.snp.leading).offset(-10)
+            $0.trailing.equalTo(buttonTitle.snp.leading).offset(-7)
             $0.top.bottom.equalTo(buttonTitle)
-            $0.width.equalTo(20)
+            $0.width.equalTo(15)
         }
         buttonTitle.snp.makeConstraints {
             $0.centerY.equalTo(buttonFrame)

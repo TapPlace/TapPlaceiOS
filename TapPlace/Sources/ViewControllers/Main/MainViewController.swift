@@ -229,7 +229,7 @@ extension MainViewController: MapButtonProtocol, ResearchButtonProtocol, CustomN
         locationButton.layer.applySketchShadow(color: .black, alpha: 0.12, x: 0, y: 1, blur: 8, spread: 0)
         overlayCenterPick.isHidden = true
         researchButton.isHidden = true
-        researchButton.layer.applySketchShadow(color: .black, alpha: 0.12, x: 0, y: 1, blur: 8, spread: 0)
+        researchButton.layer.applySketchShadow(color: .black, alpha: 0.16, x: 0, y: 2, blur: 4, spread: 0)
         
         
         //MARK: AddSubView
@@ -282,7 +282,7 @@ extension MainViewController: MapButtonProtocol, ResearchButtonProtocol, CustomN
             $0.centerX.equalToSuperview()
             $0.centerY.equalTo(listButton)
             $0.leading.trailing.equalTo(researchButton.buttonFrame)
-            $0.height.equalTo(30)
+            $0.height.equalTo(35)
         }
 
         
@@ -386,9 +386,9 @@ extension MainViewController: CLLocationManagerDelegate, NMFMapViewCameraDelegat
         /// 반경 설정
         circleOverlay.mapView = nil
         circleOverlay = NMFCircleOverlay(location, radius: 1000)
-        circleOverlay.fillColor = .pointBlue.withAlphaComponent(0.1)
+        circleOverlay.fillColor = .pointBlue.withAlphaComponent(0.03)
         circleOverlay.outlineWidth = 1
-        circleOverlay.outlineColor = .pointBlue
+        circleOverlay.outlineColor = .pointBlue.withAlphaComponent(0.5)
         circleOverlay.mapView = naverMapView
     }
     /**
@@ -414,9 +414,9 @@ extension MainViewController: CLLocationManagerDelegate, NMFMapViewCameraDelegat
                 naverMapMarker.captionText = markerRow.placeName
                 naverMapMarker.captionRequestedWidth = 80
                 naverMapMarker.isHideCollidedCaptions = true
-                naverMapMarker.width = 37
-                naverMapMarker.height = 47
-
+                naverMapMarker.width = 36
+                naverMapMarker.height = 48
+                naverMapMarker.zIndex = 10000
                 naverMapMarker.touchHandler = { (marker) in
                     if let marker = marker as? NMFMarker {
                         self.didTapMarker(marker: marker)
@@ -448,9 +448,10 @@ extension MainViewController: CLLocationManagerDelegate, NMFMapViewCameraDelegat
         for eachMarker in markerList {
             if let markerImage = MarkerModel.list.first(where: {$0.groupName == eachMarker.store.categoryGroupName}) {
                 eachMarker.marker.iconImage = NMFOverlayImage(name: markerImage.markerImage)
+                eachMarker.marker.zIndex = 10000
             }
-            eachMarker.marker.width = 37
-            eachMarker.marker.height = 47
+            eachMarker.marker.width = 36
+            eachMarker.marker.height = 48
         }
     }
     /**
@@ -465,8 +466,9 @@ extension MainViewController: CLLocationManagerDelegate, NMFMapViewCameraDelegat
         resetAllMarkersSize()
         /// 선택된 마커 사이즈 확장
         guard let marker = marker else { return }
-        marker.width = 50
-        marker.height = 68
+        marker.width = 51
+        marker.height = 72
+        marker.zIndex = 10001
         
         /// 마커의 스토어 정보
         guard let targetMarker = markerList.first(where: {$0.marker == marker }) else { return }

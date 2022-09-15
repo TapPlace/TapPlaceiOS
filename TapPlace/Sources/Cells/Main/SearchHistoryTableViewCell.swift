@@ -51,6 +51,7 @@ class SearchHistoryTableViewCell: UITableViewCell {
     let deleteButton: UIButton = {
         let deleteButton = UIButton()
         deleteButton.tintColor = .lightGray
+        deleteButton.isHidden = true
         return deleteButton
     }()
     
@@ -91,7 +92,6 @@ class SearchHistoryTableViewCell: UITableViewCell {
     }
     
     @objc func deleteCell(_ sender: UIButton) {
-        print("storeInfo: \(storeInfo)")
         guard let storeInfo = storeInfo else { return }
         delegate?.deleteCell(storeID: storeInfo.storeID)
     }

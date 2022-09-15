@@ -33,7 +33,7 @@ class MoreViewController: CommonViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        tabBar?.showTabBar(hide: false)
+        tabBar?.hideTabBar(hide: false)
         tableView.reloadData()
     }
 }
@@ -145,7 +145,7 @@ extension MoreViewController: UITableViewDelegate, UITableViewDataSource, MoreHe
     func didTapPaymentsButton() {
         let vc = PickPaymentsViewController()
         vc.isEditMode = true
-        tabBar?.showTabBar(hide: true)
+        tabBar?.hideTabBar(hide: true)
         self.navigationController?.pushViewController(vc, animated: true)
     }
     

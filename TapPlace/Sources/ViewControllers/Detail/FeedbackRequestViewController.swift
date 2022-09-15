@@ -40,13 +40,13 @@ class FeedbackRequestViewController: CommonViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        tabBar?.showTabBar(hide: true)
+        tabBar?.hideTabBar(hide: true)
         tabBar?.isShowFloatingButton = false
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        tabBar?.showTabBar(hide: false)
+        tabBar?.hideTabBar(hide: false)
         tabBar?.isShowFloatingButton = true
     }
 }

@@ -12,7 +12,7 @@ class FeedbackDetailViewController: UIViewController {
     var feedbackStore: UserFeedbackStoreModel? = nil {
         willSet {
             guard let store = newValue else { return }
-            print("store: \(store)")
+//            print("store: \(store)")
             customNavigationBar.titleText = store.storeName
         }
     }

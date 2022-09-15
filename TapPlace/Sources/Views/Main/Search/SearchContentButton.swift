@@ -28,6 +28,6 @@ class SearchContentButton: UIButton {
 extension SearchContentButton {
     @objc func tapButton(_ sender: SearchContentButton) {
         delegate?.didTapButton(sender)
-        print("\(sender.tag) 클릭됨")
+//        print("\(sender.tag) 클릭됨")
     }
 }

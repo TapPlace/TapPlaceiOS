@@ -16,7 +16,7 @@ class InquiryService {
         let url = "\(inquiryURL)"
         AF.request(url, method: .post, parameters: parameter, encoding: URLEncoding.default, headers: nil)
             .responseString { (response) in
-                print(response.result)
+//                print(response.result)
                 switch response.result {
                 case .success(let response):
                     if response == "true" {

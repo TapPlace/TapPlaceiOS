@@ -65,7 +65,7 @@ struct UserDataService {
         AF.request(url, method: .patch, parameters: parameter, encoding: URLEncoding.default, headers: nil)
             .validate()
             .response() { (response) in
-                print("drop user result: \(response.result)")
+//                print("drop user result: \(response.result)")
                 switch response.result {
                 case .success:
                         completion(true, nil)

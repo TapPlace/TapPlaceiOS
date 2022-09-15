@@ -25,6 +25,10 @@ class MoreViewController: CommonViewController {
         setupView()
         setupNavigation()
         setupTableView()
+        
+        // 베타 버전 임시 처리
+        alarmButton.isHidden = true
+        settingButton.isHidden = true
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -120,7 +124,8 @@ extension MoreViewController: NavigationBarButtonProtocol {
             let vc = AlarmViewController()
             self.navigationController?.pushViewController(vc, animated: true)
         case settingButton:
-            print("네비게이션 설정 버튼 탭")
+            break
+//            print("네비게이션 설정 버튼 탭")
         default:
             break
         }
@@ -148,15 +153,16 @@ extension MoreViewController: UITableViewDelegate, UITableViewDataSource, MoreHe
         guard let headerView = headerView else { return }
         switch sender {
         case headerView.itemBookmark.button:
-            print("즐겨찾기 탭")
+//            print("즐겨찾기 탭")
             let vc = BookmarkViewController()
             self.navigationController?.pushViewController(vc, animated: true)
         case headerView.itemFeedback.button:
-            print("피드백 탭")
+//            print("피드백 탭")
             let vc = FeedbackListViewController()
             self.navigationController?.pushViewController(vc, animated: true)
         case headerView.itemStores.button:
-            print("등록가게 탭")
+            break
+//            print("등록가게 탭")
         default:
             break
         }
@@ -187,7 +193,7 @@ extension MoreViewController: UITableViewDelegate, UITableViewDataSource, MoreHe
             cell.menuType = menuList[indexPath.row].type
             if let subTitle = menuList[indexPath.row].subTitle {
                 switch subTitle {
-                case .version:cell.subTitle = "최신버전"
+                case .version:cell.subTitle = "클로즈베타" // 베타버전 임시 문구
                 default: break
                 } 
             }
@@ -227,7 +233,12 @@ extension MoreViewController: UITableViewDelegate, UITableViewDataSource, MoreHe
                 }
             }
         case 1:
-            break
+            let targetTerm = TermsModel.lists.filter({$0.isTerm == true})
+            let vc = TermsWebViewViewController()
+            vc.term = targetTerm[indexPath.row]
+            vc.isReadOnly = true
+            tabBar?.isShowFloatingButton = false
+            self.navigationController?.pushViewController(vc, animated: true)
         default: break
         }
     }
@@ -293,7 +304,7 @@ extension MoreViewController: UITableViewDelegate, UITableViewDataSource, MoreHe
     func showResetActionSheet() {
         let actionSheet = UIAlertController(title: "활동내역 초기화", message: "초기화하신 후 되돌릴 수 없습니다.", preferredStyle: .actionSheet)
         let bookmark = UIAlertAction(title: "즐겨찾기 항목 초기화", style: .default) { action in
-            print("즐겨찾기 초기화 탭")
+//            print("즐겨찾기 초기화 탭")
             self.storageViewModel.deleteAllBookmark() { result in
                 if result {
                     self.tableView.reloadData()
@@ -301,24 +312,16 @@ extension MoreViewController: UITableViewDelegate, UITableViewDataSource, MoreHe
             }
             
         }
-        let feedback = UIAlertAction(title: "피드백 항목 초기화", style: .default) { action in
-            print("피드백 초기화 탭")
-            self.storageViewModel.deleteAllFeedback() { result in
-                if result {
-                    self.tableView.reloadData()
-                }
-            }
-        }
+
         let clear = UIAlertAction(title: "모든 항목 초기화", style: .default) { action in
-            print("모든 항목 초기화 탭")
+//            print("모든 항목 초기화 탭")
             let alertAction = UIAlertController(title: "모든 항목 초기화", message: "이 작업은 되돌릴 수 없으며, 앱에 저장된 가맹점 정보 및 서버에 저장된 데이터 모두 삭제합니다.", preferredStyle: .alert)
             let alertConfirm = UIAlertAction(title: "초기화", style: .destructive) { action in
                 self.userViewModel.dropUserInfo() { result in
                     self.storageViewModel.deleteAllBookmark { result in }
-                    self.storageViewModel.deleteAllFeedback { result in }
                     self.storageViewModel.deleteAllPayments {}
                     if let deleteResult = result as? Bool {
-                        print("moreVC, dropUserIfo, Success")
+//                        print("moreVC, dropUserIfo, Success")
                         self.storageViewModel.deleteUser() { result in
                             if deleteResult == true {
                                 DispatchQueue.main.async {
@@ -330,7 +333,7 @@ extension MoreViewController: UITableViewDelegate, UITableViewDataSource, MoreHe
                             }
                         }
                     } else {
-                        print("moreVC, dropUserInfo, Error")
+//                        print("moreVC, dropUserInfo, Error")
                     }
                 }
             }
@@ -341,16 +344,15 @@ extension MoreViewController: UITableViewDelegate, UITableViewDataSource, MoreHe
             
         }
         let cancel = UIAlertAction(title: "취소", style: .cancel) { action in
-            print("취소 탭")
+//            print("취소 탭")
         }
         
         actionSheet.addAction(bookmark)
-        actionSheet.addAction(feedback)
         actionSheet.addAction(clear)
         actionSheet.addAction(cancel)
         
         present(actionSheet, animated: true, completion: nil)
-    }
+    } //Function: 초기화 액션시트
     
     
 }

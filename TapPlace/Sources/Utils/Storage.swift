@@ -9,7 +9,7 @@ import Foundation
 import RealmSwift
 
 struct DB {
-    let realm = try! Realm(configuration: Realm.Configuration(schemaVersion: 5))
+    let realm = try! Realm(configuration: Realm.Configuration(schemaVersion: 6))
     let location: URL = Realm.Configuration.defaultConfiguration.fileURL!
     var userObject: Results<UserModel>?
     var userFeedbackObject: Results<UserFeedbackModel>?
@@ -195,6 +195,45 @@ extension StorageProtocol {
             try! dataBases?.realm.write {
                 dataBases?.realm.add(feedback)
             }
+        }
+    }
+    
+    /**
+     * @ 최근검색어 등록
+     * coder : sanghyeon
+     */
+    mutating func addLatestSearchStore(store: LatestSearchStore) {
+        if let targetData = dataBases?.realm.objects(LatestSearchStore.self).where { $0.storeID == store.storeID }.first {
+            try! dataBases?.realm.write {
+                dataBases?.realm.delete(targetData)
+            }
+        }
+        try! dataBases?.realm.write {
+            dataBases?.realm.add(store)
+        }
+    }
+    
+    /**
+     * @ 최근검색어 삭제
+     * coder : sanghyeon
+     */
+    mutating func deleteLatestSearchStore(store: Any) {
+        if let stores = store as? String {
+            guard let targetData = dataBases?.realm.objects(LatestSearchStore.self).where { $0.storeID == stores }.first else { return }
+            try! dataBases?.realm.write {
+                dataBases?.realm.delete(targetData)
+            }
+            return
+        }
+        if let stores = store as? [String] {
+            stores.forEach { id in
+                if let targetData = dataBases?.realm.objects(LatestSearchStore.self).where { $0.storeID == id }.first {
+                    try! dataBases?.realm.write {
+                        dataBases?.realm.delete(targetData)
+                    }
+                }
+            }
+            return
         }
     }
 }

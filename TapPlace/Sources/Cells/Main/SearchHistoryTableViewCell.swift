@@ -3,13 +3,13 @@
 //  TapPlace
 //
 //  Created by 이상준 on 2022/08/15.
-//
+// 
 
 import UIKit
 
 // X버튼에 대한 프로토콜
 protocol XBtnProtocol {
-    func deleteCell(index: Int) // 셀 삭제
+    func deleteCell(storeID: String) // 셀 삭제
 }
 
 // 검색 테이블 뷰 셀
@@ -18,10 +18,21 @@ class SearchHistoryTableViewCell: UITableViewCell {
     static let identifier = "SearchRecordCell"
     var delegate:XBtnProtocol?
     var index: IndexPath?
+    var storeCategory: String = "" {
+        willSet {
+            if let store = StoreModel.lists.first(where: {$0.title == newValue}) {
+                img.image = StoreModel.lists.first(where: { $0.title == newValue}) == nil ? UIImage(named: "etc") : UIImage(named: store.id)
+            } else {
+                img.image = UIImage(named: "etc")
+            }
+        }
+    }
+   var storeInfo: StoreInfo?
     
     // 테이블 뷰 안 이미지 뷰
     let img: UIImageView = {
         let imgView = UIImageView()
+        imgView.contentMode = .scaleAspectFit
         imgView.image = UIImage(named: "")
         return imgView
     }()
@@ -40,7 +51,7 @@ class SearchHistoryTableViewCell: UITableViewCell {
     let deleteButton: UIButton = {
         let deleteButton = UIButton()
         deleteButton.tintColor = .lightGray
-        deleteButton.addTarget(self, action: #selector(deleteCell(_:)), for: .touchUpInside)
+        deleteButton.isHidden = true
         return deleteButton
     }()
     
@@ -69,7 +80,7 @@ class SearchHistoryTableViewCell: UITableViewCell {
         
         label.snp.makeConstraints {
             $0.top.equalTo(contentView.safeAreaLayoutGuide).offset(16)
-            $0.leading.equalTo(img.snp_trailingMargin).offset(10)
+            $0.leading.equalTo(img.snp.trailing).offset(10)
             $0.bottom.equalTo(contentView.safeAreaLayoutGuide).offset(-18)
         }
         
@@ -81,10 +92,16 @@ class SearchHistoryTableViewCell: UITableViewCell {
     }
     
     @objc func deleteCell(_ sender: UIButton) {
-        delegate?.deleteCell(index: (index?.row)!)
+        guard let storeInfo = storeInfo else { return }
+        delegate?.deleteCell(storeID: storeInfo.storeID)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        deleteButton.addTarget(self, action: #selector(deleteCell(_:)), for: .touchUpInside)
     }
 }

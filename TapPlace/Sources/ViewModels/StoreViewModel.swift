@@ -41,6 +41,27 @@ class StoreViewModel {
         }
     }
     /**
+     * @ 스토어 등록여부 확인
+     * coder : sanghyeon
+     */
+    func requestStoreInfoCheck(searchModel: SearchModel, pays: [String], completion: @escaping ([Feedback]?) -> ()) {
+        let parameter: Parameters = [
+            "store_id": searchModel.id,
+            "phone": searchModel.phone,
+            "place_name": searchModel.placeName,
+            "category_group_name": searchModel.categoryGroupName,
+            "address_name": searchModel.addressName,
+            "y": searchModel.y,
+            "road_address_name": searchModel.roadAddressName,
+            "x": searchModel.x,
+            "pays": pays
+        ]
+
+        storeDataService.requestFetchStoreInfoCheck(parameter: parameter) { result, error in
+            completion(result)
+        }
+    }
+    /**
      * @ 카카오 로컬 API로 현재 주소 요청
      * coder : sanghyeon
      */

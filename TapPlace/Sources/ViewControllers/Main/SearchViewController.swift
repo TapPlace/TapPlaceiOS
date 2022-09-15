@@ -153,15 +153,16 @@ extension SearchViewController: SearchContentButtonProtocol {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         // 탭바
-        print("뷰 사라집니다.")
+//        print("뷰 사라집니다.")
         tabBar?.showTabBar(hide: false)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         // 탭바
-        print("뷰 나타납니다.")
+//        print("뷰 나타납니다.")
         tabBar?.showTabBar(hide: true)
+        searchTableView.reloadData()
     }
     
     // 레이아웃 구성
@@ -171,13 +172,7 @@ extension SearchViewController: SearchContentButtonProtocol {
         searchField.font = UIFont(name: "AppleSDGothicNeoM00", size: 16)
         searchField.placeholder = "등록하려는 가맹점을 찾아보세요."
         searchField.clearButtonMode = .always
-        
-        // 선
-        let lineView: UIView = {
-            let lineView = UIView()
-            lineView.backgroundColor = UIColor.systemGray5
-            return lineView
-        }()
+    
         
         // 하단 뷰
         bottomView = {
@@ -199,6 +194,7 @@ extension SearchViewController: SearchContentButtonProtocol {
         favoriteSearchButton.titleLabel?.textAlignment = .left
         favoriteSearchButton.tag = 2
         favoriteSearchButton.delegate = self
+        favoriteSearchButton.isHidden = true // 베타버전 임시 숨김 처리
         
         
         // 편집 버튼
@@ -226,19 +222,12 @@ extension SearchViewController: SearchContentButtonProtocol {
             $0.leading.equalTo(customNavigationBar.snp.leading).offset(40)
             $0.trailing.equalTo(customNavigationBar.snp.trailing).offset(-20)
         }
-        
-        // 라인 AutoLayout
-        customNavigationBar.addSubview(lineView)
-        lineView.snp.makeConstraints {
-            $0.top.equalTo(customNavigationBar.snp.bottom)
-            $0.width.equalTo(self.view.frame.width)
-            $0.height.equalTo(1)
-        }
+
         
         // 하단 뷰 AutoLayout (최근 검색어, 즐겨찾는 가맹점)
         view.addSubview(bottomView)
         bottomView.snp.makeConstraints {
-            $0.top.equalTo(lineView.snp.bottom)
+            $0.top.equalTo(customNavigationBar.snp.bottom)
             $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(60)
         }
@@ -300,20 +289,22 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch self.searchMode {
         case false:
-            return RecentSearchModel.list.count
+            return storageViewModel.latestSearchStore.count
         case true:
             return self.searchListVM.numberOfRowsInSection(1)
         }
     }
-    
+     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch self.searchMode {
         case false:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: SearchHistoryTableViewCell.identifier, for: indexPath) as? SearchHistoryTableViewCell else { fatalError("no matched articleTableViewCell identifier") }
             cell.selectionStyle = .none
             cell.backgroundColor = .white
-            cell.img.image = RecentSearchModel.list[indexPath.row].image
-            cell.label.text = RecentSearchModel.list[indexPath.row].placeName
+            let latestSearch = storageViewModel.latestSearchStore[indexPath.row]
+            cell.storeCategory = latestSearch.storeCategory
+            cell.label.text = latestSearch.placeName
+            cell.storeInfo = latestSearch.convertStoreInfo()
             cell.deleteButton.setImage(UIImage(systemName: "xmark"), for: .normal)
             cell.index = indexPath
             cell.delegate = self
@@ -333,21 +324,53 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch self.searchMode {
         case true:
-            
+            let searchVM: SearchViewModel = self.searchListVM.searchAtIndex(indexPath.row)
             if isClickFloatingButton == true {
-                let searchVM: SearchViewModel = self.searchListVM.searchAtIndex(indexPath.row)
                 let feedbackRequestVC = FeedbackRequestViewController()
 //                feedbackRequestVC.storeId = searchVM.storeID
                 self.navigationController?.pushViewController(feedbackRequestVC, animated: true)
             } else {
                 // 가맹점 상세창에서 받아야 할 데이터
-                let searchVM: SearchViewModel = self.searchListVM.searchAtIndex(indexPath.row)
                 let storeDetailVC = StoreDetailViewController()
                 storeDetailVC.storeID = searchVM.storeID
-                self.navigationController?.pushViewController(storeDetailVC, animated: true)
+                guard let searchModelEach = searchVM.searchModelEach else { return }
+                storeViewModel.requestStoreInfoCheck(searchModel: searchModelEach, pays: storageViewModel.userFavoritePaymentsString) { result in
+                    if let result = result {
+                        var storeInfo = SearchModel.convertStoreInfo(searchModel: searchModelEach)
+                        storeInfo.feedback = result
+                        storeDetailVC.storeInfo = storeInfo
+                        self.navigationController?.pushViewController(storeDetailVC, animated: true)
+                    } else {
+                        showToast(message: "알 수 없는 오류가 발생했습니다.\n잠시후 다시 시도해주시기 바랍니다.", view: self.view)
+                    }
+                }
+            }
+            if let storeID = searchVM.storeID,
+                let placeName = searchVM.placeName,
+                let x = searchVM.locationX,
+                let y = searchVM.locationY,
+                let addressName = searchVM.addressName,
+                let roadAddressName = searchVM.roadAddressName,
+                let storeCategory = searchVM.categortGroupName {
+                let latestSearchStore = LatestSearchStore(storeID: storeID, placeName: placeName, locationX: Double(x) ?? 0, locationY: Double(y) ?? 0, addressName: addressName, roadAddressName: roadAddressName, storeCategory: storeCategory, phone: "", date: Date().getDate(3))
+                storageViewModel.addLatestSearchStore(store: latestSearchStore )
             }
         case false:
-            return
+            let latestSearchList = storageViewModel.latestSearchStore[indexPath.row]
+            // 가맹점 상세창에서 받아야 할 데이터
+            let storeDetailVC = StoreDetailViewController()
+            storeDetailVC.storeID = latestSearchList.storeID
+            let searchModelEach = SearchModel(addressName: latestSearchList.addressName, categoryGroupCode: "", categoryGroupName: latestSearchList.storeCategory, distance: "", id: latestSearchList.storeID, phone: latestSearchList.phone, placeName: latestSearchList.placeName, placeURL: "", roadAddressName: latestSearchList.roadAddressName, x: "\(latestSearchList.locationX)", y: "\(latestSearchList.locationY)")
+            storeViewModel.requestStoreInfoCheck(searchModel: searchModelEach, pays: storageViewModel.userFavoritePaymentsString) { result in
+                if let result = result {
+                    var storeInfo = SearchModel.convertStoreInfo(searchModel: searchModelEach)
+                    storeInfo.feedback = result
+                    storeDetailVC.storeInfo = storeInfo
+                    self.navigationController?.pushViewController(storeDetailVC, animated: true)
+                } else {
+                    showToast(message: "알 수 없는 오류가 발생했습니다.\n잠시후 다시 시도해주시기 바랍니다.", view: self.view)
+                }
+            }
         }
     }
 }
@@ -362,9 +385,8 @@ extension SearchViewController: CustomNavigationBarProtocol {
 
 // MARK: - 최근 검색어 삭제
 extension SearchViewController: XBtnProtocol {
-    func deleteCell(index: Int) {
-        self.searchingData.remove(at: index)
-        self.img.remove(at: index)
+    func deleteCell(storeID: String) {
+        storageViewModel.deleteLatestSearchStore(store: storeID)
         self.searchTableView.reloadData()
     }
 }

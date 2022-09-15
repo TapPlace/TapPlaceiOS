@@ -30,16 +30,18 @@ class TabBarViewController: UITabBarController {
         floatingButton.layer.shadowRadius = 12
         floatingButton.layer.shadowOpacity = 1
         floatingButton.layer.shadowOffset = CGSize(width: 0, height: 4)
+        floatingButton.isHidden = true // 베타버전 임시 강제 true
         return floatingButton
     }()
     
     var isShowFloatingButton: Bool = true {
         willSet {
-            if newValue {
-                floatingButton.isHidden = false
-            } else {
-                floatingButton.isHidden = true
-            }
+// 베타버전 임시 주석
+//            if newValue {
+//                floatingButton.isHidden = false
+//            } else {
+//                floatingButton.isHidden = true
+//            }
         }
     }
     
@@ -163,7 +165,7 @@ class TabBarViewController: UITabBarController {
     
     // 플로팅 버튼 클릭시 이벤트
     @objc private func menuButtonAction(sender: UIButton) {
-        print("플로팅 버튼 클릭")
+//        print("플로팅 버튼 클릭")
         guard let mainVC = mainVC as? MainViewController else { return }
         mainVC.clickFloatingBtn()
     }
@@ -175,10 +177,10 @@ class TabBarViewController: UITabBarController {
     func showTabBar(hide: Bool) {
         if hide {
             self.tabBar.isHidden = true
-            self.floatingButton.isHidden = true
+//            self.floatingButton.isHidden = true // 베타버전 임시 주석
         } else {
             self.tabBar.isHidden = false
-            self.floatingButton.isHidden = false
+//            self.floatingButton.isHidden = false // 베타버전 임시 주석
         }
         let currentFrame = view.frame
         view.frame = currentFrame.insetBy(dx: 0, dy: 1)
@@ -192,7 +194,7 @@ class TabBarViewController: UITabBarController {
     func showStoreInfo(storeID: String, isShowNavigation: Bool = true) {
         if let mainNav = viewControllers?[0] as? UINavigationController {
             if let mainVC = mainNav.children.first as? MainViewController {
-                print("mainVC:", mainVC)
+//                print("mainVC:", mainVC)
                 mainVC.showDetailOverView(hide: false)
                 if isShowNavigation {
                     mainVC.showNavigationBar(hide: false, title: "스토어 이름")

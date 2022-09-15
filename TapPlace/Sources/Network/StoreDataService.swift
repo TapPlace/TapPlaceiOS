@@ -12,6 +12,7 @@ struct StoreDataService {
     private let aroundSearchUrl = "\(Constants.tapplaceApiUrl)/store/around"
     private let kakaoGeoUrl = "https://dapi.kakao.com/v2/local/geo/coord2address.json"
     private let payListUrl = "\(Constants.tapplaceApiUrl)/pay/list"
+    private let payListCheckUrl = "\(Constants.tapplaceApiUrl)/pay/list/check"
     
     
     /**
@@ -44,6 +45,23 @@ struct StoreDataService {
                 switch response.result {
                 case .success(let response):
                     completion(response, nil)
+                case .failure(let error):
+                    completion(nil, error)
+                }
+            }
+    }
+    /**
+     * @ 스토어 등록 여부 확인
+     * coder : sanghyeon
+     */
+    func requestFetchStoreInfoCheck(parameter: Parameters, completion: @escaping ([Feedback]?, Error?) -> ()) {
+        let url = "\(payListCheckUrl)"
+        AF.request(url, method: .post, parameters: parameter, encoding: JSONEncoding.default, headers: nil)
+            .validate()
+            .responseDecodable(of: SearchFeedbackCheckModel.self) { (response) in
+                switch response.result {
+                case .success(let response):
+                    completion(response.feedback, nil)
                 case .failure(let error):
                     completion(nil, error)
                 }

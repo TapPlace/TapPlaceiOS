@@ -27,20 +27,24 @@ class StorePaymentTableViewCell: UITableViewCell {
                         self.whetherToPayLbl.textColor = .init(hex: 0x707070)
                         self.whetherToPayLbl.font = .systemFont(ofSize: CommonUtils.resizeFontSize(size: 14), weight: .medium)
                     }
+                    if let lastDate = newValue.lastTime {
+                        successDateLbl.text = "\(lastDate.split(separator: " ")[0])"
+                    }
+                    let successCount = Double(newValue.success ?? 0)
+                    let failCount = Double(newValue.fail ?? 0)
+                    let totalCount = successCount + failCount
+                    let successRate: Double = (successCount / totalCount) * 100
+                    successRateLbl.text = "성공 \(Int(successRate))%"
+                    successRateProgressView.progress = Float(Double(successRate) / 100)
                 } else {
                     self.whetherToPayLbl.text = "최근결제: 없음"
                     self.whetherToPayLbl.textColor = .init(hex: 0x707070)
                     self.whetherToPayLbl.font = .systemFont(ofSize: CommonUtils.resizeFontSize(size: 14), weight: .medium)
+                    successRateLbl.text = "성공 사례 없음"
+                    successRateProgressView.progress = 0
                 }
-                if let lastDate = newValue.lastTime {
-                    successDateLbl.text = "\(lastDate.split(separator: " ")[0])"
-                }
-                let successCount = Double(newValue.success ?? 0)
-                let failCount = Double(newValue.fail ?? 0)
-                let totalCount = successCount + failCount
-                let successRate = Int((successCount / totalCount) * 100)
-                successRateLbl.text = "성공 \(successRate)%"
-                successRateProgressView.progress = Float(Double(successRate) / 100)
+
+
             }
         }
     }

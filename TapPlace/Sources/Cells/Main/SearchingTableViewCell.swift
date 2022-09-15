@@ -88,6 +88,11 @@ class SearchingTableViewCell: UITableViewCell {
         self.placeNameLbl.text = placeName
         self.distanceAddressLbl.text = "\(String(describing: distance!))m · \(String(describing: storeAddress!))"
     }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        placeNameLbl.textColor = UIColor.init(red: 0, green: 0, blue: 0, alpha: 0.7)
+    }
 }
 
 

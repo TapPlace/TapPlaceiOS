@@ -6,11 +6,9 @@
 	<array>
 		<dict>
 			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
+			<string>None</string>
 			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>tapplace</string>
-			</array>
+			<array/>
 		</dict>
 	</array>
 	<key>KAKAO_REST_API_KEY</key>

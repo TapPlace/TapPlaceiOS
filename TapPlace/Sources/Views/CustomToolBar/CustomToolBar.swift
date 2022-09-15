@@ -110,6 +110,9 @@ class CustomToolBar: UIView, DetailToolBarButtonProtocol {
                 self.bookmarkButton.selected = self.storageViewModel.isStoreBookmark(storeID)
             }
         }
+        
+        // 베타 버전 임시 숨김
+        shareButton.isHidden = true
     }
     
     required init?(coder: NSCoder) {

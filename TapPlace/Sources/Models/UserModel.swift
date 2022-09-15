@@ -120,9 +120,10 @@ class LatestSearchStore: Object {
     @Persisted var addressName: String = ""
     @Persisted var roadAddressName: String = ""
     @Persisted var storeCategory: String = ""
+    @Persisted var phone: String = ""
     @Persisted var date: String = ""
     
-    convenience init(storeID: String, placeName: String, locationX: Double, locationY: Double, addressName: String, roadAddressName: String, storeCategory: String, date: String) {
+    convenience init(storeID: String, placeName: String, locationX: Double, locationY: Double, addressName: String, roadAddressName: String, storeCategory: String, phone: String, date: String) {
         self.init()
         self.storeID = storeID
         self.placeName = placeName
@@ -131,6 +132,7 @@ class LatestSearchStore: Object {
         self.addressName = addressName
         self.roadAddressName = roadAddressName
         self.storeCategory = storeCategory
+        self.phone = phone
         self.date = date
     }
     

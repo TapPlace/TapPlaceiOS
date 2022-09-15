@@ -78,7 +78,7 @@ struct StorageViewModel: StorageProtocol {
         var returnLatestSearchStore: [LatestSearchStore] = []
         guard let stores = dataBases?.realm.objects(LatestSearchStore.self) else { return returnLatestSearchStore }
         for store in stores {
-            let tempStore = LatestSearchStore(storeID: store.storeID, placeName: store.placeName, locationX: store.locationX, locationY: store.locationY, addressName: store.addressName, roadAddressName: store.roadAddressName, storeCategory: store.storeCategory, date: store.date)
+            let tempStore = LatestSearchStore(storeID: store.storeID, placeName: store.placeName, locationX: store.locationX, locationY: store.locationY, addressName: store.addressName, roadAddressName: store.roadAddressName, storeCategory: store.storeCategory, phone: store.phone, date: store.date)
             returnLatestSearchStore.append(tempStore)
         }
         return returnLatestSearchStore

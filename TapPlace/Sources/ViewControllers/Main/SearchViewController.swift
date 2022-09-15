@@ -364,11 +364,25 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
                 let addressName = searchVM.addressName,
                 let roadAddressName = searchVM.roadAddressName,
                 let storeCategory = searchVM.categortGroupName {
-                let latestSearchStore = LatestSearchStore(storeID: storeID, placeName: placeName, locationX: Double(x) ?? 0, locationY: Double(y) ?? 0, addressName: addressName, roadAddressName: roadAddressName, storeCategory: storeCategory, date: Date().getDate(3))
+                let latestSearchStore = LatestSearchStore(storeID: storeID, placeName: placeName, locationX: Double(x) ?? 0, locationY: Double(y) ?? 0, addressName: addressName, roadAddressName: roadAddressName, storeCategory: storeCategory, phone: "", date: Date().getDate(3))
                 storageViewModel.addLatestSearchStore(store: latestSearchStore )
             }
         case false:
-            return
+            let latestSearchList = storageViewModel.latestSearchStore[indexPath.row]
+            // 가맹점 상세창에서 받아야 할 데이터
+            let storeDetailVC = StoreDetailViewController()
+            storeDetailVC.storeID = latestSearchList.storeID
+            let searchModelEach = SearchModel(addressName: latestSearchList.addressName, categoryGroupCode: "", categoryGroupName: latestSearchList.storeCategory, distance: "", id: latestSearchList.storeID, phone: latestSearchList.phone, placeName: latestSearchList.placeName, placeURL: "", roadAddressName: latestSearchList.roadAddressName, x: "\(latestSearchList.locationX)", y: "\(latestSearchList.locationY)")
+            storeViewModel.requestStoreInfoCheck(searchModel: searchModelEach, pays: storageViewModel.userFavoritePaymentsString) { result in
+                if let result = result {
+                    var storeInfo = SearchModel.convertStoreInfo(searchModel: searchModelEach)
+                    storeInfo.feedback = result
+                    storeDetailVC.storeInfo = storeInfo
+                    self.navigationController?.pushViewController(storeDetailVC, animated: true)
+                } else {
+                    showToast(message: "알 수 없는 오류가 발생했습니다.\n잠시후 다시 시도해주시기 바랍니다.", view: self.view)
+                }
+            }
         }
     }
 }

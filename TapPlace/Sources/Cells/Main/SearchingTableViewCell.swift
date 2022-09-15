@@ -74,14 +74,17 @@ class SearchingTableViewCell: UITableViewCell {
     }
     
     func prepare(categoryGroupCode: String?, placeName: String?, distance: String?, roadAddress: String? ,address: String?) {
-        guard let categoryGroupCode = categoryGroupCode else {
-            return
+        
+        if let categoryGroupCode = categoryGroupCode {
+            self.img.image = UIImage(named: "\(categoryGroupCode)")
+            
+            if self.img.image == UIImage(named: "") {
+                self.img.image = UIImage(named: "etc")
+            }
         }
-
+        
         // 도로명 주소가 없을 경우 지번 주소 사용
         let storeAddress: String? = roadAddress == "" ? address : roadAddress
-        
-        self.img.image = StoreModel.lists.first(where: {$0.id == categoryGroupCode}) == nil ? UIImage(named: "etc") : UIImage(named: "\(categoryGroupCode)")
         self.placeNameLbl.text = placeName
         self.distanceAddressLbl.text = "\(String(describing: distance!))m · \(String(describing: storeAddress!))"
     }

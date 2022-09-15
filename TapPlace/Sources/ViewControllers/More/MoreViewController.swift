@@ -216,7 +216,13 @@ extension MoreViewController: UITableViewDelegate, UITableViewDataSource, MoreHe
                 vc.type = menuList[indexPath.row].type
                 self.navigationController?.pushViewController(vc, animated: true)
                 return
+            } else {
+                if let vc = menuList[indexPath.row].vc{
+                    self.navigationController?.pushViewController(vc, animated: true)
+                    return
+                }
             }
+            
             if let type = cell.menuType {
                 switch type {
                 case .version:

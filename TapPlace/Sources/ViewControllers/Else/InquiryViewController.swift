@@ -86,6 +86,7 @@ class InquiryViewController: CommonViewController {
         let tableView = UITableView()
         tableView.register(TermsTableViewCell.self, forCellReuseIdentifier: TermsTableViewCell.cellId)
         tableView.separatorStyle = .none
+        tableView.isScrollEnabled = false
         return tableView
     }()
     

@@ -42,7 +42,7 @@ class MainViewController: CommonViewController {
         setupNaverMap()
         setupFloatingPanel()
         
-        print("numberOfTodayFeedback: \(storageViewModel.numberOfTodayFeedback)")
+//        print("numberOfTodayFeedback: \(storageViewModel.numberOfTodayFeedback)")
         mainViewController = self
     }
     
@@ -397,7 +397,7 @@ extension MainViewController: CLLocationManagerDelegate, NMFMapViewCameraDelegat
             targetMarker.marker.iconImage = NMFOverlayImage(name: "select_\(markerImage.markerImage)")
         }
         
-        print("클릭된 마커의 스토어: ", targetStore.placeName)
+//        print("클릭된 마커의 스토어: ", targetStore.placeName)
         /// AroundStores -> StoreInfo 변환
         var targetStoreInfo = StoreInfo.convertAroundStores(aroundStore: targetStore)
         storeViewModel.requestStoreInfoCheck(searchModel: AroundStoreModel.convertSearchModel(storeInfo: targetStoreInfo), pays: storageViewModel.userFavoritePaymentsString) { result in
@@ -490,7 +490,7 @@ extension MainViewController: CustomToolBarShareProtocol, StoreInfoViewDelegate 
      */ 
     func moveStoreDetail(store: StoreInfo) {
         let vc = StoreDetailViewController()
-        print("상세뷰 이동")
+//        print("상세뷰 이동")
         //vc.storeID = store.storeID
         vc.storeInfo = store
         self.navigationController?.pushViewController(vc, animated: true)

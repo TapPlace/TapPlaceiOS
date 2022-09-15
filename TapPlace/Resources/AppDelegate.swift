@@ -18,10 +18,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         if let cliendId = Constants.naverClientId {
             NMFAuthManager.shared().clientId = cliendId
-            print("Naver Client ID:", cliendId)
+            //print("Naver Client ID:", cliendId)
         }
         if let kakaoApiKey = Constants.kakaoRestApiKey {
-            print("Kakao Rest Api Key:", kakaoApiKey)
+            //print("Kakao Rest Api Key:", kakaoApiKey)
         }
         
         IQKeyboardManager.shared.enable = true

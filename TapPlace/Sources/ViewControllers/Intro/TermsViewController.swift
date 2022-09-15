@@ -154,7 +154,7 @@ extension TermsViewController: UITableViewDelegate, UITableViewDataSource, Terms
     }
     
     func didTapCheckButton(_ sender: UIView, index: Int) {
-        print("델리게이트 호출")
+//        print("델리게이트 호출")
 
     }
     
@@ -236,7 +236,7 @@ extension TermsViewController: UITableViewDelegate, UITableViewDataSource, Terms
         /// 체크 항목에 따라 모두동의 버튼 변경
         let allCheckTermsIndexPath = IndexPath(row: allTermsLists.count - 1, section: 0)
         guard let allCheckTermsCell = tableView.cellForRow(at: allCheckTermsIndexPath) as? TermsTableViewCell else { return }
-        print(allTermsLists.filter({$0.isTerm == true}).count == allTermsLists.filter({$0.isTerm == true && $0.checked}).count)
+//        print(allTermsLists.filter({$0.isTerm == true}).count == allTermsLists.filter({$0.isTerm == true && $0.checked}).count)
         if allTermsLists.filter({$0.isTerm == true}).count == allTermsLists.filter({$0.isTerm == true && $0.checked}).count {
             allCheckTermsCell.setCheck(check: true)
         } else {

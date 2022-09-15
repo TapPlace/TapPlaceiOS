@@ -137,14 +137,14 @@ extension InquiryViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         // 탭바
-        print("뷰 사라집니다.")
+//        print("뷰 사라집니다.")
         tabBar?.showTabBar(hide: false)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         // 탭바
-        print("뷰 나타납니다.")
+//        print("뷰 나타납니다.")
         tabBar?.showTabBar(hide: true)
     }
     
@@ -325,7 +325,7 @@ extension InquiryViewController: BottomButtonProtocol {
         if !button.isActive { return }
         button.isActive = false
         button.setButtonStyle(title: "문의하기", type: .disabled, fill: true)
-        print("문의하기 버튼 눌림")
+//        print("문의하기 버튼 눌림")
 
         
         var answerCheck = 0
@@ -334,7 +334,7 @@ extension InquiryViewController: BottomButtonProtocol {
         }
         
         if let titleText = titleField.text, let contentText = contentTextView.text, let emailText = emailField.text {
-            print("옵셔널 바인딩 성공")
+//            print("옵셔널 바인딩 성공")
             
             let parameter: [String: Any] = [
                 "key": "\(Constants.tapplaceApiKey)",
@@ -347,7 +347,7 @@ extension InquiryViewController: BottomButtonProtocol {
                 "os": "iOS"
             ]
             
-            print(parameter)
+//            print(parameter)
             
             InquiryService().postInquiry(parameter: parameter) { response,error in
                 if let error = error {

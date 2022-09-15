@@ -135,7 +135,7 @@ extension BookmarkViewController: CustomNavigationBarProtocol, FilterTitleProtoc
      * coder : sanghyeon
      */
     @objc func didTapNavigationRightButton() {
-        print("네비게이션 우측 버튼 탭")
+//        print("네비게이션 우측 버튼 탭")
     }
     /**
      * @ 필터 정렬 버튼 클릭 함수
@@ -204,7 +204,7 @@ extension BookmarkViewController: CustomNavigationBarProtocol, FilterTitleProtoc
         selectBookmark(allSelect: self.dataSource.count == checkedCellIndex.count ? false : true)
     }
     @objc func didTapDeleteButton() {
-        print("삭제 버튼 탭")
+//        print("삭제 버튼 탭")
         if !deleteButton.isActive { return }
         deleteBookmark(index: checkedCellIndex)
         
@@ -277,7 +277,7 @@ extension BookmarkViewController: UITableViewDelegate, UITableViewDataSource {
             }
         }
         
-        print("updateButtonState()")
+//        print("updateButtonState()")
         updateButtonState()
     }
     
@@ -287,7 +287,7 @@ extension BookmarkViewController: UITableViewDelegate, UITableViewDataSource {
      */
     func updateButtonState() {
         let deleteCount: String = checkedCellIndex.count > 0 ? " \(checkedCellIndex.count)" : ""
-        print("deleteCount: \(deleteCount)")
+//        print("deleteCount: \(deleteCount)")
         deleteButton.setButtonStyle(title: "삭제\(deleteCount)", type: checkedCellIndex.count > 0 ? .activate : .disabled, fill: true)
         deleteButton.isActive = checkedCellIndex.count > 0
         
@@ -299,7 +299,7 @@ extension BookmarkViewController: UITableViewDelegate, UITableViewDataSource {
      * coder : sanghyeon
      */
     func deleteBookmark(index: [Int]?) {
-        print("isEditMode: \(isEditMode)")
+//        print("isEditMode: \(isEditMode)")
         guard let index = index else { return }
         index.forEach {
             let targetBookmark = self.dataSource[$0]

@@ -24,9 +24,9 @@ class CommonViewController: UIViewController {
     }
     
     @objc func shareStoreObserver(_ notification: Notification) {
-        print("노티 수신")
+//        print("노티 수신")
         guard let storeID = notification.object as? String else { return }
-        print("노티로 받은 storeID: \(storeID)")
+//        print("노티로 받은 storeID: \(storeID)")
         storeViewModel.requestStoreInfo(storeID: storeID, pays: storageViewModel.userFavoritePaymentsString) { result in
             guard let storeInfo = result as? StoreInfo else { return }
             var objectToShare = [String]()

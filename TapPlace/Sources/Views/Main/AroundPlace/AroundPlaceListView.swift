@@ -274,10 +274,7 @@ extension AroundPlaceListView {
 
 //MARK: - TableView
 extension AroundPlaceListView: UITableViewDelegate, UITableViewDataSource {
-    func didTapStoreInfoButton(selectedIndex: Int?) {
-        print(selectedIndex)
-    }
-    
+   
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return filteredAroundPlaceList.count
     }
@@ -288,7 +285,6 @@ extension AroundPlaceListView: UITableViewDelegate, UITableViewDataSource {
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let cell = tableView.cellForRow(at: indexPath) as? AroundStoreTableViewCell else { return }
-        print("isUserInteractionEnabled:", cell.isUserInteractionEnabled)
     }
     
     func setupCell(cell: UITableViewCell, indexPath: IndexPath, aroundStore: AroundStores) -> UITableViewCell {

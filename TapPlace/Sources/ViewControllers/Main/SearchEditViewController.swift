@@ -50,7 +50,7 @@ class SearchEditViewController: CommonViewController {
     
     // 셀이 선택 되었을 경우 하단 버튼 UI 변경하는 메소드
     private func changeButtonUI() {
-        print(selectedStoreID.count)
+//        print(selectedStoreID.count)
         if selectedStoreID.count > 0 {
             leftBtn.setTitleColor(UIColor.pointBlue, for: .normal)
             leftBtn.setTitle("선택해제", for: .normal)
@@ -139,14 +139,14 @@ extension SearchEditViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         // 탭바
-        print("뷰 사라집니다.")
+//        print("뷰 사라집니다.")
         tabBar?.showTabBar(hide: false)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         // 탭바
-        print("뷰 나타납니다.")
+//        print("뷰 나타납니다.")
         tabBar?.showTabBar(hide: true)
     }
 }
@@ -203,9 +203,13 @@ extension SearchEditViewController: UITableViewDataSource, UITableViewDelegate {
         let storeInfo = storageViewModel.latestSearchStore[indexPath.row]
         cell.selectionStyle = .none
         cell.backgroundColor = .white
+        
         if let store = StoreModel.lists.first(where: {$0.title == storeInfo.storeCategory}) {
-            cell.img.image = storeInfo.storeCategory == "" ? UIImage(named: "etc") : UIImage(named: store.id)
+            cell.img.image = StoreModel.lists.first(where: {$0.title == storeInfo.storeCategory}) == nil ? UIImage(named: "etc") : UIImage(named: store.id)
+        } else {
+            cell.img.image = UIImage(named: "etc")
         }
+        
         cell.label.text = storeInfo.placeName
         cell.index = indexPath
         cell.storeID = storeInfo.storeID

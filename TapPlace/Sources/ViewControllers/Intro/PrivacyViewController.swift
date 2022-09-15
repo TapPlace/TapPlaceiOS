@@ -251,7 +251,7 @@ extension PrivacyViewController: UITextFieldDelegate {
 
 extension PrivacyViewController: BottomButtonProtocol {
     func didTapBottomButton() {
-        print("눌림")
+//        print("눌림")
         
         /// 숫자만 입력 되어있는지 확인
         guard let textFieldText = birthInputField.text else { return }

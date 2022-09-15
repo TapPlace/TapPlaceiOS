@@ -153,14 +153,14 @@ extension SearchViewController: SearchContentButtonProtocol {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         // 탭바
-        print("뷰 사라집니다.")
+//        print("뷰 사라집니다.")
         tabBar?.showTabBar(hide: false)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         // 탭바
-        print("뷰 나타납니다.")
+//        print("뷰 나타납니다.")
         tabBar?.showTabBar(hide: true)
         searchTableView.reloadData()
     }
@@ -172,13 +172,7 @@ extension SearchViewController: SearchContentButtonProtocol {
         searchField.font = UIFont(name: "AppleSDGothicNeoM00", size: 16)
         searchField.placeholder = "등록하려는 가맹점을 찾아보세요."
         searchField.clearButtonMode = .always
-        
-        // 선
-        let lineView: UIView = {
-            let lineView = UIView()
-            lineView.backgroundColor = UIColor.systemGray5
-            return lineView
-        }()
+    
         
         // 하단 뷰
         bottomView = {
@@ -200,6 +194,7 @@ extension SearchViewController: SearchContentButtonProtocol {
         favoriteSearchButton.titleLabel?.textAlignment = .left
         favoriteSearchButton.tag = 2
         favoriteSearchButton.delegate = self
+        favoriteSearchButton.isHidden = true // 베타버전 임시 숨김 처리
         
         
         // 편집 버튼
@@ -227,19 +222,12 @@ extension SearchViewController: SearchContentButtonProtocol {
             $0.leading.equalTo(customNavigationBar.snp.leading).offset(40)
             $0.trailing.equalTo(customNavigationBar.snp.trailing).offset(-20)
         }
-        
-        // 라인 AutoLayout
-        customNavigationBar.addSubview(lineView)
-        lineView.snp.makeConstraints {
-            $0.top.equalTo(customNavigationBar.snp.bottom)
-            $0.width.equalTo(self.view.frame.width)
-            $0.height.equalTo(1)
-        }
+
         
         // 하단 뷰 AutoLayout (최근 검색어, 즐겨찾는 가맹점)
         view.addSubview(bottomView)
         bottomView.snp.makeConstraints {
-            $0.top.equalTo(lineView.snp.bottom)
+            $0.top.equalTo(customNavigationBar.snp.bottom)
             $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(60)
         }

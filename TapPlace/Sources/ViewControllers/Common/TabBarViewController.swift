@@ -173,7 +173,7 @@ class TabBarViewController: UITabBarController {
      * @ 탭바 처리
      * coder : sanghyeon
      */
-    func showTabBar(hide: Bool) {
+    func hideTabBar(hide: Bool) {
         if hide {
             self.tabBar.isHidden = true
             self.floatingButton.isHidden = true // 베타버전 임시 주석
@@ -196,7 +196,7 @@ class TabBarViewController: UITabBarController {
 //                print("mainVC:", mainVC)
                 mainVC.showDetailOverView(hide: false)
                 if isShowNavigation {
-                    mainVC.showNavigationBar(hide: false, title: "스토어 이름")
+                    mainVC.hideNavigationBar(hide: false, title: "스토어 이름")
                 }
             }
         }

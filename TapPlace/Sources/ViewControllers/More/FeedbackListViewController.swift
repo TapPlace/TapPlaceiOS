@@ -28,7 +28,7 @@ class FeedbackListViewController: CommonViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        tabBar?.showTabBar(hide: true)
+        tabBar?.hideTabBar(hide: true)
     }
 }
 

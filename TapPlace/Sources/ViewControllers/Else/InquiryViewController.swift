@@ -139,14 +139,14 @@ extension InquiryViewController {
         super.viewWillDisappear(animated)
         // 탭바
 //        print("뷰 사라집니다.")
-        tabBar?.showTabBar(hide: false)
+        tabBar?.hideTabBar(hide: false)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         // 탭바
 //        print("뷰 나타납니다.")
-        tabBar?.showTabBar(hide: true)
+        tabBar?.hideTabBar(hide: true)
     }
     
     private func setLayout() {

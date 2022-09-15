@@ -65,13 +65,13 @@ class StoreDetailViewController: CommonViewController, CustomToolBarProtocol {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        tabBar?.showTabBar(hide: true)
+        tabBar?.hideTabBar(hide: true)
         updateFeedback()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        tabBar?.showTabBar(hide: false)
+        tabBar?.hideTabBar(hide: false)
     }
     
 }

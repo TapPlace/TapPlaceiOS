@@ -57,13 +57,13 @@ class MainViewController: CommonViewController {
         super.viewWillDisappear(animated)
         if isMainMode {
             showDetailOverView(hide: true)
-            showNavigationBar(hide: true)
+            hideNavigationBar(hide: true)
         }
 
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        tabBar?.showTabBar(hide: isMainMode ? false : true)
+        tabBar?.hideTabBar(hide: isMainMode ? false : true)
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -93,11 +93,11 @@ extension MainViewController: MapButtonProtocol, ResearchButtonProtocol, CustomN
              * 탭바 숨김처리
              */
             if let storeInfo = storeInfo {
-                tabBar?.showTabBar(hide: true)
+                tabBar?.hideTabBar(hide: true)
                 searchBar.isHidden = true
                 collectionView.isHidden = true
                 listButton.isHidden = true
-                showNavigationBar(hide: false, title: storeInfo.placeName)
+                hideNavigationBar(hide: false, title: storeInfo.placeName)
 
                 var targetStoreInfo = storeInfo
                 storeViewModel.requestStoreInfoCheck(searchModel: AroundStoreModel.convertSearchModel(storeInfo: storeInfo), pays: storageViewModel.userFavoritePaymentsString) { result in
@@ -312,7 +312,7 @@ extension MainViewController: MapButtonProtocol, ResearchButtonProtocol, CustomN
     func showStoreInfo(storeID: String, isShowNavigation: Bool = true) {
         showDetailOverView(hide: false)
         if isShowNavigation {
-            showNavigationBar(hide: false, title: "스토어 이름")
+            hideNavigationBar(hide: false, title: "스토어 이름")
         }
     }
 
@@ -600,13 +600,13 @@ extension MainViewController: CustomToolBarShareProtocol, StoreInfoViewDelegate 
             detailOverView.removeFromSuperview()
             closeButton.removeFromSuperview()
             detailOverView.snp.removeConstraints()
-            tabBar.showTabBar(hide: false)
+            tabBar.hideTabBar(hide: false)
             locationButton.snp.remakeConstraints {
                 $0.bottom.equalTo(listButton.snp.top).offset(-20)
                 $0.trailing.equalTo(view.safeAreaLayoutGuide).offset(-20)
                 $0.width.height.equalTo(40)
             }
-            tabBar.showTabBar(hide: false)
+            tabBar.hideTabBar(hide: false)
         } else {
             detailOverView = DetailOverView()
             guard let detailOverView = detailOverView else { return }
@@ -651,7 +651,7 @@ extension MainViewController: CustomToolBarShareProtocol, StoreInfoViewDelegate 
                 $0.trailing.equalTo(view.safeAreaLayoutGuide).offset(-20)
                 $0.width.height.equalTo(40)
             }
-            tabBar.showTabBar(hide: true)
+            tabBar.hideTabBar(hide: true)
         }
     }
     @objc func didTapDetailOverViewCloseButton() {
@@ -665,7 +665,7 @@ extension MainViewController: CustomToolBarShareProtocol, StoreInfoViewDelegate 
      * @ 네비게이션바 표시
      * coder : sanghyeon
      */
-    func showNavigationBar(hide: Bool, title: String = "") {
+    func hideNavigationBar(hide: Bool, title: String = "") {
         if hide {
             customNavigationBar.removeFromSuperview()
             searchBar.isHidden = false

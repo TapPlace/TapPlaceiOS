@@ -160,13 +160,13 @@ extension SearchViewController: SearchContentButtonProtocol {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         // 탭바
-        tabBar?.showTabBar(hide: false)
+        tabBar?.hideTabBar(hide: false)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         // 탭바
-        tabBar?.showTabBar(hide: true)
+        tabBar?.hideTabBar(hide: true)
         searchTableView.reloadData()
     }
     
@@ -323,6 +323,7 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
                     storeDistance = DistancelModel.getDistance(distance: userStoreDistance)
                 }
                 cell.prepare(categoryGroupCode: categoryName, placeName: bookmarkStore.placeName, distance: storeDistance, roadAddress: bookmarkStore.roadAddressName, address: bookmarkStore.addressName)
+                cell.selectionStyle = .none
                 return cell
             } else {
                 guard let cell = tableView.dequeueReusableCell(withIdentifier: SearchHistoryTableViewCell.identifier, for: indexPath) as? SearchHistoryTableViewCell else { fatalError("no matched articleTableViewCell identifier") }
@@ -351,7 +352,6 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if isLoading { return }
-        print("셀클릭")
         isLoading = true
         switch self.searchMode {
         case true: // 검색중일때
@@ -418,6 +418,7 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
                 } else {
                     showToast(message: "알 수 없는 오류가 발생했습니다.\n잠시후 다시 시도해주시기 바랍니다.", view: self.view)
                 }
+                self.isLoading = false
             }
         }
     }

@@ -29,13 +29,17 @@ class SearchViewController: CommonViewController {
     // 검색 필드 활성화 여부
     var searchMode: Bool = false
     
+    // 즐겨찾기 매장을 클릭했는가?
+    var isBookmarkTap: Bool = false
+    
     // MainVC 플로팅 버튼 클릭 여부
-    var isClickFloatingButton: Bool? = false
+    var isClickFloatingButton: Bool = false
     
     let customNavigationBar = CustomNavigationBar()// 커스텀 네비게이션 바
     let searchField = UITextField()  // 검색 필드
     let recentSearchButton = SearchContentButton() // 최근 검색어 버튼
     let favoriteSearchButton = SearchContentButton() // 즐겨찾는 가맹점 버튼
+    var editButton = UIButton()
     var bottomView = UIView()
     
     override func viewDidLoad() {
@@ -60,8 +64,7 @@ class SearchViewController: CommonViewController {
         searchTableView.translatesAutoresizingMaskIntoConstraints = false
         searchTableView.register(SearchHistoryTableViewCell.self, forCellReuseIdentifier: SearchHistoryTableViewCell.identifier)
         searchTableView.register(SearchingTableViewCell.self, forCellReuseIdentifier: SearchingTableViewCell.identifier)
-        searchTableView.separatorInset.left = 20
-        searchTableView.separatorInset.right = 20
+        searchTableView.separatorStyle = .none
         searchTableView.allowsSelection = true
         return searchTableView
     }()
@@ -126,20 +129,21 @@ class SearchViewController: CommonViewController {
 extension SearchViewController: SearchContentButtonProtocol {
     func didTapButton(_ sender: SearchContentButton) {
         if sender.tag == 1 {
-            DispatchQueue.main.async {
-                self.recentSearchButton.titleLabel?.font = UIFont.systemFont(ofSize: 16)
-                self.recentSearchButton.setTitleColor(.black, for: .normal)
-                self.favoriteSearchButton.titleLabel?.font = UIFont.systemFont(ofSize: 14)
-                self.favoriteSearchButton.setTitleColor(UIColor(red: 0, green: 0, blue: 0, alpha: 0.3), for: .normal)
-            }
+            self.recentSearchButton.titleLabel?.font = UIFont.systemFont(ofSize: CommonUtils.resizeFontSize(size: 16))
+            self.recentSearchButton.setTitleColor(.black, for: .normal)
+            self.favoriteSearchButton.titleLabel?.font = UIFont.systemFont(ofSize: CommonUtils.resizeFontSize(size: 14))
+            self.favoriteSearchButton.setTitleColor(UIColor(red: 0, green: 0, blue: 0, alpha: 0.3), for: .normal)
+            isBookmarkTap = false
+            editButton.isHidden = false
         } else {
-            DispatchQueue.main.async {
-                self.recentSearchButton.titleLabel?.font = UIFont.systemFont(ofSize: 14)
-                self.recentSearchButton.setTitleColor(UIColor(red: 0, green: 0, blue: 0, alpha: 0.3), for: .normal)
-                self.favoriteSearchButton.titleLabel?.font = UIFont.systemFont(ofSize: 16)
-                self.favoriteSearchButton.setTitleColor(.black, for: .normal)
-            }
+            self.recentSearchButton.titleLabel?.font = UIFont.systemFont(ofSize: CommonUtils.resizeFontSize(size: 14))
+            self.recentSearchButton.setTitleColor(UIColor(red: 0, green: 0, blue: 0, alpha: 0.3), for: .normal)
+            self.favoriteSearchButton.titleLabel?.font = UIFont.systemFont(ofSize: CommonUtils.resizeFontSize(size: 16))
+            self.favoriteSearchButton.setTitleColor(.black, for: .normal)
+            isBookmarkTap = true
+            editButton.isHidden = true
         }
+        searchTableView.reloadData()
     }
     
     private func setupView() {
@@ -153,14 +157,12 @@ extension SearchViewController: SearchContentButtonProtocol {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         // 탭바
-//        print("뷰 사라집니다.")
         tabBar?.showTabBar(hide: false)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         // 탭바
-//        print("뷰 나타납니다.")
         tabBar?.showTabBar(hide: true)
         searchTableView.reloadData()
     }
@@ -194,11 +196,10 @@ extension SearchViewController: SearchContentButtonProtocol {
         favoriteSearchButton.titleLabel?.textAlignment = .left
         favoriteSearchButton.tag = 2
         favoriteSearchButton.delegate = self
-        favoriteSearchButton.isHidden = true // 베타버전 임시 숨김 처리
         
         
         // 편집 버튼
-        let editButton: UIButton = {
+        editButton = {
             let editButton = UIButton()  // 편집 버튼
             editButton.setTitle("편집", for: .normal)
             editButton.titleLabel?.font = UIFont.systemFont(ofSize: 14)
@@ -280,7 +281,7 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         switch self.searchMode {
         case false:
-            return 54
+            return isBookmarkTap ? 72 : 54
         case true:
             return 72
         }
@@ -289,7 +290,11 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch self.searchMode {
         case false:
-            return storageViewModel.latestSearchStore.count
+            if isBookmarkTap {
+                return storageViewModel.numberOfBookmark
+            } else {
+                return storageViewModel.latestSearchStore.count
+            }
         case true:
             return self.searchListVM.numberOfRowsInSection(1)
         }
@@ -298,17 +303,37 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch self.searchMode {
         case false:
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: SearchHistoryTableViewCell.identifier, for: indexPath) as? SearchHistoryTableViewCell else { fatalError("no matched articleTableViewCell identifier") }
-            cell.selectionStyle = .none
-            cell.backgroundColor = .white
-            let latestSearch = storageViewModel.latestSearchStore[indexPath.row]
-            cell.storeCategory = latestSearch.storeCategory
-            cell.label.text = latestSearch.placeName
-            cell.storeInfo = latestSearch.convertStoreInfo()
-            cell.deleteButton.setImage(UIImage(systemName: "xmark"), for: .normal)
-            cell.index = indexPath
-            cell.delegate = self
-            return cell
+            if isBookmarkTap {
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: SearchingTableViewCell.identifier, for: indexPath) as? SearchingTableViewCell else { fatalError("no matched articleTableViewCell identifier") }
+                let bookmarkStore = storageViewModel.bookmarkDataSource[indexPath.row]
+                // 카테고리 이미지
+                var categoryName = "etc"
+                if let categoryGroupCode = StoreModel.lists.first(where: {$0.title == bookmarkStore.storeCategory}) {
+                    categoryName = categoryGroupCode.id
+                }
+                // 매장 거리
+                var storeDistance = "0m"
+                let userLocation = UserInfo.userLocation
+                if let userLocation = userLocation {
+                    let storeLocation = CLLocationCoordinate2D(latitude: Double(bookmarkStore.locationY), longitude: Double(bookmarkStore.locationX))
+                    let userStoreDistance = userLocation.distance(from: storeLocation)
+                    storeDistance = DistancelModel.getDistance(distance: userStoreDistance)
+                }
+                cell.prepare(categoryGroupCode: categoryName, placeName: bookmarkStore.placeName, distance: storeDistance, roadAddress: bookmarkStore.roadAddressName, address: bookmarkStore.addressName)
+                return cell
+            } else {
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: SearchHistoryTableViewCell.identifier, for: indexPath) as? SearchHistoryTableViewCell else { fatalError("no matched articleTableViewCell identifier") }
+                cell.selectionStyle = .none
+                cell.backgroundColor = .white
+                let latestSearch = storageViewModel.latestSearchStore[indexPath.row]
+                cell.storeCategory = latestSearch.storeCategory
+                cell.label.text = latestSearch.placeName
+                cell.storeInfo = latestSearch.convertStoreInfo()
+                cell.deleteButton.setImage(UIImage(systemName: "xmark"), for: .normal)
+                cell.index = indexPath
+                cell.delegate = self
+                return cell
+            }
             
         case true:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: SearchingTableViewCell.identifier, for: indexPath) as? SearchingTableViewCell else { fatalError("no matched articleTableViewCell identifier") }
@@ -323,44 +348,60 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch self.searchMode {
-        case true:
+        case true: // 검색중일때
             let searchVM: SearchViewModel = self.searchListVM.searchAtIndex(indexPath.row)
-            if isClickFloatingButton == true {
-                let feedbackRequestVC = FeedbackRequestViewController()
-//                feedbackRequestVC.storeId = searchVM.storeID
-                self.navigationController?.pushViewController(feedbackRequestVC, animated: true)
-            } else {
-                // 가맹점 상세창에서 받아야 할 데이터
-                let storeDetailVC = StoreDetailViewController()
-                storeDetailVC.storeID = searchVM.storeID
-                guard let searchModelEach = searchVM.searchModelEach else { return }
-                storeViewModel.requestStoreInfoCheck(searchModel: searchModelEach, pays: storageViewModel.userFavoritePaymentsString) { result in
-                    if let result = result {
-                        var storeInfo = SearchModel.convertStoreInfo(searchModel: searchModelEach)
-                        storeInfo.feedback = result
-                        storeDetailVC.storeInfo = storeInfo
-                        self.navigationController?.pushViewController(storeDetailVC, animated: true)
+            guard let searchModelEach = searchVM.searchModelEach else { return }
+            storeViewModel.requestStoreInfoCheck(searchModel: searchModelEach, pays: storageViewModel.userFavoritePaymentsString) { result in
+                if let result = result {
+                    let storeInfo = SearchModel.convertStoreInfo(searchModel: searchModelEach)
+                    if self.isClickFloatingButton {
+                        // 플로팅 버튼을 눌러서 접근했을 때
+                        if result == nil {
+                            showToast(message: "알 수 없는 이유로 가맹점 정보를 불러오지 못했습니다.\n잠시 후 다시 시도해주시기 바랍니다.", view: self.view)
+                            return
+                        }
+                        let storeDatailVC = StoreDetailViewController()
+                        var targetStoreInfo = storeInfo
+                        targetStoreInfo.feedback = result
+                        storeDatailVC.storeInfo = targetStoreInfo
+                        self.navigationController?.pushViewController(storeDatailVC, animated: true)
                     } else {
-                        showToast(message: "알 수 없는 오류가 발생했습니다.\n잠시후 다시 시도해주시기 바랍니다.", view: self.view)
+                        // 검색창을 눌러서 접근했을 떄
+                        let mainVC = MainViewController()
+                        mainVC.storeInfo = storeInfo
+                        mainVC.isMainMode = false
+                        self.navigationController?.pushViewController(mainVC, animated: true)
                     }
                 }
             }
             if let storeID = searchVM.storeID,
-                let placeName = searchVM.placeName,
-                let x = searchVM.locationX,
-                let y = searchVM.locationY,
-                let addressName = searchVM.addressName,
-                let roadAddressName = searchVM.roadAddressName,
-                let storeCategory = searchVM.categortGroupName {
+               let placeName = searchVM.placeName,
+               let x = searchVM.locationX,
+               let y = searchVM.locationY,
+               let addressName = searchVM.addressName,
+               let roadAddressName = searchVM.roadAddressName,
+               let storeCategory = searchVM.categortGroupName {
                 let latestSearchStore = LatestSearchStore(storeID: storeID, placeName: placeName, locationX: Double(x) ?? 0, locationY: Double(y) ?? 0, addressName: addressName, roadAddressName: roadAddressName, storeCategory: storeCategory, phone: "", date: Date().getDate(3))
                 storageViewModel.addLatestSearchStore(store: latestSearchStore )
             }
         case false:
-            let latestSearchList = storageViewModel.latestSearchStore[indexPath.row]
-            // 가맹점 상세창에서 받아야 할 데이터
             let storeDetailVC = StoreDetailViewController()
-            storeDetailVC.storeID = latestSearchList.storeID
-            let searchModelEach = SearchModel(addressName: latestSearchList.addressName, categoryGroupCode: "", categoryGroupName: latestSearchList.storeCategory, distance: "", id: latestSearchList.storeID, phone: latestSearchList.phone, placeName: latestSearchList.placeName, placeURL: "", roadAddressName: latestSearchList.roadAddressName, x: "\(latestSearchList.locationX)", y: "\(latestSearchList.locationY)")
+            var searchModelEach: SearchModel?
+            var storeID = ""
+            if isBookmarkTap {
+                var tempDataSource = storageViewModel.bookmarkDataSource[indexPath.row]
+                searchModelEach = SearchModel(addressName: tempDataSource.addressName, categoryGroupCode: "", categoryGroupName: tempDataSource.storeCategory, distance: "", id: tempDataSource.storeID, phone: "", placeName: tempDataSource.placeName, placeURL: "", roadAddressName: tempDataSource.roadAddressName, x: "\(tempDataSource.locationX)", y: "\(tempDataSource.locationY)")
+                storeID = tempDataSource.storeID
+            } else {
+                var tempDataSource = storageViewModel.latestSearchStore[indexPath.row]
+                searchModelEach = SearchModel(addressName: tempDataSource.addressName, categoryGroupCode: "", categoryGroupName: tempDataSource.storeCategory, distance: "", id: tempDataSource.storeID, phone: tempDataSource.phone, placeName: tempDataSource.placeName, placeURL: "", roadAddressName: tempDataSource.roadAddressName, x: "\(tempDataSource.locationX)", y: "\(tempDataSource.locationY)")
+                storeID = tempDataSource.storeID
+            }
+            
+            // 가맹점 상세창에서 받아야 할 데이터
+            storeDetailVC.storeID = storeID
+            
+            guard let searchModelEach = searchModelEach else { return }
             storeViewModel.requestStoreInfoCheck(searchModel: searchModelEach, pays: storageViewModel.userFavoritePaymentsString) { result in
                 if let result = result {
                     var storeInfo = SearchModel.convertStoreInfo(searchModel: searchModelEach)
@@ -384,7 +425,7 @@ extension SearchViewController: CustomNavigationBarProtocol {
 
 
 // MARK: - 최근 검색어 삭제
-extension SearchViewController: XBtnProtocol {
+extension SearchViewController: XBtnProtocol { 
     func deleteCell(storeID: String) {
         storageViewModel.deleteLatestSearchStore(store: storeID)
         self.searchTableView.reloadData()

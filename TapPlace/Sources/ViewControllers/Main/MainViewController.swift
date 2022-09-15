@@ -16,6 +16,11 @@ class MainViewController: CommonViewController {
     
     var aroundStoreList: [AroundStores]?
     
+    /// 메인모드인가?
+    var isMainMode: Bool = true
+    /// 메인모드에서는 storeInfo의 정보를 필히 받아야 하며, showNavigation, showDetailOverView 함수 사용만을 권장함
+    var storeInfo: StoreInfo?
+    
     let customNavigationBar = CustomNavigationBar()
     var naverMapView: NMFMapView = NMFMapView()
     var circleOverlay: NMFCircleOverlay = NMFCircleOverlay()
@@ -35,22 +40,31 @@ class MainViewController: CommonViewController {
     var markerList: [AroundStoreMarkerModel] = []
     var latestSelectStore: StoreTabCollectionViewCell?
 
+    
     //MARK: ViewLifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
         setupNaverMap()
         setupFloatingPanel()
-        
-//        print("numberOfTodayFeedback: \(storageViewModel.numberOfTodayFeedback)")
-        mainViewController = self
+        mainModeCheck()
+        if isMainMode {
+            mainViewController = self
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        showDetailOverView(hide: true)
-        showNavigationBar(hide: true)
+        super.viewWillDisappear(animated)
+        if isMainMode {
+            showDetailOverView(hide: true)
+            showNavigationBar(hide: true)
+        }
+
     }
-    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tabBar?.showTabBar(hide: isMainMode ? false : true)
+    }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         checkLocationAuth()
@@ -58,7 +72,66 @@ class MainViewController: CommonViewController {
 }
 
 //MARK: - Layout
-extension MainViewController: MapButtonProtocol, ResearchButtonProtocol {
+extension MainViewController: MapButtonProtocol, ResearchButtonProtocol, CustomNavigationBarProtocol {
+    func didTapLeftButton() {
+        self.navigationController?.popViewController(animated: true)
+    }
+    
+    /**
+     * @ 메인모드 여부에 따라서 다른 UI를 구성할 것
+     * coder : sanghyeon
+     */
+    func mainModeCheck() {
+        switch isMainMode {
+        case true:
+            break
+        case false:
+            /**
+             * 메인모드 아닌경우 처리되는 부분
+             * 검색창 및 카테고리 탭 삭제
+             * 하단 맵버튼 삭제 (리스트버튼)
+             * 탭바 숨김처리
+             */
+            if let storeInfo = storeInfo {
+                tabBar?.showTabBar(hide: true)
+                searchBar.isHidden = true
+                collectionView.isHidden = true
+                listButton.isHidden = true
+                showNavigationBar(hide: false, title: storeInfo.placeName)
+
+                var targetStoreInfo = storeInfo
+                storeViewModel.requestStoreInfoCheck(searchModel: AroundStoreModel.convertSearchModel(storeInfo: storeInfo), pays: storageViewModel.userFavoritePaymentsString) { result in
+                    targetStoreInfo.feedback = result
+                    self.showDetailOverView(hide: false, storeInfo: targetStoreInfo)
+                }
+                
+                
+                showDetailOverView(hide: false, storeInfo: storeInfo)
+                if let detailOverView = detailOverView {
+                    detailOverView.storeInfo = storeInfo
+                }
+                if let x = Double(storeInfo.x), let y = Double(storeInfo.y) {
+                    let storeLocation = CLLocationCoordinate2D(latitude: y, longitude: x)
+                    moveCamera(location: storeLocation.toNMGLatLng(), duration: 0, zoom: 17)
+                    let marker = NMFMarker(position: storeLocation.toNMGLatLng())
+                    marker.mapView = naverMapView
+                    marker.captionText = storeInfo.placeName
+                    marker.captionRequestedWidth = 50
+                }
+            } else {
+                /// storeInfo 정보가 없다면 바로 뒤로가기
+                /// 만에하나 이 뷰컨트롤러밖에 없다면 새로운 메인뷰컨트롤러를 엽시다
+                if let vcStacks = self.navigationController?.viewControllers {
+                    if vcStacks[0] == self {
+                        self.dismiss(animated: false)
+                        self.present(MainViewController(), animated: true)
+                    } else {
+                        self.navigationController?.popViewController(animated: true)
+                    }
+                }
+            }
+        }
+    }
     func didTapResearchButton() {
         guard let camLocation = cameraLocation else { return }
         showInMapViewTracking(location: camLocation)
@@ -78,11 +151,13 @@ extension MainViewController: MapButtonProtocol, ResearchButtonProtocol {
             getUserCurrentLocation()
             guard let location = currentLocation else { return }
             moveCamera(location: location)
-            showInMapViewTracking(location: location)
-            searchAroundStore(location: UserInfo.userLocation)
-            showResearchElement(hide: true)
-            showDetailOverView(hide: true)
-            resetAllMarkersSize()
+            if isMainMode { // 메인모드에서만 실행
+                showInMapViewTracking(location: location)
+                searchAroundStore(location: UserInfo.userLocation)
+                showResearchElement(hide: true)
+                showDetailOverView(hide: true)
+                resetAllMarkersSize()
+            }
         }
     }
     /**
@@ -262,11 +337,12 @@ extension MainViewController: CLLocationManagerDelegate, NMFMapViewCameraDelegat
         locationManager.requestWhenInUseAuthorization()
         
         //MARK: GetUserCurrentLocation & MoveCamera
-        getUserCurrentLocation()
-        guard let location = currentLocation else { return }
-        moveCamera(location: location)
-        showInMapViewTracking(location: location)
-        
+        if isMainMode { /// 메인모드 아닌경우 실행하지 않음
+            getUserCurrentLocation()
+            guard let location = currentLocation else { return }
+            moveCamera(location: location)
+            showInMapViewTracking(location: location)
+        }
         //MARK: NaverMapViewDelegate
         naverMapView.addCameraDelegate(delegate: self)
     }
@@ -279,16 +355,18 @@ extension MainViewController: CLLocationManagerDelegate, NMFMapViewCameraDelegat
         currentLocation = NMGLatLng(from: result)
         UserInfo.userLocation = result
         UserInfo.cameraLocation = result
-        searchAroundStore(location: result)
+        if isMainMode { // 메인모두에서만 실행
+            searchAroundStore(location: result)
+        }
     }
     /**
      * @ 네이버지도 카메라 이동
      * coder : sanghyeon
      */
-    func moveCamera(location: NMGLatLng) {
-        let cameraUpdate = NMFCameraUpdate(scrollTo: location, zoomTo: 14.0)
+    func moveCamera(location: NMGLatLng, duration: TimeInterval = 1, zoom: Double = 14.0) {
+        let cameraUpdate = NMFCameraUpdate(scrollTo: location, zoomTo: zoom)
         cameraUpdate.animation = .easeIn
-        cameraUpdate.animationDuration = 1
+        cameraUpdate.animationDuration = duration
         naverMapView.moveCamera(cameraUpdate)
     }
     /**
@@ -380,6 +458,7 @@ extension MainViewController: CLLocationManagerDelegate, NMFMapViewCameraDelegat
      * coder : sanghyeon
      */
     func didTapMarker(marker: NMFMarker?) {
+        if !isMainMode { return } /// 메인모드 아닌경우 실행하지 않음
         /// 열려있는 오버뷰 닫기
         showDetailOverView(hide: true)
         /// 모든 마커 사이즈 초기화
@@ -429,7 +508,9 @@ extension MainViewController: CLLocationManagerDelegate, NMFMapViewCameraDelegat
         switch status {
         case .authorizedAlways, .authorizedWhenInUse:
             self.locationManager.startUpdatingLocation()
-            getUserCurrentLocation()
+            if isMainMode { /// 메인모드 아닌경우 실행하지 않음
+                getUserCurrentLocation()
+            }
             guard let userLocation = UserInfo.userLocation else { return }
             showInMapViewTracking(location: NMGLatLng(from: userLocation))
         case .restricted, .notDetermined:
@@ -461,10 +542,12 @@ extension MainViewController: CLLocationManagerDelegate, NMFMapViewCameraDelegat
      */
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
         if CLLocationManager.authorizationStatus() == .authorizedAlways || CLLocationManager.authorizationStatus() == .authorizedWhenInUse {
-            getUserCurrentLocation()
-            guard let userLocation = UserInfo.userLocation else { return }
-            showInMapViewTracking(location: NMGLatLng(from: userLocation))
-            moveCamera(location: NMGLatLng(from: userLocation))
+            if isMainMode { /// 메인모드 아닌경우 실행하지 않음
+                getUserCurrentLocation()
+                guard let userLocation = UserInfo.userLocation else { return }
+                showInMapViewTracking(location: NMGLatLng(from: userLocation))
+                moveCamera(location: NMGLatLng(from: userLocation))
+            }
         }
     }
     /**
@@ -472,6 +555,7 @@ extension MainViewController: CLLocationManagerDelegate, NMFMapViewCameraDelegat
      * coder : sanghyeon
      */
     func showResearchElement(hide: Bool) {
+        if !isMainMode { return } /// 메인모드 아닌경우 실행하지 않음
         if hide {
             overlayCenterPick.isHidden = true
             researchButton.isHidden = true
@@ -490,8 +574,7 @@ extension MainViewController: CustomToolBarShareProtocol, StoreInfoViewDelegate 
      */ 
     func moveStoreDetail(store: StoreInfo) {
         let vc = StoreDetailViewController()
-//        print("상세뷰 이동")
-        //vc.storeID = store.storeID
+        print("상세뷰 이동")
         vc.storeInfo = store
         self.navigationController?.pushViewController(vc, animated: true)
         
@@ -553,7 +636,14 @@ extension MainViewController: CustomToolBarShareProtocol, StoreInfoViewDelegate 
                 detailOverView.storeInfo = storeInfo
             }
 
-            detailOverView.layer.applySketchShadow(color: .black, alpha: 0.12, x: 0, y: 0, blur: 14, spread: 0)
+            detailOverView.layer.shadowColor = UIColor.black.cgColor
+            detailOverView.layer.shadowOpacity = 0.20
+            detailOverView.layer.shadowOffset = .zero
+            detailOverView.layer.shadowRadius = 14
+            detailOverView.layer.cornerRadius = 20
+            detailOverView.layer.maskedCorners = CACornerMask(arrayLiteral: .layerMinXMinYCorner, .layerMaxXMinYCorner)
+            
+            //detailOverView.layer.maskedCorners = CACornerMask(arrayLiteral: .layerMinXMinYCorner, .layerMaxXMinYCorner)
             locationButton.snp.remakeConstraints {
                 $0.bottom.equalTo(detailOverView.snp.top).offset(-20)
                 $0.trailing.equalTo(view.safeAreaLayoutGuide).offset(-20)
@@ -563,8 +653,11 @@ extension MainViewController: CustomToolBarShareProtocol, StoreInfoViewDelegate 
         }
     }
     @objc func didTapDetailOverViewCloseButton() {
-        showDetailOverView(hide: true)
-        resetAllMarkersSize()
+        if isMainMode {
+            showDetailOverView(hide: true)
+        } else {
+            popToMainViewController()
+        }
     }
     /**
      * @ 네비게이션바 표시
@@ -600,6 +693,7 @@ extension MainViewController: CustomToolBarShareProtocol, StoreInfoViewDelegate 
             customNavigationBar.titleText = title
             customNavigationBar.isUseLeftButton = true
             customNavigationBar.isDrawShadow = true
+            customNavigationBar.delegate = self
         }
     }
     /**
@@ -607,8 +701,23 @@ extension MainViewController: CustomToolBarShareProtocol, StoreInfoViewDelegate 
      * coder : sanghyeon
      */
     @objc func didTapNavigationRightButton() {
-        showNavigationBar(hide: true)
-        showDetailOverView(hide: true)
+        popToMainViewController()
+    }
+    /**
+     * @ 메인으로 이동
+     * coder : sanghyeon
+     */
+    func popToMainViewController() {
+        /// 제일 앞 뷰컨으로 옮깁시다(MainVC)
+        /// 만에하나 메인 뷰컨이 없다면 새로운 메인뷰컨트롤러를 엽시다
+        if let vcStacks = self.navigationController?.viewControllers {
+            if let _ = vcStacks.first(where: {$0 == mainViewController}) {
+                self.navigationController?.popToRootViewController(animated: false)
+            } else {
+                self.dismiss(animated: false)
+                self.present(MainViewController(),animated: true)
+            }
+        }
     }
 }
 //MARK: - 뷰모델 함수
@@ -688,7 +797,7 @@ extension MainViewController: FloatingPanelControllerDelegate, AroundPlaceMainCo
      * @ 플로팅패널 설정
      * coder : sanghyeon
      */
-    func setupFloatingPanel() {
+    func setupFloatingPanel() {        
         fpc = FloatingPanelController()
         fpc.delegate = self
         fpc.surfaceView.grabberHandlePadding = 10.0

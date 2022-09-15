@@ -36,8 +36,8 @@ extension CALayer {
         y: CGFloat,
         blur: CGFloat,
         spread: CGFloat,
-        cornerRadiusValue: CGFloat)
-    {
+        cornerRadiusValue: CGFloat
+    ) {
         masksToBounds = true
         cornerRadius = cornerRadiusValue
         shadowColor = color.cgColor

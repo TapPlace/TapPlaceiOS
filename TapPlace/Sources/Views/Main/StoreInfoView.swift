@@ -18,6 +18,7 @@ class StoreInfoView: UIView {
     
     var storeInfo: StoreInfo? = nil {
         willSet {
+
             brandStackView.removeAllArrangedSubviews()
             guard let store = newValue else { return }
             storeLabel.text = newValue?.placeName
@@ -208,6 +209,17 @@ extension StoreInfoView {
                     paysImages.append(payImage)
                 }
             }
+        }
+        if paysString.count == 0 {
+            let descLabel: UILabel = {
+                let descLabel = UILabel()
+                descLabel.sizeToFit()
+                descLabel.font = .systemFont(ofSize: CommonUtils.resizeFontSize(size: 14), weight: .regular)
+                descLabel.textColor = .init(UIColor(hex: 0x707070))
+                descLabel.text = "피드백 정보 없음"
+                return descLabel
+            }()
+            brandStackView.addArrangedSubview(descLabel)
         }
         brandStackView.addArrangedSubviews(paysImages)
         brandStackView.addArrangedSubview(spacerView)

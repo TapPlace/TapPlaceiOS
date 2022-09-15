@@ -51,8 +51,14 @@ class SearchHistoryTableViewCell: UITableViewCell {
     let deleteButton: UIButton = {
         let deleteButton = UIButton()
         deleteButton.tintColor = .lightGray
-        deleteButton.isHidden = true
         return deleteButton
+    }()
+    
+    // 테이블 뷰 하단 선
+    let bottomLine: UIView = {
+        let bottomLine = UIView()
+        bottomLine.backgroundColor = .init(hex: 0xDBDEE8, alpha:0.4)
+        return bottomLine
     }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -66,6 +72,7 @@ class SearchHistoryTableViewCell: UITableViewCell {
         contentView.addSubview(img)
         contentView.addSubview(label)
         contentView.addSubview(deleteButton)
+        contentView.addSubview(bottomLine)
     }
     
     private func setLayout() {
@@ -73,22 +80,28 @@ class SearchHistoryTableViewCell: UITableViewCell {
         img.snp.makeConstraints {
             $0.width.equalTo(20)
             $0.height.equalTo(20)
-            $0.top.equalTo(contentView.safeAreaLayoutGuide).offset(16)
-            $0.leading.equalTo(contentView.safeAreaLayoutGuide).offset(20)
-            $0.bottom.equalTo(contentView.safeAreaLayoutGuide).offset(-18)
+            $0.centerY.equalTo(contentView)
+            $0.leading.equalTo(contentView).offset(20)
         }
         
         label.snp.makeConstraints {
-            $0.top.equalTo(contentView.safeAreaLayoutGuide).offset(16)
+            $0.centerY.equalTo(contentView)
             $0.leading.equalTo(img.snp.trailing).offset(10)
-            $0.bottom.equalTo(contentView.safeAreaLayoutGuide).offset(-18)
         }
         
         deleteButton.snp.makeConstraints {
-            $0.top.equalTo(contentView.safeAreaLayoutGuide).offset(16)
-            $0.trailing.equalTo(contentView.safeAreaLayoutGuide).offset(-20)
+            $0.centerY.equalTo(contentView)
+            $0.trailing.equalTo(contentView).offset(-20)
             $0.width.height.equalTo(20)
         }
+        
+        bottomLine.snp.makeConstraints {
+            $0.bottom.equalTo(contentView)
+            $0.leading.trailing.equalTo(contentView).inset(20)
+            $0.height.equalTo(1)
+        }
+        
+        deleteButton.addTarget(self, action: #selector(deleteCell(_:)), for: .touchUpInside)
     }
     
     @objc func deleteCell(_ sender: UIButton) {

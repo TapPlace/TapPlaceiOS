@@ -37,6 +37,7 @@ class SearchEditViewController: CommonViewController {
         editTableView.translatesAutoresizingMaskIntoConstraints = false
         editTableView.register(SearchEditTableViewCell.self, forCellReuseIdentifier: SearchEditTableViewCell.identifier)
         editTableView.allowsSelection = true
+        editTableView.separatorStyle = .none
         return editTableView
     }()
     

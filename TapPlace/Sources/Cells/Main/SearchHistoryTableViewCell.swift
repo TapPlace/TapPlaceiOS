@@ -100,6 +100,8 @@ class SearchHistoryTableViewCell: UITableViewCell {
             $0.leading.trailing.equalTo(contentView).inset(20)
             $0.height.equalTo(1)
         }
+        
+        deleteButton.addTarget(self, action: #selector(deleteCell(_:)), for: .touchUpInside)
     }
     
     @objc func deleteCell(_ sender: UIButton) {

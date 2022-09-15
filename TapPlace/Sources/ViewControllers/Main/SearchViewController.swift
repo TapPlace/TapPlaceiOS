@@ -423,7 +423,7 @@ extension SearchViewController: CustomNavigationBarProtocol {
 
 
 // MARK: - 최근 검색어 삭제
-extension SearchViewController: XBtnProtocol {
+extension SearchViewController: XBtnProtocol { 
     func deleteCell(storeID: String) {
         storageViewModel.deleteLatestSearchStore(store: storeID)
         self.searchTableView.reloadData()

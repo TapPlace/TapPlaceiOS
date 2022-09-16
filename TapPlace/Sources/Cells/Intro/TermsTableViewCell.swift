@@ -11,14 +11,12 @@ class TermsTableViewCell: UITableViewCell {
     static let cellId = "termsItem"
     
     func setInitCell(isTerm: Bool, require: Bool?, title: String, link: String) {
-        //MARK: 약관에 대한 선택 항목인가?
+        //MARK: 약관에 대한 선택 항목이 아닌가?
         if !isTerm {
-            containerView.addSubview(separatorLine)
-            separatorLine.snp.makeConstraints {
-                $0.top.leading.trailing.equalTo(containerView)
-                $0.height.equalTo(1)
-            }
             linkButton.isHidden = true
+            separatorLine.isHidden = false
+            titleLabel.textColor = .init(hex: 0x333333)
+            titleLabel.font = .systemFont(ofSize: CommonUtils.resizeFontSize(size: 15), weight: .medium)
         }
         //MARK: 타이틀 설정
         titleLabel.text = title
@@ -39,14 +37,11 @@ class TermsTableViewCell: UITableViewCell {
     
     func setCheck(check: Bool = false) {
         if check {
-            checkImageView.image = UIImage(systemName: "checkmark.circle.fill")
             checkImageView.tintColor = .pointBlue
         } else {
-            checkImageView.image = UIImage(systemName: "checkmark.circle")
             checkImageView.tintColor = UIColor.init(hex: 0xE6E6E6)
         }
     }
-    
     
     
     
@@ -56,13 +51,14 @@ class TermsTableViewCell: UITableViewCell {
     }()
     let checkImageView: UIImageView = {
         let checkImageView = UIImageView()
-
+        checkImageView.image = UIImage(named: "checkmark")?.withRenderingMode(.alwaysTemplate)
+        checkImageView.contentMode = .scaleAspectFit
         return checkImageView
     }()
     let requireLabel: UILabel = {
         let requireLabel = UILabel()
         requireLabel.sizeToFit()
-        requireLabel.font = .systemFont(ofSize: CommonUtils.resizeFontSize(size: 15), weight: .regular)
+        requireLabel.font = .systemFont(ofSize: CommonUtils.resizeFontSize(size: 15), weight: .medium)
         requireLabel.textColor = .pointBlue
         requireLabel.text = ""
         return requireLabel
@@ -71,7 +67,7 @@ class TermsTableViewCell: UITableViewCell {
         let titleLabel = UILabel()
         titleLabel.sizeToFit()
         titleLabel.font = .systemFont(ofSize: CommonUtils.resizeFontSize(size: 15), weight: .regular)
-        titleLabel.textColor = .black
+        titleLabel.textColor = .init(hex: 0x4D4D4D)
         titleLabel.text = "Title Label"
         return titleLabel
     }()
@@ -89,6 +85,7 @@ class TermsTableViewCell: UITableViewCell {
     let separatorLine: UIView = {
         let separatorLine = UIView()
         separatorLine.backgroundColor = UIColor.init(hex: 0xdbdee8, alpha: 0.4)
+        separatorLine.isHidden = true
         return separatorLine
     }()
     
@@ -118,6 +115,7 @@ class TermsTableViewCell: UITableViewCell {
         containerView.addSubview(requireLabel)
         containerView.addSubview(titleLabel)
         containerView.addSubview(linkButton)
+        containerView.addSubview(separatorLine)
         
         
         //MARK: ViewContraints
@@ -125,7 +123,7 @@ class TermsTableViewCell: UITableViewCell {
             $0.edges.equalToSuperview()
         }
         checkImageView.snp.makeConstraints {
-            $0.width.height.equalTo(25)
+            $0.width.height.equalTo(CommonUtils.resizeFontSize(size: 14))
             $0.leading.equalTo(containerView)
             $0.centerY.equalTo(containerView)
         }
@@ -142,6 +140,10 @@ class TermsTableViewCell: UITableViewCell {
             $0.width.height.equalTo(40)
             $0.centerY.equalTo(containerView)
         }
+        separatorLine.snp.makeConstraints {
+            $0.top.leading.trailing.equalTo(containerView)
+            $0.height.equalTo(1)
+        }
         
         //MARK: ViewAddTarget
 
@@ -152,10 +154,12 @@ class TermsTableViewCell: UITableViewCell {
     }
     override func prepareForReuse() {
         super.prepareForReuse()
-        separatorLine.backgroundColor = .clear
         requireLabel.text = ""
         titleLabel.text = "Title Label"
         linkButton.tintColor = UIColor.init(hex: 0xCCCCCC)
         linkButton.isHidden = false
+        separatorLine.isHidden = true
+        titleLabel.textColor = .init(hex: 0x4D4D4D)
+        titleLabel.font = .systemFont(ofSize: CommonUtils.resizeFontSize(size: 15), weight: .regular)
     }
 }

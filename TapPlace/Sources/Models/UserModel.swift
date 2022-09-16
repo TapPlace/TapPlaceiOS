@@ -144,3 +144,15 @@ extension LatestSearchStore {
         return tempStoreInfo
     }
 }
+
+extension UserBookmarkStore {
+    func convertStoreInfo() -> StoreInfo {
+        let tempStoreInfo = StoreInfo(num: 0, storeID: self.storeID, placeName: self.placeName, addressName: self.addressName, roadAddressName: self.roadAddressName, categoryGroupName: self.storeCategory, phone: "", x: "\(self.locationX)", y: "\(self.locationY)")
+        return tempStoreInfo
+    }
+    
+    func convertSearchModel() -> SearchModel {
+        let tempSearchModel = SearchModel(addressName: self.addressName, categoryGroupCode: "", categoryGroupName: self.storeCategory, distance: "", id: self.storeID, phone: "", placeName: self.placeName, placeURL: "", roadAddressName: self.roadAddressName, x: "\(self.locationX)", y: "\(self.locationY)")
+        return tempSearchModel
+    }
+}

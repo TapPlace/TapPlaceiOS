@@ -54,7 +54,7 @@ class TermsWebViewViewController: UIViewController {
             let configuration = WKWebViewConfiguration()
             let source: String = "var meta = document.createElement('meta');" +
                 "meta.name = 'viewport';" +
-                "meta.content = 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no';" +
+                "meta.content = 'width=device-width, initial-scale=0.7, maximum-scale=0.7, user-scalable=no';" +
                 "var head = document.getElementsByTagName('head')[0];" +
                 "head.appendChild(meta);"
             let script: WKUserScript = WKUserScript(source: source, injectionTime: .atDocumentEnd, forMainFrameOnly: true)

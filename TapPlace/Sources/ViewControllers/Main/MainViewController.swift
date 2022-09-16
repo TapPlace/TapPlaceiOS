@@ -161,15 +161,6 @@ extension MainViewController: MapButtonProtocol, ResearchButtonProtocol, CustomN
         }
     }
     /**
-     * @ 플로팅 버튼 클릭시 화면전환
-     * coder : 이상준
-     */
-    func clickFloatingBtn() {
-        let vc = SearchViewController()
-        vc.isClickFloatingButton = true
-        self.navigationController?.pushViewController(vc, animated: true)
-    }
-    /**
      * @ 검색창 클릭시 액션
      * coder : sanghyeon
      */

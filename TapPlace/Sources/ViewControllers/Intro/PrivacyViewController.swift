@@ -65,7 +65,7 @@ extension PrivacyViewController {
             let bottomLabel = UILabel()
             bottomLabel.sizeToFit()
             bottomLabel.numberOfLines = 2
-            bottomLabel.text = "(임시작성) 생년월일과 성별은 OO에 활용되며\n가입 후 ‘더보기 > 설정 > 정보수정’에서 변경할 수 있어요."
+            bottomLabel.text = "생년월일과 성별은 맞춤형 광고 제공에 활용되며\n가입 후 변경할 수 없어요."
             bottomLabel.textColor = .init(hex: 0x707070)
             bottomLabel.font = .systemFont(ofSize: CommonUtils.resizeFontSize(size: 15))
             return bottomLabel

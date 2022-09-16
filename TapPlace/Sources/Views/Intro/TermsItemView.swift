@@ -7,12 +7,8 @@
 
 import UIKit
 
-protocol TermsItemProtocol {
-    func didTapLinkButton(_ sender: UIView)
-}
 
 class TermsItemView: UIView {
-    var delegate: TermsItemProtocol?
 
     var checked: Bool = false {
         willSet {

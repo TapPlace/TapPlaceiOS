@@ -236,6 +236,17 @@ extension StorageProtocol {
             return
         }
     }
+    /**
+     * @ 초기화용 전체기록 전체 삭제
+     * coder : sanghyeon
+     */
+    func deleteAllSearchHistory() {
+        let targetLatestSearchStore = dataBases?.realm.objects(LatestSearchStore.self)
+        guard let targetLatestSearchStore = targetLatestSearchStore else { return  }
+        try! dataBases?.realm.write {
+            dataBases?.realm.delete(targetLatestSearchStore)
+        }
+    }
 }
 
 extension Results {

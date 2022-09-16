@@ -139,7 +139,7 @@ extension SplashViewController {
      * coder : sanghyeon
      */
     private func isFirstLaunch() -> Bool {
-        guard let user = storageViewModel.getUserInfo(uuid: CommonUtils.getDeviceUUID()) else { return true }
+        guard let user = storageViewModel.getUserInfo(uuid: Constants.keyChainDeviceID) else { return true }
         if user.isFirstLaunch {
             return true
         } else {

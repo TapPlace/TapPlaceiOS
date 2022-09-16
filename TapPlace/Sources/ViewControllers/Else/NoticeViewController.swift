@@ -7,6 +7,7 @@
 
 import UIKit
 
+// 공지사항 
 class NoticeViewController: CommonViewController {
     
     let customNavigationBar = CustomNavigationBar()

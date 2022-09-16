@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct NoticeModel {
+struct NoticeModel: Decodable {
     let content: String?
     let time: String?
 }

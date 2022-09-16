@@ -19,10 +19,10 @@
 	</array>
 	<key>NAVER_CLIENT_ID</key>
 	<string>${NAVER_CLIENT_ID}</string>
-	<key>TAPPLACE_API_URL</key>
-	<string>${TAPPLACE_API_URL}</string>
 	<key>TAPPLACE_API_KEY</key>
 	<string>${TAPPLACE_API_KEY}</string>
+	<key>TAPPLACE_API_URL</key>
+	<string>${TAPPLACE_API_URL}</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

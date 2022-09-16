@@ -8,6 +8,7 @@
 import UIKit
 import RealmSwift
 
+// 문의하기, 수정하기
 class InquiryViewController: CommonViewController {
     var term = TermsModel(title: "개인정보 수집, 이용동의", isTerm: true, require: true, link: "", checked: false)
     var numberOfLetter: Int = 0 // 타이틀 글자수

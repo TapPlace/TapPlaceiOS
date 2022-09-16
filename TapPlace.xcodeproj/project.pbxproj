@@ -72,6 +72,7 @@
 		DFC449A228C8A9490029DD5E /* FeedbackRequestTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFC449A128C8A9490029DD5E /* FeedbackRequestTableViewCell.swift */; };
 		DFC449A428C8B4700029DD5E /* FeedbackButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFC449A328C8B4700029DD5E /* FeedbackButton.swift */; };
 		DFC4719928D19EB700677A85 /* SearchMarkerPin.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFC4719828D19EB700677A85 /* SearchMarkerPin.swift */; };
+		DFC7037928D3E4AC006C597F /* KeyChain.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFC7037828D3E4AC006C597F /* KeyChain.swift */; };
 		DFC81D3528D09C2A00E400EB /* FeedbackResultModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFC81D3428D09C2A00E400EB /* FeedbackResultModel.swift */; };
 		DFC87B3128CAD7CB00F53D1D /* KakaoGeoAddressModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFC87B3028CAD7CB00F53D1D /* KakaoGeoAddressModel.swift */; };
 		DFC87B3428CAE9D000F53D1D /* MarkerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFC87B3328CAE9D000F53D1D /* MarkerModel.swift */; };
@@ -208,6 +209,7 @@
 		DFC449A128C8A9490029DD5E /* FeedbackRequestTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackRequestTableViewCell.swift; sourceTree = "<group>"; };
 		DFC449A328C8B4700029DD5E /* FeedbackButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackButton.swift; sourceTree = "<group>"; };
 		DFC4719828D19EB700677A85 /* SearchMarkerPin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchMarkerPin.swift; sourceTree = "<group>"; };
+		DFC7037828D3E4AC006C597F /* KeyChain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyChain.swift; sourceTree = "<group>"; };
 		DFC81D3428D09C2A00E400EB /* FeedbackResultModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackResultModel.swift; sourceTree = "<group>"; };
 		DFC87B3028CAD7CB00F53D1D /* KakaoGeoAddressModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoGeoAddressModel.swift; sourceTree = "<group>"; };
 		DFC87B3328CAE9D000F53D1D /* MarkerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkerModel.swift; sourceTree = "<group>"; };
@@ -710,6 +712,7 @@
 			children = (
 				DFDA43F828A14C61003763AC /* CommonUtils.swift */,
 				DFF5300228BC55D000FFC302 /* Storage.swift */,
+				DFC7037828D3E4AC006C597F /* KeyChain.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -941,6 +944,7 @@
 				DFECC8CA28AC95E800DC64FD /* AroundPlaceViewController.swift in Sources */,
 				DF67A05828C9E98900435C28 /* UserDataService.swift in Sources */,
 				F449AEB628ADD205008E0417 /* SearchingActionTableViewCell.swift in Sources */,
+				DFC7037928D3E4AC006C597F /* KeyChain.swift in Sources */,
 				DF4BDF7E28C75418000F15FA /* MoreHeaderViewItem.swift in Sources */,
 				F438236728C5C2A500C75063 /* NoticeViewController.swift in Sources */,
 				DF826698289CA0EC00272830 /* SplashViewController.swift in Sources */,

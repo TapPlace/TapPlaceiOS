@@ -13,71 +13,63 @@ class SplashViewController: UIViewController {
     //MARK: - ViewController Lift Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("TAPPLACE_API_URL: \(Constants.tapplaceApiUrl)")
-        print(Constants.userDeviceID)
+//        print("TAPPLACE_API_URL: \(Constants.tapplaceApiUrl)")
+//        print(Constants.userDeviceID)
         setupView()
         userInfoSetting()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         var nextVC: UIViewController?
-        loadTerms()
-        if isFirstLaunch() {
-            /// 초기실행일 경우 온보딩 뷰 이동
-            nextVC = OnBoardingViewController()
-        } else {
-            if isAgreeTerms() {
-                if isSettedUser() {
-                    /// 성별 생년월일 설정 되었음
-                    if isPickedPayments() {
-                        /// 관심결제수단 설정 되었음
-                        self.navigationController?.navigationBar.isHidden = true
-                        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) { [self] in
-                            if checkTerms() == .success {
-                                lazy var vc = TabBarViewController()
-                                //vc.showStoreInfo(storeID: "", isShowNavigation: false)
-                                moveViewController(vc, present: true)
-                            } else {
-                                let vc = TermsWebViewViewController()
-                                switch checkTerms() {
-                                case .service:
-                                    vc.term = TermsModel.lists.first(where: {$0.title == "서비스 이용약관"})
-                                    self.navigationController?.pushViewController(vc, animated: true)
-                                case .privacy:
-                                    vc.term = TermsModel.lists.first(where: {$0.title == "개인정보 수집 및 이용동의"})
-                                    self.navigationController?.pushViewController(vc, animated: true)
-                                default: showToast(message: "예기치 못한 오류가 발생했습니다.\n앱을 껐다가 다시 시도해주세요.", view: self.view)
+        userViewModel.requestLatestTerms(uuid: Constants.userDeviceID) { result in
+            if let result = result {
+                LatestTermsModel.latestServiceDate = result.serviceDate
+                LatestTermsModel.latestPersonalDate = result.personalDate
+                // 약관 정보를 정상적으로 불러온 후 로직
+                if  self.isFirstLaunch() {
+                    /// 초기실행일 경우 온보딩 뷰 이동
+                    nextVC = OnBoardingViewController()
+                } else {
+                    if self.isAgreeTerms() {
+                        if self.isSettedUser() {
+                            /// 성별 생년월일 설정 되었음
+                            if self.isPickedPayments() {
+                                /// 관심결제수단 설정 되었음
+                                self.navigationController?.navigationBar.isHidden = true
+                                self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 2) { [self] in
+                                    if checkTerms() == .success {
+                                        lazy var vc = TabBarViewController()
+                                        //vc.showStoreInfo(storeID: "", isShowNavigation: false)
+                                        moveViewController(vc, present: true)
+                                    } else {
+                                        let vc = TermsWebViewViewController()
+                                        switch checkTerms() {
+                                        case .service:
+                                            vc.term = TermsModel.lists.first(where: {$0.title == "서비스 이용약관"})
+                                            self.navigationController?.pushViewController(vc, animated: true)
+                                        case .privacy:
+                                            vc.term = TermsModel.lists.first(where: {$0.title == "개인정보 수집 및 이용동의"})
+                                            self.navigationController?.pushViewController(vc, animated: true)
+                                        default: showToast(message: "예기치 못한 오류가 발생했습니다.\n앱을 껐다가 다시 시도해주세요.", view: self.view)
+                                        }
+                                    }
                                 }
+                            } else {
+                                /// 관심결제수단 설정 안됨
+                                nextVC = PickPaymentsViewController()
                             }
+                        } else {
+                            /// 성별, 생년월일 설정 안됨
+                            nextVC = PrivacyViewController()
                         }
                     } else {
-                        /// 관심결제수단 설정 안됨
-                        nextVC = PickPaymentsViewController()
+                        /// 약관 동의 안됨
+                        nextVC = TermsViewController()
                     }
-                } else {
-                    /// 성별, 생년월일 설정 안됨
-                    nextVC = PrivacyViewController()
                 }
-            } else {
-                /// 약관 동의 안됨
-                nextVC = TermsViewController()
-            }
-        }
-        guard let nextVC = nextVC else { return }
-        moveViewController(nextVC, present: false)
-    }
-}
-//MARK: - Logic Functions
-extension SplashViewController {
-    /**
-     * @ 최신 약관 정보 요청
-     * coder : sanghyeon
-     */
-    func loadTerms() {
-        userViewModel.requestLatestTerms(uuid: Constants.userDeviceID) { result in
-            if let _ = result as? LatestTermsModel {
-                
+                guard let nextVC = nextVC else { return }
+                self.moveViewController(nextVC, present: false)
             } else {
                 showToast(message: "서버와의 연동에 실패했습니다.\n잠시 후 앱을 종료합니다.", view: self.view)
                 DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
@@ -85,11 +77,11 @@ extension SplashViewController {
                     exit(0)
                 }
             }
-            guard let result = result else { return }
-            LatestTermsModel.latestServiceDate = result.serviceDate
-            LatestTermsModel.latestPersonalDate = result.personalDate
         }
     }
+}
+//MARK: - Logic Functions
+extension SplashViewController {
     /**
      * @ 유저가 동의한 약관과 최신 약관 비교
      * coder : sanghyeon
@@ -188,14 +180,12 @@ extension SplashViewController {
      * coder : sanghyeon
      */
     private func moveViewController(_ vc: UIViewController, present: Bool) {
-        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(3)) {
-            if present {
-                vc.modalPresentationStyle = .fullScreen
-                vc.modalTransitionStyle = .crossDissolve
-                self.present(vc, animated: true)
-            } else {
-                self.navigationController?.pushViewController(vc, animated: true)
-            }
+        if present {
+            vc.modalPresentationStyle = .fullScreen
+            vc.modalTransitionStyle = .crossDissolve
+            self.present(vc, animated: true)
+        } else {
+            self.navigationController?.pushViewController(vc, animated: true)
         }
     }
     /**

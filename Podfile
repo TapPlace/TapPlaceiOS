@@ -12,6 +12,7 @@ target 'TapPlace' do
   pod 'AlignedCollectionViewFlowLayout'
   pod 'FloatingPanel'
   pod 'IQKeyboardManagerSwift'
+  pod 'SwiftKeychainWrapper'
 
   # Pods for TapPlace
 

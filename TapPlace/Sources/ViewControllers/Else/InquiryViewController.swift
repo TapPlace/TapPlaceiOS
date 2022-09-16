@@ -339,7 +339,7 @@ extension InquiryViewController: BottomButtonProtocol {
             
             let parameter: [String: Any] = [
                 "key": "\(Constants.tapplaceApiKey)",
-                "user_id": "\(Constants.userDeviceID)",
+                "user_id": "\(Constants.keyChainDeviceID)",
                 "category": type,
                 "title": titleText,
                 "content": contentText,

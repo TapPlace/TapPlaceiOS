@@ -324,6 +324,7 @@ extension MoreViewController: UITableViewDelegate, UITableViewDataSource, MoreHe
 //                        print("moreVC, dropUserIfo, Success")
                         self.storageViewModel.deleteUser() { result in
                             if deleteResult == true {
+                                KeyChain.deleteUserDeviceUUID()
                                 DispatchQueue.main.async {
                                     self.dismiss(animated: true)
                                     self.present(SplashViewController(), animated: true)
@@ -333,7 +334,7 @@ extension MoreViewController: UITableViewDelegate, UITableViewDataSource, MoreHe
                             }
                         }
                     } else {
-//                        print("moreVC, dropUserInfo, Error")
+                        //                        print("moreVC, dropUserInfo, Error")
                     }
                 }
             }

@@ -41,7 +41,7 @@ extension TermsViewController: CustomNavigationBarProtocol, BottomButtonProtocol
             showToast(message: "약관을 모두 확인해주세요.", duration: 3.0, view: self.view)
             return
         }
-        if let user = storageViewModel.getUserInfo(uuid: Constants.userDeviceID) {
+        if let user = storageViewModel.getUserInfo(uuid: Constants.keyChainDeviceID) {
             //guard let marketingIndex = allTermsLists.firstIndex(where: { $0.title == "마케팅 정보 수신 동의" }) else { return }
             let isCheckedMarketing = false //allTermsLists[marketingIndex].checked
             let setUser = UserModel(uuid: user.uuid, isFirstLaunch: user.isFirstLaunch, agreeTerm: LatestTermsModel.latestServiceDate, agreePrivacy: LatestTermsModel.latestPersonalDate, agreeMarketing: isCheckedMarketing ? CommonUtils.getDate(Date(), type: 3) : "", birth: "", sex: "")

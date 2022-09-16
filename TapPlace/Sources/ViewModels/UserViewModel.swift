@@ -16,7 +16,7 @@ class UserViewModel {
      */
     func requestLatestTerms(uuid: String, completion: @escaping (LatestTermsModel?) -> ()) {
         let parameter: [String: String] = [
-            "user_id": "\(Constants.userDeviceID)",
+            "user_id": "\(Constants.keyChainDeviceID)",
             "key": "\(Constants.tapplaceApiKey)"
         ]
         
@@ -31,7 +31,7 @@ class UserViewModel {
      */
     func sendUserInfo(user: UserModel, payments: [String], completion: @escaping (Any) -> ()) {
         let parameter: [String: Any] = [
-            "user_id": "\(Constants.userDeviceID)",
+            "user_id": "\(Constants.keyChainDeviceID)",
             "os": "ios",
             "birth": "\(user.birth)",
             "pays": payments,
@@ -50,7 +50,7 @@ class UserViewModel {
      */
     func dropUserInfo(completion: @escaping (Any) -> ()) {
         let parameter: [String: Any] = [
-            "user_id": "\(Constants.userDeviceID)",
+            "user_id": "\(Constants.keyChainDeviceID)",
             "key": "\(Constants.tapplaceApiKey)"
         ]
         

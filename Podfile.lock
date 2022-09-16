@@ -10,6 +10,7 @@ PODS:
   - RealmSwift (10.29.0):
     - Realm (= 10.29.0)
   - SnapKit (5.6.0)
+  - SwiftKeychainWrapper (4.0.1)
 
 DEPENDENCIES:
   - Alamofire
@@ -19,6 +20,7 @@ DEPENDENCIES:
   - NMapsMap
   - RealmSwift (~> 10)
   - SnapKit (~> 5.6.0)
+  - SwiftKeychainWrapper
 
 SPEC REPOS:
   trunk:
@@ -30,6 +32,7 @@ SPEC REPOS:
     - Realm
     - RealmSwift
     - SnapKit
+    - SwiftKeychainWrapper
 
 SPEC CHECKSUMS:
   Alamofire: d368e1ff8a298e6dde360e35a3e68e6c610e7204
@@ -40,7 +43,8 @@ SPEC CHECKSUMS:
   Realm: 5596770daeff1ad76c8eb10d5947dc10472da779
   RealmSwift: 35d8d318b7e5a8dbc7096c2a243184e4d19abcc0
   SnapKit: e01d52ebb8ddbc333eefe2132acf85c8227d9c25
+  SwiftKeychainWrapper: 807ba1d63c33a7d0613288512399cd1eda1e470c
 
-PODFILE CHECKSUM: bc0ccb01696f9293457d50acf0f2dada92de653b
+PODFILE CHECKSUM: 9ca384504034e8b7403c767abe8732923defaafd
 
 COCOAPODS: 1.11.3

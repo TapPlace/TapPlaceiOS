@@ -164,9 +164,10 @@ class TabBarViewController: UITabBarController {
     
     // 플로팅 버튼 클릭시 이벤트
     @objc private func menuButtonAction(sender: UIButton) {
-//        print("플로팅 버튼 클릭")
-        guard let mainVC = mainVC as? MainViewController else { return }
-        mainVC.clickFloatingBtn()
+        guard let currentVC = self.viewControllers?[self.selectedIndex] as? UINavigationController else { return }
+        let vc = SearchViewController()
+        vc.isClickFloatingButton = true
+        currentVC.pushViewController(vc, animated: true)
     }
     
     /**

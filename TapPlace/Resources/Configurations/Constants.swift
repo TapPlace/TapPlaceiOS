@@ -8,7 +8,8 @@
 import Foundation
 
 struct Constants {
-    static let userDeviceID = CommonUtils.getDeviceUUID()
+    static let userDeviceUUID = CommonUtils.getDeviceUUID()
+    static let keyChainDeviceID = KeyChain.readUserDeviceUUID() ?? userDeviceUUID
     static let naverClientId = Bundle.main.infoDictionary?["NAVER_CLIENT_ID"] as? String
     static let kakaoRestApiKey = Bundle.main.infoDictionary?["KAKAO_REST_API_KEY"] as? String
     static let tapplaceBaseUrl = "https://www.tapplace.co.kr"

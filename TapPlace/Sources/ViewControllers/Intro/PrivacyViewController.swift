@@ -272,7 +272,7 @@ extension PrivacyViewController: BottomButtonProtocol {
             return
         }
         
-        if let user = storageViewModel.getUserInfo(uuid: Constants.userDeviceID) {
+        if let user = storageViewModel.getUserInfo(uuid: Constants.keyChainDeviceID) {
             let setUser = UserModel(uuid: user.uuid, isFirstLaunch: user.isFirstLaunch, agreeTerm: user.agreeTerm, agreePrivacy: user.agreePrivacy, agreeMarketing: user.agreeMarketing, birth: textFieldText, sex: userSex)
             storageViewModel.updateUser(setUser)
         }

@@ -13,13 +13,14 @@ class SplashViewController: UIViewController {
     //MARK: - ViewController Lift Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        checkUUID()
         setupView()
         userInfoSetting()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         var nextVC: UIViewController?
-        userViewModel.requestLatestTerms(uuid: Constants.userDeviceID) { result in
+        userViewModel.requestLatestTerms(uuid: Constants.keyChainDeviceID) { result in
             if let result = result {
                 LatestTermsModel.latestServiceDate = result.serviceDate
                 LatestTermsModel.latestPersonalDate = result.personalDate
@@ -85,7 +86,7 @@ extension SplashViewController {
      * coder : sanghyeon
      */
     func checkTerms() -> TermResultType {
-        if let user = storageViewModel.getUserInfo(uuid: Constants.userDeviceID) {
+        if let user = storageViewModel.getUserInfo(uuid: Constants.keyChainDeviceID) {
 //            print("유저의 서비스 이용약관 날짜: \(user.agreeTerm), 유저의 개인정보 처리방침 날짜: \(user.agreePrivacy)")
 //            print("최신 이용약관 날짜: \(LatestTermsModel.latestServiceDate), 최신 개인정보 처리방침 날짜: \(LatestTermsModel.latestPersonalDate)")
             if user.agreeTerm != LatestTermsModel.latestServiceDate {
@@ -99,6 +100,15 @@ extension SplashViewController {
             }
         }
         return .fail
+    }
+    /**
+     * @ 유저 UUID 체크
+     * coder : sanghyeon
+     */
+    private func checkUUID() {
+        if let _ = KeyChain.readUserDeviceUUID() {} else {
+            KeyChain.saveUserDeviceUUID(Constants.keyChainDeviceID)
+        }
     }
     /**
      * @ 초기 레이아웃 설정
@@ -142,7 +152,7 @@ extension SplashViewController {
      * coder : sanghyeon
      */
     private func isAgreeTerms() -> Bool {
-        let user = storageViewModel.getUserInfo(uuid: Constants.userDeviceID)
+        let user = storageViewModel.getUserInfo(uuid: Constants.keyChainDeviceID)
         if user?.agreeTerm == "" || user?.agreePrivacy == "" {
             return false
         } else {
@@ -154,7 +164,7 @@ extension SplashViewController {
      * coder : sanghyeon
      */
     private func isSettedUser() -> Bool {
-        let user = storageViewModel.getUserInfo(uuid: Constants.userDeviceID)
+        let user = storageViewModel.getUserInfo(uuid: Constants.keyChainDeviceID)
         if user?.birth == "" || user?.sex == "" {
             return false
         } else {
@@ -191,9 +201,9 @@ extension SplashViewController {
      * coder : sanghyeon
      */
     private func userInfoSetting() {
-        let isUserInfo = storageViewModel.existUser(uuid: Constants.userDeviceID)
+        let isUserInfo = storageViewModel.existUser(uuid: Constants.keyChainDeviceID)
         if !isUserInfo {
-            let userModel = UserModel(uuid: CommonUtils.getDeviceUUID(), isFirstLaunch: true, agreeTerm: "", agreePrivacy: "", agreeMarketing: "", birth: "", sex: "")
+            let userModel = UserModel(uuid: Constants.keyChainDeviceID, isFirstLaunch: true, agreeTerm: "", agreePrivacy: "", agreeMarketing: "", birth: "", sex: "")
             storageViewModel.writeUser(userModel)
         }
     }

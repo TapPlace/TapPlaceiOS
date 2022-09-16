@@ -44,7 +44,7 @@ extension OnBoardingViewController: UIScrollViewDelegate, BottomButtonProtocol{
                 self.checkLastPage(self.pageControl.currentPage)
             })
         } else {
-            let setUser = UserModel(uuid: Constants.userDeviceID, isFirstLaunch: false, agreeTerm: "", agreePrivacy: "", agreeMarketing: "", birth: "", sex: "")
+            let setUser = UserModel(uuid: Constants.keyChainDeviceID, isFirstLaunch: false, agreeTerm: "", agreePrivacy: "", agreeMarketing: "", birth: "", sex: "")
             storageViewModel.updateUser(setUser)
             let vc = TermsViewController()
             vc.modalTransitionStyle = .crossDissolve

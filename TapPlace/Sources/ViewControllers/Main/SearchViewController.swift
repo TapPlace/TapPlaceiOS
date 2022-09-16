@@ -14,16 +14,6 @@ import CoreLocation
 
 // MARK: - 검색화면
 class SearchViewController: CommonViewController {
-    
-    // 더미 데이터
-    var searchingData = ["세븐 일레븐 등촌 3호점", "BBQ 등촌행복점", "세븐 일레븐 등촌 3호점", "BBQ 등촌행복점"]
-    var img = [
-        UIImage(systemName: "fork.knife.circle.fill"),
-        UIImage(systemName: "fork.knife.circle.fill"),
-        UIImage(systemName: "fork.knife.circle.fill"),
-        UIImage(systemName: "fork.knife.circle.fill")
-    ]
-    
     private var searchListVM: SearchListViewModel!
     
     // 검색 필드 활성화 여부
@@ -44,6 +34,8 @@ class SearchViewController: CommonViewController {
     let favoriteSearchButton = SearchContentButton() // 즐겨찾는 가맹점 버튼
     var editButton = UIButton()
     var bottomView = UIView()
+    var emptyView = UIView()
+    var descLabel = UILabel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -200,6 +192,14 @@ extension SearchViewController: SearchContentButtonProtocol {
         favoriteSearchButton.tag = 2
         favoriteSearchButton.delegate = self
         
+        descLabel = {
+            let descLabel = UILabel()
+            descLabel.sizeToFit()
+            descLabel.textAlignment = .center
+            descLabel.font = .systemFont(ofSize: CommonUtils.resizeFontSize(size: 14), weight: .regular)
+            return descLabel
+        }()
+        
         
         // 편집 버튼
         editButton = {
@@ -261,12 +261,35 @@ extension SearchViewController: SearchContentButtonProtocol {
             $0.width.equalTo(25)
             $0.height.equalTo(18)
         }
+
         
         // 테이블 뷰 AutoLayout
         view.addSubview(searchTableView)
         searchTableView.snp.makeConstraints {
             $0.top.equalTo(bottomView.snp.bottom)
             $0.leading.trailing.bottom.equalTo(safeArea)
+        }
+        
+        
+        view.addSubview(emptyView)
+        emptyView.addSubview(descLabel)
+        emptyView.snp.remakeConstraints {
+            $0.top.equalTo(customNavigationBar.snp.bottom).offset(60)
+            $0.leading.trailing.equalTo(customNavigationBar)
+            $0.bottom.equalTo(view.safeAreaLayoutGuide)
+        }
+        descLabel.snp.makeConstraints {
+            $0.edges.equalTo(emptyView)
+        }
+    }
+    
+    func showEmptyView(show: Bool, text: String) {
+        if show {
+            descLabel.text = text
+            emptyView.isHidden = false
+        } else {
+            emptyView.isHidden = true
+            
         }
     }
     
@@ -294,11 +317,14 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
         switch self.searchMode {
         case false:
             if isBookmarkTap {
+                showEmptyView(show: storageViewModel.numberOfBookmark <= 0, text: "즐겨찾기에 추가한 가맹점이 없어요.")
                 return storageViewModel.numberOfBookmark
             } else {
+                showEmptyView(show: storageViewModel.latestSearchStore.count <= 0, text: "최근에 검색한 가맹점이 없어요.")
                 return storageViewModel.latestSearchStore.count
             }
         case true:
+            showEmptyView(show: self.searchListVM.numberOfRowsInSection(1) <= 0, text: "인근에 검색한 가맹점이 없어요.")
             return self.searchListVM.numberOfRowsInSection(1)
         }
     }

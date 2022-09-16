@@ -22,6 +22,7 @@ class BookmarkViewController: CommonViewController {
     var checkedCellIndex: [Int] = []
     
     var dataSource: [UserBookmarkStore] = []
+    var isLoading: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -237,10 +238,20 @@ extension BookmarkViewController: UITableViewDelegate, UITableViewDataSource {
         if isEditMode {
             selectBookmark(indexPath: indexPath)
         } else {
-            let storeID = self.dataSource[indexPath.row].storeID
+            if isLoading { return }
+            isLoading = true
             let vc = StoreDetailViewController()
-            vc.storeID = storeID
-            self.navigationController?.pushViewController(vc, animated: true)
+            let bookmarkStore = self.dataSource[indexPath.row]
+            var tempStore = bookmarkStore.convertStoreInfo()
+            storeViewModel.requestStoreInfoCheck(searchModel: bookmarkStore.convertSearchModel(), pays: storageViewModel.userFavoritePaymentsString) { result in
+                if let result = result {
+                    tempStore.feedback = result
+                    vc.storeInfo = tempStore
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }
+                self.isLoading = false
+            }
+        
         }
     }
     

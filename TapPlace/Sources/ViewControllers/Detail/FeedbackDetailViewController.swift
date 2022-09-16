@@ -8,14 +8,24 @@
 import UIKit
 
 class FeedbackDetailViewController: UIViewController {
+    var storeViewModel = StoreViewModel()
+    var storageViewModel = StorageViewModel()
     
     var feedbackStore: UserFeedbackStoreModel? = nil {
         willSet {
             guard let store = newValue else { return }
-//            print("store: \(store)")
             customNavigationBar.titleText = store.storeName
+            storeViewModel.requestStoreInfo(storeID: store.storeID, pays: storageViewModel.userFavoritePaymentsString) { result in
+                if let result = result {
+                    self.storeInfo = result
+                    self.locationBtn.isEnabled = true
+                }
+                
+            }
         }
     }
+    
+    var storeInfo: StoreInfo?
     
     var feedbackList: [UserFeedbackModel]? = nil
     
@@ -33,6 +43,7 @@ class FeedbackDetailViewController: UIViewController {
         let locationBtn = UIButton(type: .system)
         locationBtn.setImage(named: "location")
         locationBtn.tintColor = .init(hex: 0x4E77FB)
+        locationBtn.isEnabled = false
         return locationBtn
     }()
     
@@ -54,6 +65,14 @@ class FeedbackDetailViewController: UIViewController {
         
         configureTableView()
     }
+    
+    @objc func didTapLocationButton() {
+        // 검색창을 눌러서 접근했을 떄
+        let mainVC = MainViewController()
+        mainVC.storeInfo = storeInfo
+        mainVC.isMainMode = false
+        self.navigationController?.pushViewController(mainVC, animated: true)
+    }
 }
 
 extension FeedbackDetailViewController {
@@ -74,6 +93,7 @@ extension FeedbackDetailViewController {
             $0.trailing.equalToSuperview().offset(-20)
             $0.width.height.equalTo(30)
         }
+        locationBtn.addTarget(self, action: #selector(didTapLocationButton), for: .touchUpInside)
         
         view.addSubview(tableView)
         tableView.snp.makeConstraints {

@@ -10,11 +10,17 @@ import UIKit
 
 class PrivacyViewController: UIViewController {
     
+    var isEditMode = false {
+        willSet {
+            skipButton.isHidden = newValue
+        }
+    }
     let customNavigationBar = CustomNavigationBar()
     let bottomButton = BottomButton()
     let birthInputField = UITextField() // 생년월일 입력 필드
     let maleButton = UIButton() // 남성 버튼
     let femaleButton = UIButton() // 여성 버튼
+    let skipButton = UIButton(type: .system)
     
     var userSex = "남"
     var storageViewModel = StorageViewModel()
@@ -50,6 +56,12 @@ extension PrivacyViewController {
         
         let safeArea = view.safeAreaLayoutGuide
         
+
+        skipButton.setTitle("건너뛰기", for: .normal)
+        skipButton.setTitleColor(.black.withAlphaComponent(0.5), for: .normal)
+        skipButton.titleLabel?.font = .systemFont(ofSize: CommonUtils.resizeFontSize(size: 15), weight: .medium)
+        skipButton.addTarget(self, action: #selector(didTapSkipButton), for: .touchUpInside)
+        
         let topLabel: UILabel = {
             let topLabel = UILabel()
             topLabel.sizeToFit()
@@ -65,7 +77,7 @@ extension PrivacyViewController {
             let bottomLabel = UILabel()
             bottomLabel.sizeToFit()
             bottomLabel.numberOfLines = 2
-            bottomLabel.text = "생년월일과 성별은 맞춤형 광고 제공에 활용되며\n가입 후 변경할 수 없어요."
+            bottomLabel.text = "생년월일과 성별은 맞춤형 광고 제공에 활용되며\n더보기 > 설정에서 변경하실 수 있어요."
             bottomLabel.textColor = .init(hex: 0x707070)
             bottomLabel.font = .systemFont(ofSize: CommonUtils.resizeFontSize(size: 15))
             return bottomLabel
@@ -133,6 +145,12 @@ extension PrivacyViewController {
         customNavigationBar.snp.makeConstraints {
             $0.top.leading.trailing.equalToSuperview()
             $0.bottom.equalTo(customNavigationBar.containerView)
+        }
+        
+        customNavigationBar.addSubview(skipButton)
+        skipButton.snp.makeConstraints {
+            $0.trailing.equalTo(safeArea).offset(-20)
+            $0.bottom.equalTo(customNavigationBar.containerView).offset(-15)
         }
         
         view.addSubview(topLabel)
@@ -224,6 +242,10 @@ extension PrivacyViewController {
 extension PrivacyViewController: CustomNavigationBarProtocol {
     func didTapLeftButton() {
         self.navigationController?.popViewController(animated: true)
+    }
+    @objc func didTapSkipButton() {
+        let vc = PickPaymentsViewController()
+        self.navigationController?.pushViewController(vc, animated: true)
     }
 }
 

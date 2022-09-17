@@ -1188,7 +1188,7 @@
 				CODE_SIGN_ENTITLEMENTS = TapPlace/TapPlace.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = BFTA9SX898;
+				DEVELOPMENT_TEAM = 5NACCZGM3F;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TapPlace/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "탭플레이스";
@@ -1205,7 +1205,6 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.1.3;
-
 				PRODUCT_BUNDLE_IDENTIFIER = kr.co.tapplace.TapPlace;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";

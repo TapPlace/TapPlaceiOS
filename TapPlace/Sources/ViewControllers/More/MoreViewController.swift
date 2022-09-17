@@ -229,6 +229,8 @@ extension MoreViewController: UITableViewDelegate, UITableViewDataSource, MoreHe
                     break
                 case .reset:
                     showResetActionSheet()
+                case .feedback:
+                    self.navigationController?.pushViewController(menuList[indexPath.row].vc!, animated: true)
                 default: break
                 }
             }

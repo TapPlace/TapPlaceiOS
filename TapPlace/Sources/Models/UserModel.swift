@@ -19,7 +19,7 @@ struct UserInfo {
 
 /// 유저 계정 정보
 class UserModel: Object {
-    @Persisted(primaryKey: true) var uuid: String = CommonUtils.getDeviceUUID()
+    @Persisted(primaryKey: true) var uuid: String = Constants.keyChainDeviceID
     @Persisted var isFirstLaunch: Bool = false
     @Persisted var agreeTerm: String = ""
     @Persisted var agreePrivacy: String = ""

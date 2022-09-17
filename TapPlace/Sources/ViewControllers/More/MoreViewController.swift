@@ -229,6 +229,8 @@ extension MoreViewController: UITableViewDelegate, UITableViewDataSource, MoreHe
                     break
                 case .reset:
                     showResetActionSheet()
+                case .feedback:
+                    self.navigationController?.pushViewController(menuList[indexPath.row].vc!, animated: true)
                 default: break
                 }
             }
@@ -313,17 +315,19 @@ extension MoreViewController: UITableViewDelegate, UITableViewDataSource, MoreHe
             
         }
 
-        let clear = UIAlertAction(title: "모든 항목 초기화", style: .default) { action in
+        let clear = UIAlertAction(title: "모든 항목 초기화", style: .destructive) { action in
 //            print("모든 항목 초기화 탭")
             let alertAction = UIAlertController(title: "모든 항목 초기화", message: "이 작업은 되돌릴 수 없으며, 앱에 저장된 가맹점 정보 및 서버에 저장된 데이터 모두 삭제합니다.", preferredStyle: .alert)
             let alertConfirm = UIAlertAction(title: "초기화", style: .destructive) { action in
                 self.userViewModel.dropUserInfo() { result in
                     self.storageViewModel.deleteAllBookmark { result in }
                     self.storageViewModel.deleteAllPayments {}
+                    self.storageViewModel.deleteAllSearchHistory()
                     if let deleteResult = result as? Bool {
 //                        print("moreVC, dropUserIfo, Success")
                         self.storageViewModel.deleteUser() { result in
                             if deleteResult == true {
+                                KeyChain.deleteUserDeviceUUID()
                                 DispatchQueue.main.async {
                                     self.dismiss(animated: true)
                                     self.present(SplashViewController(), animated: true)
@@ -333,7 +337,7 @@ extension MoreViewController: UITableViewDelegate, UITableViewDataSource, MoreHe
                             }
                         }
                     } else {
-//                        print("moreVC, dropUserInfo, Error")
+                        //                        print("moreVC, dropUserInfo, Error")
                     }
                 }
             }

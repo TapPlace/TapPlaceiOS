@@ -45,7 +45,7 @@ extension PickPaymentsViewController: BottomButtonProtocol, TitleViewProtocol {
                 vc.modalTransitionStyle = .crossDissolve
                 vc.modalPresentationStyle = .fullScreen
                 
-                userViewModel.sendUserInfo(user: storageViewModel.getUserInfo(uuid: Constants.userDeviceID)!, payments: selectedPayments) { result in
+                userViewModel.sendUserInfo(user: storageViewModel.getUserInfo(uuid: Constants.keyChainDeviceID)!, payments: selectedPayments) { result in
                     self.present(vc, animated: true)
                 }
             }

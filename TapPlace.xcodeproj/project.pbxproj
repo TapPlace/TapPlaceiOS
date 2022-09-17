@@ -61,6 +61,7 @@
 		DFA2875928AB94C700DD9F63 /* DetailOverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFA2875828AB94C700DD9F63 /* DetailOverView.swift */; };
 		DFA2875B28ABA8D400DD9F63 /* DetailToolBarButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFA2875A28ABA8D400DD9F63 /* DetailToolBarButton.swift */; };
 		DFB6CD6028CEE3A90095C9FA /* UIApplication+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFB6CD5F28CEE3A90095C9FA /* UIApplication+Extension.swift */; };
+		DFBFDF4E28D55CED003A8EF6 /* FeedbackWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFBFDF4D28D55CED003A8EF6 /* FeedbackWebViewController.swift */; };
 		DFC23F96289AB66400EC1090 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFC23F95289AB66400EC1090 /* AppDelegate.swift */; };
 		DFC23F98289AB66400EC1090 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFC23F97289AB66400EC1090 /* SceneDelegate.swift */; };
 		DFC23F9F289AB66600EC1090 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DFC23F9E289AB66600EC1090 /* Assets.xcassets */; };
@@ -199,6 +200,7 @@
 		DFA2875828AB94C700DD9F63 /* DetailOverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailOverView.swift; sourceTree = "<group>"; };
 		DFA2875A28ABA8D400DD9F63 /* DetailToolBarButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailToolBarButton.swift; sourceTree = "<group>"; };
 		DFB6CD5F28CEE3A90095C9FA /* UIApplication+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+Extension.swift"; sourceTree = "<group>"; };
+		DFBFDF4D28D55CED003A8EF6 /* FeedbackWebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackWebViewController.swift; sourceTree = "<group>"; };
 		DFC23F92289AB66400EC1090 /* TapPlace.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TapPlace.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DFC23F95289AB66400EC1090 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DFC23F97289AB66400EC1090 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -359,6 +361,7 @@
 				DF51DCC128A7779400D0AE1E /* MoreViewController.swift */,
 				DFD780DF28C7804400F822C3 /* BookmarkViewController.swift */,
 				DF67A05028C9635F00435C28 /* FeedbackListViewController.swift */,
+				DFBFDF4D28D55CED003A8EF6 /* FeedbackWebViewController.swift */,
 			);
 			path = More;
 			sourceTree = "<group>";
@@ -956,6 +959,7 @@
 				F449AEB628ADD205008E0417 /* SearchingActionTableViewCell.swift in Sources */,
 				DFC7037928D3E4AC006C597F /* KeyChain.swift in Sources */,
 				DF4BDF7E28C75418000F15FA /* MoreHeaderViewItem.swift in Sources */,
+				DFBFDF4E28D55CED003A8EF6 /* FeedbackWebViewController.swift in Sources */,
 				F438236728C5C2A500C75063 /* NoticeViewController.swift in Sources */,
 				DF826698289CA0EC00272830 /* SplashViewController.swift in Sources */,
 				DFD6729D28C868CF000220EE /* BookMarkEditModeCell.swift in Sources */,
@@ -1160,8 +1164,13 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+<<<<<<< HEAD
 				MARKETING_VERSION = 1.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = kr.co.tapplace.TapPlace1;
+=======
+				MARKETING_VERSION = 1.1.2;
+				PRODUCT_BUNDLE_IDENTIFIER = kr.co.tapplace.TapPlace;
+>>>>>>> 8445e1e5e6d6faf7edfde9f97cb03caa3bce3df9
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -1198,8 +1207,13 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+<<<<<<< HEAD
 				MARKETING_VERSION = 1.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = kr.co.tapplace.TapPlace1;
+=======
+				MARKETING_VERSION = 1.1.2;
+				PRODUCT_BUNDLE_IDENTIFIER = kr.co.tapplace.TapPlace;
+>>>>>>> 8445e1e5e6d6faf7edfde9f97cb03caa3bce3df9
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;

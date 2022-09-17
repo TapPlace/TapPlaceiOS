@@ -114,6 +114,7 @@
 		F438237028C7085200C75063 /* AlarmViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F438236F28C7085200C75063 /* AlarmViewController.swift */; };
 		F438237228C709E100C75063 /* AlarmModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F438237128C709E100C75063 /* AlarmModel.swift */; };
 		F438237428C7188A00C75063 /* InquiryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F438237328C7188A00C75063 /* InquiryViewController.swift */; };
+		F43B068828D56EB800701538 /* SuggestedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43B068728D56EB800701538 /* SuggestedViewController.swift */; };
 		F43CA9FB28D095B9009E8845 /* InquiryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43CA9FA28D095B9009E8845 /* InquiryService.swift */; };
 		F43CA9FD28D43CB7009E8845 /* NoticeListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43CA9FC28D43CB7009E8845 /* NoticeListViewModel.swift */; };
 		F43CA9FF28D43CEC009E8845 /* NoticeDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43CA9FE28D43CEC009E8845 /* NoticeDataService.swift */; };
@@ -253,6 +254,7 @@
 		F438236F28C7085200C75063 /* AlarmViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmViewController.swift; sourceTree = "<group>"; };
 		F438237128C709E100C75063 /* AlarmModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmModel.swift; sourceTree = "<group>"; };
 		F438237328C7188A00C75063 /* InquiryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquiryViewController.swift; sourceTree = "<group>"; };
+		F43B068728D56EB800701538 /* SuggestedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuggestedViewController.swift; sourceTree = "<group>"; };
 		F43CA9FA28D095B9009E8845 /* InquiryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquiryService.swift; sourceTree = "<group>"; };
 		F43CA9FC28D43CB7009E8845 /* NoticeListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeListViewModel.swift; sourceTree = "<group>"; };
 		F43CA9FE28D43CEC009E8845 /* NoticeDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeDataService.swift; sourceTree = "<group>"; };
@@ -730,6 +732,7 @@
 				F438236F28C7085200C75063 /* AlarmViewController.swift */,
 				F438237328C7188A00C75063 /* InquiryViewController.swift */,
 				F470A33E28C9C27E007F4F24 /* FAQViewController.swift */,
+				F43B068728D56EB800701538 /* SuggestedViewController.swift */,
 			);
 			path = Else;
 			sourceTree = "<group>";
@@ -899,6 +902,7 @@
 				F4551D3A28A8B651003B93F4 /* SearchViewController.swift in Sources */,
 				DFC23FB2289AB6E500EC1090 /* EmptyViewModel.swift in Sources */,
 				DF67A05128C9635F00435C28 /* FeedbackListViewController.swift in Sources */,
+				F43B068828D56EB800701538 /* SuggestedViewController.swift in Sources */,
 				DF4BDF7A28C74A06000F15FA /* MoreHeaderView.swift in Sources */,
 				DFDA43F428A14821003763AC /* UIColor+Extension.swift in Sources */,
 				DFC23FBB289AB70C00EC1090 /* EmptyExtension.swift in Sources */,

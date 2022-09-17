@@ -13,6 +13,7 @@ class CommonPickViewController: UIViewController {
     //MARK: 뷰 요소 선언
     let titleView = PickViewControllerTitleView()
     let bottomButton = BottomButton()
+    let customNavigationBar = CustomNavigationBar()
     /// 결제수단 컬렉션뷰
     let collectionView: UICollectionView = {
         let collectionViewLayout = AlignedCollectionViewFlowLayout()
@@ -44,17 +45,22 @@ extension CommonPickViewController {
     func setupCommonView() {
         //MARK: 뷰 속성 변경
         view.backgroundColor = .white
-        self.navigationController?.navigationBar.isHidden = true
         
         //MARK: 뷰 추가
+        view.addSubview(customNavigationBar)
         view.addSubview(titleView)
         view.addSubview(bottomButton)
         view.addSubview(collectionView)
         
         //MARK: 뷰 제약
+        customNavigationBar.snp.makeConstraints {
+            $0.top.leading.trailing.equalToSuperview()
+            $0.bottom.equalTo(customNavigationBar.containerView)
+        }
         titleView.snp.makeConstraints {
-            $0.top.leading.trailing.equalTo(view.safeAreaLayoutGuide)
-            $0.height.equalTo(180)
+            $0.top.equalTo(customNavigationBar.snp.bottom)
+            $0.leading.trailing.equalTo(view.safeAreaLayoutGuide)
+            $0.bottom.equalTo(titleView.clearButton).offset(20)
         }
         bottomButton.snp.makeConstraints {
             $0.left.right.bottom.equalToSuperview()

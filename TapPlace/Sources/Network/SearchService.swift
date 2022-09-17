@@ -22,7 +22,7 @@ class SearchService {
                     completion(response)
                 case .failure(let error):
                     completion(nil)
-//                    print(error.localizedDescription)
+                    print(error.localizedDescription)
                 }
             }
     }

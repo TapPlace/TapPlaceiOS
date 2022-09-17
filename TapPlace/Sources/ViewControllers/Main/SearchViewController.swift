@@ -28,6 +28,13 @@ class SearchViewController: CommonViewController {
     // 중복 실행 막기
     var isLoading: Bool = false
     
+    // 카카오 지도 검색 페이지
+    var isPaging: Int = 1
+    var isEndPage: Bool = false
+    
+    // 검색 결과 저장할 배열
+    var searchResult: [SearchModel] = []
+    
     let customNavigationBar = CustomNavigationBar()// 커스텀 네비게이션 바
     let searchField = UITextField()  // 검색 필드
     let recentSearchButton = SearchContentButton() // 최근 검색어 버튼
@@ -97,20 +104,27 @@ class SearchViewController: CommonViewController {
                 $0.leading.trailing.bottom.equalTo(view.safeAreaLayoutGuide)
             }
         }
-        
+        isEndPage = false
+        isPaging = 1
+        searchResult.removeAll()
+        requestPlace()
+    }
+    
+    func requestPlace() {
         // 카카오 검색 API 파라미터
         let parameter: [String: Any] = [
-            "query": searchField.text!,
+            "query": searchField.text ?? "",
             "x": "\(UserInfo.userLocation?.longitude ?? 0)",
             "y": "\(UserInfo.userLocation?.latitude ?? 0)",
-            "radius": 1000,
-            "sort" : "distance" // 거리순으로 정렬
+            "page": isPaging
         ]
         
         // 카카오 검색 API 통신 사용
-        SearchService().getPlace(parameter: parameter) { (documents) in
-            if let documents = documents {
-                self.searchListVM = SearchListViewModel(documents: documents)
+        SearchService().getPlace(parameter: parameter) { (result) in
+            // print("*** isPaging: \(self.isPaging)")
+            if let result = result {
+                self.searchResult += result.documents
+                self.isEndPage = result.meta.isEnd
             }
             
             DispatchQueue.main.async {
@@ -167,7 +181,11 @@ extension SearchViewController: SearchContentButtonProtocol {
         let safeArea = view.safeAreaLayoutGuide
         
         searchField.font = .systemFont(ofSize: CommonUtils.resizeFontSize(size: 16), weight: .medium)
-        searchField.placeholder = "등록하려는 가맹점을 찾아보세요."
+        if isClickFloatingButton {
+            searchField.placeholder = "등록하려는 가맹점을 입력하세요."
+        } else {
+            searchField.placeholder = "검색어를 입력하세요."
+        }
         searchField.clearButtonMode = .always
     
         
@@ -305,6 +323,10 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     
     // 셀의 높이
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if indexPath.section == 1 {
+            return 0
+        }
+        
         switch self.searchMode {
         case false:
             return isBookmarkTap ? 72 : 54
@@ -314,6 +336,10 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if section == 1 {
+            return 0
+        }
+        
         switch self.searchMode {
         case false:
             if isBookmarkTap {
@@ -324,12 +350,20 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
                 return storageViewModel.latestSearchStore.count
             }
         case true:
-            showEmptyView(show: self.searchListVM.numberOfRowsInSection(1) <= 0, text: "인근에 검색한 가맹점이 없어요.")
-            return self.searchListVM.numberOfRowsInSection(1)
+            showEmptyView(show: searchResult.count <= 0, text: "인근에 검색한 가맹점이 없어요.")
+            return searchResult.count
         }
+    }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 2
     }
      
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if indexPath.section == 1 {
+            return UITableViewCell()
+        }
+        
         switch self.searchMode {
         case false:
             if isBookmarkTap {
@@ -368,9 +402,10 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
         case true:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: SearchingTableViewCell.identifier, for: indexPath) as? SearchingTableViewCell else { fatalError("no matched articleTableViewCell identifier") }
             cell.selectionStyle = .none
-            let searchVM = self.searchListVM.searchAtIndex(indexPath.row)
+            let searchVM = searchResult[indexPath.row]
+            let storeDistance = DistancelModel.getDistance(distance: (Double(searchVM.distance ?? "0") ?? 0) / 1000)
             
-            cell.prepare(categoryGroupCode: searchVM.categoryGroupCode, placeName: searchVM.placeName, distance: searchVM.distance, roadAddress: searchVM.roadAddressName, address: searchVM.addressName)
+            cell.prepare(categoryGroupCode: searchVM.categoryGroupCode, placeName: searchVM.placeName, distance: storeDistance, roadAddress: searchVM.roadAddressName, address: searchVM.addressName)
             self.keywordColorChange(label: cell.placeNameLbl)
             return cell
         }
@@ -381,8 +416,9 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
         isLoading = true
         switch self.searchMode {
         case true: // 검색중일때
-            let searchVM: SearchViewModel = self.searchListVM.searchAtIndex(indexPath.row)
-            guard let searchModelEach = searchVM.searchModelEach else { return }
+//            let searchVM = searchResult[indexPath.row]//self.searchListVM.searchAtIndex(indexPath.row)
+//            guard let searchModelEach = searchVM.searchModelEach else { return }
+            let searchModelEach = searchResult[indexPath.row]
             storeViewModel.requestStoreInfoCheck(searchModel: searchModelEach, pays: storageViewModel.userFavoritePaymentsString) { result in
                 if let result = result {
                     let storeInfo = SearchModel.convertStoreInfo(searchModel: searchModelEach)
@@ -407,16 +443,8 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
                 }
                 self.isLoading = false
             }
-            if let storeID = searchVM.storeID,
-               let placeName = searchVM.placeName,
-               let x = searchVM.locationX,
-               let y = searchVM.locationY,
-               let addressName = searchVM.addressName,
-               let roadAddressName = searchVM.roadAddressName,
-               let storeCategory = searchVM.categortGroupName {
-                let latestSearchStore = LatestSearchStore(storeID: storeID, placeName: placeName, locationX: Double(x) ?? 0, locationY: Double(y) ?? 0, addressName: addressName, roadAddressName: roadAddressName, storeCategory: storeCategory, phone: "", date: Date().getDate(3))
+            let latestSearchStore = LatestSearchStore(storeID: searchModelEach.id, placeName: searchModelEach.placeName, locationX: Double(searchModelEach.x) ?? 0, locationY: Double(searchModelEach.y) ?? 0, addressName: searchModelEach.addressName, roadAddressName: searchModelEach.roadAddressName, storeCategory: searchModelEach.categoryGroupName, phone: searchModelEach.phone, date: Date().getDate(3))
                 storageViewModel.addLatestSearchStore(store: latestSearchStore )
-            }
         case false:
             let storeDetailVC = StoreDetailViewController()
             var searchModelEach: SearchModel?
@@ -448,6 +476,40 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
             }
         }
     }
+    
+    //MARK: 검색결과 더보기 버튼을 위한 푸터뷰
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        if section != 1 || !searchMode { return .zero }
+        return 50
+    }
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        if section != 1 { return nil }
+        if isEndPage { return nil }
+        
+        
+        let footerView = UIView()
+        let expendButton = TableViewExpendButton(type: .system)
+        expendButton.setTitle("검색결과 더보기", for: .normal)
+        footerView.addSubview(expendButton)
+        expendButton.snp.makeConstraints {
+            $0.edges.equalTo(footerView)
+        }
+        expendButton.addTarget(self, action: #selector(didTapExpendButton), for: .touchUpInside)
+        return footerView
+    }
+    /**
+     * @검색결과 더보기 버튼 클릭 함수
+     * coder : sanghyeon
+     */
+    @objc func didTapExpendButton() {
+        if isEndPage {
+            showToast(message: "마지막 검색 결과 입니다.", view: self.view)
+        } else {
+            isPaging += 1
+            requestPlace()
+        }
+    }
+    
 }
 
 // MARK: - 네비게이션 바 backbutton 프로토콜 구현

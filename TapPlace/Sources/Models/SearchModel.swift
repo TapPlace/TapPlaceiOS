@@ -15,6 +15,7 @@ struct RecentSearchModel {
 
 struct SearchList: Decodable {
     let documents: [SearchModel]
+    let meta: MetaData
 }
 
 struct SearchModel: Decodable {
@@ -50,5 +51,16 @@ struct SearchModel: Decodable {
         let tempSearchModel = SearchModel(addressName: storeInfo.addressName, categoryGroupCode: "", categoryGroupName: storeInfo.categoryGroupName, distance: "", id: storeInfo.storeID, phone: storeInfo.phone, placeName: storeInfo.placeName, placeURL: "", roadAddressName: storeInfo.roadAddressName, x: storeInfo.x, y: storeInfo.y)
         return tempSearchModel
                 
+    }
+}
+
+// MARK: - MetaData
+struct MetaData: Codable {
+    let isEnd: Bool
+    let pageableCount: Int
+
+    enum CodingKeys: String, CodingKey {
+        case isEnd = "is_end"
+        case pageableCount = "pageable_count"
     }
 }

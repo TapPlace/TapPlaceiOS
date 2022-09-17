@@ -100,7 +100,7 @@ class SearchingTableViewCell: UITableViewCell {
         // 도로명 주소가 없을 경우 지번 주소 사용
         let storeAddress: String? = roadAddress == "" ? address : roadAddress
         self.placeNameLbl.text = placeName
-        self.distanceAddressLbl.text = "\(String(describing: distance!))m · \(String(describing: storeAddress!))"
+        self.distanceAddressLbl.text = "\(String(describing: distance!)) · \(String(describing: storeAddress!))"
     }
 
     

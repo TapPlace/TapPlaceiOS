@@ -16,7 +16,6 @@ class SplashViewController: UIViewController {
         checkUUID()
         setupView()
         userInfoSetting()
-        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -25,49 +24,44 @@ class SplashViewController: UIViewController {
             if let result = result {
                 LatestTermsModel.latestServiceDate = result.serviceDate
                 LatestTermsModel.latestPersonalDate = result.personalDate
-                // 약관 정보를 정상적으로 불러온 후 로직
-                if  self.isFirstLaunch() {
-                    /// 초기실행일 경우 온보딩 뷰 이동
+                
+                switch self.isFirstLaunch() { /// 초기실행 검증
+                case true:
                     nextVC = OnBoardingViewController()
-                } else {
-                    if self.isAgreeTerms() {
-                        if self.isSettedUser() {
-                            /// 성별 생년월일 설정 되었음
-                            if self.isPickedPayments() {
-                                /// 관심결제수단 설정 되었음
-                                self.navigationController?.navigationBar.isHidden = true
-                                self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 2) { [self] in
-                                    if checkTerms() == .success {
-                                        lazy var vc = TabBarViewController()
-                                        //vc.showStoreInfo(storeID: "", isShowNavigation: false)
-                                        moveViewController(vc, present: true)
-                                    } else {
-                                        let vc = TermsWebViewViewController()
-                                        switch checkTerms() {
-                                        case .service:
-                                            vc.term = TermsModel.lists.first(where: {$0.title == "서비스 이용약관"})
-                                            self.navigationController?.pushViewController(vc, animated: true)
-                                        case .privacy:
-                                            vc.term = TermsModel.lists.first(where: {$0.title == "개인정보 수집 및 이용동의"})
-                                            self.navigationController?.pushViewController(vc, animated: true)
-                                        default: showToast(message: "예기치 못한 오류가 발생했습니다.\n앱을 껐다가 다시 시도해주세요.", view: self.view)
-                                        }
+                case false: /// 초기실행 검증 실패
+                    switch self.isAgreeTerms() { /// 약관 동의여부 검증
+                    case true:
+                        switch self.isPickedPayments() { /// 관심결제수단 설정 여부 검증
+                        case true:
+                            self.navigationController?.navigationBar.isHidden = true
+                            self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 2) { [self] in
+                                switch checkTerms() {
+                                case .success:
+                                    lazy var vc = TabBarViewController()
+                                    //vc.showStoreInfo(storeID: "", isShowNavigation: false)
+                                    moveViewController(vc, present: true)
+                                default:
+                                    let vc = TermsWebViewViewController()
+                                    switch checkTerms() {
+                                    case .service:
+                                        vc.term = TermsModel.lists.first(where: {$0.title == "서비스 이용약관"})
+                                        self.navigationController?.pushViewController(vc, animated: true)
+                                    case .privacy:
+                                        vc.term = TermsModel.lists.first(where: {$0.title == "개인정보 수집 및 이용동의"})
+                                        self.navigationController?.pushViewController(vc, animated: true)
+                                    default: showToast(message: "예기치 못한 오류가 발생했습니다.\n앱을 껐다가 다시 시도해주세요.", view: self.view)
                                     }
                                 }
-                            } else {
-                                /// 관심결제수단 설정 안됨
-                                nextVC = PickPaymentsViewController()
                             }
-                        } else {
-                            /// 성별, 생년월일 설정 안됨
-                            nextVC = PrivacyViewController()
+                        case false: /// 관심결제수단 설정 여부 검증 실패
+                            nextVC = PickPaymentsViewController()
                         }
-                    } else {
-                        /// 약관 동의 안됨
+                    case false: /// 약관 동의여부 검증 실패
                         nextVC = TermsViewController()
                     }
                 }
+                
                 guard let nextVC = nextVC else { return }
                 self.moveViewController(nextVC, present: false)
             } else {
@@ -88,13 +82,13 @@ extension SplashViewController {
      */
     func checkTerms() -> TermResultType {
         if let user = storageViewModel.getUserInfo(uuid: Constants.keyChainDeviceID) {
-//            print("유저의 서비스 이용약관 날짜: \(user.agreeTerm), 유저의 개인정보 처리방침 날짜: \(user.agreePrivacy)")
-//            print("최신 이용약관 날짜: \(LatestTermsModel.latestServiceDate), 최신 개인정보 처리방침 날짜: \(LatestTermsModel.latestPersonalDate)")
+            //            print("유저의 서비스 이용약관 날짜: \(user.agreeTerm), 유저의 개인정보 처리방침 날짜: \(user.agreePrivacy)")
+            //            print("최신 이용약관 날짜: \(LatestTermsModel.latestServiceDate), 최신 개인정보 처리방침 날짜: \(LatestTermsModel.latestPersonalDate)")
             if user.agreeTerm != LatestTermsModel.latestServiceDate {
-//                print("서비스 이용약관 날짜 다름")
+                //                print("서비스 이용약관 날짜 다름")
                 return .service
             } else if user.agreePrivacy != LatestTermsModel.latestPersonalDate {
-//                print("서비스 개인정보 처리방침 날짜 다름")
+                //                print("서비스 개인정보 처리방침 날짜 다름")
                 return .privacy
             } else {
                 return .success

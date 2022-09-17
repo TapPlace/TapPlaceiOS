@@ -11,6 +11,7 @@ import UIKit
 class NoticeViewController: CommonViewController {
     
     let customNavigationBar = CustomNavigationBar()
+    private var noticeListVM: NoticeListViewModel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,7 +24,17 @@ class NoticeViewController: CommonViewController {
         customNavigationBar.titleText = "공지사항"
         customNavigationBar.isUseLeftButton = true
         
-        configureTableView()
+        NoticeDataService().getNotice(page: "1") { (notice, error) in
+            if let notice = notice {
+                print("나와나와 \(notice)")
+                self.noticeListVM = NoticeListViewModel(notice: notice)
+                self.configureTableView()
+            }
+            
+            DispatchQueue.main.async {
+                self.noticeTableView.reloadData()
+            }
+        }
     }
     
     private lazy var noticeTableView: UITableView = {
@@ -35,6 +46,7 @@ class NoticeViewController: CommonViewController {
         return noticeTableView
     }()
 }
+
 
 extension NoticeViewController {
     private func setupView() {
@@ -95,13 +107,13 @@ extension NoticeViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return NoticeModel.lists.count
+        return noticeListVM.numberOfRowsInSection(1)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: NoticeCell.identifier, for: indexPath) as! NoticeCell
-        let noticeModel = NoticeModel.lists[indexPath.row]
-        cell.prepare(content: noticeModel.content, date: noticeModel.time)
+        let noticeVM = self.noticeListVM.searchAtIndex(indexPath.row)
+        cell.prepare(title: noticeVM.title, content: noticeVM.content, writeDate: noticeVM.writeDate)
         return cell
     }
 }

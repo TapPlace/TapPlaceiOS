@@ -21,7 +21,7 @@ struct MoreMenuModel {
 
 extension MoreMenuModel {
     static let list: [MoreMenuModel] = [
-//        MoreMenuModel(title: "공지사항", type: .notice, subTitle: nil, vc: NoticeViewController()), // 베타버전 임시 주석
+        MoreMenuModel(title: "공지사항", type: .notice, subTitle: nil, vc: NoticeViewController()), // 베타버전 임시 주석
         MoreMenuModel(title: "버전정보", type: .version, subTitle: .version, vc: nil),
 //        MoreMenuModel(title: "자주 묻는 질문", type: .faq, subTitle: nil, vc: FAQViewController()), // 베타버전 임시 주석
         MoreMenuModel(title: "문의하기", type: .qna, subTitle: nil, vc: InquiryViewController()),

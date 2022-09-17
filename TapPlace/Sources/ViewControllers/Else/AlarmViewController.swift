@@ -7,6 +7,7 @@
 
 import UIKit
 
+// 알람
 class AlarmViewController: CommonViewController {
     
     let customNavigationBar = CustomNavigationBar()

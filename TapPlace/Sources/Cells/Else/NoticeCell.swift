@@ -55,8 +55,8 @@ class NoticeCell: UITableViewCell {
         }
     }
     
-    func prepare(content: String?, date: String?) {
-        self.contentLbl.text = content
-        self.timeLbl.text = date
+    func prepare(title: String?, content: String?,writeDate: String?) {
+        self.contentLbl.text = title
+        self.timeLbl.text = writeDate
     }
 }

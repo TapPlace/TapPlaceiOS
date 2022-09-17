@@ -115,7 +115,10 @@
 		F438237028C7085200C75063 /* AlarmViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F438236F28C7085200C75063 /* AlarmViewController.swift */; };
 		F438237228C709E100C75063 /* AlarmModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F438237128C709E100C75063 /* AlarmModel.swift */; };
 		F438237428C7188A00C75063 /* InquiryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F438237328C7188A00C75063 /* InquiryViewController.swift */; };
+		F43B068828D56EB800701538 /* SuggestedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43B068728D56EB800701538 /* SuggestedViewController.swift */; };
 		F43CA9FB28D095B9009E8845 /* InquiryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43CA9FA28D095B9009E8845 /* InquiryService.swift */; };
+		F43CA9FD28D43CB7009E8845 /* NoticeListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43CA9FC28D43CB7009E8845 /* NoticeListViewModel.swift */; };
+		F43CA9FF28D43CEC009E8845 /* NoticeDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43CA9FE28D43CEC009E8845 /* NoticeDataService.swift */; };
 		F449AEB328ACEABE008E0417 /* SearchContentButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F449AEB228ACEABE008E0417 /* SearchContentButton.swift */; };
 		F449AEB628ADD205008E0417 /* SearchingActionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F449AEB528ADD205008E0417 /* SearchingActionTableViewCell.swift */; };
 		F4551D3A28A8B651003B93F4 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4551D3928A8B651003B93F4 /* SearchViewController.swift */; };
@@ -253,7 +256,10 @@
 		F438236F28C7085200C75063 /* AlarmViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmViewController.swift; sourceTree = "<group>"; };
 		F438237128C709E100C75063 /* AlarmModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmModel.swift; sourceTree = "<group>"; };
 		F438237328C7188A00C75063 /* InquiryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquiryViewController.swift; sourceTree = "<group>"; };
+		F43B068728D56EB800701538 /* SuggestedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuggestedViewController.swift; sourceTree = "<group>"; };
 		F43CA9FA28D095B9009E8845 /* InquiryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquiryService.swift; sourceTree = "<group>"; };
+		F43CA9FC28D43CB7009E8845 /* NoticeListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeListViewModel.swift; sourceTree = "<group>"; };
+		F43CA9FE28D43CEC009E8845 /* NoticeDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeDataService.swift; sourceTree = "<group>"; };
 		F449AEB228ACEABE008E0417 /* SearchContentButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchContentButton.swift; sourceTree = "<group>"; };
 		F449AEB528ADD205008E0417 /* SearchingActionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchingActionTableViewCell.swift; sourceTree = "<group>"; };
 		F4551D3928A8B651003B93F4 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
@@ -615,6 +621,7 @@
 				DF67A06128CA35E900435C28 /* StoreViewModel.swift */,
 				F4E198D428CDDB5700619174 /* SearchListViewModel.swift */,
 				DF81E40828D07C0A000FF975 /* FeedbackViewModel.swift */,
+				F43CA9FC28D43CB7009E8845 /* NoticeListViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -629,6 +636,7 @@
 				F470A34228CB6430007F4F24 /* SearchService.swift */,
 				F43CA9FA28D095B9009E8845 /* InquiryService.swift */,
 				DF81E40628D07A77000FF975 /* FeedbackDataService.swift */,
+				F43CA9FE28D43CEC009E8845 /* NoticeDataService.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -727,6 +735,7 @@
 				F438236F28C7085200C75063 /* AlarmViewController.swift */,
 				F438237328C7188A00C75063 /* InquiryViewController.swift */,
 				F470A33E28C9C27E007F4F24 /* FAQViewController.swift */,
+				F43B068728D56EB800701538 /* SuggestedViewController.swift */,
 			);
 			path = Else;
 			sourceTree = "<group>";
@@ -896,6 +905,7 @@
 				F4551D3A28A8B651003B93F4 /* SearchViewController.swift in Sources */,
 				DFC23FB2289AB6E500EC1090 /* EmptyViewModel.swift in Sources */,
 				DF67A05128C9635F00435C28 /* FeedbackListViewController.swift in Sources */,
+				F43B068828D56EB800701538 /* SuggestedViewController.swift in Sources */,
 				DF4BDF7A28C74A06000F15FA /* MoreHeaderView.swift in Sources */,
 				DFDA43F428A14821003763AC /* UIColor+Extension.swift in Sources */,
 				DFC23FBB289AB70C00EC1090 /* EmptyExtension.swift in Sources */,
@@ -972,6 +982,7 @@
 				F438237428C7188A00C75063 /* InquiryViewController.swift in Sources */,
 				F438236228C3124300C75063 /* StickyHeaderView.swift in Sources */,
 				DFC449A228C8A9490029DD5E /* FeedbackRequestTableViewCell.swift in Sources */,
+				F43CA9FF28D43CEC009E8845 /* NoticeDataService.swift in Sources */,
 				DFECC8D028ACFFE000DC64FD /* BrandIconImageView.swift in Sources */,
 				DF4A14A228ABBAEF0068D1AD /* VerticalAlignLabel.swift in Sources */,
 				DFF5300328BC55D000FFC302 /* Storage.swift in Sources */,
@@ -984,6 +995,7 @@
 				DF4A14A428ABBEF50068D1AD /* CustomToolBar.swift in Sources */,
 				DF81E40728D07A77000FF975 /* FeedbackDataService.swift in Sources */,
 				F438236028C3120C00C75063 /* StickyHeader.swift in Sources */,
+				F43CA9FD28D43CB7009E8845 /* NoticeListViewModel.swift in Sources */,
 				DF1CD4B828AF7BEC000D23E4 /* AroundPlaceFilterView.swift in Sources */,
 				DFDBB83528B094FE008D2E09 /* CommonViewController.swift in Sources */,
 				DF6B69F128B8BCA4009D4076 /* ToastMessage.swift in Sources */,
@@ -1135,7 +1147,7 @@
 				CODE_SIGN_ENTITLEMENTS = TapPlace/TapPlace.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 5NACCZGM3F;
+				DEVELOPMENT_TEAM = BFTA9SX898;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TapPlace/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "탭플레이스";
@@ -1152,8 +1164,13 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+<<<<<<< HEAD
+				MARKETING_VERSION = 1.1.1;
+				PRODUCT_BUNDLE_IDENTIFIER = kr.co.tapplace.TapPlace1;
+=======
 				MARKETING_VERSION = 1.1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = kr.co.tapplace.TapPlace;
+>>>>>>> 8445e1e5e6d6faf7edfde9f97cb03caa3bce3df9
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -1173,7 +1190,7 @@
 				CODE_SIGN_ENTITLEMENTS = TapPlace/TapPlace.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 5NACCZGM3F;
+				DEVELOPMENT_TEAM = BFTA9SX898;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TapPlace/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "탭플레이스";
@@ -1190,8 +1207,13 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+<<<<<<< HEAD
+				MARKETING_VERSION = 1.1.1;
+				PRODUCT_BUNDLE_IDENTIFIER = kr.co.tapplace.TapPlace1;
+=======
 				MARKETING_VERSION = 1.1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = kr.co.tapplace.TapPlace;
+>>>>>>> 8445e1e5e6d6faf7edfde9f97cb03caa3bce3df9
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;

@@ -7,18 +7,20 @@
 
 import Foundation
 
-struct NoticeModel {
-    let content: String?
-    let time: String?
+struct NoticeList: Decodable {
+    let totalCount: String?
+    let notice: [NoticeModel]
 }
 
-extension NoticeModel {
-    static let lists: [NoticeModel] = [
-        NoticeModel(content: "탑플레이스 새로운 공지사항 안내입니다.", time: "2022.00.00"),
-        NoticeModel(content: "탑플레이스 새로운 공지사항 안내입니다.", time: "2022.00.00"),
-        NoticeModel(content: "탑플레이스 새로운 공지사항 안내입니다.", time: "2022.00.00"),
-        NoticeModel(content: "탑플레이스 새로운 공지사항 안내입니다.", time: "2022.00.00"),
-        NoticeModel(content: "탑플레이스 새로운 공지사항 안내입니다.", time: "2022.00.00")
-    ]
+struct NoticeModel: Decodable {
+    let title: String
+    let content: String
+    let writeDate: String
+    
+    enum CodingKeys: String, CodingKey {
+        case title = "title"
+        case content = "content"
+        case writeDate = "write_date"
+    }
 }
 

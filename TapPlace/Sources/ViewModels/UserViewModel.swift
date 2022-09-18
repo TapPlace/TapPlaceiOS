@@ -21,6 +21,7 @@ class UserViewModel {
         ]
         
         userDataService.requestFetchLatestTerms(parameter: parameter) { result, error in
+            print(parameter)
             completion(result)
         }
     }

@@ -186,7 +186,7 @@ extension TermsWebViewViewController: CustomNavigationBarProtocol, UIScrollViewD
 
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         if isReadOnly { return }
-        if scrollView.contentOffset.y >= (scrollView.contentSize.height - scrollView.frame.size.height) {
+        if scrollView.contentOffset.y >= (scrollView.contentSize.height - scrollView.frame.size.height - 300) {
             bottomButton.setButtonStyle(title: "동의", type: .activate, fill: true)
             bottomButton.isActive = true
         }

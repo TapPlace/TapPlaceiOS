@@ -17,6 +17,7 @@ class SplashViewController: UIViewController {
         checkUUID()
         setupView()
         userInfoSetting()
+        print("*** TAPPLACE API URL: \(Constants.tapplaceApiUrl)")
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -82,7 +83,7 @@ extension SplashViewController {
      * coder : sanghyeon
      */
     func checkTerms() -> TermResultType {
-        currentStatusLabel.text = "약관 정보 불러오는중..."
+        currentStatusLabel.text = "새로운 약관 정보를 불러오는중..."
         if let user = storageViewModel.getUserInfo(uuid: Constants.keyChainDeviceID) {
             //            print("유저의 서비스 이용약관 날짜: \(user.agreeTerm), 유저의 개인정보 처리방침 날짜: \(user.agreePrivacy)")
             //            print("최신 이용약관 날짜: \(LatestTermsModel.latestServiceDate), 최신 개인정보 처리방침 날짜: \(LatestTermsModel.latestPersonalDate)")

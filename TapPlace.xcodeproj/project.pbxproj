@@ -1164,13 +1164,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-<<<<<<< HEAD
 				MARKETING_VERSION = 1.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = kr.co.tapplace.TapPlace1;
-=======
-				MARKETING_VERSION = 1.1.2;
-				PRODUCT_BUNDLE_IDENTIFIER = kr.co.tapplace.TapPlace;
->>>>>>> 8445e1e5e6d6faf7edfde9f97cb03caa3bce3df9
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -1207,13 +1202,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-<<<<<<< HEAD
 				MARKETING_VERSION = 1.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = kr.co.tapplace.TapPlace1;
-=======
-				MARKETING_VERSION = 1.1.2;
-				PRODUCT_BUNDLE_IDENTIFIER = kr.co.tapplace.TapPlace;
->>>>>>> 8445e1e5e6d6faf7edfde9f97cb03caa3bce3df9
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;

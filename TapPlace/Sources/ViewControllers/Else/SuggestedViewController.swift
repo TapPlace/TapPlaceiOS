@@ -237,7 +237,7 @@ extension SuggestedViewController: BottomButtonProtocol {
         if let contentText = contentTextView.text, let emailText = emailField.text {
             let parameter: [String: Any] = [
                 "key": "\(Constants.tapplaceApiKey)",
-                "user_id": "\(Constants.userDeviceID)",
+                "user_id": "\(Constants.keyChainDeviceID)",
                 "category": type,
                 "title": "수정제안요청",
                 "content": contentText,

@@ -10,11 +10,14 @@ import UIKit
 
 class SuggestedViewController: CommonViewController {
     
-    var term = TermsModel(title: "개인정보 수집, 이용동의", isTerm: true, require: true, link: "", checked: false)
+    
+    var termView: Bool = false
+    var privacyTerm = TermsModel(title: "개인정보 수집, 이용동의", isTerm: true, require: true, link: "\(Constants.tapplacePolicyUrl)", checked: false)
     var numberOfLetter: Int = 0 // 타이틀 글자수
     var type: MoreMenuModel.MoreMenuType = .edit
     
     let customNavigationBar = CustomNavigationBar()
+    let contentPlaceholder: String = "잘못되었거나 변경된 정보가 있다면 알려주세요.\n예) 가맹점 이름: 00점 -> 00점"
     
     let editContentLbl: UILabel = {
         let titleLbl = UILabel()
@@ -30,7 +33,6 @@ class SuggestedViewController: CommonViewController {
         contentTextView.font = .systemFont(ofSize: 15)
         contentTextView.layer.borderWidth = 1
         contentTextView.layer.borderColor = UIColor.init(hex: 0xDBDEE8).cgColor
-        contentTextView.text =  "잘못되었거나 변경된 정보가 있다면 알려주세요.\n예) 가맹점 이름: 00점 -> 00점"
         contentTextView.textColor = .systemGray3
         
         // 텍스트 간격
@@ -89,6 +91,8 @@ class SuggestedViewController: CommonViewController {
         configureTableView()
     }
     
+    
+    
     private func configureTableView() {
         self.tableView.dataSource = self
         self.tableView.delegate = self
@@ -104,7 +108,7 @@ extension SuggestedViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         // 탭바
-        tabBar?.hideTabBar(hide: false)
+        tabBar?.hideTabBar(hide: termView)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -115,6 +119,7 @@ extension SuggestedViewController {
     
     private func setupView() {
         self.view.backgroundColor = .white
+        contentTextView.text = contentPlaceholder
     }
     
     private func setLayout() {
@@ -187,14 +192,21 @@ extension SuggestedViewController: UITextViewDelegate {
     
     func textViewDidEndEditing(_ textView: UITextView) {
         if textView.text.isEmpty {
-            textView.text = "잘못되었거나 변경된 정보가 있다면 알려주세요.\n예) 가맹점 이름: 00점 -> 00점"
+            textView.text = contentPlaceholder
             textView.textColor = .systemGray3
         }
     }
 }
 
 // MARK: - 테이블 뷰 데이터소스, 델리게이트
-extension SuggestedViewController: UITableViewDataSource, UITableViewDelegate {
+extension SuggestedViewController: UITableViewDataSource, UITableViewDelegate, TermsProtocol {
+    func checkReceiveTerm(term: TermsModel, currentTermIndex: Int) {
+        guard let targetCell = tableView.cellForRow(at: IndexPath(row: currentTermIndex, section: 0)) as? TermsTableViewCell else { return }
+        privacyTerm.checked = true
+        targetCell.setCheck(check: true)
+        termView.toggle()        
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 1
     }
@@ -203,8 +215,8 @@ extension SuggestedViewController: UITableViewDataSource, UITableViewDelegate {
         let cell = tableView.dequeueReusableCell(withIdentifier: TermsTableViewCell.cellId, for: indexPath) as! TermsTableViewCell
         cell.selectionStyle = .none
         cell.contentView.isUserInteractionEnabled = false
-        cell.setInitCell(isTerm: term.isTerm, require: term.require, title: term.title, link: term.link)
-        cell.setCheck(check: term.checked)
+        cell.setInitCell(isTerm: privacyTerm.isTerm, require: privacyTerm.require, title: privacyTerm.title, link: privacyTerm.link)
+        cell.setCheck(check: privacyTerm.checked)
         
         return cell
     }
@@ -212,12 +224,17 @@ extension SuggestedViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let cell = tableView.cellForRow(at: indexPath) as? TermsTableViewCell else { return }
         
-        if term.checked == true {
-            term.checked = false
-            cell.setCheck(check: term.checked)
+        if privacyTerm.checked == true {
+            privacyTerm.checked = false
+            cell.setCheck(check: privacyTerm.checked)
         } else {
-            term.checked = true
-            cell.setCheck(check: term.checked)
+            let vc = TermsWebViewViewController()
+            vc.termIndex = 0
+            vc.term = privacyTerm
+            vc.delegate = self
+            termView.toggle()
+            self.navigationController?.pushViewController(vc, animated: true)
+            tabBar?.hideTabBar(hide: true)
         }
     }
 }
@@ -226,13 +243,26 @@ extension SuggestedViewController: UITableViewDataSource, UITableViewDelegate {
 extension SuggestedViewController: BottomButtonProtocol {
     func didTapBottomButton() {
         if !button.isActive { return }
-        button.isActive = false
-        button.setButtonStyle(title: "문의하기", type: .disabled, fill: true)
         
         var answerCheck = 0
-        if term.checked  == true {
+        if privacyTerm.checked  == true {
             answerCheck = 1
         }
+        
+        if contentTextView.text == contentPlaceholder {
+            showToast(message: "제안 내용을 작성해주세요.", view: self.view)
+            return
+        }
+        
+        let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
+        let emailTest = NSPredicate(format: "SELF MATCHES %@", emailRegEx)
+        if !emailTest.evaluate(with: emailField.text) {
+            showToast(message: "올바른 형식의 이메일을 입력해주세요.", view: self.view)
+            return
+        }
+        
+        button.isActive = false
+        button.setButtonStyle(title: "문의하기", type: .disabled, fill: true)
         
         if let contentText = contentTextView.text, let emailText = emailField.text {
             let parameter: [String: Any] = [

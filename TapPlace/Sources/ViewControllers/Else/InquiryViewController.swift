@@ -10,7 +10,7 @@ import RealmSwift
 
 // 문의하기, 수정하기
 class InquiryViewController: CommonViewController {
-    var term = TermsModel(title: "개인정보 수집, 이용동의", isTerm: true, require: true, link: "", checked: false)
+    var term = TermsModel(title: "개인정보 수집, 이용동의", isTerm: true, require: true, link: Constants.tapplacePolicyUrl, checked: false)
     var numberOfLetter: Int = 0 // 타이틀 글자수
     var type: MoreMenuModel.MoreMenuType = .qna
     
@@ -130,18 +130,19 @@ extension InquiryViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
     }
-    
+
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         // 탭바
-        tabBar?.hideTabBar(hide: false)
+        tabBar?.hideTabBar(hide: true)
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         // 탭바
         tabBar?.hideTabBar(hide: true)
     }
+    
     
     private func setLayout() {
         let safeArea = view.safeAreaLayoutGuide
@@ -287,7 +288,12 @@ extension InquiryViewController: UITextViewDelegate {
 }
 
 // MARK: - 테이블 뷰 데이터소스, 델리게이트
-extension InquiryViewController: UITableViewDataSource, UITableViewDelegate {
+extension InquiryViewController: UITableViewDataSource, UITableViewDelegate, TermsProtocol {
+    func checkReceiveTerm(term: TermsModel, currentTermIndex: Int) {
+        guard let cell = tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? TermsTableViewCell else { return }
+        cell.setCheck(check: term.checked)
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 1
     }
@@ -310,8 +316,16 @@ extension InquiryViewController: UITableViewDataSource, UITableViewDelegate {
             cell.setCheck(check: term.checked)
         } else {
             term.checked = true
+            pushTermVC(term)
             cell.setCheck(check: term.checked)
         }
+    }
+    
+    func pushTermVC(_ term: TermsModel) {
+        let vc = TermsWebViewViewController()
+        vc.term = term
+        vc.delegate = self
+        self.navigationController?.pushViewController(vc, animated: true)
     }
 }
 

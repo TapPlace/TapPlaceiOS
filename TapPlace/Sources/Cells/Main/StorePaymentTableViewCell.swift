@@ -36,6 +36,7 @@ class StorePaymentTableViewCell: UITableViewCell {
                     let successRate: Double = (successCount / totalCount) * 100
                     successRateLbl.text = "성공 \(Int(successRate))%"
                     successRateProgressView.progress = Float(Double(successRate) / 100)
+                    failRateLbl.text = "\(100 - Int(successRate))%"
                 } else {
                     self.whetherToPayLbl.text = "최근결제: 없음"
                     self.whetherToPayLbl.textColor = .init(hex: 0x707070)

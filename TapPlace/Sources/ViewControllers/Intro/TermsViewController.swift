@@ -148,8 +148,7 @@ extension TermsViewController: UITableViewDelegate, UITableViewDataSource, Terms
                 self.pushTermVC(self.allTermsLists[nonCheckRequireTerm], index: nonCheckRequireTerm)
             }
         }
-        
-        
+
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

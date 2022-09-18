@@ -16,21 +16,6 @@ class PickViewControllerTitleView: UIView {
     /// 현재 페이지에 따른 프로그레스바 사이즈 변경
     let attributedString = NSMutableAttributedString(string: "")
     let imageAttachment = NSTextAttachment()
-    
-    /// 상단 타이틀 > 뷰
-    let titleView: UIView = {
-        let titleView = UIView()
-        return titleView
-    }()
-    /// 상단 타이틀 > 뷰 > 텍스트
-    let titleViewText: UILabel = {
-        let titleViewText = UILabel()
-        titleViewText.sizeToFit()
-        titleViewText.text = ""
-        titleViewText.textColor = .black
-        titleViewText.font = .systemFont(ofSize: CommonUtils.resizeFontSize(size: 18), weight: .regular)
-        return titleViewText
-    }()
 
     /// 스택뷰 여백
     let spacer: UIView = {
@@ -100,24 +85,14 @@ extension PickViewControllerTitleView {
     func drawingView() {
         //MARK: Setup View - 상단 타이틀
         /// 뷰 추가
-        addSubview(titleView)
-        titleView.addSubview(titleViewText)
         addSubview(descLabel)
         addSubview(clearButtonIcon)
         addSubview(clearButtonText)
         addSubview(clearButton)
         /// 뷰 제약
-        titleView.snp.makeConstraints {
-            $0.height.equalTo(50)
-            $0.top.leading.trailing.equalToSuperview()
-        }
-        titleViewText.snp.makeConstraints {
-            $0.centerY.equalTo(titleView).offset(-5)
-            $0.leading.equalToSuperview().offset(20)
-        }
         descLabel.snp.makeConstraints {
-            $0.leading.equalTo(titleViewText)
-            $0.top.equalTo(titleView.snp.bottom).offset(25)
+            $0.leading.equalToSuperview().offset(20)
+            $0.top.equalToSuperview()
         }
         clearButtonIcon.snp.makeConstraints {
             $0.top.equalTo(descLabel.snp.bottom).offset(25)

@@ -26,7 +26,13 @@ class PickPaymentsViewController: CommonPickViewController {
     }
 }
 //MARK: - Layout
-extension PickPaymentsViewController: BottomButtonProtocol, TitleViewProtocol {
+extension PickPaymentsViewController: BottomButtonProtocol, TitleViewProtocol, CustomNavigationBarProtocol {
+    func didTapLeftButton() {
+        if isEditMode {
+            self.navigationController?.popViewController(animated: true)
+        }
+    }
+    
     func didTapTitleViewClearButton() {
         selectedPayments.removeAll()
         collectionView.reloadData()
@@ -59,7 +65,12 @@ extension PickPaymentsViewController: BottomButtonProtocol, TitleViewProtocol {
      * coder : sanghyeon
      */
     private func setupView() {
+        //MARK: 네비게이션바 설정
         self.navigationController?.navigationBar.isHidden = true
+        customNavigationBar.titleText = "결제수단 선택"
+        customNavigationBar.isUseLeftButton = isEditMode
+        customNavigationBar.delegate = self
+        
         //MARK: 델리게이트
         bottomButton.delegate = self
         collectionView.delegate = self
@@ -67,13 +78,16 @@ extension PickPaymentsViewController: BottomButtonProtocol, TitleViewProtocol {
         titleView.delegate = self
         
         //MARK: 공통 뷰에서 추가된 타이틀뷰 및 하단버튼 설정
-        titleView.titleViewText.text = "결제수단 설정"
         titleView.descLabel.text = "선택한 결제수단의 가맹점을 우선적으로 찾아드려요.\n설정에서 언제든지 수정할 수 있어요."
-
+        
         //MARK: 컬렉션뷰 설정
         collectionView.contentInset = UIEdgeInsets(top: 0, left: 20, bottom: 20, right: 20)
         collectionView.register(PickPaymentsCollectionViewCell.self, forCellWithReuseIdentifier: "paymentsItem")
         collectionView.register(PickPaymentsCollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "paymentsHeader")
+        
+        //MARK: 수정모드에서는 기존에 선택된 결제수단 표시
+        selectedPayments = storageViewModel.userFavoritePaymentsString
+        collectionView.reloadData()
     }
 }
 //MARK: - CollectionView
@@ -92,6 +106,10 @@ extension PickPaymentsViewController: UICollectionViewDelegate, UICollectionView
         } else {
             cell.itemText.text = paymentList[indexPath.row].brand.uppercased()
             cell.cellVariable = paymentList[indexPath.row].payments + "_" + paymentList[indexPath.row].brand
+        }
+        
+        if selectedPayments.contains(cell.cellVariable) {
+            cell.cellSelected = true
         }
         return cell
     }
@@ -121,7 +139,7 @@ extension PickPaymentsViewController: UICollectionViewDelegate, UICollectionView
             cell.cellSelected.toggle()
         })
         
-//        print(selectedPayments)
+//        print(selectedPayments) 
         bottomButtonUpdate()
     }
     

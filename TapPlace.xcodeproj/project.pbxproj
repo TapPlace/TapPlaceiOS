@@ -62,6 +62,7 @@
 		DFA2875B28ABA8D400DD9F63 /* DetailToolBarButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFA2875A28ABA8D400DD9F63 /* DetailToolBarButton.swift */; };
 		DFB6CD6028CEE3A90095C9FA /* UIApplication+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFB6CD5F28CEE3A90095C9FA /* UIApplication+Extension.swift */; };
 		DFBFDF4E28D55CED003A8EF6 /* FeedbackWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFBFDF4D28D55CED003A8EF6 /* FeedbackWebViewController.swift */; };
+		DFBFDF5028D59092003A8EF6 /* TableViewExpendButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFBFDF4F28D59092003A8EF6 /* TableViewExpendButton.swift */; };
 		DFC23F96289AB66400EC1090 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFC23F95289AB66400EC1090 /* AppDelegate.swift */; };
 		DFC23F98289AB66400EC1090 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFC23F97289AB66400EC1090 /* SceneDelegate.swift */; };
 		DFC23F9F289AB66600EC1090 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DFC23F9E289AB66600EC1090 /* Assets.xcassets */; };
@@ -201,6 +202,7 @@
 		DFA2875A28ABA8D400DD9F63 /* DetailToolBarButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailToolBarButton.swift; sourceTree = "<group>"; };
 		DFB6CD5F28CEE3A90095C9FA /* UIApplication+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+Extension.swift"; sourceTree = "<group>"; };
 		DFBFDF4D28D55CED003A8EF6 /* FeedbackWebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackWebViewController.swift; sourceTree = "<group>"; };
+		DFBFDF4F28D59092003A8EF6 /* TableViewExpendButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewExpendButton.swift; sourceTree = "<group>"; };
 		DFC23F92289AB66400EC1090 /* TapPlace.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TapPlace.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DFC23F95289AB66400EC1090 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DFC23F97289AB66400EC1090 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -432,6 +434,7 @@
 			children = (
 				DF2340CC28A22DF900A9DAE1 /* BottomButton.swift */,
 				DFC449A328C8B4700029DD5E /* FeedbackButton.swift */,
+				DFBFDF4F28D59092003A8EF6 /* TableViewExpendButton.swift */,
 			);
 			path = Button;
 			sourceTree = "<group>";
@@ -971,6 +974,7 @@
 				F470A33F28C9C27E007F4F24 /* FAQViewController.swift in Sources */,
 				F438236A28C5C39300C75063 /* NoticeCell.swift in Sources */,
 				F470A34128C9CA36007F4F24 /* FeedbackDetailCell.swift in Sources */,
+				DFBFDF5028D59092003A8EF6 /* TableViewExpendButton.swift in Sources */,
 				DFF7BEDC28A685F500289F39 /* StoreTabCollectionViewCell.swift in Sources */,
 				F449AEB328ACEABE008E0417 /* SearchContentButton.swift in Sources */,
 				DFECC8CC28AC9F1200DC64FD /* AroundFilterButton.swift in Sources */,
@@ -1157,15 +1161,13 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.1;
-				PRODUCT_BUNDLE_IDENTIFIER = kr.co.tapplace.TapPlace1;
+				MARKETING_VERSION = 1.1.3;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -1195,15 +1197,14 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.1;
-				PRODUCT_BUNDLE_IDENTIFIER = kr.co.tapplace.TapPlace1;
+				MARKETING_VERSION = 1.1.3;
+				PRODUCT_BUNDLE_IDENTIFIER = kr.co.tapplace.TapPlace;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;

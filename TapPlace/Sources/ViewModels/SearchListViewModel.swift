@@ -8,7 +8,7 @@
 import Foundation
 
 struct SearchListViewModel {
-    let documents: [SearchModel]
+    var documents: [SearchModel]
 }
 
 extension SearchListViewModel {

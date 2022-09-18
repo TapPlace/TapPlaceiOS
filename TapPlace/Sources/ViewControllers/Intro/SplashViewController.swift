@@ -16,6 +16,7 @@ class SplashViewController: UIViewController {
         checkUUID()
         setupView()
         userInfoSetting()
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {

@@ -309,7 +309,7 @@ extension MainViewController: MapButtonProtocol, ResearchButtonProtocol, CustomN
 
 }
 //MARK: - NaverMap
-extension MainViewController: CLLocationManagerDelegate, NMFMapViewCameraDelegate {
+extension MainViewController: CLLocationManagerDelegate, NMFMapViewCameraDelegate, NMFMapViewTouchDelegate {
     /**
      * @ 네이버맵 세팅
      * coder : sanghyeon
@@ -336,6 +336,7 @@ extension MainViewController: CLLocationManagerDelegate, NMFMapViewCameraDelegat
         }
         //MARK: NaverMapViewDelegate
         naverMapView.addCameraDelegate(delegate: self)
+        naverMapView.touchDelegate = self
     }
     /**
      * @ 사용자 현재 위치 가져오기
@@ -476,7 +477,16 @@ extension MainViewController: CLLocationManagerDelegate, NMFMapViewCameraDelegat
             targetStoreInfo.feedback = result
             self.showDetailOverView(hide: false, storeInfo: targetStoreInfo)
         }
-        
+    }
+    //MARK: NaverMapView Tap Event
+    func mapView(_ mapView: NMFMapView, didTapMap latlng: NMGLatLng, point: CGPoint) {
+        print("*** Touched Point Location: \(latlng)")
+    }
+    
+    func mapView(_ mapView: NMFMapView, didTap symbol: NMFSymbol) -> Bool {
+        print("*** Touched Point Symbol")
+        dump(symbol)
+        return true
     }
     
     

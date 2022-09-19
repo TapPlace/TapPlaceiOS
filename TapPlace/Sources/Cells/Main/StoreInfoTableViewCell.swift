@@ -66,7 +66,6 @@ class StoreInfoTableViewCell: UITableViewCell {
     
     let editImg: UIImageView = {
         let editImg = UIImageView()
-        editImg.image = UIImage(named: "")
         return editImg
     }()
     
@@ -184,8 +183,8 @@ class StoreInfoTableViewCell: UITableViewCell {
     func prepare(storeName: String?, storeKind: String?, address: String?, tel: String?) {
         self.storeNameLabel.text = storeName
         self.storeKindLabel.text = storeKind
-        self.positionImg.image = UIImage(named: "")
-        self.telImg.image = UIImage(named: "")
+        self.positionImg.image = nil
+        self.telImg.image = nil
         self.addressLbl.text = address
         self.telLbl.text = tel
     }

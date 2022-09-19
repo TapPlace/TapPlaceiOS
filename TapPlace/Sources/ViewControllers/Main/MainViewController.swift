@@ -480,11 +480,11 @@ extension MainViewController: CLLocationManagerDelegate, NMFMapViewCameraDelegat
     }
     //MARK: NaverMapView Tap Event
     func mapView(_ mapView: NMFMapView, didTapMap latlng: NMGLatLng, point: CGPoint) {
-        print("*** Touched Point Location: \(latlng)")
+//        print("*** Touched Point Location: \(latlng)")
     }
     
     func mapView(_ mapView: NMFMapView, didTap symbol: NMFSymbol) -> Bool {
-        print("*** Touched Point Symbol")
+//        print("*** Touched Point Symbol")
         dump(symbol)
         return true
     }

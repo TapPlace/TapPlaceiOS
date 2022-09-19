@@ -17,15 +17,22 @@ class SplashViewController: UIViewController {
         checkUUID()
         setupView()
         userInfoSetting()
-        print("*** TAPPLACE API URL: \(Constants.tapplaceApiUrl)")
+//        print("*** TAPPLACE API URL: \(Constants.tapplaceApiUrl)")
+//        print("*** TAPPLACE API URL: \(Constants.keyChainDeviceID)")
     }
     
     override func viewDidAppear(_ animated: Bool) {
         var nextVC: UIViewController?
-        userViewModel.requestLatestTerms(uuid: Constants.keyChainDeviceID) { result in
+        userViewModel.requestLatestTerms(uuid: Constants.keyChainDeviceID) { result, error in
+            if let error = error {
+//                print("*** SplashVC, 에러발생! \(error)")
+                showToast(message: "서버와의 연동에 실패하였습니다.\n잠시 후, 다시 시도 해주시기 바랍니다.", view: self.view)
+                return
+            }
+//            print("*** result: \(result)")
             if let result = result {
-                LatestTermsModel.latestServiceDate = result.serviceDate
-                LatestTermsModel.latestPersonalDate = result.personalDate
+                LatestTermsModel.latestServiceDate = result.serviceDate.stringValue ?? ""
+                LatestTermsModel.latestPersonalDate = result.personalDate.stringValue ?? ""
                 
                 switch self.isFirstLaunch() { /// 초기실행 검증
                 case true:
@@ -66,13 +73,14 @@ class SplashViewController: UIViewController {
                 
                 guard let nextVC = nextVC else { return }
                 self.moveViewController(nextVC, present: false)
-            } else {
-                showToast(message: "서버와의 연동에 실패했습니다.\n잠시 후 앱을 종료합니다.", view: self.view)
-                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                    UIApplication.shared.perform(#selector(NSXPCConnection.suspend))
-                    exit(0)
-                }
             }
+//            else {
+//                showToast(message: "서버와의 연동에 실패했습니다.\n잠시 후 앱을 종료합니다.", view: self.view)
+//                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+//                    UIApplication.shared.perform(#selector(NSXPCConnection.suspend))
+//                    exit(0)
+//                }
+//            }
         }
     }
 }

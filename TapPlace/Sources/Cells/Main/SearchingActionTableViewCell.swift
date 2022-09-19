@@ -14,7 +14,6 @@ class SearchActionTabelViewCell: UITableViewCell {
     // 테이블 뷰 안 이미지 뷰
     let img: UIImageView = {
         let imgView = UIImageView()
-        imgView.image = UIImage(named: "")
         return imgView
     }()
     

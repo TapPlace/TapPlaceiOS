@@ -11,6 +11,7 @@ class CommonViewController: UIViewController {
     var tabBar: TabBarViewController?
     var storeViewModel = StoreViewModel()
     var storageViewModel = StorageViewModel()
+    let authorization = Authorization.shared
     
     override func viewDidLoad() {
         super.viewDidLoad()

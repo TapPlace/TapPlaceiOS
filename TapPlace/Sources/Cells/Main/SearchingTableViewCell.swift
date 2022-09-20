@@ -17,7 +17,7 @@ class SearchingTableViewCell: UITableViewCell {
     // 테이블 뷰 안 이미지 뷰
     private let img: UIImageView = {
         let imgView = UIImageView()
-        imgView.image = nil
+        imgView.image = .none
         return imgView
     }()
     
@@ -92,7 +92,7 @@ class SearchingTableViewCell: UITableViewCell {
         if let categoryGroupCode = categoryGroupCode {
             self.img.image = UIImage(named: "\(categoryGroupCode)")
             
-            if self.img.image == nil {
+            if self.img.image == .none {
                 self.img.image = UIImage(named: "etc")
             }
         }

@@ -183,8 +183,8 @@ class StoreInfoTableViewCell: UITableViewCell {
     func prepare(storeName: String?, storeKind: String?, address: String?, tel: String?) {
         self.storeNameLabel.text = storeName
         self.storeKindLabel.text = storeKind
-        self.positionImg.image = nil
-        self.telImg.image = nil
+        self.positionImg.image = .none
+        self.telImg.image = .none
         self.addressLbl.text = address
         self.telLbl.text = tel
     }

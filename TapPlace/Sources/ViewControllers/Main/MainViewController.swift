@@ -20,6 +20,8 @@ class MainViewController: CommonViewController {
     var isMainMode: Bool = true
     /// 메인모드에서는 storeInfo의 정보를 필히 받아야 하며, showNavigation, showDetailOverView 함수 사용만을 권장함
     var storeInfo: StoreInfo?
+    /// 처음으로 실행되었는가?
+    var isFirstLaunched: Bool = true
     
     let customNavigationBar = CustomNavigationBar()
     var naverMapView: NMFMapView = NMFMapView()
@@ -67,7 +69,10 @@ class MainViewController: CommonViewController {
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        checkLocationAuth()
+        if isFirstLaunched {
+            checkLocationAuth()
+            isFirstLaunched.toggle()
+        }
     }
 }
 
@@ -347,7 +352,8 @@ extension MainViewController: CLLocationManagerDelegate, NMFMapViewCameraDelegat
         currentLocation = NMGLatLng(from: result)
         UserInfo.userLocation = result
         UserInfo.cameraLocation = result
-        if isMainMode { // 메인모두에서만 실행
+        if isMainMode { // 메인모드에서만 실행
+            print("*** back MainVC")
             searchAroundStore(location: result)
         }
     }
@@ -507,7 +513,7 @@ extension MainViewController: CLLocationManagerDelegate, NMFMapViewCameraDelegat
      * coder : sanghyeon
      */
     func checkLocationAuth() {
-        let status = CLLocationManager.authorizationStatus()
+        let status = authorization.getLocationAuthorizationStatus()
         switch status {
         case .authorizedAlways, .authorizedWhenInUse:
             self.locationManager.startUpdatingLocation()
@@ -517,7 +523,7 @@ extension MainViewController: CLLocationManagerDelegate, NMFMapViewCameraDelegat
             guard let userLocation = UserInfo.userLocation else { return }
             showInMapViewTracking(location: NMGLatLng(from: userLocation))
         case .restricted, .notDetermined:
-            getLocationUsagePermission()
+            authorization.requestLocationAuthorization()
         case .denied:
             let alertController = UIAlertController(title: "위치권한이 거부되었습니다.", message: "위치권한 거부시 정상적으로 앱을 이용하실 수 없습니다. 앱 설정 화면으로 이동하시겠습니까?", preferredStyle: .alert)
             alertController.addAction(UIAlertAction(title: "네", style: .default, handler: { (action) -> Void in
@@ -531,13 +537,6 @@ extension MainViewController: CLLocationManagerDelegate, NMFMapViewCameraDelegat
             self.present(alertController, animated: true, completion: nil)
         default: break
         }
-    }
-    /**
-     * @ 위치권한 요청
-     * coder : sanghyeon
-     */
-    func getLocationUsagePermission() {
-        self.locationManager.requestWhenInUseAuthorization()
     }
     /**
      * @ 권한이 변경 되었을때 현재 위치로 이동
@@ -577,7 +576,8 @@ extension MainViewController: CustomToolBarShareProtocol, StoreInfoViewDelegate 
      */ 
     func moveStoreDetail(store: StoreInfo) {
         let vc = StoreDetailViewController()
-        print("상세뷰 이동")
+        print("*** vc: \(vc)")
+        print("*** 상세뷰 이동")
         vc.storeInfo = store
         self.navigationController?.pushViewController(vc, animated: true)
         
@@ -848,14 +848,6 @@ extension MainViewController: FloatingPanelControllerDelegate, AroundPlaceMainCo
     func hideGrabber(hide: Bool = false) {
         fpc.surfaceView.grabberHandle.isHidden = hide
     }
-    
-//    func floatingPanelWillEndDragging(_ fpc: FloatingPanelController, withVelocity velocity: CGPoint, targetState: UnsafeMutablePointer<FloatingPanelState>) {
-//        if targetState.pointee == .hidden {
-//            guard let tabBar = self.tabBarController as? TabBarViewController else { return }
-//            tabBar.showTabBar(hide: false)
-//        }
-//    }
-    
 }
 
 class MainFloatingPanelLayout: FloatingPanelLayout {

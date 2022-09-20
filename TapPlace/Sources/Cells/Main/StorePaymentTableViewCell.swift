@@ -166,7 +166,7 @@ class StorePaymentTableViewCell: UITableViewCell {
     }
     
     func prepare(pay: String?, payName: String?, success: Bool?, successDate: String?, successRate: Int?) {
-        self.paymentImg.image = nil
+        self.paymentImg.image = .none
         self.paymentLbl.text = payName
         if success == true {
             self.whetherToPayLbl.text = "최근결제: 성공"

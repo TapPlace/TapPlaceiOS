@@ -33,7 +33,6 @@ class SearchHistoryTableViewCell: UITableViewCell {
     let img: UIImageView = {
         let imgView = UIImageView()
         imgView.contentMode = .scaleAspectFit
-        imgView.image = UIImage(named: "")
         return imgView
     }()
     

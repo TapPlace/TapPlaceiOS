@@ -15,6 +15,7 @@ struct Constants {
     static let tapplaceBaseUrl = "https://www.tapplace.co.kr"
     static let tapplaceApiUrl = "https://\(Bundle.main.infoDictionary?["TAPPLACE_API_URL"] as? String ?? "")"
     static let tapplaceApiKey = Bundle.main.infoDictionary?["TAPPLACE_API_KEY"] as? String ?? ""
+    static let tapplaceSecretKey = Bundle.main.infoDictionary?["TAPPLACE_SECRET_KEY"] as? String ?? ""
     static let tapplaceConsentUrl = tapplaceBaseUrl + "/consent"
     static let tapplacePolicyUrl = tapplaceBaseUrl + "/policy"
     static let tapplaceFAQUrl = tapplaceBaseUrl + "/questions"

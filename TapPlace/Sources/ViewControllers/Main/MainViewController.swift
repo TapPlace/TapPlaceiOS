@@ -20,7 +20,16 @@ class MainViewController: CommonViewController {
     var isMainMode: Bool = true
     /// 메인모드에서는 storeInfo의 정보를 필히 받아야 하며, showNavigation, showDetailOverView 함수 사용만을 권장함
     var storeInfo: StoreInfo?
+    /// 처음으로 실행되었는가?
+    var isFirstLaunched: Bool = true
+    /// 플로팅 패널이 숨겨져 있는가?
+    var isHiddenFloatingPanel = true
+    /// 지도에 보여지는 마커 리스트
+    var markerList: [AroundStoreMarkerModel] = []
+    /// 선택된 스토어 카테고리 셀
+    var latestSelectStore: StoreTabCollectionViewCell?
     
+    /// 뷰컨트롤러 공통 컴포넌트 변수
     let customNavigationBar = CustomNavigationBar()
     var naverMapView: NMFMapView = NMFMapView()
     var circleOverlay: NMFCircleOverlay = NMFCircleOverlay()
@@ -33,12 +42,10 @@ class MainViewController: CommonViewController {
     var overlayCenterPick = SearchMarkerPin()
     var collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     var fpc: FloatingPanelController!
-    var isHiddenFloatingPanel = true
+    
     let locationManager = CLLocationManager()
     var currentLocation: NMGLatLng?
     var cameraLocation: NMGLatLng?
-    var markerList: [AroundStoreMarkerModel] = []
-    var latestSelectStore: StoreTabCollectionViewCell?
 
     
     //MARK: ViewLifeCycle
@@ -67,7 +74,10 @@ class MainViewController: CommonViewController {
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        checkLocationAuth()
+        if isFirstLaunched {
+            checkLocationAuth()
+            isFirstLaunched.toggle()
+        }
     }
 }
 
@@ -347,7 +357,8 @@ extension MainViewController: CLLocationManagerDelegate, NMFMapViewCameraDelegat
         currentLocation = NMGLatLng(from: result)
         UserInfo.userLocation = result
         UserInfo.cameraLocation = result
-        if isMainMode { // 메인모두에서만 실행
+        if isMainMode { // 메인모드에서만 실행
+            print("*** back MainVC")
             searchAroundStore(location: result)
         }
     }
@@ -480,11 +491,11 @@ extension MainViewController: CLLocationManagerDelegate, NMFMapViewCameraDelegat
     }
     //MARK: NaverMapView Tap Event
     func mapView(_ mapView: NMFMapView, didTapMap latlng: NMGLatLng, point: CGPoint) {
-        print("*** Touched Point Location: \(latlng)")
+//        print("*** Touched Point Location: \(latlng)")
     }
     
     func mapView(_ mapView: NMFMapView, didTap symbol: NMFSymbol) -> Bool {
-        print("*** Touched Point Symbol")
+//        print("*** Touched Point Symbol")
         dump(symbol)
         return true
     }
@@ -507,7 +518,7 @@ extension MainViewController: CLLocationManagerDelegate, NMFMapViewCameraDelegat
      * coder : sanghyeon
      */
     func checkLocationAuth() {
-        let status = CLLocationManager.authorizationStatus()
+        let status = authorization.getLocationAuthorizationStatus()
         switch status {
         case .authorizedAlways, .authorizedWhenInUse:
             self.locationManager.startUpdatingLocation()
@@ -517,7 +528,7 @@ extension MainViewController: CLLocationManagerDelegate, NMFMapViewCameraDelegat
             guard let userLocation = UserInfo.userLocation else { return }
             showInMapViewTracking(location: NMGLatLng(from: userLocation))
         case .restricted, .notDetermined:
-            getLocationUsagePermission()
+            authorization.requestLocationAuthorization()
         case .denied:
             let alertController = UIAlertController(title: "위치권한이 거부되었습니다.", message: "위치권한 거부시 정상적으로 앱을 이용하실 수 없습니다. 앱 설정 화면으로 이동하시겠습니까?", preferredStyle: .alert)
             alertController.addAction(UIAlertAction(title: "네", style: .default, handler: { (action) -> Void in
@@ -531,13 +542,6 @@ extension MainViewController: CLLocationManagerDelegate, NMFMapViewCameraDelegat
             self.present(alertController, animated: true, completion: nil)
         default: break
         }
-    }
-    /**
-     * @ 위치권한 요청
-     * coder : sanghyeon
-     */
-    func getLocationUsagePermission() {
-        self.locationManager.requestWhenInUseAuthorization()
     }
     /**
      * @ 권한이 변경 되었을때 현재 위치로 이동
@@ -577,7 +581,8 @@ extension MainViewController: CustomToolBarShareProtocol, StoreInfoViewDelegate 
      */ 
     func moveStoreDetail(store: StoreInfo) {
         let vc = StoreDetailViewController()
-        print("상세뷰 이동")
+        print("*** vc: \(vc)")
+        print("*** 상세뷰 이동")
         vc.storeInfo = store
         self.navigationController?.pushViewController(vc, animated: true)
         
@@ -735,6 +740,14 @@ extension MainViewController {
             guard let result = result else { return }
             AroundStoreModel.list = result.stores
             self.addMarker(markers: result.stores)
+            if let latestSelectStore = self.latestSelectStore {
+                let selectedCategory = latestSelectStore.itemText.text
+                for marker in self.markerList {
+                    if marker.store.categoryGroupName != selectedCategory {
+                        self.hideMarker(marker: marker.marker)
+                    }
+                }
+            }
         }
     }
 }
@@ -772,7 +785,6 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
             hideMarker(marker: nil)
             let storeCategory = cell.itemText.text == "기타" ? "" : cell.itemText.text
             for marker in markerList {
-                
                 if marker.store.categoryGroupName != storeCategory {
                     hideMarker(marker: marker.marker)
                 }
@@ -848,14 +860,6 @@ extension MainViewController: FloatingPanelControllerDelegate, AroundPlaceMainCo
     func hideGrabber(hide: Bool = false) {
         fpc.surfaceView.grabberHandle.isHidden = hide
     }
-    
-//    func floatingPanelWillEndDragging(_ fpc: FloatingPanelController, withVelocity velocity: CGPoint, targetState: UnsafeMutablePointer<FloatingPanelState>) {
-//        if targetState.pointee == .hidden {
-//            guard let tabBar = self.tabBarController as? TabBarViewController else { return }
-//            tabBar.showTabBar(hide: false)
-//        }
-//    }
-    
 }
 
 class MainFloatingPanelLayout: FloatingPanelLayout {

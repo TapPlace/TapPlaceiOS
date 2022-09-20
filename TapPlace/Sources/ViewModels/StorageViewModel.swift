@@ -30,7 +30,7 @@ struct StorageViewModel: StorageProtocol {
     }
     
     /// 1일 허용 피드백수 제한
-    let numberOfAllowFeedback: Int = 3
+    let numberOfAllowFeedback: Int = 5
     var numberOfTodayFeedback: Int {
         let today = "\(Date().getDate(3).split(separator: " ")[0])"
         return dataBases?.realm.objects(UserFeedbackStoreModel.self).filter {

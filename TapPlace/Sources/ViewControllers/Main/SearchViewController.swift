@@ -120,9 +120,14 @@ class SearchViewController: CommonViewController {
         ]
         
         // 카카오 검색 API 통신 사용
-        SearchService().getPlace(parameter: parameter) { (result) in
-            // print("*** isPaging: \(self.isPaging)")
+        SearchService().getPlace(parameter: parameter) { (result, error) in
+             print("*** isPaging: \(self.isPaging)")
+            if let error = error {
+//                print("*** 에러가 발생했고 이제 튕길거야!!! 그만해, 이러다 다 튕겨!!! \(error)")
+                return
+            }
             if let result = result {
+                if result.documents.isEmpty { return }
                 self.searchResult += result.documents
                 self.isEndPage = result.meta.isEnd
             }
@@ -400,8 +405,13 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
             }
             
         case true:
+            if searchResult.isEmpty {
+//                print("*** 검색결과 데이터에 아무것도 없기 때문에 오류 방지를 위해 빈 셀을 반환합니다.")
+                return UITableViewCell()
+            }
             guard let cell = tableView.dequeueReusableCell(withIdentifier: SearchingTableViewCell.identifier, for: indexPath) as? SearchingTableViewCell else { fatalError("no matched articleTableViewCell identifier") }
             cell.selectionStyle = .none
+//            print("***searchResult: \(searchResult)")
             let searchVM = searchResult[indexPath.row]
             let storeDistance = DistancelModel.getDistance(distance: (Double(searchVM.distance ?? "0") ?? 0) / 1000)
             

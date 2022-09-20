@@ -22,7 +22,14 @@ class MainViewController: CommonViewController {
     var storeInfo: StoreInfo?
     /// 처음으로 실행되었는가?
     var isFirstLaunched: Bool = true
+    /// 플로팅 패널이 숨겨져 있는가?
+    var isHiddenFloatingPanel = true
+    /// 지도에 보여지는 마커 리스트
+    var markerList: [AroundStoreMarkerModel] = []
+    /// 선택된 스토어 카테고리 셀
+    var latestSelectStore: StoreTabCollectionViewCell?
     
+    /// 뷰컨트롤러 공통 컴포넌트 변수
     let customNavigationBar = CustomNavigationBar()
     var naverMapView: NMFMapView = NMFMapView()
     var circleOverlay: NMFCircleOverlay = NMFCircleOverlay()
@@ -35,12 +42,10 @@ class MainViewController: CommonViewController {
     var overlayCenterPick = SearchMarkerPin()
     var collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     var fpc: FloatingPanelController!
-    var isHiddenFloatingPanel = true
+    
     let locationManager = CLLocationManager()
     var currentLocation: NMGLatLng?
     var cameraLocation: NMGLatLng?
-    var markerList: [AroundStoreMarkerModel] = []
-    var latestSelectStore: StoreTabCollectionViewCell?
 
     
     //MARK: ViewLifeCycle
@@ -735,6 +740,14 @@ extension MainViewController {
             guard let result = result else { return }
             AroundStoreModel.list = result.stores
             self.addMarker(markers: result.stores)
+            if let latestSelectStore = self.latestSelectStore {
+                let selectedCategory = latestSelectStore.itemText.text
+                for marker in self.markerList {
+                    if marker.store.categoryGroupName != selectedCategory {
+                        self.hideMarker(marker: marker.marker)
+                    }
+                }
+            }
         }
     }
 }
@@ -772,7 +785,6 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
             hideMarker(marker: nil)
             let storeCategory = cell.itemText.text == "기타" ? "" : cell.itemText.text
             for marker in markerList {
-                
                 if marker.store.categoryGroupName != storeCategory {
                     hideMarker(marker: marker.marker)
                 }

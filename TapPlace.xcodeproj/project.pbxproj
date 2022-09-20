@@ -18,6 +18,7 @@
 		DF2340D128A239FC00A9DAE1 /* PickPaymentsCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF2340D028A239FC00A9DAE1 /* PickPaymentsCollectionReusableView.swift */; };
 		DF2340D328A270C700A9DAE1 /* PaymentModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF2340D228A270C700A9DAE1 /* PaymentModel.swift */; };
 		DF34FC4C28D95E6E00B01F95 /* Authorization.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF34FC4B28D95E6E00B01F95 /* Authorization.swift */; };
+		DF34FC7628D9BE2B00B01F95 /* APIToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF34FC7528D9BE2B00B01F95 /* APIToken.swift */; };
 		DF38177028A46EF100B900B5 /* CommonPickViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF38176F28A46EF100B900B5 /* CommonPickViewController.swift */; };
 		DF38177828A4E28200B900B5 /* PaymentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF38177728A4E28200B900B5 /* PaymentViewModel.swift */; };
 		DF4A14A228ABBAEF0068D1AD /* VerticalAlignLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF4A14A128ABBAEF0068D1AD /* VerticalAlignLabel.swift */; };
@@ -156,6 +157,7 @@
 		DF2340D028A239FC00A9DAE1 /* PickPaymentsCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickPaymentsCollectionReusableView.swift; sourceTree = "<group>"; };
 		DF2340D228A270C700A9DAE1 /* PaymentModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentModel.swift; sourceTree = "<group>"; };
 		DF34FC4B28D95E6E00B01F95 /* Authorization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Authorization.swift; sourceTree = "<group>"; };
+		DF34FC7528D9BE2B00B01F95 /* APIToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIToken.swift; sourceTree = "<group>"; };
 		DF38176F28A46EF100B900B5 /* CommonPickViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonPickViewController.swift; sourceTree = "<group>"; };
 		DF38177728A4E28200B900B5 /* PaymentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentViewModel.swift; sourceTree = "<group>"; };
 		DF49AD8C28A0AB2A004EDC34 /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
@@ -730,6 +732,7 @@
 				DFF5300228BC55D000FFC302 /* Storage.swift */,
 				DFC7037828D3E4AC006C597F /* KeyChain.swift */,
 				DF34FC4B28D95E6E00B01F95 /* Authorization.swift */,
+				DF34FC7528D9BE2B00B01F95 /* APIToken.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -965,6 +968,7 @@
 				F449AEB628ADD205008E0417 /* SearchingActionTableViewCell.swift in Sources */,
 				DFC7037928D3E4AC006C597F /* KeyChain.swift in Sources */,
 				DF4BDF7E28C75418000F15FA /* MoreHeaderViewItem.swift in Sources */,
+				DF34FC7628D9BE2B00B01F95 /* APIToken.swift in Sources */,
 				DFBFDF4E28D55CED003A8EF6 /* FeedbackWebViewController.swift in Sources */,
 				F438236728C5C2A500C75063 /* NoticeViewController.swift in Sources */,
 				DF826698289CA0EC00272830 /* SplashViewController.swift in Sources */,

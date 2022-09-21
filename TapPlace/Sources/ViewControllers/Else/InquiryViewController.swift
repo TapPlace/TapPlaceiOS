@@ -312,13 +312,12 @@ extension InquiryViewController: UITableViewDataSource, UITableViewDelegate, Ter
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let cell = tableView.cellForRow(at: indexPath) as? TermsTableViewCell else { return }
         
-        if term.checked == true {
+        if term.checked {
             term.checked = false
             cell.setCheck(check: term.checked)
         } else {
             term.checked = true
             pushTermVC(term)
-            cell.setCheck(check: term.checked)
         }
     }
     
@@ -362,9 +361,11 @@ extension InquiryViewController: BottomButtonProtocol {
                     "os": "iOS"
                 ]
                 
+                print("동의했나? \(answerCheck)")
+                
                 InquiryService().postInquiry(parameter: parameter) { response,error in
                     if let error = error {
-                        showToast(message: "서버에 오류가 있습니다.\n잠시후 다시 시도해주시기 바랍니다.", view: self.view)
+                        showToast(message: "알 수 없는 오류가 발생했습니다.\n입력 값을 확인 후 다시 시도해주시기 바랍니다.", view: self.view)
                         self.button.setButtonStyle(title: "문의하기", type: .activate, fill: true)
                         return
                     }
@@ -381,9 +382,6 @@ extension InquiryViewController: BottomButtonProtocol {
                             cell.setCheck(check: false)
                             answerCheck = 0
                         }
-                    } else {
-                        showToast(message: "알 수 없는 오류가 발생했습니다.\n입력 값을 확인 후 다시 시도해주시기 바랍니다.", view: self.view)
-                        self.button.setButtonStyle(title: "문의하기", type: .activate, fill: true)
                     }
                 }
             }else {

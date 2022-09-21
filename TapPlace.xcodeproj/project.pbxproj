@@ -100,6 +100,7 @@
 		DFECC8CE28ACD9CF00DC64FD /* AroundStoreTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFECC8CD28ACD9CF00DC64FD /* AroundStoreTableViewCell.swift */; };
 		DFECC8D028ACFFE000DC64FD /* BrandIconImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFECC8CF28ACFFE000DC64FD /* BrandIconImageView.swift */; };
 		DFECC8D228AD129300DC64FD /* UIStackView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFECC8D128AD129300DC64FD /* UIStackView+Extension.swift */; };
+		DFF484D828DAC2EC00FF441C /* NotificationCenter+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFF484D728DAC2EC00FF441C /* NotificationCenter+Extension.swift */; };
 		DFF5300128BC515D00FFC302 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFF5300028BC515D00FFC302 /* UserModel.swift */; };
 		DFF5300328BC55D000FFC302 /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFF5300228BC55D000FFC302 /* Storage.swift */; };
 		DFF5300528BC578A00FFC302 /* StorageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFF5300428BC578A00FFC302 /* StorageViewModel.swift */; };
@@ -244,6 +245,7 @@
 		DFECC8CD28ACD9CF00DC64FD /* AroundStoreTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AroundStoreTableViewCell.swift; sourceTree = "<group>"; };
 		DFECC8CF28ACFFE000DC64FD /* BrandIconImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandIconImageView.swift; sourceTree = "<group>"; };
 		DFECC8D128AD129300DC64FD /* UIStackView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView+Extension.swift"; sourceTree = "<group>"; };
+		DFF484D728DAC2EC00FF441C /* NotificationCenter+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificationCenter+Extension.swift"; sourceTree = "<group>"; };
 		DFF5300028BC515D00FFC302 /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 		DFF5300228BC55D000FFC302 /* Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
 		DFF5300428BC578A00FFC302 /* StorageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageViewModel.swift; sourceTree = "<group>"; };
@@ -674,6 +676,7 @@
 				DF9BE0A528B6EEEA009E075D /* UILabel+Extension.swift */,
 				DF85D8CA28C4C22300465D6A /* CLLocation+Extension.swift */,
 				DFB6CD5F28CEE3A90095C9FA /* UIApplication+Extension.swift */,
+				DFF484D728DAC2EC00FF441C /* NotificationCenter+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1003,6 +1006,7 @@
 				DF9BE0A828B71711009E075D /* TermsModel.swift in Sources */,
 				F43CA9FB28D095B9009E8845 /* InquiryService.swift in Sources */,
 				DF9EAF8528AA00F5001B3D74 /* ResearchButton.swift in Sources */,
+				DFF484D828DAC2EC00FF441C /* NotificationCenter+Extension.swift in Sources */,
 				DF4BD37C28A76F8100C4C5B4 /* UIImage+Extension.swift in Sources */,
 				DF4A14A428ABBEF50068D1AD /* CustomToolBar.swift in Sources */,
 				DF81E40728D07A77000FF975 /* FeedbackDataService.swift in Sources */,
@@ -1168,6 +1172,8 @@
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "사용자 주변의 간편결제 가맹점을 불러올 수 있도록, 현재 위치를 가져옵니다.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIStatusBarHidden = NO;
+				INFOPLIST_KEY_UIStatusBarStyle = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -1175,7 +1181,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.2;
+				MARKETING_VERSION = 1.1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = kr.co.tapplace.TapPlace;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -1205,6 +1211,8 @@
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "사용자 주변의 간편결제 가맹점을 불러올 수 있도록, 현재 위치를 가져옵니다.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIStatusBarHidden = NO;
+				INFOPLIST_KEY_UIStatusBarStyle = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -1212,7 +1220,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.2;
+				MARKETING_VERSION = 1.1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = kr.co.tapplace.TapPlace;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";

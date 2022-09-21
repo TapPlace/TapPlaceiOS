@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 
+// 수정하기
 class SuggestedViewController: CommonViewController {
     
     

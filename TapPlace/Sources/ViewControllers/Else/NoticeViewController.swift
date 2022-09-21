@@ -23,18 +23,6 @@ class NoticeViewController: CommonViewController {
         customNavigationBar.isDrawBottomLine = false
         customNavigationBar.titleText = "공지사항"
         customNavigationBar.isUseLeftButton = true
-        
-        NoticeDataService().getNotice(page: "1") { (notice, error) in
-            if let notice = notice {
-                print("나와나와 \(notice)")
-                self.noticeListVM = NoticeListViewModel(notice: notice)
-                self.configureTableView()
-            }
-            
-            DispatchQueue.main.async {
-                self.noticeTableView.reloadData()
-            }
-        }
     }
     
     private lazy var noticeTableView: UITableView = {
@@ -60,15 +48,26 @@ extension NoticeViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         // 탭바
-//        print("뷰 사라집니다.")
         tabBar?.hideTabBar(hide: false)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         // 탭바
-//        print("뷰 나타납니다.")
         tabBar?.hideTabBar(hide: true)
+        
+        // 공지사항 API 호출
+        NoticeDataService().getNotice(page: "1") { (notice, error) in
+            if let notice = notice {
+                print("나와나와 \(notice)")
+                self.noticeListVM = NoticeListViewModel(notice: notice)
+                self.configureTableView()
+            }
+            
+            DispatchQueue.main.async {
+                self.noticeTableView.reloadData()
+            }
+        }
     }
     
     // 테이블 뷰 구성 메소드

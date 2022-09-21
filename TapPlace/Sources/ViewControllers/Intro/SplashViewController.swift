@@ -17,15 +17,15 @@ class SplashViewController: UIViewController {
         checkUUID()
         setupView()
         userInfoSetting()
-//        print("*** TAPPLACE API URL: \(Constants.tapplaceApiUrl)")
-//        print("*** TAPPLACE API URL: \(Constants.keyChainDeviceID)")
+        print("*** TAPPLACE API URL: \(Constants.tapplaceApiUrl)")
+        print("*** TAPPLACE API URL: \(Constants.keyChainDeviceID)")
     }
     
     override func viewDidAppear(_ animated: Bool) {
         var nextVC: UIViewController?
         userViewModel.requestLatestTerms(uuid: Constants.keyChainDeviceID) { result, error in
             if let error = error {
-//                print("*** SplashVC, 에러발생! \(error)")
+                print("*** SplashVC, 에러발생! \(error)")
                 showToast(message: "서버와의 연동에 실패하였습니다.\n잠시 후, 다시 시도 해주시기 바랍니다.", view: self.view)
                 return
             }

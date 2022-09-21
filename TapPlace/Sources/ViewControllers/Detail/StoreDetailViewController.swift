@@ -24,9 +24,6 @@ class StoreDetailViewController: CommonViewController, CustomToolBarProtocol {
         }
     }
     
-
-    
-    
     var naverMapView = NMFMapView()
     var backButtonFrame = UIView()
     let scrollView = UIScrollView()
@@ -81,11 +78,14 @@ extension StoreDetailViewController: CustomNavigationBarProtocol, CustomToolBarS
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "showShare"), object: storeID)
     }
     func updateFeedback() {
-        if self.isFirstLoaded { return }
+        //if self.isFirstLoaded { return }
         guard let storeInfo = storeInfo else { return }
         storeViewModel.requestStoreInfoCheck(searchModel: SearchModel.convertSearchModel(storeInfo: storeInfo), pays: storageViewModel.userFavoritePaymentsString) { result in
+            print("*** result: \(result)\n*** result.count: \(result?.count)")
             self.feedbackList = result
-            self.tableView.reloadData()
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
         }
     }
     
@@ -392,6 +392,8 @@ extension StoreDetailViewController: CustomNavigationBarProtocol, CustomToolBarS
             $0.top.equalTo(separatorView.snp.bottom)
             $0.leading.trailing.equalTo(contentView)
             $0.height.equalTo(186 * feedbackList.count)
+            print("*** feedbackList.count: \(feedbackList.count)")
+            print("*** feedbackList: \(feedbackList)")
         }
     }
     /**
@@ -448,7 +450,7 @@ extension StoreDetailViewController: CustomNavigationBarProtocol, CustomToolBarS
      * coder : sanghyeon
      */
     func setStore(storeInfo: StoreInfo) {
-        feedbackList = storeInfo.feedback//?.filter({$0.exist == true})
+        feedbackList = storeInfo.feedback
         customNavigationBar.titleText = storeInfo.placeName
         storeLabel.text = storeInfo.placeName
         storeCategory.text = storeInfo.categoryGroupName

@@ -194,6 +194,7 @@ extension MoreViewController: UITableViewDelegate, UITableViewDataSource, MoreHe
             if let subTitle = menuList[indexPath.row].subTitle {
                 switch subTitle {
                 case .version:cell.subTitle = "클로즈베타" // 베타버전 임시 문구
+                case .reset:cell.subTitle = Constants.keyChainDeviceID // 베타버전 임시 문구
                 default: break
                 } 
             }

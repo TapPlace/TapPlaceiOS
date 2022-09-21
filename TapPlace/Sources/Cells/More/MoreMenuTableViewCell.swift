@@ -45,7 +45,7 @@ class MoreMenuTableViewCell: UITableViewCell {
         let menuSubTitleLabel = UILabel()
         menuSubTitleLabel.sizeToFit()
         menuSubTitleLabel.textColor = .init(hex: 0x9E9E9E)
-        menuSubTitleLabel.font = .systemFont(ofSize: CommonUtils.resizeFontSize(size: 13), weight: .regular)
+        menuSubTitleLabel.font = .systemFont(ofSize: CommonUtils.resizeFontSize(size: 10), weight: .regular)
         return menuSubTitleLabel
     }()
     

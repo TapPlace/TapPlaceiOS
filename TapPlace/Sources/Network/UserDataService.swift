@@ -24,11 +24,14 @@ struct UserDataService {
             .responseDecodable(of: LatestTermsModel.self) { (response) in
                 switch response.result {
                 case .success(let response):
-                    if response.personalDate.isEmpty || response.serviceDate.isEmpty {
-                        completion(nil, nil)
-                    } else {
-                        completion(response, nil)
-                    }
+                    
+//                    print("*** response.personalDate: \(response)")
+                    completion(response, nil)
+//                    if response.personalDate.isEmpty || response.serviceDate.isEmpty {
+//                        completion(nil, nil)
+//                    } else {
+//                        completion(response, nil)
+//                    }
                 case .failure(let error):
                     completion(nil, error)
                 }

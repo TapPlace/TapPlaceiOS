@@ -13,6 +13,7 @@ target 'TapPlace' do
   pod 'FloatingPanel'
   pod 'IQKeyboardManagerSwift'
   pod 'SwiftKeychainWrapper'
+  pod 'SwiftJWT'
 
   # Pods for TapPlace
 

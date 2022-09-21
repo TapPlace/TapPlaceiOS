@@ -22,7 +22,12 @@ class PickPaymentsViewController: CommonPickViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
+        if !isEditMode {
+            self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
+        } else {
+//            print("*** selected Payments: \(selectedPayments)")
+            bottomButtonUpdate()
+        }
     }
 }
 //MARK: - Layout

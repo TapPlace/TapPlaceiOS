@@ -14,15 +14,18 @@ class UserViewModel {
      * @ 최신 약관 정보 요청
      * coder : sanghyeon
      */
-    func requestLatestTerms(uuid: String, completion: @escaping (LatestTermsModel?) -> ()) {
+    func requestLatestTerms(uuid: String, completion: @escaping (LatestTermsModel?, Error?) -> ()) {
         let parameter: [String: String] = [
             "user_id": "\(Constants.keyChainDeviceID)",
             "key": "\(Constants.tapplaceApiKey)"
         ]
         
         userDataService.requestFetchLatestTerms(parameter: parameter) { result, error in
-            print(parameter)
-            completion(result)
+            if let error = error {
+//                print("*** 에러발생! \(error)")
+                completion(nil, error)
+            }
+            completion(result, nil)
         }
     }
     
@@ -37,7 +40,9 @@ class UserViewModel {
             "birth": "\(user.birth)",
             "pays": payments,
             "sex": "\(user.sex)",
-            "key": "\(Constants.tapplaceApiKey)"
+            "key": "\(Constants.tapplaceApiKey)",
+            "personal_date": "_",
+            "service_date": "_"
         ]
         
         userDataService.requestFetchAddUser(parameter: parameter, payments: payments) { result, error in

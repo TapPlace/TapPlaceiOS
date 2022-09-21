@@ -21,7 +21,7 @@ class CommonViewController: UIViewController {
     }
     
     func setupNotification() {
-        NotificationCenter.default.addObserver(self, selector: #selector(shareStoreObserver), name: NSNotification.Name(rawValue: "showShare"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(shareStoreObserver), name: NSNotification.Name.showShare, object: nil)
     }
     
     @objc func shareStoreObserver(_ notification: Notification) {

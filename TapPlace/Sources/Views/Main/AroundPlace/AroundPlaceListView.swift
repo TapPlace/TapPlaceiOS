@@ -14,7 +14,7 @@ protocol AroundPlaceControllerProtocol {
 
 protocol AroundPlaceMainControllerProtocol {
     func expendFloatingPanel()
-}
+} 
 
 
 class AroundPlaceListView: UIView, AroundPlaceApplyFilterProtocol {
@@ -115,6 +115,7 @@ class AroundPlaceListView: UIView, AroundPlaceApplyFilterProtocol {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupView()
+        applyFilter()
     }
     
     required init?(coder: NSCoder) {

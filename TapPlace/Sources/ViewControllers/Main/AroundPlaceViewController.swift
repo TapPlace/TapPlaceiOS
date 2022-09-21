@@ -42,15 +42,17 @@ class AroundPlaceViewController: UIViewController, AroundPlaceControllerProtocol
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        AroundFilterModel.storeList.removeAll()
-        AroundFilterModel.paymentList.removeAll()
+        aroundPlaceListView.storeButton.selectedCount = AroundFilterModel.storeList.count
+        aroundPlaceListView.paymentButton.selectedCount = AroundFilterModel.paymentList.count
+//        AroundFilterModel.storeList.removeAll()
+//        AroundFilterModel.paymentList.removeAll()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         aroundPlaceListView.distanceLabel.text = DistancelModel.getDistance(distance: DistancelModel.selectedDistance)
-        AroundFilterModel.storeList.removeAll()
-        AroundFilterModel.paymentList.removeAll()
+//        AroundFilterModel.storeList.removeAll()
+//        AroundFilterModel.paymentList.removeAll()
     }
 }
 

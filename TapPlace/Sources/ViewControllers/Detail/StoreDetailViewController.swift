@@ -75,7 +75,7 @@ class StoreDetailViewController: CommonViewController, CustomToolBarProtocol {
 
 extension StoreDetailViewController: CustomNavigationBarProtocol, CustomToolBarShareProtocol {
     func showShare(storeID: String) {
-        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "showShare"), object: storeID)
+        NotificationCenter.default.post(name: NSNotification.Name.showShare, object: storeID)
     }
     func updateFeedback() {
         //if self.isFirstLoaded { return }

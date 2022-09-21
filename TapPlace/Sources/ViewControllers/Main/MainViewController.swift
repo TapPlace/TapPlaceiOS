@@ -79,6 +79,43 @@ class MainViewController: CommonViewController {
             isFirstLaunched.toggle()
         }
     }
+    
+    /**
+     * @ 노티피케이션 센터 세팅
+     * coder : sanghyeon
+     */
+    override func setupNotification() {
+        super.setupNotification()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(applyAroundFilter), name: NSNotification.Name.applyAroundFilter, object: nil)
+    }
+}
+//MARK: - Notification Center
+extension MainViewController {
+    /**
+     * @ 주변 리스트 필터 적용시 지도 적용
+     * coder : sanghyeon
+     */
+    @objc func applyAroundFilter(_ notification: Notification?) {
+        if isFirstLaunched { return }
+        print("*** Around Place View로부터 노티 수신")
+        let tempFilteredCategotyList = AroundFilterModel.storeList.map { $0.title }
+        print("*** tempFilteredCategotyList: \(tempFilteredCategotyList)")
+        let tempFilteredMarkerList = markerList.filter { marker in
+            tempFilteredCategotyList.contains(marker.store.categoryGroupName == "" ? "기타" : marker.store.categoryGroupName)
+        }
+        print("*** tempFilteredMarkerList: \(tempFilteredMarkerList)")
+        hideAllMarkers()
+        tempFilteredMarkerList.forEach {
+            let tempMarker = $0.marker
+            tempMarker.mapView = naverMapView
+        }
+        
+        
+        if AroundFilterModel.storeList.isEmpty && AroundFilterModel.paymentList.isEmpty {
+            showAllMarkers()
+        }
+    }
 }
 
 //MARK: - Layout
@@ -166,7 +203,7 @@ extension MainViewController: MapButtonProtocol, ResearchButtonProtocol, CustomN
                 searchAroundStore(location: UserInfo.userLocation)
                 showResearchElement(hide: true)
                 showDetailOverView(hide: true)
-                resetAllMarkersSize()
+                resetAllMarkers()
             }
         }
     }
@@ -394,6 +431,7 @@ extension MainViewController: CLLocationManagerDelegate, NMFMapViewCameraDelegat
         circleOverlay.outlineColor = .pointBlue.withAlphaComponent(0.5)
         circleOverlay.mapView = naverMapView
     }
+//MARK: Marker
     /**
      * @ 지도에 마커 추가
      * coder : sanghyeon
@@ -444,10 +482,28 @@ extension MainViewController: CLLocationManagerDelegate, NMFMapViewCameraDelegat
         }
     }
     /**
-     * @ 지도상 마커 사이즈 초기화
+     * @ 배열에 있는 모든 마커 보이기
      * coder : sanghyeon
      */
-    func resetAllMarkersSize() {
+    func showAllMarkers() {
+        markerList.forEach {
+            $0.marker.mapView = naverMapView
+        }
+    }
+    /**
+     * @ 지도상 모든 마커 숨기기
+     * coder : sanghyeon
+     */
+    func hideAllMarkers() {
+        markerList.forEach {
+            $0.marker.mapView = nil
+        }
+    }
+    /**
+     * @ 지도상 마커 설정 초기화
+     * coder : sanghyeon
+     */
+    func resetAllMarkers() {
         for eachMarker in markerList {
             if let markerImage = MarkerModel.list.first(where: {$0.groupName == eachMarker.store.categoryGroupName}) {
                 eachMarker.marker.iconImage = NMFOverlayImage(name: markerImage.markerImage)
@@ -455,6 +511,7 @@ extension MainViewController: CLLocationManagerDelegate, NMFMapViewCameraDelegat
             }
             eachMarker.marker.width = 36
             eachMarker.marker.height = 48
+            eachMarker.marker.mapView = naverMapView
         }
     }
     /**
@@ -466,7 +523,7 @@ extension MainViewController: CLLocationManagerDelegate, NMFMapViewCameraDelegat
         /// 열려있는 오버뷰 닫기
         showDetailOverView(hide: true)
         /// 모든 마커 사이즈 초기화
-        resetAllMarkersSize()
+        resetAllMarkers()
         /// 선택된 마커 사이즈 확장
         guard let marker = marker else { return }
         marker.width = 51
@@ -592,7 +649,7 @@ extension MainViewController: CustomToolBarShareProtocol, StoreInfoViewDelegate 
      * coder : sanghyeon
      */
     func showShare(storeID: String) {
-        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "showShare"), object: storeID)
+        NotificationCenter.default.post(name: NSNotification.Name.showShare, object: storeID)
     }
     
     /**
@@ -741,12 +798,20 @@ extension MainViewController {
             AroundStoreModel.list = result.stores
             self.addMarker(markers: result.stores)
             if let latestSelectStore = self.latestSelectStore {
+                /// 검색창 하단 탭 필터가 선택 되어있는 경우
+                /// 주변 매장 필터를 해제함
+                AroundFilterModel.storeList.removeAll()
+                AroundFilterModel.paymentList.removeAll()
+                print("*** latestSelectStore: \(latestSelectStore)")
                 let selectedCategory = latestSelectStore.itemText.text
                 for marker in self.markerList {
                     if marker.store.categoryGroupName != selectedCategory {
                         self.hideMarker(marker: marker.marker)
                     }
                 }
+            } else {
+                /// 주변 매장 리스트 필터가 적용 되어 있는 경우
+                self.applyAroundFilter(nil)
             }
         }
     }

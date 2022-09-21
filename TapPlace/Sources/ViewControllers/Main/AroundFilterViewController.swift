@@ -255,6 +255,7 @@ extension AroundFilterViewController: FilterResetProtocol {
         AroundFilterModel.storeList = tempStores
         AroundFilterModel.paymentList = tempPayments
         delegate?.applyFilter()
+        NotificationCenter.default.post(name: NSNotification.Name.applyAroundFilter, object: nil)
         self.dismiss(animated: true)
     }
 }

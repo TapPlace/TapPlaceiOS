@@ -7,6 +7,7 @@
 
 import Foundation
 import CoreLocation
+import UserNotifications
 
 struct Authorization {
     //MARK: Single Tone Pattern
@@ -27,6 +28,23 @@ struct Authorization {
     func requestLocationAuthorization() {
         let locationManager = CLLocationManager()
         locationManager.requestWhenInUseAuthorization()
+    }
+    
+    //MARK: Notification Authorization
+    /**
+     * @ 알림권한 요청
+     * coder : sanghyeon
+     */
+    func requestNotificationAuthorization(completion: @escaping (Bool)->()) {
+        let authOptions = UNAuthorizationOptions(arrayLiteral: .alert, .badge, .sound)
+       
+        UNUserNotificationCenter.current().requestAuthorization(options: authOptions, completionHandler: {didAllow,Error in
+            if didAllow {
+                completion(true)
+            } else {
+                completion(false)
+            }
+        })
     }
     
 }

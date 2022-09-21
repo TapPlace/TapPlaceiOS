@@ -11,9 +11,20 @@ class SplashViewController: UIViewController {
     var storageViewModel = StorageViewModel()
     var userViewModel = UserViewModel()
     let currentStatusLabel = UILabel()
+    var authorization = Authorization.shared
+    var fcm = FCM.shared
     //MARK: - ViewController Lift Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        authorization.requestNotificationAuthorization() { result in
+            switch result {
+            case true:
+                print("알림권한 허용")
+                self.fcm.generateFCMToken()
+            case false:
+                print("알림권한 거부")
+            }
+        }
         checkUUID()
         setupView()
         userInfoSetting()

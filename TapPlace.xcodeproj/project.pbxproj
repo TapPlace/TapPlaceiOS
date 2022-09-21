@@ -100,6 +100,8 @@
 		DFECC8CE28ACD9CF00DC64FD /* AroundStoreTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFECC8CD28ACD9CF00DC64FD /* AroundStoreTableViewCell.swift */; };
 		DFECC8D028ACFFE000DC64FD /* BrandIconImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFECC8CF28ACFFE000DC64FD /* BrandIconImageView.swift */; };
 		DFECC8D228AD129300DC64FD /* UIStackView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFECC8D128AD129300DC64FD /* UIStackView+Extension.swift */; };
+		DFF484D228DA95D500FF441C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DFF484D128DA95D500FF441C /* GoogleService-Info.plist */; };
+		DFF484D628DAAA9400FF441C /* FCM.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFF484D528DAAA9400FF441C /* FCM.swift */; };
 		DFF5300128BC515D00FFC302 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFF5300028BC515D00FFC302 /* UserModel.swift */; };
 		DFF5300328BC55D000FFC302 /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFF5300228BC55D000FFC302 /* Storage.swift */; };
 		DFF5300528BC578A00FFC302 /* StorageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFF5300428BC578A00FFC302 /* StorageViewModel.swift */; };
@@ -244,6 +246,8 @@
 		DFECC8CD28ACD9CF00DC64FD /* AroundStoreTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AroundStoreTableViewCell.swift; sourceTree = "<group>"; };
 		DFECC8CF28ACFFE000DC64FD /* BrandIconImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandIconImageView.swift; sourceTree = "<group>"; };
 		DFECC8D128AD129300DC64FD /* UIStackView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView+Extension.swift"; sourceTree = "<group>"; };
+		DFF484D128DA95D500FF441C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../FCM/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		DFF484D528DAAA9400FF441C /* FCM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FCM.swift; sourceTree = "<group>"; };
 		DFF5300028BC515D00FFC302 /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 		DFF5300228BC55D000FFC302 /* Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
 		DFF5300428BC578A00FFC302 /* StorageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageViewModel.swift; sourceTree = "<group>"; };
@@ -547,6 +551,7 @@
 				DFC23FAB289AB69D00EC1090 /* Sources */,
 				DFC23FA9289AB66C00EC1090 /* Resources */,
 				DFC23FA3289AB66600EC1090 /* Info.plist */,
+				DFF484D128DA95D500FF441C /* GoogleService-Info.plist */,
 			);
 			path = TapPlace;
 			sourceTree = "<group>";
@@ -733,6 +738,7 @@
 				DFC7037828D3E4AC006C597F /* KeyChain.swift */,
 				DF34FC4B28D95E6E00B01F95 /* Authorization.swift */,
 				DF34FC7528D9BE2B00B01F95 /* APIToken.swift */,
+				DFF484D528DAAA9400FF441C /* FCM.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -834,6 +840,7 @@
 			files = (
 				DFC23FA2289AB66600EC1090 /* LaunchScreen.storyboard in Resources */,
 				DFC23F9F289AB66600EC1090 /* Assets.xcassets in Resources */,
+				DFF484D228DA95D500FF441C /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -924,6 +931,7 @@
 				DF85D8CB28C4C22300465D6A /* CLLocation+Extension.swift in Sources */,
 				DF9BE0AE28B7271F009E075D /* TermsTableViewCell.swift in Sources */,
 				DFB6CD6028CEE3A90095C9FA /* UIApplication+Extension.swift in Sources */,
+				DFF484D628DAAA9400FF441C /* FCM.swift in Sources */,
 				DFDBB83728B0BB69008D2E09 /* AroundPlaceListView.swift in Sources */,
 				DFC23FB5289AB6F000EC1090 /* EmptyNetwork.swift in Sources */,
 				DF2340D328A270C700A9DAE1 /* PaymentModel.swift in Sources */,

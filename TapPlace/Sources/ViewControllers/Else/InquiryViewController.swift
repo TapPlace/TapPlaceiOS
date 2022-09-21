@@ -8,7 +8,7 @@
 import UIKit
 import RealmSwift
 
-// 문의하기, 수정하기
+// 문의하기
 class InquiryViewController: CommonViewController {
     var term = TermsModel(title: "개인정보 수집, 이용동의", isTerm: true, require: true, link: Constants.tapplacePolicyUrl, checked: false)
     var numberOfLetter: Int = 0 // 타이틀 글자수
@@ -130,13 +130,13 @@ extension InquiryViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
     }
-
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         // 탭바
         tabBar?.hideTabBar(hide: true)
     }
-
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         // 탭바
@@ -308,6 +308,7 @@ extension InquiryViewController: UITableViewDataSource, UITableViewDelegate, Ter
         return cell
     }
     
+    // 개인정보, 이용동의 셀 체크 여부
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let cell = tableView.cellForRow(at: indexPath) as? TermsTableViewCell else { return }
         
@@ -337,39 +338,57 @@ extension InquiryViewController: BottomButtonProtocol {
         button.setButtonStyle(title: "문의하기", type: .disabled, fill: true)
         
         var answerCheck = 0
+        
         if term.checked  == true {
             answerCheck = 1
         }
         
         if let titleText = titleField.text, let contentText = contentTextView.text, let emailText = emailField.text {
-            
-            let parameter: [String: Any] = [
-                "key": "\(Constants.tapplaceApiKey)",
-                "user_id": "\(Constants.keyChainDeviceID)",
-                "category": type,
-                "title": titleText,
-                "content": contentText,
-                "answer_check": answerCheck,
-                "email": emailText,
-                "os": "iOS"
-            ]
-            
-            InquiryService().postInquiry(parameter: parameter) { response,error in
-                if let error = error {
-                    showToast(message: "서버에 오류가 있습니다.\n잠시후 다시 시도해주시기 바랍니다.", view: self.view)
+            if titleText.count != 0 && contentText.count != 0 && emailText.count != 0 {
+                if answerCheck != 1 {
+                    showToast(message: "개인정보 수집, 이용동의를 체크해주시기 바랍니다.", view: self.view)
                     self.button.setButtonStyle(title: "문의하기", type: .activate, fill: true)
                     return
                 }
-                if response == true {
-                    showToast(message: "문의가 정상적으로 등록 되었습니다.", duration: 3, view: self.view)
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                        self.navigationController?.popViewController(animated: true)
+                
+                let parameter: [String: Any] = [
+                    "key": "\(Constants.tapplaceApiKey)",
+                    "user_id": "\(Constants.keyChainDeviceID)",
+                    "category": type,
+                    "title": titleText,
+                    "content": contentText,
+                    "answer_check": answerCheck,
+                    "email": emailText,
+                    "os": "iOS"
+                ]
+                
+                InquiryService().postInquiry(parameter: parameter) { response,error in
+                    if let error = error {
+                        showToast(message: "서버에 오류가 있습니다.\n잠시후 다시 시도해주시기 바랍니다.", view: self.view)
+                        self.button.setButtonStyle(title: "문의하기", type: .activate, fill: true)
+                        return
+                    }
+                    if response == true {
+                        showToast(message: "문의가 정상적으로 등록 되었습니다.", duration: 3, view: self.view)
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                            self.navigationController?.popViewController(animated: true)
+                            self.button.setButtonStyle(title: "문의하기", type: .activate, fill: true)
+                            self.titleField.text = ""
+                            self.contentTextView.text = ""
+                            self.emailField.text = ""
+                            
+                            guard let cell = self.tableView.cellForRow(at: IndexPath.init(row: 0, section: 0)) as? TermsTableViewCell else { return }
+                            cell.setCheck(check: false)
+                            answerCheck = 0
+                        }
+                    } else {
+                        showToast(message: "알 수 없는 오류가 발생했습니다.\n입력 값을 확인 후 다시 시도해주시기 바랍니다.", view: self.view)
                         self.button.setButtonStyle(title: "문의하기", type: .activate, fill: true)
                     }
-                } else {
-                    showToast(message: "알 수 없는 오류가 발생했습니다.\n입력 값을 확인 후 다시 시도해주시기 바랍니다.", view: self.view)
-                    self.button.setButtonStyle(title: "문의하기", type: .activate, fill: true)
                 }
+            }else {
+                showToast(message: "입력 값을 모두 채워주시기 바랍니다.", view: self.view)
+                self.button.setButtonStyle(title: "문의하기", type: .activate, fill: true)
             }
         }
     }

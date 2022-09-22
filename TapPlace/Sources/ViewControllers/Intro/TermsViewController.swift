@@ -141,7 +141,7 @@ extension TermsViewController: UITableViewDelegate, UITableViewDataSource, Terms
         allCheckTermsCell()
         bottomButtonUpdate()
         
-        /// 모두 동의일 경우 다음 약관 표시 로직
+        /// 모두 동의일 경우 다음 약관 표시 로직  
         if isAllCheck {
             guard let nonCheckRequireTerm = allTermsLists.firstIndex(where: {$0.require == true && $0.read == false && $0.checked == false }) else { return }
             DispatchQueue.main.async {

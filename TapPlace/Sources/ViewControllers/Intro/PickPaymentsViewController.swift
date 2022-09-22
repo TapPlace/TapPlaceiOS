@@ -25,7 +25,6 @@ class PickPaymentsViewController: CommonPickViewController {
         if !isEditMode {
             self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
         } else {
-//            print("*** selected Payments: \(selectedPayments)")
             bottomButtonUpdate()
         }
     }
@@ -48,15 +47,27 @@ extension PickPaymentsViewController: BottomButtonProtocol, TitleViewProtocol, C
     func didTapBottomButton() {
         if bottomButton.isActive {
 //            print("액션 실행 가능")
-            storageViewModel.setPayments(selectedPayments)
             if isEditMode {
-                self.navigationController?.popViewController(animated: true)
+                let parameter : [String: Any] = [
+                    "user_id": "\(Constants.keyChainDeviceID)",
+                    "pays": selectedPayments,
+                    "key": "\(Constants.tapplaceApiKey)"
+                ]
+                UserDataService().requestFetchUpdateUser(parameter: parameter) { result in
+                    self.storageViewModel.setPayments(self.selectedPayments)
+                    self.navigationController?.popViewController(animated: true)
+                }
             } else {
+                UserRegisterModel.setUser.pays = selectedPayments
+                UserRegisterModel.setUser.key = Constants.tapplaceApiKey
+                
+                
                 let vc = TabBarViewController()
                 vc.modalTransitionStyle = .crossDissolve
                 vc.modalPresentationStyle = .fullScreen
                 
-                userViewModel.sendUserInfo(user: storageViewModel.getUserInfo(uuid: Constants.keyChainDeviceID)!, payments: selectedPayments) { result in
+                userViewModel.sendUserInfo(user: UserRegisterModel.setUser) { result in
+                    self.storageViewModel.setPayments(self.selectedPayments)
                     self.present(vc, animated: true)
                 }
             }

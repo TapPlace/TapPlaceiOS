@@ -18,6 +18,7 @@ protocol CustomToolBarShareProtocol {
 class CustomToolBar: UIView, DetailToolBarButtonProtocol {
     var storageViewModel = StorageViewModel()
     var viewController = UIViewController()
+    var isBookmark: Bool = false
     
     func didTapToolBarButton(_ sender: UIButton) {
         guard let delegate = delegate else { return }

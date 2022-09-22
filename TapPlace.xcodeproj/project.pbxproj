@@ -30,6 +30,10 @@
 		DF4BDF7E28C75418000F15FA /* MoreHeaderViewItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF4BDF7D28C75418000F15FA /* MoreHeaderViewItem.swift */; };
 		DF51DCC228A7779400D0AE1E /* MoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF51DCC128A7779400D0AE1E /* MoreViewController.swift */; };
 		DF5FFCF428B4FC1F00BEFFA3 /* AroundFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF5FFCF328B4FC1F00BEFFA3 /* AroundFilterViewController.swift */; };
+		DF6609D928DC6A9800D6F33A /* BookmarkResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF6609D828DC6A9800D6F33A /* BookmarkResponseModel.swift */; };
+		DF6609DB28DC6CF300D6F33A /* BookmarkDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF6609DA28DC6CF300D6F33A /* BookmarkDataService.swift */; };
+		DF6609DD28DC6EFC00D6F33A /* BookmarkViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF6609DC28DC6EFC00D6F33A /* BookmarkViewModel.swift */; };
+		DF6609DF28DC7D1500D6F33A /* AddBookmarkResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF6609DE28DC7D1500D6F33A /* AddBookmarkResponseModel.swift */; };
 		DF67A05128C9635F00435C28 /* FeedbackListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF67A05028C9635F00435C28 /* FeedbackListViewController.swift */; };
 		DF67A05328C9846900435C28 /* FeedbackListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF67A05228C9846900435C28 /* FeedbackListCell.swift */; };
 		DF67A05528C9BA4800435C28 /* MoreViewMenuModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF67A05428C9BA4700435C28 /* MoreViewMenuModel.swift */; };
@@ -176,6 +180,10 @@
 		DF4BDF7D28C75418000F15FA /* MoreHeaderViewItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreHeaderViewItem.swift; sourceTree = "<group>"; };
 		DF51DCC128A7779400D0AE1E /* MoreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreViewController.swift; sourceTree = "<group>"; };
 		DF5FFCF328B4FC1F00BEFFA3 /* AroundFilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AroundFilterViewController.swift; sourceTree = "<group>"; };
+		DF6609D828DC6A9800D6F33A /* BookmarkResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkResponseModel.swift; sourceTree = "<group>"; };
+		DF6609DA28DC6CF300D6F33A /* BookmarkDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkDataService.swift; sourceTree = "<group>"; };
+		DF6609DC28DC6EFC00D6F33A /* BookmarkViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkViewModel.swift; sourceTree = "<group>"; };
+		DF6609DE28DC7D1500D6F33A /* AddBookmarkResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddBookmarkResponseModel.swift; sourceTree = "<group>"; };
 		DF67A05028C9635F00435C28 /* FeedbackListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackListViewController.swift; sourceTree = "<group>"; };
 		DF67A05228C9846900435C28 /* FeedbackListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackListCell.swift; sourceTree = "<group>"; };
 		DF67A05428C9BA4700435C28 /* MoreViewMenuModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreViewMenuModel.swift; sourceTree = "<group>"; };
@@ -520,9 +528,19 @@
 			path = More;
 			sourceTree = "<group>";
 		};
+		DF6609D728DC6A8200D6F33A /* Bookmark */ = {
+			isa = PBXGroup;
+			children = (
+				DF6609D828DC6A9800D6F33A /* BookmarkResponseModel.swift */,
+				DF6609DE28DC7D1500D6F33A /* AddBookmarkResponseModel.swift */,
+			);
+			path = Bookmark;
+			sourceTree = "<group>";
+		};
 		DF85D8C728C4BF5E00465D6A /* NetworkModels */ = {
 			isa = PBXGroup;
 			children = (
+				DF6609D728DC6A8200D6F33A /* Bookmark */,
 				DFC81D3328D09C1800E400EB /* Feedback */,
 				DF85D8C828C4BFAD00465D6A /* StoreInfoModel.swift */,
 				DF67A05B28CA0F1B00435C28 /* LatestTermsModel.swift */,
@@ -641,6 +659,7 @@
 				F4E198D428CDDB5700619174 /* SearchListViewModel.swift */,
 				DF81E40828D07C0A000FF975 /* FeedbackViewModel.swift */,
 				F43CA9FC28D43CB7009E8845 /* NoticeListViewModel.swift */,
+				DF6609DC28DC6EFC00D6F33A /* BookmarkViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -656,6 +675,7 @@
 				F43CA9FA28D095B9009E8845 /* InquiryService.swift */,
 				DF81E40628D07A77000FF975 /* FeedbackDataService.swift */,
 				F43CA9FE28D43CEC009E8845 /* NoticeDataService.swift */,
+				DF6609DA28DC6CF300D6F33A /* BookmarkDataService.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -930,6 +950,7 @@
 				F4551D3A28A8B651003B93F4 /* SearchViewController.swift in Sources */,
 				DFC23FB2289AB6E500EC1090 /* EmptyViewModel.swift in Sources */,
 				DF67A05128C9635F00435C28 /* FeedbackListViewController.swift in Sources */,
+				DF6609DB28DC6CF300D6F33A /* BookmarkDataService.swift in Sources */,
 				F43B068828D56EB800701538 /* SuggestedViewController.swift in Sources */,
 				DF4BDF7A28C74A06000F15FA /* MoreHeaderView.swift in Sources */,
 				DFDA43F428A14821003763AC /* UIColor+Extension.swift in Sources */,
@@ -963,6 +984,7 @@
 				F470A34328CB6430007F4F24 /* SearchService.swift in Sources */,
 				DFDA43F928A14C61003763AC /* CommonUtils.swift in Sources */,
 				DFD6729F28C88F65000220EE /* FeedbackRequestViewController.swift in Sources */,
+				DF6609D928DC6A9800D6F33A /* BookmarkResponseModel.swift in Sources */,
 				DF67A06028CA34F500435C28 /* StoreDataService.swift in Sources */,
 				F438237028C7085200C75063 /* AlarmViewController.swift in Sources */,
 				DF01A89428C5C94500124788 /* CustomNavigationBar.swift in Sources */,
@@ -1020,8 +1042,10 @@
 				DFC87B3428CAE9D000F53D1D /* MarkerModel.swift in Sources */,
 				DF85D8C928C4BFAD00465D6A /* StoreInfoModel.swift in Sources */,
 				DF9BE0A828B71711009E075D /* TermsModel.swift in Sources */,
+				DF6609DD28DC6EFC00D6F33A /* BookmarkViewModel.swift in Sources */,
 				F43CA9FB28D095B9009E8845 /* InquiryService.swift in Sources */,
 				DF9EAF8528AA00F5001B3D74 /* ResearchButton.swift in Sources */,
+				DF6609DF28DC7D1500D6F33A /* AddBookmarkResponseModel.swift in Sources */,
 				DFF484D828DAC2EC00FF441C /* NotificationCenter+Extension.swift in Sources */,
 				DF4BD37C28A76F8100C4C5B4 /* UIImage+Extension.swift in Sources */,
 				DF4A14A428ABBEF50068D1AD /* CustomToolBar.swift in Sources */,

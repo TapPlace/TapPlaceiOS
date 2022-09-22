@@ -31,6 +31,7 @@ class SplashViewController: UIViewController {
     
     var storageViewModel = StorageViewModel()
     var userViewModel = UserViewModel()
+    var bookmarkViewModel = BookmarkViewModel()
     let currentStatusLabel = UILabel()
     //MARK: - ViewController Lift Cycle
     override func viewDidLoad() {
@@ -40,6 +41,7 @@ class SplashViewController: UIViewController {
         //userInfoSetting()
         print("*** TAPPLACE API URL: \(Constants.tapplaceApiUrl)")
         print("*** USER UUID: \(Constants.keyChainDeviceID)")
+        print("*** bookmarkViewModel: \(bookmarkViewModel)")
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -132,7 +134,7 @@ extension SplashViewController {
         print("isExistsUser: \(isExistsUser)")
         switch isExistsUser {
         case true:
-            /// 동의 한 약관들을 살펴보자
+            /// 북마크 정보를 다 가져오고서 동의 한 약관들을 살펴보자
             let termsVC = TermsWebViewViewController()
             switch checkUserTermsStatus() {
             case .service:
@@ -152,7 +154,8 @@ extension SplashViewController {
                 showToast(message: "예기치 못한 오류가 발생하였습니다.\n잠시 후, 다시 시도 해주식 바랍니다.", view: self.view)
                 break
             }
-            break
+            
+
         case false:
             UserRegisterModel.setUser.os = "ios"
             UserRegisterModel.setUser.userID = Constants.keyChainDeviceID

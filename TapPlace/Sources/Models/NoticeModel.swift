@@ -7,8 +7,14 @@
 
 import Foundation
 
+// 공지사항 모델
 struct NoticeList: Decodable {
     let totalCount: String?
+    let isEnd: Bool?
+    let notice: NoticeDict?
+}
+
+struct NoticeDict: Decodable {
     let notice: [NoticeModel]
 }
 

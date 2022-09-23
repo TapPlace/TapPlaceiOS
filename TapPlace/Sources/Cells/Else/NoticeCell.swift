@@ -14,7 +14,7 @@ class NoticeCell: UITableViewCell {
     
     let contentLbl: UILabel = {
         let contentLbl = UILabel()
-        contentLbl.font = .systemFont(ofSize: 15)
+        contentLbl.font = .systemFont(ofSize: 16)
         contentLbl.textColor = .init(hex: 0x4D4D4D)
         contentLbl.sizeToFit()
         return contentLbl
@@ -22,7 +22,7 @@ class NoticeCell: UITableViewCell {
     
     let timeLbl: UILabel = {
        let timeLbl = UILabel()
-        timeLbl.font = .systemFont(ofSize: 12)
+        timeLbl.font = .systemFont(ofSize: 13)
         timeLbl.textColor = .init(hex: 0x9E9E9E)
         timeLbl.sizeToFit()
         return timeLbl

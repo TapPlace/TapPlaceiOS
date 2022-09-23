@@ -284,17 +284,15 @@ extension AroundPlaceListView: UITableViewDelegate, UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: AroundStoreTableViewCell.cellId, for: indexPath) as? AroundStoreTableViewCell else { return UITableViewCell() }
         return setupCell(cell: cell, indexPath: indexPath, aroundStore: filteredAroundPlaceList[indexPath.row])
     }
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let cell = tableView.cellForRow(at: indexPath) as? AroundStoreTableViewCell else { return }
-    }
     
     func setupCell(cell: UITableViewCell, indexPath: IndexPath, aroundStore: AroundStores) -> UITableViewCell {
         guard let cell = cell as? AroundStoreTableViewCell else { return UITableViewCell() }
         let storeInfo = StoreInfo.convertAroundStores(aroundStore: aroundStore)
+        print("*** AroundPlaceListView, setupCell\n - placeName: \(storeInfo.placeName)\n - isBookmark: \(storeInfo.isBookmark)")
         
         cell.cellIndex = indexPath.row
         cell.storeInfo = storeInfo
-        cell.isBookmark = storageViewModel.isStoreBookmark(storeInfo.storeID)
+        cell.isBookmark = storeInfo.isBookmark
         cell.contentView.isUserInteractionEnabled = false
         cell.selectionStyle = .none
         cell.separatorInset = .zero

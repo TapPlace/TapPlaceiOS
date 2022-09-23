@@ -11,8 +11,8 @@ struct BookmarkViewModel {
     let bookmarkDataService = BookmarkDataService.shared
     
     //MARK: Define's
-    var numberOfBookmarks: Int = 0
-    var listOfBookmarks: [Bookmark]?
+//    var numberOfBookmarks: Int = 0
+//    var listOfBookmarks: [Bookmark]?
 }
 
 
@@ -42,12 +42,10 @@ extension BookmarkViewModel {
             "store_id": "\(storeID)",
             "key": "\(Constants.tapplaceApiKey)"
         ]
-        bookmarkDataService.requestFetchToggleBookmark(isBookmark: isBookmark, parameter: parameter) { response, error in
-            if let _ = error {
-                completion(false)
-            }
-            if let _ = response {
-                completion(true)
+        print("*** Bookmark VM, requestToggleBookmark\n - parameter: \(parameter)")
+        bookmarkDataService.requestFetchToggleBookmark(isBookmark: isBookmark, parameter: parameter) { response in
+            if let response = response {
+                completion(response)
             }
         }
     }

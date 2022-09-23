@@ -44,7 +44,6 @@ struct StoreDataService {
             .responseDecodable(of: StoreInfo.self) { (response) in
                 switch response.result {
                 case .success(let response):
-                    print("*** storeDataService requestFetchStoreInfo: \(response)")
                     completion(response, nil)
                 case .failure(let error):
                     completion(nil, error)

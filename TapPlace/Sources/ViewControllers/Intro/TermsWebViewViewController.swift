@@ -97,33 +97,18 @@ extension TermsWebViewViewController: CustomNavigationBarProtocol, UIScrollViewD
                 "service_date": LatestTermsModel.latestServiceDate,
                 "key": Constants.tapplaceApiKey
             ]
-            UserDataService().requestFetchUpdateUser(parameter: parameter) { result in
-                if result {
-                    self.delegate?.checkReceiveTerm(term: term, currentTermIndex: self.termIndex)
-                    UserRegisterModel.setUser.serviceDate = LatestTermsModel.latestServiceDate
-                    self.navigationController?.popViewController(animated: true)
-                } else {
-                    showToast(message: "알 수 없는 이유로 정상적으로 처리되지 않았습니다.\n다시 시도 해주시기 바랍니다.", view: self.view)
-                    return
-                }
-            }
             
+            self.delegate?.checkReceiveTerm(term: term, currentTermIndex: self.termIndex)
+            UserRegisterModel.setUser.serviceDate = LatestTermsModel.latestServiceDate
+                    self.navigationController?.popViewController(animated: true)
         case "개인정보 수집 및 이용동의":
             let parameter = [
                 "personal_date": LatestTermsModel.latestPersonalDate,
                 "key": Constants.tapplaceApiKey
             ]
-            UserDataService().requestFetchUpdateUser(parameter: parameter) { result in
-                if result {
-                    self.delegate?.checkReceiveTerm(term: term, currentTermIndex: self.termIndex)
-                    UserRegisterModel.setUser.personalDate = LatestTermsModel.latestPersonalDate
-                    self.navigationController?.popViewController(animated: true)
-                } else {
-                    showToast(message: "알 수 없는 이유로 정상적으로 처리되지 않았습니다.\n다시 시도 해주시기 바랍니다.", view: self.view)
-                    return
-                }
-            }
-            
+            self.delegate?.checkReceiveTerm(term: term, currentTermIndex: self.termIndex)
+            UserRegisterModel.setUser.personalDate = LatestTermsModel.latestPersonalDate
+            self.navigationController?.popViewController(animated: true)
         default: break
         }
         

@@ -18,16 +18,21 @@ class BookmarkViewController: CommonViewController {
 
     var filterAsc: Bool = false
     var isEditMode: Bool = false
+    var isPage: Int = 1
+    var isEnd: Bool = false
+    var isLoading: Bool = false
     
     var checkedCellIndex: [Int] = []
     
-    var dataSource: [UserBookmarkStore] = []
-    var isLoading: Bool = false
+    var bookmarkDataSource: [Bookmark] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavigation()
         setupView()
+        loadBookmarks()
+        tableView.delegate = self
+        tableView.dataSource = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -45,11 +50,37 @@ class BookmarkViewController: CommonViewController {
 
 extension BookmarkViewController: CustomNavigationBarProtocol, FilterTitleProtocol {
     /**
+     * @ 북마크 불러오기
+     * coder : sanghyeon
+     */
+    func loadBookmarks() {
+        if isEnd || isLoading { return }
+        isLoading = true
+        bookmarkViewModel.requestBookmark(page: isPage) { result, error in
+            if let _ = error {
+                showToast(message: "알 수 없는 이유로 즐겨찾는 매장을 불러오지 못했습니다.\n잠시 후, 다시 시도해주시기 바랍니다.", view: self.view)
+            }
+            if let result = result {
+                self.isEnd = result.isEnd
+                if !result.isEnd {
+                    self.isPage += 1
+                }
+                guard let bookmarks = result.bookmarks else { return }
+                bookmarks.forEach {
+                    self.bookmarkDataSource.append($0)
+                }
+                
+                self.filterTitle.filterCount = self.bookmarkDataSource.count
+                self.tableView.reloadData()
+                self.isLoading = false
+            }
+        }
+    }
+    /**
      * @ 초기 레이아웃 설정
      * coder : sanghyeon
      */
     func setupView() {
-        self.dataSource = storageViewModel.bookmarkDataSource
         //MARK: ViewDefine
         let safeArea = view.safeAreaLayoutGuide
         let storeTableView: UITableView = {
@@ -65,7 +96,7 @@ extension BookmarkViewController: CustomNavigationBarProtocol, FilterTitleProtoc
         self.view.backgroundColor = .white
         filterTitle.setFilterName = "등록순"
         filterTitle.filterName = "가맹점"
-        filterTitle.filterCount = self.dataSource.count
+        filterTitle.filterCount = self.bookmarkDataSource.count
         
         
         //MARK: AddSubView
@@ -107,8 +138,7 @@ extension BookmarkViewController: CustomNavigationBarProtocol, FilterTitleProtoc
         }
         tableView.register(AroundStoreTableViewCell.self, forCellReuseIdentifier: AroundStoreTableViewCell.cellId)
         tableView.register(BookMarkEditModeCell.self, forCellReuseIdentifier: BookMarkEditModeCell.cellId)
-        tableView.delegate = self
-        tableView.dataSource = self
+        
     }
     /**
      * @ 네비게이션 속성 세팅
@@ -174,13 +204,11 @@ extension BookmarkViewController: CustomNavigationBarProtocol, FilterTitleProtoc
             allSelectButton.snp.makeConstraints {
                 $0.left.bottom.equalToSuperview()
                 $0.top.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-50)
-                $0.height.equalTo(50)
                 $0.width.equalTo(self.view.frame.width / 2)
             }
             deleteButton.snp.makeConstraints {
                 $0.right.bottom.equalToSuperview()
                 $0.top.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-50)
-                $0.height.equalTo(50)
                 $0.width.equalTo(self.view.frame.width / 2)
             }
             tableView.snp.remakeConstraints {
@@ -202,7 +230,7 @@ extension BookmarkViewController: CustomNavigationBarProtocol, FilterTitleProtoc
         }
     }
     @objc func didTapAllSelectButton() {
-        selectBookmark(allSelect: self.dataSource.count == checkedCellIndex.count ? false : true)
+        selectBookmark(allSelect: self.bookmarkDataSource.count == checkedCellIndex.count ? false : true)
     }
     @objc func didTapDeleteButton() {
 //        print("삭제 버튼 탭")
@@ -215,19 +243,19 @@ extension BookmarkViewController: CustomNavigationBarProtocol, FilterTitleProtoc
 extension BookmarkViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.dataSource.count
+        return self.bookmarkDataSource.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: BookMarkEditModeCell.cellId, for: indexPath) as? BookMarkEditModeCell else { return UITableViewCell() }
-        let cellDataSource = self.dataSource[indexPath.row]
+        let cellDataSource = self.bookmarkDataSource[indexPath.row]
         cell.cellIndex = indexPath.row
         storeViewModel.requestStoreInfo(storeID: cellDataSource.storeID, pays: storageViewModel.userFavoritePaymentsString) { result in
             guard let storeInfo = result else { return }
             cell.storeInfo = storeInfo//AroundStoreModel.convertStoreInfo(storeInfo: storeInfo)
         }
-        if let _ = checkedCellIndex.firstIndex(of: indexPath.row) {
-            cell.cellSelected = true
+        if let cellChecked = bookmarkDataSource[indexPath.row].isChecked {
+            cell.cellSelected = cellChecked
         }
         cell.selectionStyle = .none
         cell.isEditMode = isEditMode
@@ -241,7 +269,7 @@ extension BookmarkViewController: UITableViewDelegate, UITableViewDataSource {
             if isLoading { return }
             isLoading = true
             let vc = StoreDetailViewController()
-            let bookmarkStore = self.dataSource[indexPath.row]
+            let bookmarkStore = self.bookmarkDataSource[indexPath.row]
             var tempStore = bookmarkStore.convertStoreInfo()
             storeViewModel.requestStoreInfoCheck(searchModel: bookmarkStore.convertSearchModel(), pays: storageViewModel.userFavoritePaymentsString) { result in
                 if let result = result {
@@ -263,16 +291,21 @@ extension BookmarkViewController: UITableViewDelegate, UITableViewDataSource {
         if !isEditMode { return }
 
         if let allSelect = allSelect {
+            print("*** BookmarkVC, selectBookmark\n - allSelect: \(allSelect)\n - self.bookmarkDataSource.count: \(self.bookmarkDataSource.count)")
             checkedCellIndex.removeAll()
-            for i in 0...self.dataSource.count - 1 {
+            for i in 0...self.bookmarkDataSource.count - 1 {
                 let cellIndexPath = IndexPath(row: i, section: 0)
-                guard let cell = tableView.cellForRow(at: cellIndexPath) as? BookMarkEditModeCell else { return }
-                cell.cellSelected = allSelect
-                switch allSelect {
-                case true:
-                    checkedCellIndex.append(i)
-                case false:
-                    break
+                print("*** BookmarkVC, selectBookmark\n - i: \(i)\n - cellIndexPath: \(cellIndexPath)")
+                if let cell = tableView.cellForRow(at: cellIndexPath) as? BookMarkEditModeCell {
+                    print("*** BookmarkVC, selectBookmark\n - cell: \(cell)")
+                    cell.cellSelected = allSelect
+                    bookmarkDataSource[i].isChecked = allSelect
+                    switch allSelect {
+                    case true:
+                        checkedCellIndex.append(i)
+                    case false:
+                        break
+                    }
                 }
             }
         } else {
@@ -281,9 +314,11 @@ extension BookmarkViewController: UITableViewDelegate, UITableViewDataSource {
             cell.cellSelected.toggle()
             if cell.cellSelected {
                 checkedCellIndex.append(indexPath.row)
+                bookmarkDataSource[indexPath.row].isChecked = true
             } else {
                 if let index = checkedCellIndex.firstIndex(of: indexPath.row) {
                     checkedCellIndex.remove(at: index)
+                    bookmarkDataSource[indexPath.row].isChecked = false
                 }
             }
         }
@@ -302,7 +337,7 @@ extension BookmarkViewController: UITableViewDelegate, UITableViewDataSource {
         deleteButton.setButtonStyle(title: "삭제\(deleteCount)", type: checkedCellIndex.count > 0 ? .activate : .disabled, fill: true)
         deleteButton.isActive = checkedCellIndex.count > 0
         
-        allSelectButton.setButtonStyle(title: checkedCellIndex.count == self.dataSource.count ? "선택해제" : "전체선택", type: .activate, fill: true)
+        allSelectButton.setButtonStyle(title: checkedCellIndex.count == self.bookmarkDataSource.count ? "선택해제" : "전체선택", type: .activate, fill: true)
     }
     
     /**
@@ -312,17 +347,34 @@ extension BookmarkViewController: UITableViewDelegate, UITableViewDataSource {
     func deleteBookmark(index: [Int]?) {
 //        print("isEditMode: \(isEditMode)")
         guard let index = index else { return }
-        index.forEach {
-            let targetBookmark = self.dataSource[$0]
-            storageViewModel.deleteBookmark(targetBookmark)
+        index.forEach { targetIndex in
+            let targetBookmark = self.bookmarkDataSource[targetIndex]
+            bookmarkViewModel.requestToggleBookmark(isBookmark: false, storeID: bookmarkDataSource[targetIndex].storeID) { result in
+                if let result = result {
+                    if result {
+                        self.bookmarkDataSource.remove(at: targetIndex)
+                        //self.dataSource = storageViewModel.bookmarkDataSource
+                        self.checkedCellIndex.removeAll()
+                        if self.bookmarkDataSource.count <= 0 {
+                            self.didTapFilterEditButton()
+                        }
+                        self.selectBookmark(allSelect: false)
+                        self.filterTitle.filterCount = self.bookmarkDataSource.count
+                        self.tableView.reloadData()
+                    }
+                }
+            }
         }
-        self.dataSource = storageViewModel.bookmarkDataSource
-        checkedCellIndex.removeAll()
-        if self.dataSource.count <= 0 {
-            didTapFilterEditButton()
+    }
+}
+
+//MARK: - Scroll
+extension BookmarkViewController {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if scrollView != tableView { return }
+        if tableView.contentOffset.y > tableView.contentSize.height-tableView.bounds.size.height {
+            if isLoading || isEnd { return }
+            loadBookmarks()
         }
-        selectBookmark(allSelect: false)
-        filterTitle.filterCount = self.dataSource.count
-        tableView.reloadData()
     }
 }

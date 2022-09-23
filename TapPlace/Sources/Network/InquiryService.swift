@@ -15,15 +15,11 @@ class InquiryService {
     func postInquiry(parameter: Parameters, completion: @escaping (Bool?, Error?) -> ()) {
         let url = "\(inquiryURL)"
         AF.request(url, method: .post, parameters: parameter, encoding: URLEncoding.default, headers: nil)
-            .responseString { (response) in
-//                print(response.result)
+            .validate(statusCode: 200..<300)
+            .response { (response) in
                 switch response.result {
                 case .success(let response):
-                    if response == "true" {
-                        completion(true, nil)
-                    } else {
-                        completion(false, nil)
-                    }
+                    completion(true, nil)
                 case .failure(let error):
                     completion(nil, error)
                 }

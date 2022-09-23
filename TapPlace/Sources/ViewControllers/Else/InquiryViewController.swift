@@ -15,6 +15,7 @@ class InquiryViewController: CommonViewController {
     var type: MoreMenuModel.MoreMenuType = .qna
     
     let customNavigationBar = CustomNavigationBar()
+    let contentPlaceholder: String = "문의하실 내용을 남겨주세요."
     
     let titleLbl: UILabel = {
         let titleLbl = UILabel()
@@ -51,7 +52,6 @@ class InquiryViewController: CommonViewController {
         contentTextView.font = .systemFont(ofSize: 15)
         contentTextView.layer.borderWidth = 1
         contentTextView.layer.borderColor = UIColor.init(hex: 0xDBDEE8).cgColor
-        contentTextView.text =  "문의하실 내용을 남겨주세요."
         contentTextView.textColor = .systemGray3
         
         // 텍스트 간격
@@ -109,7 +109,6 @@ class InquiryViewController: CommonViewController {
         contentTextView.delegate = self
         emailField.delegate = self
         button.delegate = self
-        
         button.isActive = true
         
         configureTableView()
@@ -123,10 +122,6 @@ class InquiryViewController: CommonViewController {
 }
 
 extension InquiryViewController {
-    private func setupView() {
-        self.view.backgroundColor = .white
-    }
-    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
     }
@@ -141,6 +136,11 @@ extension InquiryViewController {
         super.viewWillAppear(animated)
         // 탭바
         tabBar?.hideTabBar(hide: true)
+    }
+    
+    private func setupView() {
+        self.view.backgroundColor = .white
+        self.contentTextView.text = contentPlaceholder
     }
     
     
@@ -312,13 +312,12 @@ extension InquiryViewController: UITableViewDataSource, UITableViewDelegate, Ter
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let cell = tableView.cellForRow(at: indexPath) as? TermsTableViewCell else { return }
         
-        if term.checked == true {
+        if term.checked {
             term.checked = false
             cell.setCheck(check: term.checked)
         } else {
             term.checked = true
             pushTermVC(term)
-            cell.setCheck(check: term.checked)
         }
     }
     
@@ -334,14 +333,32 @@ extension InquiryViewController: UITableViewDataSource, UITableViewDelegate, Ter
 extension InquiryViewController: BottomButtonProtocol {
     func didTapBottomButton() {
         if !button.isActive { return }
-        button.isActive = false
-        button.setButtonStyle(title: "문의하기", type: .disabled, fill: true)
         
         var answerCheck = 0
         
         if term.checked  == true {
             answerCheck = 1
         }
+        
+        if titleField.text?.count == 0 {
+            showToast(message: "문의 제목을 작성해주세요.", view: self.view)
+            return
+        }
+        
+        if contentTextView.text == contentPlaceholder {
+            showToast(message: "문의하실 내용을 작성해주세요.", view: self.view)
+            return
+        }
+        
+        let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
+        let emailTest = NSPredicate(format: "SELF MATCHES %@", emailRegEx)
+        if !emailTest.evaluate(with: emailField.text) {
+            showToast(message: "올바른 형식의 이메일을 입력해주세요.", view: self.view)
+            return
+        }
+        
+        button.isActive = false
+        button.setButtonStyle(title: "문의하기", type: .disabled, fill: true)
         
         if let titleText = titleField.text, let contentText = contentTextView.text, let emailText = emailField.text {
             if titleText.count != 0 && contentText.count != 0 && emailText.count != 0 {
@@ -364,7 +381,7 @@ extension InquiryViewController: BottomButtonProtocol {
                 
                 InquiryService().postInquiry(parameter: parameter) { response,error in
                     if let error = error {
-                        showToast(message: "서버에 오류가 있습니다.\n잠시후 다시 시도해주시기 바랍니다.", view: self.view)
+                        showToast(message: "알 수 없는 오류가 발생했습니다.\n입력 값을 확인 후 다시 시도해주시기 바랍니다.", view: self.view)
                         self.button.setButtonStyle(title: "문의하기", type: .activate, fill: true)
                         return
                     }
@@ -374,16 +391,14 @@ extension InquiryViewController: BottomButtonProtocol {
                             self.navigationController?.popViewController(animated: true)
                             self.button.setButtonStyle(title: "문의하기", type: .activate, fill: true)
                             self.titleField.text = ""
-                            self.contentTextView.text = ""
+                            self.contentTextView.text =  "문의하실 내용을 남겨주세요."
+                            self.contentTextView.textColor = .systemGray3
                             self.emailField.text = ""
                             
                             guard let cell = self.tableView.cellForRow(at: IndexPath.init(row: 0, section: 0)) as? TermsTableViewCell else { return }
                             cell.setCheck(check: false)
                             answerCheck = 0
                         }
-                    } else {
-                        showToast(message: "알 수 없는 오류가 발생했습니다.\n입력 값을 확인 후 다시 시도해주시기 바랍니다.", view: self.view)
-                        self.button.setButtonStyle(title: "문의하기", type: .activate, fill: true)
                     }
                 }
             }else {

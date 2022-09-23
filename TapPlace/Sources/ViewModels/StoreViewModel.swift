@@ -21,7 +21,8 @@ class StoreViewModel {
             "x1": "\(location.longitude)",
             "y1": "\(location.latitude)",
             "pays": pays,
-            "distance": 1.0
+            "distance": 1.0,
+            "user_id": "\(Constants.keyChainDeviceID)"
         ]
         storeDataService.requestFetchAroundStore(parameter: parameter) { result, error in
             completion(result)
@@ -31,9 +32,10 @@ class StoreViewModel {
      * @ 스토어 아이디로 가맹점 정보 요청
      * coder : sanghyeon
      */
-    func requestStoreInfo(storeID: String, pays: [String], completion: @escaping (StoreInfo?) -> ()) {
+    func requestStoreInfo(storeID: String, pays: [String], completion: @escaping (StoreInfo?) -> ()) { 
         let parameter: Parameters = [
             "store_id": storeID,
+            "user_id": Constants.keyChainDeviceID,
             "pays": pays
         ]
         storeDataService.requestFetchStoreInfo(parameter: parameter) { result, error in
@@ -54,7 +56,8 @@ class StoreViewModel {
             "y": searchModel.y,
             "road_address_name": searchModel.roadAddressName,
             "x": searchModel.x,
-            "pays": pays
+            "pays": pays,
+            "user_id": Constants.keyChainDeviceID
         ]
 
         storeDataService.requestFetchStoreInfoCheck(parameter: parameter) { result, error in

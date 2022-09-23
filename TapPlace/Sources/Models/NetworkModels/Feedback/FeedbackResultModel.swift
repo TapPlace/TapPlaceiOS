@@ -10,9 +10,11 @@ import Foundation
 // MARK: - FeedbackResultModel
 struct FeedbackResultModel: Codable {
     let feedbackResult: [FeedbackResult]
+    let remainCount: Int
 
     enum CodingKeys: String, CodingKey {
         case feedbackResult = "feedback_result"
+        case remainCount = "remain_count"
     }
 }
 

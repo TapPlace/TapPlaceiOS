@@ -8,7 +8,6 @@
 import UIKit
 
 class FeedbackRequestViewController: CommonViewController {
-    var feedbackViewModel = FeedbackViewModel()
     let customNavigationBar = CustomNavigationBar()
     var tableView = UITableView()
     let bottomButton = BottomButton()
@@ -71,8 +70,10 @@ extension FeedbackRequestViewController: CustomNavigationBarProtocol, BottomButt
                         self.storageViewModel.addFeedbackHistory(store: tempFeedbackStore, feedback: tempFeedback)
                     }
                 }
+                print("*** result.remainCount: \(result.remainCount)")
                 let vc = FeedbackDoneViewController()
                 vc.feedbackResult = result.feedbackResult
+                vc.remainCount = result.remainCount
                 vc.storeID = storeID
                 self.navigationController?.pushViewController(vc, animated: true)
             } else {
@@ -152,7 +153,7 @@ extension FeedbackRequestViewController: CustomNavigationBarProtocol, BottomButt
         customNavigationBar.delegate = self
     }
 }
-//MARK: - Feedback {
+//MARK: - Feedback 
 extension FeedbackRequestViewController {
     /**
      * @ 서버로부터 유저 결제수단의 피드백 목록 가져오기
@@ -200,7 +201,7 @@ extension FeedbackRequestViewController {
 //MARK: - TableView
 extension FeedbackRequestViewController: UITableViewDelegate, UITableViewDataSource, FeedbackRequestCellProtocol {
     func didTapFeedbackButton(indexPath: IndexPath, payment: String, exist: Bool, type: FeedbackButton.FeedbackButtonStyle) {
-//        print("버튼을 선택한...", indexPath, type, payment)
+//        print("버튼을 선택한...",  indexPath, type, payment)
         guard let cell = tableView.cellForRow(at: indexPath) as? FeedbackRequestTableViewCell else { return }
         cell.setButtonStyle = type == .success ? .success : .fail
         let feedbackModel = LoadFeedbackList(exist: exist, pay: payment)

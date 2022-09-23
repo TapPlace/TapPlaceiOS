@@ -12,6 +12,7 @@ class CommonViewController: UIViewController {
     var storeViewModel = StoreViewModel()
     var storageViewModel = StorageViewModel()
     var bookmarkViewModel = BookmarkViewModel()
+    var feedbackViewModel = FeedbackViewModel()
     let authorization = Authorization.shared
     
     override func viewDidLoad() {

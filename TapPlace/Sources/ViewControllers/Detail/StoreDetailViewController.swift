@@ -80,13 +80,14 @@ extension StoreDetailViewController: CustomNavigationBarProtocol, CustomToolBarS
     func updateFeedback() {
         //if self.isFirstLoaded { return }
         guard let storeInfo = storeInfo else { return }
-        storeViewModel.requestStoreInfoCheck(searchModel: SearchModel.convertSearchModel(storeInfo: storeInfo), pays: storageViewModel.userFavoritePaymentsString) { result in
-            print("*** result: \(result)\n*** result.count: \(result?.count)")
-            self.feedbackList = result
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
-            }
-        }
+        // FIXME: MVVM 수정
+//        storeViewModel.requestStoreInfoCheck(searchModel: SearchModel.convertSearchModel(storeInfo: storeInfo), pays: storageViewModel.userFavoritePaymentsString) { result in
+//            print("*** result: \(result)\n*** result.count: \(result?.count)")
+//            self.feedbackList = result
+//            DispatchQueue.main.async {
+//                self.tableView.reloadData()
+//            }
+//        }
     }
     
     /**
@@ -579,16 +580,18 @@ extension StoreDetailViewController: UITableViewDelegate, UITableViewDataSource 
     }
     
     @objc func didTapFeedbackButton() {
-        if !storageViewModel.isAllowFeedback {
-            showToast(message: "금일 \(storageViewModel.numberOfAllowFeedback)번의 피드백을 모두 하셨습니다.\n내일 다시 시도해주시기 바랍니다.", view: self.view)
-            return
-        }
-        feedbackVC = FeedbackRequestViewController()
-        if let feedbackVC = feedbackVC as? FeedbackRequestViewController {
-            feedbackVC.storeInfo = storeInfo
-            self.navigationController?.pushViewController(feedbackVC, animated: true)
-        } else {
-            showToast(message: "알 수 없는 문제로 피드백 요청을 불러올 수 없습니다.\n잠시 후 다시 시도해주시기 바랍니다.", view: self.view)
+        feedbackViewModel.requestRemainFeedbackCount() { result in
+            if result == 0 {
+                showToast(message: "금일 모든 피드백을 완료 하셨습니다.\n내일 다시 시도해주시기 바랍니다.", view: self.view)
+            } else {
+                self.feedbackVC = FeedbackRequestViewController()
+                if let feedbackVC = self.feedbackVC as? FeedbackRequestViewController {
+                    feedbackVC.storeInfo = self.storeInfo
+                    self.navigationController?.pushViewController(feedbackVC, animated: true)
+                } else {
+                    showToast(message: "알 수 없는 문제로 피드백 요청을 불러올 수 없습니다.\n잠시 후 다시 시도해주시기 바랍니다.", view: self.view)
+                }
+            }
         }
     }
     

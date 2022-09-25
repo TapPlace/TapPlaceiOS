@@ -91,19 +91,27 @@ extension TermsWebViewViewController: CustomNavigationBarProtocol, UIScrollViewD
         term?.checked = true
         /// 옵셔널 바인딩
         guard let term = term else { return }
-        delegate?.checkReceiveTerm(term: term, currentTermIndex: termIndex)
         switch term.title {
         case "서비스 이용약관":
-            guard let user = storageViewModel.getUserInfo(uuid: Constants.keyChainDeviceID) else { return }
-            let setUser = UserModel(uuid: user.uuid, isFirstLaunch: user.isFirstLaunch, agreeTerm: LatestTermsModel.latestServiceDate, agreePrivacy: user.agreePrivacy, agreeMarketing: user.agreeMarketing, birth: user.birth, sex: user.sex)
-            storageViewModel.updateUser(setUser)
+            let parameter = [
+                "service_date": LatestTermsModel.latestServiceDate,
+                "key": Constants.tapplaceApiKey
+            ]
+            
+            self.delegate?.checkReceiveTerm(term: term, currentTermIndex: self.termIndex)
+            UserRegisterModel.setUser.serviceDate = LatestTermsModel.latestServiceDate
+                    self.navigationController?.popViewController(animated: true)
         case "개인정보 수집 및 이용동의":
-            guard let user = storageViewModel.getUserInfo(uuid: Constants.keyChainDeviceID) else { return }
-            let setUser = UserModel(uuid: user.uuid, isFirstLaunch: user.isFirstLaunch, agreeTerm: user.agreeTerm, agreePrivacy: LatestTermsModel.latestPersonalDate, agreeMarketing: user.agreeMarketing, birth: user.birth, sex: user.sex)
-            storageViewModel.updateUser(setUser)
+            let parameter = [
+                "personal_date": LatestTermsModel.latestPersonalDate,
+                "key": Constants.tapplaceApiKey
+            ]
+            self.delegate?.checkReceiveTerm(term: term, currentTermIndex: self.termIndex)
+            UserRegisterModel.setUser.personalDate = LatestTermsModel.latestPersonalDate
+            self.navigationController?.popViewController(animated: true)
         default: break
         }
-        self.navigationController?.popViewController(animated: true)
+        
     }
     
     func didTapLeftButton() {

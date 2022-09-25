@@ -24,3 +24,11 @@ struct LoadFeedbackList: Codable {
     let exist: Bool
     let pay: String
 }
+
+struct FeedbackReamainModel: Codable {
+    let remainCount: Int
+    
+    enum CodingKeys: String, CodingKey {
+        case remainCount = "remain_count"
+    }
+}

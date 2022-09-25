@@ -9,7 +9,7 @@ import Foundation
 import RealmSwift
 
 struct DB {
-    let realm = try! Realm(configuration: Realm.Configuration(schemaVersion: 6))
+    let realm = try! Realm(configuration: Realm.Configuration(schemaVersion: 7))
     let location: URL = Realm.Configuration.defaultConfiguration.fileURL!
     var userObject: Results<UserModel>?
     var userFeedbackObject: Results<UserFeedbackModel>?

@@ -13,6 +13,7 @@ struct FeedbackDataService {
     private let loadFeedbackUrl = "\(Constants.tapplaceApiUrl)/pay/list/check"
     private let loadMoreFeedbackUrl = "\(Constants.tapplaceApiUrl)/pay/list/more"
     private let updateFeedbackUrl = "\(Constants.tapplaceApiUrl)/pay/feedback"
+    private let feedbackCountUrl = "\(Constants.tapplaceApiUrl)/feedback-count"
     
     /**
      * @ 유저의 결제수단 피드백 목록 가져오기
@@ -65,5 +66,25 @@ struct FeedbackDataService {
                     completion(nil, error)
                 }
             }
+    }
+    
+    /**
+     * @ 남은 피드백 확인
+     * coder : sanghyeon
+     */
+    func requestFetchReaminFeedback(completion: @escaping (Int) -> ()) {
+        let url = "\(feedbackCountUrl)/\(Constants.keyChainDeviceID)"
+        AF.request(url, method: .get, encoding: URLEncoding.default)
+            .validate()
+            .responseDecodable(of: FeedbackReamainModel.self) { (response) in
+                switch response.result {
+                case .success(let response):
+                    completion(response.remainCount)
+                case .failure(let error):
+                    completion(0)
+                }
+            }
+        
+        
     }
 }

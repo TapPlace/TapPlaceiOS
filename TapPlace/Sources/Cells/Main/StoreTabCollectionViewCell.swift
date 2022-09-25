@@ -105,4 +105,10 @@ class StoreTabCollectionViewCell: UICollectionViewCell {
         return cell.itemFrame.systemLayoutSizeFitting(targetSize, withHorizontalFittingPriority: .fittingSizeLevel, verticalFittingPriority: .required)
     }
     
+    override func prepareForReuse() {
+        itemFrame.backgroundColor = .white
+        itemIcon.tintColor = iconColor
+        itemText.textColor = .black.withAlphaComponent(0.7)
+    }
+    
 }

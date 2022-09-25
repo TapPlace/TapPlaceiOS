@@ -5,7 +5,6 @@
 //  Created by 이상준 on 2022/08/14.
 //
 
-import Foundation
 import SnapKit
 import UIKit
 import Alamofire
@@ -426,9 +425,13 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
         isLoading = true
         switch self.searchMode {
         case true: // 검색중일때
-//            let searchVM = searchResult[indexPath.row]//self.searchListVM.searchAtIndex(indexPath.row)
-//            guard let searchModelEach = searchVM.searchModelEach else { return }
             let searchModelEach = searchResult[indexPath.row]
+            if StoreModel.lists.first(where: {$0.id == searchModelEach.categoryGroupCode }) == nil {
+                showToast(message: "지원하지 않는 가맹점입니다.", view: self.view)
+                isLoading = false
+                return
+            }
+            // FIXME: MVVM 수정
             storeViewModel.requestStoreInfoCheck(searchModel: searchModelEach, pays: storageViewModel.userFavoritePaymentsString) { result in
                 if let result = result {
                     let storeInfo = SearchModel.convertStoreInfo(searchModel: searchModelEach)
@@ -473,6 +476,13 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
             storeDetailVC.storeID = storeID
             
             guard let searchModelEach = searchModelEach else { return }
+            // FIXME: MVVM 수정
+            if StoreModel.lists.first(where: {$0.title == searchModelEach.categoryGroupName }) == nil {
+                print(searchModelEach)
+                showToast(message: "지원하지 않는 가맹점입니다.", view: self.view)
+                isLoading = false
+                return
+            }
             storeViewModel.requestStoreInfoCheck(searchModel: searchModelEach, pays: storageViewModel.userFavoritePaymentsString) { result in
                 if let result = result {
                     var storeInfo = SearchModel.convertStoreInfo(searchModel: searchModelEach)

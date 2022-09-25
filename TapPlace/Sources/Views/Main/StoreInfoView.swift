@@ -18,7 +18,6 @@ class StoreInfoView: UIView {
     
     var storeInfo: StoreInfo? = nil {
         willSet {
-
             brandStackView.removeAllArrangedSubviews()
             guard let store = newValue else { return }
             storeLabel.text = newValue?.placeName

@@ -15,13 +15,14 @@ class FeedbackDetailViewController: UIViewController {
         willSet {
             guard let store = newValue else { return }
             customNavigationBar.titleText = store.storeName
-            storeViewModel.requestStoreInfo(storeID: store.storeID, pays: storageViewModel.userFavoritePaymentsString) { result in
-                if let result = result {
-                    self.storeInfo = result
-                    self.locationBtn.isEnabled = true
-                }
-                
-            }
+            // FIXME: MVVM 수정
+//            storeViewModel.requestStoreInfo(storeID: store.storeID, pays: storageViewModel.userFavoritePaymentsString) { result in
+//                if let result = result {
+//                    self.storeInfo = result
+//                    self.locationBtn.isEnabled = true
+//                }
+//                
+//            }
         }
     }
     

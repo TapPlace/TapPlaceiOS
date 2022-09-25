@@ -3,7 +3,7 @@
 //  TapPlace
 //
 //  Created by 이상준 on 2022/08/24.
-//
+// 
 
 import Foundation
 import UIKit
@@ -298,6 +298,9 @@ extension PrivacyViewController: BottomButtonProtocol {
             let setUser = UserModel(uuid: user.uuid, isFirstLaunch: user.isFirstLaunch, agreeTerm: user.agreeTerm, agreePrivacy: user.agreePrivacy, agreeMarketing: user.agreeMarketing, birth: textFieldText, sex: userSex)
             storageViewModel.updateUser(setUser)
         }
+        
+        UserRegisterModel.setUser.birth = userSex.toDate()?.getDate(4) ?? "2022-01-01"
+        UserRegisterModel.setUser.sex = userSex
         
         let vc = PickPaymentsViewController()
         vc.modalTransitionStyle = .crossDissolve

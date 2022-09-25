@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Combine
 import AlignedCollectionViewFlowLayout
 import NMapsMap
 import CoreLocation
@@ -14,6 +15,7 @@ import FloatingPanel
 
 class MainViewController: CommonViewController {
     
+    var disposalbleBag = Set<AnyCancellable>()
     var aroundStoreList: [AroundStores]?
     
     /// 메인모드인가?
@@ -51,6 +53,7 @@ class MainViewController: CommonViewController {
     //MARK: ViewLifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        setBindings()
         setupView()
         setupNaverMap()
         setupFloatingPanel()
@@ -86,34 +89,60 @@ class MainViewController: CommonViewController {
      */
     override func setupNotification() {
         super.setupNotification()
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(applyAroundFilter), name: NSNotification.Name.applyAroundFilter, object: nil)
+
     }
 }
-//MARK: - Notification Center
+//MARK: - ViewModel
+extension MainViewController {
+    fileprivate func setBindings() {
+        self.storeViewModel.$aroundStoreArray.sink { (result: AroundStoreModel?) in
+            self.aroundStoreList = result?.stores
+            self.updateMapAroundStore()
+            AroundStoreModel.list = result?.stores
+        }.store(in: &disposalbleBag)
+        
+        self.storeViewModel.$selectStoreArray.sink { (result: [String]?) in
+            DispatchQueue.main.async {
+                self.aroundStoreList = self.storeViewModel.filteredAroundStore
+                self.storeViewModel.applyFilterAroundPlace()
+                self.updateMapAroundStore()
+                self.collectionView.reloadData()
+            }
+        }.store(in: &disposalbleBag)
+        
+        self.storeViewModel.$selectPaymentArray.sink { (result: [PaymentModel]?) in
+            DispatchQueue.main.async {
+                self.aroundStoreList = self.storeViewModel.filteredAroundStore
+                self.storeViewModel.applyFilterAroundPlace()
+                self.updateMapAroundStore()
+                self.collectionView.reloadData()
+            }
+        }.store(in: &disposalbleBag)
+
+    }
+}
+
 extension MainViewController {
     /**
-     * @ 주변 리스트 필터 적용시 지도 적용
+     * @ 좌표 기준으로 주변 매장 검색 후 마커 표시
      * coder : sanghyeon
      */
-    @objc func applyAroundFilter(_ notification: Notification?) {
-        if isFirstLaunched { return }
-        print("*** Around Place View로부터 노티 수신")
-        let tempFilteredCategotyList = AroundFilterModel.storeList.map { $0.title }
-        print("*** tempFilteredCategotyList: \(tempFilteredCategotyList)")
-        let tempFilteredMarkerList = markerList.filter { marker in
-            tempFilteredCategotyList.contains(marker.store.categoryGroupName == "" ? "기타" : marker.store.categoryGroupName)
-        }
-        print("*** tempFilteredMarkerList: \(tempFilteredMarkerList)")
+    func searchAroundStore(location: CLLocationCoordinate2D?) {
+        guard let location = location else { return }
+        storeViewModel.requestAroundStore(location: location, pays: storageViewModel.userFavoritePaymentsString)
+    }
+    /**
+     * @ 지도 가맹점 업데이트
+     * coder : sanghyeon
+     */
+    func updateMapAroundStore() {
+        /// 모든 마커 삭제
         hideAllMarkers()
-        tempFilteredMarkerList.forEach {
-            let tempMarker = $0.marker
-            tempMarker.mapView = naverMapView
-        }
-        
-        
-        if AroundFilterModel.storeList.isEmpty && AroundFilterModel.paymentList.isEmpty {
-            showAllMarkers()
+        self.markerList.removeAll()
+        if let aroundStoreList = aroundStoreList {
+            addMarker(markers: aroundStoreList)
+        } else {
+            hideAllMarkers()
         }
     }
 }
@@ -181,6 +210,8 @@ extension MainViewController: MapButtonProtocol, ResearchButtonProtocol, CustomN
     }
     func didTapResearchButton() {
         guard let camLocation = cameraLocation else { return }
+        storeViewModel.selectStoreArray.removeAll()
+        storeViewModel.selectPaymentArray.removeAll()
         showInMapViewTracking(location: camLocation)
         showResearchElement(hide: true)
         let clLocation = CLLocationCoordinate2D(latitude: camLocation.lat, longitude: camLocation.lng)
@@ -395,7 +426,6 @@ extension MainViewController: CLLocationManagerDelegate, NMFMapViewCameraDelegat
         UserInfo.userLocation = result
         UserInfo.cameraLocation = result
         if isMainMode { // 메인모드에서만 실행
-            print("*** back MainVC")
             searchAroundStore(location: result)
         }
     }
@@ -542,13 +572,19 @@ extension MainViewController: CLLocationManagerDelegate, NMFMapViewCameraDelegat
         /// AroundStores -> StoreInfo 변환
         var targetStoreInfo = StoreInfo.convertAroundStores(aroundStore: targetStore)
         storeViewModel.requestStoreInfoCheck(searchModel: AroundStoreModel.convertSearchModel(storeInfo: targetStoreInfo), pays: storageViewModel.userFavoritePaymentsString) { result in
-            targetStoreInfo.feedback = result
-            self.showDetailOverView(hide: false, storeInfo: targetStoreInfo)
+            if let result = result {
+                targetStoreInfo.feedback = result
+                self.showDetailOverView(hide: false, storeInfo: targetStoreInfo)
+            } else {
+                showToast(message: "알 수 없는 이유로 가맹점 정보를 불러오지 못했습니다.\n잠시 후 다시 시도해주시기 바랍니다.", view: self.view)
+            }
         }
     }
     //MARK: NaverMapView Tap Event
     func mapView(_ mapView: NMFMapView, didTapMap latlng: NMGLatLng, point: CGPoint) {
 //        print("*** Touched Point Location: \(latlng)")
+        print("*** MainVC, for Test, \(Constants().header)")
+        print("*** MainVC, for Test, \(storeViewModel.selectStoreArray)")
     }
     
     func mapView(_ mapView: NMFMapView, didTap symbol: NMFSymbol) -> Bool {
@@ -785,38 +821,6 @@ extension MainViewController: CustomToolBarShareProtocol, StoreInfoViewDelegate 
         }
     }
 }
-//MARK: - 뷰모델 함수
-extension MainViewController {
-    /**
-     * @ 좌표 기준으로 주변 매장 검색 후 마커 표시
-     * coder : sanghyeon
-     */
-    func searchAroundStore(location: CLLocationCoordinate2D?) {
-        guard let location = location else { return }
-        storeViewModel.requestAroundStore(location: location, pays: storageViewModel.userFavoritePaymentsString) { result in
-            guard let result = result else { return }
-            AroundStoreModel.list = result.stores
-            self.addMarker(markers: result.stores)
-            if let latestSelectStore = self.latestSelectStore {
-                /// 검색창 하단 탭 필터가 선택 되어있는 경우
-                /// 주변 매장 필터를 해제함
-                AroundFilterModel.storeList.removeAll()
-                AroundFilterModel.paymentList.removeAll()
-                print("*** latestSelectStore: \(latestSelectStore)")
-                let selectedCategory = latestSelectStore.itemText.text
-                for marker in self.markerList {
-                    if marker.store.categoryGroupName != selectedCategory {
-                        self.hideMarker(marker: marker.marker)
-                    }
-                }
-            } else {
-                /// 주변 매장 리스트 필터가 적용 되어 있는 경우
-                self.applyAroundFilter(nil)
-            }
-        }
-    }
-}
-
 
 //MARK: - CollectionView
 extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
@@ -830,7 +834,12 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
         if let icon = UIImage(named: StoreModel.lists[indexPath.row].id) {
             cell.icon = icon
             cell.iconColor = StoreModel.lists[indexPath.row].color
-        } 
+        }
+        /// 선택된 항목인가?
+        if let fi = storeViewModel.selectStoreArray.firstIndex(where: {$0 == StoreModel.lists[indexPath.row].title}) {
+            print("*** MainVC, cellForItemAt, fi: \(fi)")
+            cell.cellSelected = true
+        }
         cell.itemText.text = StoreModel.lists[indexPath.row].title
         cell.storeId = StoreModel.lists[indexPath.row].id
         return cell
@@ -838,23 +847,15 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
     /// 컬렉션뷰 선택시 필터 적용
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let cell = collectionView.cellForItem(at: indexPath) as? StoreTabCollectionViewCell else { return }
-        latestSelectStore?.cellSelected = false
-        /// 이미 선택 된 셀을 클릭했을때
-        if cell == latestSelectStore {
-            latestSelectStore = nil
-            hideMarker(marker: nil)
-            return
-        } else {
-            cell.cellSelected = true
-            latestSelectStore = cell
-            hideMarker(marker: nil)
-            let storeCategory = cell.itemText.text == "기타" ? "" : cell.itemText.text
-            for marker in markerList {
-                if marker.store.categoryGroupName != storeCategory {
-                    hideMarker(marker: marker.marker)
-                }
+        if let category = cell.itemText.text {
+            print("*** MainVC, didSelectItemAt, category: \(category)")
+            if let index = self.storeViewModel.selectStoreArray.firstIndex(where: {$0 == category}) {
+                self.storeViewModel.selectStoreArray.remove(at: index)
+            } else {
+                self.storeViewModel.selectStoreArray.append(category)
             }
         }
+        cell.cellSelected = cell.cellSelected ? false : true
     }
     /// 컬렉션뷰 셀 라벨 사이즈 대비 사이즈 변경
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -911,6 +912,7 @@ extension MainViewController: FloatingPanelControllerDelegate, AroundPlaceMainCo
         if fpc.state == type { return }
         if fpc.state == .hidden {
             let contentVC = AroundPlaceViewController()
+            contentVC.storeViewModel = self.storeViewModel
             fpc.addPanel(toParent: self)
             fpc.track(scrollView: contentVC.aroundPlaceListView.tableView)
             fpc.set(contentViewController: contentVC)

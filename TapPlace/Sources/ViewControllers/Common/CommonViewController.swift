@@ -11,6 +11,9 @@ class CommonViewController: UIViewController {
     var tabBar: TabBarViewController?
     var storeViewModel = StoreViewModel()
     var storageViewModel = StorageViewModel()
+    var bookmarkViewModel = BookmarkViewModel()
+    var feedbackViewModel = FeedbackViewModel()
+    var userViewModel = UserViewModel()
     let authorization = Authorization.shared
     
     override func viewDidLoad() {
@@ -28,14 +31,15 @@ class CommonViewController: UIViewController {
 //        print("노티 수신")
         guard let storeID = notification.object as? String else { return }
 //        print("노티로 받은 storeID: \(storeID)")
-        storeViewModel.requestStoreInfo(storeID: storeID, pays: storageViewModel.userFavoritePaymentsString) { result in
-            guard let storeInfo = result as? StoreInfo else { return }
-            var objectToShare = [String]()
-            let shareText = "\(storeInfo.placeName)의 간편결제 정보입니다.\n\n\(Constants.tapplaceBaseUrl)/app/\(storeInfo.storeID)"
-            objectToShare.append(shareText)
-            
-            let activityVC = UIActivityViewController(activityItems: objectToShare, applicationActivities: nil)
-            self.present(activityVC, animated: true)
-        }
+        // FIXME: MVVM 수정
+//        storeViewModel.requestStoreInfo(storeID: storeID, pays: storageViewModel.userFavoritePaymentsString) { result in
+//            guard let storeInfo = result as? StoreInfo else { return }
+//            var objectToShare = [String]()
+//            let shareText = "\(storeInfo.placeName)의 간편결제 정보입니다.\n\n\(Constants.tapplaceBaseUrl)/app/\(storeInfo.storeID)"
+//            objectToShare.append(shareText)
+//            
+//            let activityVC = UIActivityViewController(activityItems: objectToShare, applicationActivities: nil)
+//            self.present(activityVC, animated: true)
+//        }
     }
 }

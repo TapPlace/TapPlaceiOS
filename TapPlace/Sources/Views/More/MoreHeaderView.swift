@@ -6,13 +6,26 @@
 //
 
 import UIKit
+import Combine
+
 protocol MoreHeaderViewProtocol {
     func didTapPaymentsButton()
 }
 
 class MoreHeaderView: UIView {
     var storageViewModel = StorageViewModel()
+    var userViewModel: UserViewModel? = nil {
+        didSet {
+            setBindings()
+        }
+        willSet {
+            setBindings()
+        }
+    }
+    
     var delegate: MoreHeaderViewProtocol?
+    
+    var subscription = Set<AnyCancellable>()
     
     let paymentsFrame: UIView = {
         let paymentsFrame = UIView()
@@ -32,7 +45,7 @@ class MoreHeaderView: UIView {
     let paymentsButton = UIButton()
     let itemBookmark = MoreHeaderViewItem()
     let itemFeedback = MoreHeaderViewItem()
-    let itemStores = MoreHeaderViewItem()
+    let remainFeedback = MoreHeaderViewItem()
     
     var countOfBookmark: Int = 0 {
         willSet {
@@ -43,6 +56,12 @@ class MoreHeaderView: UIView {
     var countOfFeedback: Int = 0 {
         willSet {
             itemFeedback.countOfItem = newValue
+        }
+    }
+    
+    var countOfRemainFeedback: Int = 0 {
+        willSet {
+            remainFeedback.countOfItem = newValue
         }
     }
     
@@ -57,6 +76,14 @@ class MoreHeaderView: UIView {
 
 }
 extension MoreHeaderView {
+    func setBindings() {
+        self.userViewModel?.$userAllCount.sink { (result: UserAllCountModel) in
+            self.countOfBookmark = Int(result.bookmarkCount) ?? 0
+            self.countOfFeedback = Int(result.feedbackCount) ?? 0
+            self.countOfRemainFeedback = result.remainCount
+        }.store(in: &subscription)
+    }
+    
     func setupView() {
         let paymentTitleLabel: UILabel = {
             let paymentTitleLabel = UILabel()
@@ -97,7 +124,7 @@ extension MoreHeaderView {
         itemBookmark.title = "즐겨찾기"
         itemBookmark.countOfItem = storageViewModel.numberOfBookmark
         itemFeedback.title = "피드백"
-        itemStores.title = "등록가게"
+        remainFeedback.title = "남은 피드백"
         
         self.addSubview(paymentsFrame)
         paymentsFrame.addSubview(paymentTitleLabel)
@@ -106,7 +133,7 @@ extension MoreHeaderView {
         paymentsFrame.addSubview(paymentsButton)
         self.addSubview(itemStackView)
         self.addSubview(footerView)
-        itemStackView.addArrangedSubviews([itemBookmark, itemFeedback, itemStores])
+        itemStackView.addArrangedSubviews([itemBookmark, itemFeedback, remainFeedback])
         
         paymentsFrame.snp.makeConstraints {
             $0.top.equalToSuperview()
@@ -142,31 +169,9 @@ extension MoreHeaderView {
         }
 
         paymentsButton.addTarget(self, action: #selector(didTapPaymentsButton), for: .touchUpInside)
-        
-        // 베타 버전 임시 숨김
-        itemStores.isHidden = true
     }
     
     @objc func didTapPaymentsButton() {
         delegate?.didTapPaymentsButton()
     }
 }
-
-
-#if DEBUG
-import SwiftUI
-
-@available(iOS 13.0, *)
-struct MoreHeaderView_Preview: PreviewProvider {
-    static var previews: some View {
-                // 이런식으로 사용합니다‼️
-        UIViewPreview {
-            let view = MoreHeaderView()
-            return view
-
-        }
-        .previewLayout(.sizeThatFits)
-        .padding(10)
-    }
-}
-#endif

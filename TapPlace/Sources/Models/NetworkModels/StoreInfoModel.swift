@@ -11,6 +11,7 @@ struct StoreInfo: Codable {
     let storeID, placeName, addressName, roadAddressName: String
     let categoryGroupName, phone, x, y: String
     var feedback: [Feedback]?
+    var isBookmark: Bool = false
 
     enum CodingKeys: String, CodingKey {
         case num
@@ -33,7 +34,7 @@ struct StoreInfo: Codable {
             let feedback = Feedback(num: nil, storeID: nil, success: nil, fail: nil, lastState: nil, lastTime: nil, pay: pay, exist: true)
             storeFeedback.append(feedback)
         }
-        let resultStoreInfo: StoreInfo = StoreInfo(num: aroundStore.num, storeID: aroundStore.storeID, placeName: aroundStore.placeName, addressName: aroundStore.addressName, roadAddressName: aroundStore.roadAddressName, categoryGroupName: aroundStore.categoryGroupName, phone: aroundStore.phone, x: aroundStore.x, y: aroundStore.y, feedback: storeFeedback)
+        let resultStoreInfo: StoreInfo = StoreInfo(num: aroundStore.num, storeID: aroundStore.storeID, placeName: aroundStore.placeName, addressName: aroundStore.addressName, roadAddressName: aroundStore.roadAddressName, categoryGroupName: aroundStore.categoryGroupName, phone: aroundStore.phone, x: aroundStore.x, y: aroundStore.y, feedback: storeFeedback, isBookmark: aroundStore.isBookmark)
         
         return resultStoreInfo
     }

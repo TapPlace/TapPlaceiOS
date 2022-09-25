@@ -25,7 +25,8 @@ struct FeedbackViewModel {
             "x": storeInfo.x,
             "y": storeInfo.y,
             "pays": userPayments,
-            "road_address_name": storeInfo.roadAddressName
+            "road_address_name": storeInfo.roadAddressName,
+            "user_id": Constants.keyChainDeviceID
         ]
         feedbackDataService.requestFetchUserPaymentFeedback(parameter: parameter) { result, error in
             if let result = result {
@@ -35,7 +36,7 @@ struct FeedbackViewModel {
     }
     /**
      * @ 유저의 결제수단 외 피드백 가져오기
-     * coder : sanghyeon
+     * coder : sanghyeon 
      */
     func requestMorePaymentFeedback(storeID: String ,otherPayments: [String], completion: @escaping (LoadFeedbackModel?) -> ()) {
         let parameter: Parameters = [
@@ -73,12 +74,24 @@ struct FeedbackViewModel {
         let parameter: Parameters = [
             "store_id": storeID,
             "key": Constants.tapplaceApiKey,
-            "user_feedback": requestFeedback
+            "user_feedback": requestFeedback,
+            "user_id": Constants.keyChainDeviceID
         ]
         feedbackDataService.requestFetchUpdatetFeedback(parameter: parameter) { result, error in
+            print("*** feedback viewmodel request feedback result: \(result)")
             if let result = result {
                 completion(result)
             }
+        }
+    }
+    
+    /**
+     * @ 남은 피드백 확인
+     * coder : sanghyeon
+     */
+    func requestRemainFeedbackCount(completion: @escaping (Int) -> ()) {
+        feedbackDataService.requestFetchReaminFeedback() { result in
+            completion(result)
         }
     }
 }

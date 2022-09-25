@@ -25,7 +25,6 @@ class PickPaymentsViewController: CommonPickViewController {
         if !isEditMode {
             self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
         } else {
-//            print("*** selected Payments: \(selectedPayments)")
             bottomButtonUpdate()
         }
     }
@@ -48,15 +47,26 @@ extension PickPaymentsViewController: BottomButtonProtocol, TitleViewProtocol, C
     func didTapBottomButton() {
         if bottomButton.isActive {
 //            print("액션 실행 가능")
-            storageViewModel.setPayments(selectedPayments)
             if isEditMode {
-                self.navigationController?.popViewController(animated: true)
+                let parameter : [String: Any] = [
+                    "user_id": "\(Constants.keyChainDeviceID)",
+                    "pays": selectedPayments
+                ]
+                UserDataService().requestFetchUpdateUser(parameter: parameter, header: Constants().header) { result in
+                    self.storageViewModel.setPayments(self.selectedPayments)
+                    self.navigationController?.popViewController(animated: true)
+                }
             } else {
+                UserRegisterModel.setUser.pays = selectedPayments
+                UserRegisterModel.setUser.key = Constants.tapplaceApiKey
+                
+                
                 let vc = TabBarViewController()
                 vc.modalTransitionStyle = .crossDissolve
                 vc.modalPresentationStyle = .fullScreen
                 
-                userViewModel.sendUserInfo(user: storageViewModel.getUserInfo(uuid: Constants.keyChainDeviceID)!, payments: selectedPayments) { result in
+                userViewModel.sendUserInfo(user: UserRegisterModel.setUser) { result in
+                    self.storageViewModel.setPayments(self.selectedPayments)
                     self.present(vc, animated: true)
                 }
             }
@@ -129,10 +139,6 @@ extension PickPaymentsViewController: UICollectionViewDelegate, UICollectionView
         let sectionTitle = EasyPaymentModel.list[indexPath.section].designation
 
         if !cell.cellSelected {
-            if selectedPayments.count >= 5 {
-                showToast(message: "결제수단은 5개를 초과할 수 없습니다.", view: self.view)
-                return
-            }
             selectedPayments.append(cell.cellVariable)
         } else {
             guard let targetPayments = selectedPayments.firstIndex(where: {$0 == cell.cellVariable}) else { return }

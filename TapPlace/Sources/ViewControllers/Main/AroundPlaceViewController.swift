@@ -6,21 +6,11 @@
 //
 
 import UIKit
+import Combine
 import FloatingPanel
 import CoreLocation
 
-/*
- mainVC > aroundPlaceVC > tavleViewCell > StoreInfoView
- 
- 
- */
-
 class AroundPlaceViewController: UIViewController, AroundPlaceControllerProtocol, AroundDistanceFilterProtocol {
-    func showFilterView() {
-        let vc = AroundFilterViewController()
-        self.present(vc, animated: true)
-    }
-    
     func setDistanceLabel() {
         aroundPlaceListView.distanceLabel.text = DistancelModel.getDistance(distance: DistancelModel.selectedDistance)
     }
@@ -30,14 +20,26 @@ class AroundPlaceViewController: UIViewController, AroundPlaceControllerProtocol
     }
     
 
-    var storeViewModel = StoreViewModel()
+    var storeViewModel: StoreViewModel? = nil {
+        willSet {
+            print("*** AroundPlaceVC, storeViewModel, willSet, newValue = \(newValue)")
+            if let storeVM = newValue {
+                print("*** AroundPlaceVC, storeViewModel, willSet, newValue OptionalBinding = \(storeVM)")
+                aroundPlaceListView.storeViewModel = storeVM
+
+            }
+        }
+    }
+    
+    var disposalbleBag = Set<AnyCancellable>()
     let aroundPlaceListView = AroundPlaceListView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setBindings()
         setupView()
         guard let camLocation = UserInfo.cameraLocation else { return }
-        getGeoAddress(location: camLocation)
+        storeViewModel?.requestGeoAddress(location: camLocation)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -58,6 +60,15 @@ class AroundPlaceViewController: UIViewController, AroundPlaceControllerProtocol
 
 extension AroundPlaceViewController {
     /**
+     * @ 뷰모델 데이터 바인딩
+     * coder : sanghyeon
+     */
+    func setBindings() {
+        self.storeViewModel?.$userLocationGeoAddress.sink { (address: String) in
+            self.aroundPlaceListView.address = address
+        }.store(in: &disposalbleBag)
+    }
+    /**
      * @ 초기 레이아웃 설정
      * coder : sanghyeon
      */
@@ -67,6 +78,9 @@ extension AroundPlaceViewController {
         
         
         //MARK: ViewPropertyManual
+        if let storeViewModel = self.storeViewModel {
+            aroundPlaceListView.storeViewModel = storeViewModel
+        }
         
         
         //MARK: AddSubView
@@ -84,22 +98,6 @@ extension AroundPlaceViewController {
         //MARK: Delegate
         AroundDistanceFilterViewController.delegate = self
         aroundPlaceListView.delegate = self
-    }
-    /**
-     * @ 좌표주소로 행정주소 가져오기
-     * coder : sanghyeon
-     */
-    func getGeoAddress(location: CLLocationCoordinate2D) {
-        storeViewModel.requestGeoAddress(location: location) { result in
-            var address = ""
-            if let roadAddress = result.documents[0].roadAddress {
-                address = "\(roadAddress.region2DepthName) \(roadAddress.roadName)"
-            } else {
-                let baseAddress = result.documents[0].address
-                address = "\(baseAddress.region2DepthName) \(baseAddress.region3DepthName)"
-            }
-            self.aroundPlaceListView.address = address
-        }
     }
 }
 

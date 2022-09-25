@@ -477,17 +477,23 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
             
             guard let searchModelEach = searchModelEach else { return }
             // FIXME: MVVM 수정
-//            storeViewModel.requestStoreInfoCheck(searchModel: searchModelEach, pays: storageViewModel.userFavoritePaymentsString) { result in
-//                if let result = result {
-//                    var storeInfo = SearchModel.convertStoreInfo(searchModel: searchModelEach)
-//                    storeInfo.feedback = result
-//                    storeDetailVC.storeInfo = storeInfo
-//                    self.navigationController?.pushViewController(storeDetailVC, animated: true)
-//                } else {
-//                    showToast(message: "알 수 없는 오류가 발생했습니다.\n잠시후 다시 시도해주시기 바랍니다.", view: self.view)
-//                }
-//                self.isLoading = false
-//            }
+            if StoreModel.lists.first(where: {$0.title == searchModelEach.categoryGroupName }) == nil {
+                print(searchModelEach)
+                showToast(message: "지원하지 않는 가맹점입니다.", view: self.view)
+                isLoading = false
+                return
+            }
+            storeViewModel.requestStoreInfoCheck(searchModel: searchModelEach, pays: storageViewModel.userFavoritePaymentsString) { result in
+                if let result = result {
+                    var storeInfo = SearchModel.convertStoreInfo(searchModel: searchModelEach)
+                    storeInfo.feedback = result
+                    storeDetailVC.storeInfo = storeInfo
+                    self.navigationController?.pushViewController(storeDetailVC, animated: true)
+                } else {
+                    showToast(message: "알 수 없는 오류가 발생했습니다.\n잠시후 다시 시도해주시기 바랍니다.", view: self.view)
+                }
+                self.isLoading = false
+            }
         }
     }
     

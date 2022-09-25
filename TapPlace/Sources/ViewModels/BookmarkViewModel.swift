@@ -42,7 +42,6 @@ extension BookmarkViewModel {
             "store_id": "\(storeID)",
             "key": "\(Constants.tapplaceApiKey)"
         ]
-        print("*** Bookmark VM, requestToggleBookmark\n - parameter: \(parameter)")
         bookmarkDataService.requestFetchToggleBookmark(isBookmark: isBookmark, parameter: parameter) { response in
             if let response = response {
                 completion(response)

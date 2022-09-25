@@ -20,11 +20,9 @@ struct BookmarkDataService {
      */
     func requestFetchUserBookmark(page: Int = 1, header: HTTPHeaders, completion: @escaping (BookmarkResponseModel?, Error?) -> ()) {
         let url = "\(bookmarkUrl)/\(Constants.keyChainDeviceID)/\(page)"
-        print("*** bookmark api url = \(url)")
         AF.request(url, method: .get, encoding: URLEncoding.default, headers: header)
             .validate()
             .responseDecodable(of: BookmarkResponseModel.self) { (response) in
-                print("*** bookmarkDS, requestFetchUserBookmark\n - response: \(response)")
                 switch response.result{
                 case .success(let response):
                     completion(response, nil)
@@ -51,7 +49,6 @@ struct BookmarkDataService {
         AF.request(url, method: method, parameters: parameter, encoding: JSONEncoding.default)
             .validate()
             .responseDecodable(of: AddBookmarkResponseModel.self) { (response) in
-                print("*** BookmarkDS, requestFetchToggleBookmark\n - bookmarkUrl: \(bookmarkUrl)\n - method: \(method)\n - response: \(response)\n - parameter: \(parameter)")
                 switch response.result {
                 case .success(let result):
                     if result.message == "ok" {

@@ -41,7 +41,6 @@ class SplashViewController: UIViewController {
         //userInfoSetting()
         print("*** TAPPLACE API URL: \(Constants.tapplaceApiUrl)")
         print("*** USER UUID: \(Constants.keyChainDeviceID)")
-        print("*** bookmarkViewModel: \(bookmarkViewModel)")
     }
     
     override func viewDidAppear(_ animated: Bool) {

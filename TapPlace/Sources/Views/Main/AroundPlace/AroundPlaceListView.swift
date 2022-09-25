@@ -67,8 +67,6 @@ class AroundPlaceListView: UIView, AroundPlaceApplyFilterProtocol {
         filteredAroundPlaceList = Array(setCategoryArray.intersection(setPaymentArray))
         filteredAroundPlaceList = filteredAroundPlaceList.sorted(by: {$0.distance < $1.distance})
         
-        
-        print("*** AroundPlaceListView, applyFilter, filteredAroundPlaceList: \(filteredAroundPlaceList)")
         tableView.reloadData()
     }
     
@@ -329,7 +327,6 @@ extension AroundPlaceListView: UITableViewDelegate, UITableViewDataSource {
     func setupCell(cell: UITableViewCell, indexPath: IndexPath, aroundStore: AroundStores) -> UITableViewCell {
         guard let cell = cell as? AroundStoreTableViewCell else { return UITableViewCell() }
         let storeInfo = StoreInfo.convertAroundStores(aroundStore: aroundStore)
-        print("*** AroundPlaceListView, setupCell\n - placeName: \(storeInfo.placeName)\n - isBookmark: \(storeInfo.isBookmark)")
         
         cell.cellIndex = indexPath.row
         cell.storeInfo = storeInfo

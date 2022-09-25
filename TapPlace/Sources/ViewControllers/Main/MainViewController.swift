@@ -89,7 +89,7 @@ class MainViewController: CommonViewController {
      */
     override func setupNotification() {
         super.setupNotification()
-        NotificationCenter.default.addObserver(self, selector: #selector(applyAroundFilter), name: NSNotification.Name.applyAroundFilter, object: nil)
+
     }
 }
 //MARK: - ViewModel
@@ -143,34 +143,6 @@ extension MainViewController {
             addMarker(markers: aroundStoreList)
         } else {
             hideAllMarkers()
-        }
-    }
-}
-
-//MARK: - Notification Center
-extension MainViewController {
-    /**
-     * @ 주변 리스트 필터 적용시 지도 적용
-     * coder : sanghyeon
-     */
-    @objc func applyAroundFilter(_ notification: Notification?) {
-        if isFirstLaunched { return }
-        print("*** Around Place View로부터 노티 수신")
-        let tempFilteredCategotyList = AroundFilterModel.storeList.map { $0.title }
-        print("*** tempFilteredCategotyList: \(tempFilteredCategotyList)")
-        let tempFilteredMarkerList = markerList.filter { marker in
-            tempFilteredCategotyList.contains(marker.store.categoryGroupName == "" ? "기타" : marker.store.categoryGroupName)
-        }
-        print("*** tempFilteredMarkerList: \(tempFilteredMarkerList)")
-        hideAllMarkers()
-        tempFilteredMarkerList.forEach {
-            let tempMarker = $0.marker
-            tempMarker.mapView = naverMapView
-        }
-        
-        
-        if AroundFilterModel.storeList.isEmpty && AroundFilterModel.paymentList.isEmpty {
-            showAllMarkers()
         }
     }
 }
@@ -239,6 +211,8 @@ extension MainViewController: MapButtonProtocol, ResearchButtonProtocol, CustomN
     }
     func didTapResearchButton() {
         guard let camLocation = cameraLocation else { return }
+        storeViewModel.selectStoreArray.removeAll()
+        storeViewModel.selectPaymentArray.removeAll()
         showInMapViewTracking(location: camLocation)
         showResearchElement(hide: true)
         let clLocation = CLLocationCoordinate2D(latitude: camLocation.lat, longitude: camLocation.lng)
@@ -453,7 +427,6 @@ extension MainViewController: CLLocationManagerDelegate, NMFMapViewCameraDelegat
         UserInfo.userLocation = result
         UserInfo.cameraLocation = result
         if isMainMode { // 메인모드에서만 실행
-            print("*** back MainVC")
             searchAroundStore(location: result)
         }
     }

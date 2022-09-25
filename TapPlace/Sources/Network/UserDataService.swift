@@ -29,7 +29,6 @@ struct UserDataService {
         AF.request(url, method: apiMethod, parameters: parameter, encoding: URLEncoding.default, headers: header)
             .validate()
             .responseDecodable(of: LatestTermsModel.self) { (response) in
-                print("*** UserDS, requestFetchLatestTerms\n - header: \(header)\n - response: \(response)")
                 switch response.result {
                 case .success(let response):
                     completion(response, nil)
@@ -67,7 +66,6 @@ struct UserDataService {
         AF.request(url, method: .patch, parameters: parameter, encoding: URLEncoding.default, headers: nil)
             .validate()
             .responseDecodable(of: UserUpdateModel.self) { (response) in
-                print("*** UserDS, requestFetchUpdateUser\n - response: \(response)")
                 switch response.result {
                 case .success(let response):
                     if let message = response.message {

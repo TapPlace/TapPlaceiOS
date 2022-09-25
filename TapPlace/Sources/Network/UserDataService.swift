@@ -1,7 +1,7 @@
 //
 //  UserDataService.swift
 //  TapPlace
-//
+// 
 //  Created by 박상현 on 2022/09/08.
 // 
 
@@ -65,7 +65,7 @@ struct UserDataService {
     func requestFetchUpdateUser(parameter: [String: Any], header: HTTPHeaders?, completion: @escaping (Bool) -> ()) {
         let url = "\(userApiUrl)/\(Constants.keyChainDeviceID)"
         
-        AF.request(url, method: .patch, parameters: parameter, encoding: URLEncoding.default, headers: nil)
+        AF.request(url, method: .patch, parameters: parameter, encoding: URLEncoding.default, headers: header)
             .validate()
             .responseDecodable(of: UserUpdateModel.self) { (response) in
                 switch response.result {

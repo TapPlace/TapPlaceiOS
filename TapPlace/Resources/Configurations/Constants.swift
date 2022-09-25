@@ -8,7 +8,7 @@
 import Foundation
 import Alamofire
 
-class Constants {
+struct Constants {
     static let userDeviceUUID = CommonUtils.getDeviceUUID()
     static let keyChainDeviceID = KeyChain.readUserDeviceUUID() ?? userDeviceUUID
     static let naverClientId = Bundle.main.infoDictionary?["NAVER_CLIENT_ID"] as? String

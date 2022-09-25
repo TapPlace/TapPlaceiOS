@@ -18,6 +18,7 @@ class TermsWebViewViewController: UIViewController {
     var storageViewModel = StorageViewModel()
     var term: TermsModel?
     var termIndex: Int = 0
+    var isExistUser: Bool = false
     
     var isReadOnly: Bool = false {
         willSet {
@@ -94,13 +95,16 @@ extension TermsWebViewViewController: CustomNavigationBarProtocol, UIScrollViewD
         switch term.title {
         case "서비스 이용약관":
             let parameter = [
-                "service_date": LatestTermsModel.latestServiceDate,
-                "key": Constants.tapplaceApiKey
+                "service_date": LatestTermsModel.latestServiceDate
             ]
             
             self.delegate?.checkReceiveTerm(term: term, currentTermIndex: self.termIndex)
             UserRegisterModel.setUser.serviceDate = LatestTermsModel.latestServiceDate
+            if isExistUser {
+                UserDataService().requestFetchUpdateUser(parameter: parameter, header: Constants().header) { result in
                     self.navigationController?.popViewController(animated: true)
+                }
+            }
         case "개인정보 수집 및 이용동의":
             let parameter = [
                 "personal_date": LatestTermsModel.latestPersonalDate,
@@ -108,7 +112,11 @@ extension TermsWebViewViewController: CustomNavigationBarProtocol, UIScrollViewD
             ]
             self.delegate?.checkReceiveTerm(term: term, currentTermIndex: self.termIndex)
             UserRegisterModel.setUser.personalDate = LatestTermsModel.latestPersonalDate
-            self.navigationController?.popViewController(animated: true)
+            if isExistUser {
+                UserDataService().requestFetchUpdateUser(parameter: parameter, header: Constants().header) { result in
+                    self.navigationController?.popViewController(animated: true)
+                }
+            }
         default: break
         }
         

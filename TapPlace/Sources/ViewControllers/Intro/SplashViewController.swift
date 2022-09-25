@@ -96,6 +96,7 @@ extension SplashViewController {
      */
     func checkExistsUser(completion: @escaping (Bool) -> ()) {
         self.userViewModel.requestLatestTerms(checkOnly: false) { result, error in
+            print("*********** \(result)")
             if let _ = error {
                 self.isExistsUser = false
                 completion(false)
@@ -135,6 +136,7 @@ extension SplashViewController {
         case true:
             /// 북마크 정보를 다 가져오고서 동의 한 약관들을 살펴보자
             let termsVC = TermsWebViewViewController()
+            termsVC.isExistUser = isExistsUser
             switch checkUserTermsStatus() {
             case .service:
                 termsVC.term = TermsModel.lists.first(where: {$0.title == "서비스 이용약관"})

@@ -5,7 +5,6 @@
 //  Created by 이상준 on 2022/08/14.
 //
 
-import Foundation
 import SnapKit
 import UIKit
 import Alamofire
@@ -426,34 +425,37 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
         isLoading = true
         switch self.searchMode {
         case true: // 검색중일때
-//            let searchVM = searchResult[indexPath.row]//self.searchListVM.searchAtIndex(indexPath.row)
-//            guard let searchModelEach = searchVM.searchModelEach else { return }
             let searchModelEach = searchResult[indexPath.row]
+            if StoreModel.lists.first(where: {$0.id == searchModelEach.categoryGroupCode }) == nil {
+                showToast(message: "지원하지 않는 가맹점입니다.", view: self.view)
+                isLoading = false
+                return
+            }
             // FIXME: MVVM 수정
-//            storeViewModel.requestStoreInfoCheck(searchModel: searchModelEach, pays: storageViewModel.userFavoritePaymentsString) { result in
-//                if let result = result {
-//                    let storeInfo = SearchModel.convertStoreInfo(searchModel: searchModelEach)
-//                    if self.isClickFloatingButton {
-//                        // 플로팅 버튼을 눌러서 접근했을 때
-//                        if result == nil {
-//                            showToast(message: "알 수 없는 이유로 가맹점 정보를 불러오지 못했습니다.\n잠시 후 다시 시도해주시기 바랍니다.", view: self.view)
-//                            return
-//                        }
-//                        let storeDatailVC = StoreDetailViewController()
-//                        var targetStoreInfo = storeInfo
-//                        targetStoreInfo.feedback = result
-//                        storeDatailVC.storeInfo = targetStoreInfo
-//                        self.navigationController?.pushViewController(storeDatailVC, animated: true)
-//                    } else {
-//                        // 검색창을 눌러서 접근했을 떄
-//                        let mainVC = MainViewController()
-//                        mainVC.storeInfo = storeInfo
-//                        mainVC.isMainMode = false
-//                        self.navigationController?.pushViewController(mainVC, animated: true)
-//                    }
-//                }
-//                self.isLoading = false
-//            }
+            storeViewModel.requestStoreInfoCheck(searchModel: searchModelEach, pays: storageViewModel.userFavoritePaymentsString) { result in
+                if let result = result {
+                    let storeInfo = SearchModel.convertStoreInfo(searchModel: searchModelEach)
+                    if self.isClickFloatingButton {
+                        // 플로팅 버튼을 눌러서 접근했을 때
+                        if result == nil {
+                            showToast(message: "알 수 없는 이유로 가맹점 정보를 불러오지 못했습니다.\n잠시 후 다시 시도해주시기 바랍니다.", view: self.view)
+                            return
+                        }
+                        let storeDatailVC = StoreDetailViewController()
+                        var targetStoreInfo = storeInfo
+                        targetStoreInfo.feedback = result
+                        storeDatailVC.storeInfo = targetStoreInfo
+                        self.navigationController?.pushViewController(storeDatailVC, animated: true)
+                    } else {
+                        // 검색창을 눌러서 접근했을 떄
+                        let mainVC = MainViewController()
+                        mainVC.storeInfo = storeInfo
+                        mainVC.isMainMode = false
+                        self.navigationController?.pushViewController(mainVC, animated: true)
+                    }
+                }
+                self.isLoading = false
+            }
             let latestSearchStore = LatestSearchStore(storeID: searchModelEach.id, placeName: searchModelEach.placeName, locationX: Double(searchModelEach.x) ?? 0, locationY: Double(searchModelEach.y) ?? 0, addressName: searchModelEach.addressName, roadAddressName: searchModelEach.roadAddressName, storeCategory: searchModelEach.categoryGroupName, phone: searchModelEach.phone, date: Date().getDate(3))
                 storageViewModel.addLatestSearchStore(store: latestSearchStore )
         case false:

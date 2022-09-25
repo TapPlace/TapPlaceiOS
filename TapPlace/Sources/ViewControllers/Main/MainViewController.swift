@@ -176,11 +176,10 @@ extension MainViewController: MapButtonProtocol, ResearchButtonProtocol, CustomN
                 hideNavigationBar(hide: false, title: storeInfo.placeName)
 
                 var targetStoreInfo = storeInfo
-                // FIXME: MVVM 수정
-//                storeViewModel.requestStoreInfoCheck(searchModel: AroundStoreModel.convertSearchModel(storeInfo: storeInfo), pays: storageViewModel.userFavoritePaymentsString) { result in
-//                    targetStoreInfo.feedback = result
-//                    self.showDetailOverView(hide: false, storeInfo: targetStoreInfo)
-//                }
+                storeViewModel.requestStoreInfoCheck(searchModel: AroundStoreModel.convertSearchModel(storeInfo: storeInfo), pays: storageViewModel.userFavoritePaymentsString) { result in
+                    targetStoreInfo.feedback = result
+                    self.showDetailOverView(hide: false, storeInfo: targetStoreInfo)
+                }
                 
                 
                 showDetailOverView(hide: false, storeInfo: storeInfo)
@@ -572,7 +571,6 @@ extension MainViewController: CLLocationManagerDelegate, NMFMapViewCameraDelegat
 //        print("클릭된 마커의 스토어: ", targetStore.placeName)
         /// AroundStores -> StoreInfo 변환
         var targetStoreInfo = StoreInfo.convertAroundStores(aroundStore: targetStore)
-        // FIXME: MVVM 수정
         storeViewModel.requestStoreInfoCheck(searchModel: AroundStoreModel.convertSearchModel(storeInfo: targetStoreInfo), pays: storageViewModel.userFavoritePaymentsString) { result in
             if let result = result {
                 targetStoreInfo.feedback = result

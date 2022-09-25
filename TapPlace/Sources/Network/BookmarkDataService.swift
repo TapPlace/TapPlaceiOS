@@ -18,12 +18,13 @@ struct BookmarkDataService {
      * @ 즐겨찾기 불러오기
      * coder : sanghyeon
      */
-    func requestFetchUserBookmark(page: Int = 1, completion: @escaping (BookmarkResponseModel?, Error?) -> ()) {
+    func requestFetchUserBookmark(page: Int = 1, header: HTTPHeaders, completion: @escaping (BookmarkResponseModel?, Error?) -> ()) {
         let url = "\(bookmarkUrl)/\(Constants.keyChainDeviceID)/\(page)"
         print("*** bookmark api url = \(url)")
-        AF.request(url, method: .get, encoding: URLEncoding.default)
+        AF.request(url, method: .get, encoding: URLEncoding.default, headers: header)
             .validate()
             .responseDecodable(of: BookmarkResponseModel.self) { (response) in
+                print("*** bookmarkDS, requestFetchUserBookmark\n - response: \(response)")
                 switch response.result{
                 case .success(let response):
                     completion(response, nil)

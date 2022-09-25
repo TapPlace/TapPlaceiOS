@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Combine
 
 protocol AroundPlaceControllerProtocol {
     func presentViewController(_ vc: UIViewController)
@@ -66,12 +67,20 @@ class AroundPlaceListView: UIView, AroundPlaceApplyFilterProtocol {
         let setPaymentArray = Set(tempPaymentsFilteredArray)
         filteredAroundPlaceList = Array(setCategoryArray.intersection(setPaymentArray))
         filteredAroundPlaceList = filteredAroundPlaceList.sorted(by: {$0.distance < $1.distance})
+        
+        
+        print("*** AroundPlaceListView, applyFilter, filteredAroundPlaceList: \(filteredAroundPlaceList)")
         tableView.reloadData()
     }
     
     var delegate: AroundPlaceControllerProtocol?
     var mainDelegate: AroundPlaceMainControllerProtocol?
-    var storageViewModel = StorageViewModel()
+    var storeViewModel: StoreViewModel? = nil {
+        willSet {
+            setBindings()
+        }
+    }
+    var disposableBag = Set<AnyCancellable>()
     
     var filteredAroundPlaceList: [AroundStores] = []
     
@@ -127,12 +136,24 @@ class AroundPlaceListView: UIView, AroundPlaceApplyFilterProtocol {
 //MARK: - Layout
 extension AroundPlaceListView {
     /**
+     * @ 뷰모델 바인딩
+     * coder : sanghyeon
+     */
+    func setBindings() {
+        storeViewModel?.$aroundStoreArray.sink { (stores: AroundStoreModel?) in
+            if let stores = stores {
+                self.filteredAroundPlaceList = stores.stores
+                self.tableView.reloadData()
+            }
+        }.store(in: &disposableBag)
+    }
+    /**
      * @ 초기 레이아웃 설정
      * coder : sanghyeon
      */
     func setupView() {
-        if let aroundPlaceList = AroundStoreModel.list {
-            filteredAroundPlaceList = aroundPlaceList
+        if let aroundPlaceList = storeViewModel?.aroundStoreArray {
+            filteredAroundPlaceList = aroundPlaceList.stores
         }
         //MARK: ViewDefine
         let safeArea = safeAreaLayoutGuide

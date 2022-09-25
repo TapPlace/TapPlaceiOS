@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Alamofire
 
 class UserViewModel {
     let userDataService = UserDataService.shared
@@ -18,11 +19,10 @@ class UserViewModel {
         var parameter: [String: Any]? = nil
         if !checkOnly {
             parameter = [
-                "user_id": "\(Constants.keyChainDeviceID)",
-                "key": "\(Constants.tapplaceApiKey)"
+                "user_id": "\(Constants.keyChainDeviceID)"
             ]
         }
-        userDataService.requestFetchLatestTerms(parameter: parameter) { result, error in
+        userDataService.requestFetchLatestTerms(parameter: parameter, header: Constants().header) { result, error in
             if let error = error {
                 completion(nil, error)
             }
@@ -49,13 +49,12 @@ class UserViewModel {
                 "sex" : user.sex,
                 "personal_date" : user.personalDate,
                 "service_date" : user.serviceDate,
-                "marketing_agree": user.marketingAgree,
-                "key": Constants.tapplaceApiKey
+                "marketing_agree": user.marketingAgree
             ]
         }
         
         guard let parameter = parameter else { return }
-        userDataService.requestFetchAddUser(parameter: parameter) { result, error in
+        userDataService.requestFetchAddUser(parameter: parameter, header: Constants().header) { result, error in
             completion(result)
         }
     }
@@ -66,11 +65,10 @@ class UserViewModel {
      */
     func dropUserInfo(completion: @escaping (Any) -> ()) {
         let parameter: [String: Any] = [
-            "user_id": "\(Constants.keyChainDeviceID)",
-            "key": "\(Constants.tapplaceApiKey)"
+            "user_id": "\(Constants.keyChainDeviceID)"
         ]
         
-        userDataService.requestFetchDropUser(parameter: parameter) { result, error in
+        userDataService.requestFetchDropUser(parameter: parameter, header: Constants().header) { result, error in
             if let error = error {
                 completion(error)
             }

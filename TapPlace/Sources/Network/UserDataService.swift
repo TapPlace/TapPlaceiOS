@@ -18,16 +18,18 @@ struct UserDataService {
      * @ 최신 약관 정보 요청
      * coder : sanghyeon
      */
-    func requestFetchLatestTerms(parameter: Parameters? = nil, completion: @escaping (LatestTermsModel?, Error?) -> ()) {
+    func requestFetchLatestTerms(parameter: Parameters? = nil, header: HTTPHeaders? = nil, completion: @escaping (LatestTermsModel?, Error?) -> ()) {
         var url = "\(termsUrl)"
         var apiMethod: HTTPMethod = .get
         if let parameter = parameter {
             url = "\(userlogApiUrl)"
             apiMethod = .post
         }
-        AF.request(url, method: apiMethod, parameters: parameter, encoding: URLEncoding.default, headers: nil)
+        
+        AF.request(url, method: apiMethod, parameters: parameter, encoding: URLEncoding.default, headers: header)
             .validate()
             .responseDecodable(of: LatestTermsModel.self) { (response) in
+                print("*** UserDS, requestFetchLatestTerms\n - header: \(header)\n - response: \(response)")
                 switch response.result {
                 case .success(let response):
                     completion(response, nil)
@@ -41,7 +43,7 @@ struct UserDataService {
      * @ 유저정보 최초설정
      * coder : sanghyeon
      */ 
-    func requestFetchAddUser(parameter: [String: Any], completion: @escaping (Any?, Error?) -> ()) {
+    func requestFetchAddUser(parameter: [String: Any], header: HTTPHeaders?, completion: @escaping (Any?, Error?) -> ()) {
         let url = "\(userApiUrl)"
         
         AF.request(url, method: .post, parameters: parameter, encoding: JSONEncoding.default, headers: nil)
@@ -60,7 +62,7 @@ struct UserDataService {
      * @ 유저정보 업데이트
      * coder : sanghyeon
      */
-    func requestFetchUpdateUser(parameter: [String: Any], completion: @escaping (Bool) -> ()) {
+    func requestFetchUpdateUser(parameter: [String: Any], header: HTTPHeaders?, completion: @escaping (Bool) -> ()) {
         let url = "\(userApiUrl)/\(Constants.keyChainDeviceID)"
         AF.request(url, method: .patch, parameters: parameter, encoding: URLEncoding.default, headers: nil)
             .validate()
@@ -83,7 +85,7 @@ struct UserDataService {
      * @ 유저정보 삭제
      * coder : sanghyeon
      */
-    func requestFetchDropUser(parameter: [String: Any], completion: @escaping (Bool?, Error?) -> ()) {
+    func requestFetchDropUser(parameter: [String: Any], header: HTTPHeaders?, completion: @escaping (Bool?, Error?) -> ()) {
         let url = "\(userDropApiUrl)"
         
         AF.request(url, method: .patch, parameters: parameter, encoding: URLEncoding.default, headers: nil)

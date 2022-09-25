@@ -23,7 +23,7 @@ extension BookmarkViewModel {
      * coder : sanghyeon
      */
     mutating func requestBookmark(page: Int = 1, completion: @escaping (BookmarkResponseModel?, Error?) -> ()) {
-        bookmarkDataService.requestFetchUserBookmark(page: page) { [self] response, error in
+        bookmarkDataService.requestFetchUserBookmark(page: page, header: Constants().header) { response, error in
             if let error = error {
                 completion(nil, error)
             }

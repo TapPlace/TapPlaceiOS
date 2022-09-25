@@ -80,13 +80,14 @@ extension StoreDetailViewController: CustomNavigationBarProtocol, CustomToolBarS
     func updateFeedback() {
         //if self.isFirstLoaded { return }
         guard let storeInfo = storeInfo else { return }
-        storeViewModel.requestStoreInfoCheck(searchModel: SearchModel.convertSearchModel(storeInfo: storeInfo), pays: storageViewModel.userFavoritePaymentsString) { result in
-            print("*** result: \(result)\n*** result.count: \(result?.count)")
-            self.feedbackList = result
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
-            }
-        }
+        // FIXME: MVVM 수정
+//        storeViewModel.requestStoreInfoCheck(searchModel: SearchModel.convertSearchModel(storeInfo: storeInfo), pays: storageViewModel.userFavoritePaymentsString) { result in
+//            print("*** result: \(result)\n*** result.count: \(result?.count)")
+//            self.feedbackList = result
+//            DispatchQueue.main.async {
+//                self.tableView.reloadData()
+//            }
+//        }
     }
     
     /**

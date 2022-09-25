@@ -50,10 +50,9 @@ extension PickPaymentsViewController: BottomButtonProtocol, TitleViewProtocol, C
             if isEditMode {
                 let parameter : [String: Any] = [
                     "user_id": "\(Constants.keyChainDeviceID)",
-                    "pays": selectedPayments,
-                    "key": "\(Constants.tapplaceApiKey)"
+                    "pays": selectedPayments
                 ]
-                UserDataService().requestFetchUpdateUser(parameter: parameter) { result in
+                UserDataService().requestFetchUpdateUser(parameter: parameter, header: Constants().header) { result in
                     self.storageViewModel.setPayments(self.selectedPayments)
                     self.navigationController?.popViewController(animated: true)
                 }

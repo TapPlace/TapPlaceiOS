@@ -11,7 +11,7 @@ import Foundation
 struct BookmarkResponseModel: Codable {
     let totalCount: String
     let isEnd: Bool
-    let bookmarks: [Bookmark]?
+    var bookmarks: [Bookmark]?
 
     enum CodingKeys: String, CodingKey {
         case totalCount = "total_count"

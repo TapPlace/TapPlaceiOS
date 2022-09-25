@@ -10,7 +10,6 @@ import Combine
 
 protocol AroundPlaceControllerProtocol {
     func presentViewController(_ vc: UIViewController)
-    func showFilterView()
 }
 
 protocol AroundPlaceMainControllerProtocol {
@@ -83,6 +82,7 @@ class AroundPlaceListView: UIView, AroundPlaceApplyFilterProtocol {
     var disposableBag = Set<AnyCancellable>()
     
     var filteredAroundPlaceList: [AroundStores] = []
+    var storeDataSource: [AroundStores] = []
     
     let containerView: UIView = {
         let containerView = UIView()
@@ -143,6 +143,25 @@ extension AroundPlaceListView {
         storeViewModel?.$aroundStoreArray.sink { (stores: AroundStoreModel?) in
             if let stores = stores {
                 self.filteredAroundPlaceList = stores.stores
+                self.tableView.reloadData()
+            }
+        }.store(in: &disposableBag)
+        
+        storeViewModel?.$selectStoreArray.sink { (category: [String]) in
+            DispatchQueue.main.async {
+                self.storeViewModel?.applyFilterAroundPlace()
+                self.storeDataSource = self.storeViewModel?.filteredAroundStore ?? []
+                self.storeButton.selectedCount = category.count
+                self.tableView.reloadData()
+            }
+        }.store(in: &disposableBag)
+        
+        
+        storeViewModel?.$selectPaymentArray.sink { (payment: [PaymentModel]) in
+            DispatchQueue.main.async {
+                self.storeViewModel?.applyFilterAroundPlace()
+                self.storeDataSource = self.storeViewModel?.filteredAroundStore ?? []
+                self.paymentButton.selectedCount = payment.count
                 self.tableView.reloadData()
             }
         }.store(in: &disposableBag)
@@ -288,6 +307,7 @@ extension AroundPlaceListView {
      */
     @objc func didTapFilterButton() {
         let vc = AroundFilterViewController()
+        vc.storeViewModel = self.storeViewModel
         vc.delegate = self
         delegate?.presentViewController(vc)
         mainDelegate?.expendFloatingPanel()
@@ -298,12 +318,12 @@ extension AroundPlaceListView {
 extension AroundPlaceListView: UITableViewDelegate, UITableViewDataSource {
    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return filteredAroundPlaceList.count
+        return storeDataSource.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: AroundStoreTableViewCell.cellId, for: indexPath) as? AroundStoreTableViewCell else { return UITableViewCell() }
-        return setupCell(cell: cell, indexPath: indexPath, aroundStore: filteredAroundPlaceList[indexPath.row])
+        return setupCell(cell: cell, indexPath: indexPath, aroundStore: storeDataSource[indexPath.row])
     }
     
     func setupCell(cell: UITableViewCell, indexPath: IndexPath, aroundStore: AroundStores) -> UITableViewCell {

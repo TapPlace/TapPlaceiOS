@@ -14,8 +14,14 @@ class StoreViewModel: ObservableObject {
     //MARK: Singleton Pattern
     let storeDataService = StoreDataService.shared
     
+    /// 유저 카테고리 필터 선택 리스트
+    @Published var selectStoreArray: [String] = []
+    /// 유저 결제수단 필터 선택 리스트
+    @Published var selectPaymentArray: [PaymentModel] = []
     /// 위치 기반 주변 매장 리스트
     @Published var aroundStoreArray: AroundStoreModel? = nil
+    /// 필터 적용 매장 리스트
+    var filteredAroundStore: [AroundStores] = []
     /// 유저 현재 위치의 주소
     @Published var userLocationGeoAddress: String = ""
     /// 단일 스토어 정보
@@ -28,6 +34,78 @@ class StoreViewModel: ObservableObject {
 
 //MARK: - Functions
 extension StoreViewModel {
+    /**
+     * @ 주변 스토어 필터 적용
+     * coder : sanghyeon
+     */
+    func applyFilterAroundPlace() {
+        var tempCategoryFilteredArray: [AroundStores] = []
+        var tempPaymentFilteredArray: [AroundStores] = []
+        self.filteredAroundStore.removeAll()
+        
+        switch self.selectStoreArray.count > 0 {
+        case true:
+            self.selectStoreArray.forEach { category in
+                let categoryTitle = category == "기타" ? "" : category
+                let filteredCategory = self.aroundStoreArray?.stores.filter({$0.categoryGroupName == categoryTitle})
+                if let filteredCategory = filteredCategory {
+                    filteredCategory.forEach {
+                        tempCategoryFilteredArray.append($0)
+                    }
+                } else {
+                    tempCategoryFilteredArray = aroundStoreArray?.stores ?? []
+                }
+            }
+        case false:
+            tempCategoryFilteredArray = aroundStoreArray?.stores ?? []
+        }
+        
+        
+        switch self.selectPaymentArray.count > 0 {
+        case true:
+            self.selectPaymentArray.forEach { payment in
+                let filteredPayment = self.aroundStoreArray?.stores.filter({$0.pays.contains(PaymentModel.encodingPayment(payment: payment))}) ?? []
+                filteredPayment.forEach { tempPayment in
+                    if tempPaymentFilteredArray.first(where: {$0.storeID == tempPayment.storeID}) == nil {
+                        tempPaymentFilteredArray.append(tempPayment)
+                    }
+                }
+            }
+        case false:
+            tempPaymentFilteredArray = aroundStoreArray?.stores ?? []
+        }
+        
+        let setCategoryArray = Set(tempCategoryFilteredArray)
+        let setPaymentArray = Set(tempPaymentFilteredArray)
+        self.filteredAroundStore = Array(setCategoryArray.intersection(setPaymentArray))
+        self.filteredAroundStore = self.filteredAroundStore.sorted(by: {$0.distance < $1.distance})
+        
+        
+        
+        
+        
+        /*
+         
+         
+         if AroundFilter[1] > 0 {
+             AroundFilterModel.paymentList.forEach { payment in
+                 let filteredPayment = aroundPlaceList.filter({$0.pays.contains(PaymentModel.encodingPayment(payment: payment))})
+                 filteredPayment.forEach { tempPayment in
+                     if tempPaymentsFilteredArray.first(where: {$0.storeID == tempPayment.storeID}) == nil {
+                         tempPaymentsFilteredArray.append(tempPayment)
+                     }
+                 }
+             }
+         } else {
+             tempPaymentsFilteredArray = aroundPlaceList
+         }
+         
+         let setCategoryArray = Set(tempCategoryFilteredArray)
+         let setPaymentArray = Set(tempPaymentsFilteredArray)
+         filteredAroundPlaceList = Array(setCategoryArray.intersection(setPaymentArray))
+         filteredAroundPlaceList = filteredAroundPlaceList.sorted(by: {$0.distance < $1.distance})
+         */
+    }
     /**
      * @ 주변 스토어 검색
      * coder : sanghyeon
@@ -48,7 +126,7 @@ extension StoreViewModel {
     }
 
     /**
-     * @ 스토어 아이디로 가맹점 정보 요청
+     * @ 스토어 아이디로 가맹점 정보 요청 
      * coder : sanghyeon
      */
     func requestStoreInfo(storeID: String, pays: [String], completion: @escaping (StoreInfo?) -> ()) {

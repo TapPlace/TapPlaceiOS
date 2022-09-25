@@ -11,11 +11,6 @@ import FloatingPanel
 import CoreLocation
 
 class AroundPlaceViewController: UIViewController, AroundPlaceControllerProtocol, AroundDistanceFilterProtocol {
-    func showFilterView() {
-        let vc = AroundFilterViewController()
-        self.present(vc, animated: true)
-    }
-    
     func setDistanceLabel() {
         aroundPlaceListView.distanceLabel.text = DistancelModel.getDistance(distance: DistancelModel.selectedDistance)
     }
@@ -31,9 +26,11 @@ class AroundPlaceViewController: UIViewController, AroundPlaceControllerProtocol
             if let storeVM = newValue {
                 print("*** AroundPlaceVC, storeViewModel, willSet, newValue OptionalBinding = \(storeVM)")
                 aroundPlaceListView.storeViewModel = storeVM
+
             }
         }
     }
+    
     var disposalbleBag = Set<AnyCancellable>()
     let aroundPlaceListView = AroundPlaceListView()
     

@@ -100,6 +100,25 @@ extension MainViewController {
             self.updateMapAroundStore()
             AroundStoreModel.list = result?.stores
         }.store(in: &disposalbleBag)
+        
+        self.storeViewModel.$selectStoreArray.sink { (result: [String]?) in
+            DispatchQueue.main.async {
+                self.aroundStoreList = self.storeViewModel.filteredAroundStore
+                self.storeViewModel.applyFilterAroundPlace()
+                self.updateMapAroundStore()
+                self.collectionView.reloadData()
+            }
+        }.store(in: &disposalbleBag)
+        
+        self.storeViewModel.$selectPaymentArray.sink { (result: [PaymentModel]?) in
+            DispatchQueue.main.async {
+                self.aroundStoreList = self.storeViewModel.filteredAroundStore
+                self.storeViewModel.applyFilterAroundPlace()
+                self.updateMapAroundStore()
+                self.collectionView.reloadData()
+            }
+        }.store(in: &disposalbleBag)
+
     }
 }
 
@@ -594,6 +613,7 @@ extension MainViewController: CLLocationManagerDelegate, NMFMapViewCameraDelegat
     func mapView(_ mapView: NMFMapView, didTapMap latlng: NMGLatLng, point: CGPoint) {
 //        print("*** Touched Point Location: \(latlng)")
         print("*** MainVC, for Test, \(Constants().header)")
+        print("*** MainVC, for Test, \(storeViewModel.selectStoreArray)")
     }
     
     func mapView(_ mapView: NMFMapView, didTap symbol: NMFSymbol) -> Bool {
@@ -843,7 +863,12 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
         if let icon = UIImage(named: StoreModel.lists[indexPath.row].id) {
             cell.icon = icon
             cell.iconColor = StoreModel.lists[indexPath.row].color
-        } 
+        }
+        /// 선택된 항목인가?
+        if let fi = storeViewModel.selectStoreArray.firstIndex(where: {$0 == StoreModel.lists[indexPath.row].title}) {
+            print("*** MainVC, cellForItemAt, fi: \(fi)")
+            cell.cellSelected = true
+        }
         cell.itemText.text = StoreModel.lists[indexPath.row].title
         cell.storeId = StoreModel.lists[indexPath.row].id
         return cell
@@ -851,23 +876,15 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
     /// 컬렉션뷰 선택시 필터 적용
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let cell = collectionView.cellForItem(at: indexPath) as? StoreTabCollectionViewCell else { return }
-        latestSelectStore?.cellSelected = false
-        /// 이미 선택 된 셀을 클릭했을때
-        if cell == latestSelectStore {
-            latestSelectStore = nil
-            hideMarker(marker: nil)
-            return
-        } else {
-            cell.cellSelected = true
-            latestSelectStore = cell
-            hideMarker(marker: nil)
-            let storeCategory = cell.itemText.text == "기타" ? "" : cell.itemText.text
-            for marker in markerList {
-                if marker.store.categoryGroupName != storeCategory {
-                    hideMarker(marker: marker.marker)
-                }
+        if let category = cell.itemText.text {
+            print("*** MainVC, didSelectItemAt, category: \(category)")
+            if let index = self.storeViewModel.selectStoreArray.firstIndex(where: {$0 == category}) {
+                self.storeViewModel.selectStoreArray.remove(at: index)
+            } else {
+                self.storeViewModel.selectStoreArray.append(category)
             }
         }
+        cell.cellSelected = cell.cellSelected ? false : true
     }
     /// 컬렉션뷰 셀 라벨 사이즈 대비 사이즈 변경
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

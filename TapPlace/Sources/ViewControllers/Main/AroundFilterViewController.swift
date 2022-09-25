@@ -17,6 +17,12 @@ class AroundFilterViewController: UIViewController {
     
     var delegate: AroundPlaceApplyFilterProtocol?
     var storageViewModel = StorageViewModel()
+    var storeViewModel: StoreViewModel? = nil {
+        willSet {
+            print("*** AroundFilterVC, self: \(self)")
+            print("*** AroundFilterVC, storeVM, willSet, userLocationGeoAddress: \(newValue?.userLocationGeoAddress)")
+        }
+    }
     var isFirstLoaded: Bool = true
 
     let scrollView = UIScrollView()
@@ -233,7 +239,7 @@ extension AroundFilterViewController: FilterResetProtocol {
         paymentCollectionView.register(PickPaymentsCollectionViewCell.self, forCellWithReuseIdentifier: "paymentsItem")
         paymentCollectionView.register(PickPaymentsCollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "paymentsHeader")
         closeButton.addTarget(self, action: #selector(didTapCloseButton), for: .touchUpInside)
-        bottomButton.addTarget(self, action: #selector(didTapBottonButton), for: .touchUpInside)
+        bottomButton.addTarget(self, action: #selector(didTapBottomButton), for: .touchUpInside)
         
         
         //MARK: Delegate
@@ -247,11 +253,13 @@ extension AroundFilterViewController: FilterResetProtocol {
         
 
     }
-    
+     
     @objc func didTapCloseButton() {
         self.dismiss(animated: true)
     }
-    @objc func didTapBottonButton() {
+    @objc func didTapBottomButton() {
+        storeViewModel?.selectStoreArray = tempStores.map { $0.title }
+        storeViewModel?.selectPaymentArray = tempPayments
         AroundFilterModel.storeList = tempStores
         AroundFilterModel.paymentList = tempPayments
         delegate?.applyFilter()

@@ -21,6 +21,7 @@
 		DF34FC7628D9BE2B00B01F95 /* APIToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF34FC7528D9BE2B00B01F95 /* APIToken.swift */; };
 		DF38177028A46EF100B900B5 /* CommonPickViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF38176F28A46EF100B900B5 /* CommonPickViewController.swift */; };
 		DF38177828A4E28200B900B5 /* PaymentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF38177728A4E28200B900B5 /* PaymentViewModel.swift */; };
+		DF4882FB28E09B3600AA472D /* UserAllCountModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF4882FA28E09B3600AA472D /* UserAllCountModel.swift */; };
 		DF4A14A228ABBAEF0068D1AD /* VerticalAlignLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF4A14A128ABBAEF0068D1AD /* VerticalAlignLabel.swift */; };
 		DF4A14A428ABBEF50068D1AD /* CustomToolBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF4A14A328ABBEF50068D1AD /* CustomToolBar.swift */; };
 		DF4BD37C28A76F8100C4C5B4 /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF4BD37B28A76F8100C4C5B4 /* UIImage+Extension.swift */; };
@@ -169,6 +170,7 @@
 		DF34FC7528D9BE2B00B01F95 /* APIToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIToken.swift; sourceTree = "<group>"; };
 		DF38176F28A46EF100B900B5 /* CommonPickViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonPickViewController.swift; sourceTree = "<group>"; };
 		DF38177728A4E28200B900B5 /* PaymentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentViewModel.swift; sourceTree = "<group>"; };
+		DF4882FA28E09B3600AA472D /* UserAllCountModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAllCountModel.swift; sourceTree = "<group>"; };
 		DF49AD8C28A0AB2A004EDC34 /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
 		DF49AD8D28A0AB3F004EDC34 /* Production.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Production.xcconfig; sourceTree = "<group>"; };
 		DF4A14A128ABBAEF0068D1AD /* VerticalAlignLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerticalAlignLabel.swift; sourceTree = "<group>"; };
@@ -548,6 +550,7 @@
 				DFC87B3028CAD7CB00F53D1D /* KakaoGeoAddressModel.swift */,
 				DFA1BAD328DB3924002B9010 /* UserUpdateModel.swift */,
 				DFDC5CAB28DBF69F000AC32C /* UserRegisterModel.swift */,
+				DF4882FA28E09B3600AA472D /* UserAllCountModel.swift */,
 			);
 			path = NetworkModels;
 			sourceTree = "<group>";
@@ -976,6 +979,7 @@
 				DF2340AA28A1D37D00A9DAE1 /* NSMutableAttributedString+Extension.swift in Sources */,
 				F4551D3C28A9F9C6003B93F4 /* SearchHistoryTableViewCell.swift in Sources */,
 				DFF7BEDE28A68CDD00289F39 /* TabBarViewController.swift in Sources */,
+				DF4882FB28E09B3600AA472D /* UserAllCountModel.swift in Sources */,
 				DFE5F6AC28A8D36A000511E9 /* Constants.swift in Sources */,
 				DF67A05328C9846900435C28 /* FeedbackListCell.swift in Sources */,
 				F49D36E028B6227D000D025D /* SearchModel.swift in Sources */,

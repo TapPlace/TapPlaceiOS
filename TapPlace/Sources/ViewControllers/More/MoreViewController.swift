@@ -9,7 +9,6 @@ import UIKit
 import NMapsMap
 
 class MoreViewController: CommonViewController {
-    var userViewModel = UserViewModel()
     var headerView: MoreHeaderView?
     let customNavigationBar = CustomNavigationBar()
     let menuList = MoreMenuModel.list
@@ -33,6 +32,9 @@ class MoreViewController: CommonViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        headerView = MoreHeaderView()
+        headerView?.userViewModel = self.userViewModel
+        userViewModel.requestUserAllCount()
         tabBar?.hideTabBar(hide: false)
         tableView.reloadData()
     }
@@ -47,7 +49,6 @@ extension MoreViewController: NavigationBarButtonProtocol {
     func setupView() {
         //MARK: ViewDefine
         let safeArea = view.safeAreaLayoutGuide
-        headerView = MoreHeaderView()
         
         //MARK: ViewPropertyManual
         self.view.backgroundColor = .white
@@ -160,7 +161,7 @@ extension MoreViewController: UITableViewDelegate, UITableViewDataSource, MoreHe
 //            print("피드백 탭")
             let vc = FeedbackListViewController()
             self.navigationController?.pushViewController(vc, animated: true)
-        case headerView.itemStores.button:
+        case headerView.remainFeedback.button:
             break
 //            print("등록가게 탭")
         default:
@@ -256,9 +257,7 @@ extension MoreViewController: UITableViewDelegate, UITableViewDataSource, MoreHe
             headerView?.delegate = self
             headerView?.itemBookmark.delegate = self
             headerView?.itemFeedback.delegate = self
-            headerView?.itemStores.delegate = self
-            headerView?.countOfBookmark = storageViewModel.numberOfBookmark
-            headerView?.countOfFeedback = storageViewModel.numberOfFeedback
+            headerView?.remainFeedback.delegate = self
             let userPaymentsEncodedString = storageViewModel.userFavoritePaymentsString
             var userPaymentsString: String = ""
             

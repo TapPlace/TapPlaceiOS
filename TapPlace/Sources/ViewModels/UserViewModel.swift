@@ -7,9 +7,14 @@
 
 import Foundation
 import Alamofire
+import Combine
 
 class UserViewModel {
     let userDataService = UserDataService.shared
+    
+    /// 유저 즐찾, 피드백, 남은 피드백 카운트
+    @Published var userAllCount: UserAllCountModel = UserAllCountModel(bookmarkCount: "0", feedbackCount: "0", remainCount: 0)
+    
     
     /**
      * @ 최신 약관 정보 요청
@@ -73,6 +78,17 @@ class UserViewModel {
                 completion(error)
             }
             completion(result)
+        }
+    }
+    
+    /**
+     * @ 유저 즐겨찾기, 피드백, 남은피드백 가져오기
+     * coder : sanghyeon
+     */
+    func requestUserAllCount() {
+        userDataService.requestFetchUserAllCount(userID: Constants.keyChainDeviceID) { result in
+            print("*** UserVM, requestUserAllCount, result: \(result)")
+            self.userAllCount = result
         }
     }
 }

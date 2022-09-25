@@ -139,10 +139,6 @@ extension PickPaymentsViewController: UICollectionViewDelegate, UICollectionView
         let sectionTitle = EasyPaymentModel.list[indexPath.section].designation
 
         if !cell.cellSelected {
-            if selectedPayments.count >= 5 {
-                showToast(message: "결제수단은 5개를 초과할 수 없습니다.", view: self.view)
-                return
-            }
             selectedPayments.append(cell.cellVariable)
         } else {
             guard let targetPayments = selectedPayments.firstIndex(where: {$0 == cell.cellVariable}) else { return }

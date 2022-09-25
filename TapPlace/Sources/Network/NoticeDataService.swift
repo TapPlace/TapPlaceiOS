@@ -10,16 +10,17 @@ import Alamofire
 
 // MARK: -공지사항 데이터 호출 서비스 로직
 class NoticeDataService {
-    func getNotice(page: String?, completion: @escaping([NoticeModel]?, Error?) -> ()) {
+    func getNotice(page: String?, completion: @escaping([NoticeModel]?, Bool, Error?) -> ()) {
         let getNoticeURL = "\(Constants.tapplaceApiUrl)/notice/notice/all/\(page ?? "1")"
         AF.request(getNoticeURL, method: .get, parameters: nil, encoding: URLEncoding.default, headers: nil)
             .validate()
             .responseDecodable(of: NoticeList.self) { (response) in
                 switch response.result{
                 case .success(let response):
-                    completion(response.notice?.notice, nil)
+                    completion(response.notice?.notice, response.isEnd ?? false, nil)
+                    print(response)
                 case .failure(let error):
-                    completion(nil, error)
+                    completion(nil, false, error)
                     print(error.localizedDescription)
                 }
             }

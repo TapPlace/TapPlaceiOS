@@ -12,7 +12,10 @@ class NoticeViewController: CommonViewController {
     
     let customNavigationBar = CustomNavigationBar()
     private var noticeListVM: NoticeListViewModel!
+    
+    var noticeResult: [NoticeModel] = []
     var noticeApiPage = 1
+    var isEnd = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,9 +41,19 @@ class NoticeViewController: CommonViewController {
     
     // 공지사항 불러오기 서비스 호출 로직
     func requestNotice() {
-        
+        NoticeDataService().getNotice(page: "\(noticeApiPage)") { (notice, isEnd, error) in
+            if let notice = notice {
+                self.isEnd = isEnd
+                self.noticeListVM = NoticeListViewModel(noticeList: notice, isEnd: isEnd)
+                self.noticeResult += notice
+                self.configureTableView()
+            }
+            
+            DispatchQueue.main.async {
+                self.noticeTableView.reloadData()
+            }
+        }
     }
-    
 }
 
 
@@ -65,17 +78,7 @@ extension NoticeViewController {
         tabBar?.hideTabBar(hide: true)
         
         // 공지사항 API 호출
-        NoticeDataService().getNotice(page: "\(noticeApiPage)") { (notice, error) in
-            if let notice = notice {
-                print("나와나와 \(notice)")
-                self.noticeListVM = NoticeListViewModel(notice: notice)
-                self.configureTableView()
-            }
-            
-            DispatchQueue.main.async {
-                self.noticeTableView.reloadData()
-            }
-        }
+        requestNotice()
     }
     
     // 테이블 뷰 구성 메소드
@@ -115,24 +118,32 @@ extension NoticeViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        return 2
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return noticeListVM.numberOfRowsInSection(1)
+        if section == 1 {
+            return 0
+        }
+        return noticeResult.count
+//        return noticeListVM.numberOfRowsInSection(1)
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: NoticeCell.identifier, for: indexPath) as! NoticeCell
-        let noticeVM = self.noticeListVM.searchAtIndex(indexPath.row)
-        cell.prepare(title: noticeVM.title, content: noticeVM.content, writeDate: getOnlyDate(writeDate: noticeVM.writeDate))
+//        let noticeVM = self.noticeListVM.searchAtIndex(indexPath.row)
+//        cell.prepare(title: noticeVM.title, content: noticeVM.content, writeDate: getOnlyDate(writeDate: noticeVM.writeDate))
+        let notice = self.noticeResult[indexPath.row]
+        cell.prepare(title: notice.title, content: notice.content, writeDate: getOnlyDate(writeDate: notice.writeDate))
         return cell
     }
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        if section != 1 { return .zero }
         return 50
     }
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        if section != 1 { return nil }
         let footerView = UIView()
         let expendButton = TableViewExpendButton(type: .system)
         expendButton.setTitle("공지사항 더보기", for: .normal)
@@ -140,19 +151,18 @@ extension NoticeViewController: UITableViewDelegate, UITableViewDataSource {
         expendButton.snp.makeConstraints {
             $0.edges.equalTo(footerView)
         }
-    
-//        expendButton.addTarget(self, action: #selector(didTapExpendButton), for: .touchUpInside)
+        expendButton.addTarget(self, action: #selector(didTapExpendButton), for: .touchUpInside)
         return footerView
     }
     
-//    @objc func didTapExpendButton() {
-//        if isEndPage {
-//            showToast(message: "마지막 검색 결과 입니다.", view: self.view)
-//        } else {
-//            isPaging += 1
-//            requestPlace()
-//        }
-//    }
+    @objc func didTapExpendButton() {
+        if isEnd == true {
+            showToast(message: "마지막 페이지 입니다.", view: self.view)
+        } else {
+            noticeApiPage += 1
+            requestNotice()
+        }
+    }
 }
 
 // MARK: - 시간 관련

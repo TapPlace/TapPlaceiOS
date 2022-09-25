@@ -9,16 +9,17 @@ import Foundation
 import UIKit
 
 struct NoticeListViewModel {
-    let notice: [NoticeModel]
+    var noticeList: [NoticeModel]
+    let isEnd: Bool
 }
 
 extension NoticeListViewModel {
     func numberOfRowsInSection(_ section: Int) -> Int {
-        return self.notice.count
+        return self.noticeList.count
     }
     
     func searchAtIndex(_ index: Int) -> NoticeViewModel {
-        let notice = self.notice[index]
+        let notice = self.noticeList[index]
         return NoticeViewModel(notice)
     }
 }

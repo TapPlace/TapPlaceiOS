@@ -24,6 +24,7 @@ struct Bookmark: Codable {
     let num: Int
     let storeID, placeName, addressName, roadAddressName: String
     let categoryGroupName, phone, x, y: String
+    var feedback: [Feedback]?
     var isChecked: Bool? = false
 
     enum CodingKeys: String, CodingKey {
@@ -33,12 +34,12 @@ struct Bookmark: Codable {
         case addressName = "address_name"
         case roadAddressName = "road_address_name"
         case categoryGroupName = "category_group_name"
-        case phone, x, y, isChecked
+        case phone, x, y, feedback, isChecked
     }
 }
 
 //MARK: - Bookmark Extensions
-extension Bookmark{
+extension Bookmark {
     /**
      * @ Bookmark -> SearchModel 변환
      * coder : sanghyeon
@@ -52,7 +53,7 @@ extension Bookmark{
      * coder : sanghyeon
      */
     func convertStoreInfo() -> StoreInfo {
-        let tempStoreInfo = StoreInfo(num: self.num, storeID: self.storeID, placeName: self.placeName, addressName: self.addressName, roadAddressName: self.roadAddressName, categoryGroupName: self.categoryGroupName, phone: self.phone, x: self.x, y: self.y)
+        let tempStoreInfo = StoreInfo(num: self.num, storeID: self.storeID, placeName: self.placeName, addressName: self.addressName, roadAddressName: self.roadAddressName, categoryGroupName: self.categoryGroupName, phone: self.phone, x: self.x, y: self.y, feedback: self.feedback)
         return tempStoreInfo
     }
 }

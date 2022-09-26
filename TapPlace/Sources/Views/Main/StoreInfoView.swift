@@ -36,8 +36,7 @@ class StoreInfoView: UIView {
             
             self.setAttributedString(store: store.placeName, distance: DistancelModel.getDistance(distance: placeDistance!), address: storeAddress)
             
-            if let _ = newValue?.feedback {
-                guard let feedback = newValue?.feedback else { return }
+            if let feedback = newValue?.feedback {
                 var paymentPay: [String] = []
                 for payment in feedback.filter({$0.exist == true}) {
                     paymentPay.append(payment.pay)

@@ -828,6 +828,8 @@
 			dependencies = (
 			);
 			name = TapPlace;
+			packageProductDependencies = (
+			);
 			productName = TapPlace;
 			productReference = DFC23F92289AB66400EC1090 /* TapPlace.app */;
 			productType = "com.apple.product-type.application";
@@ -856,6 +858,8 @@
 				Base,
 			);
 			mainGroup = DFC23F89289AB66400EC1090;
+			packageReferences = (
+			);
 			productRefGroup = DFC23F93289AB66400EC1090 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";

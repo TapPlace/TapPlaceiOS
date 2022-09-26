@@ -17,7 +17,7 @@ struct UserDataService {
     
     /**
      * @ 최신 약관 정보 요청
-     * coder : sanghyeon
+     * coder : sanghyeon 
      */
     func requestFetchLatestTerms(parameter: Parameters? = nil, header: HTTPHeaders? = nil, completion: @escaping (LatestTermsModel?, Error?) -> ()) {
         var url = "\(termsUrl)"

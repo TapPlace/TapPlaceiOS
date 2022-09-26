@@ -828,33 +828,37 @@ extension MainViewController: CustomToolBarShareProtocol, StoreInfoViewDelegate 
 extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     /// 컬렉션뷰 셀 개수 반환
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return StoreModel.lists.count
+        var storeList = StoreModel.lists
+        if storeViewModel.selectStoreArray.count > 0 {
+            storeList = StoreModel.lists
+        } else {
+            storeList = StoreModel.lists.filter({$0.id != "refresh"})
+        }
+        return storeList.count
     }
     /// 컬렉션뷰 셀 설정
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        var storeList = StoreModel.lists
+        if storeViewModel.selectStoreArray.count > 0 {
+            storeList = StoreModel.lists
+        } else {
+            storeList = StoreModel.lists.filter({$0.id != "refresh"})
+        }
+        
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: StoreTabCollectionViewCell.cellId, for: indexPath) as! StoreTabCollectionViewCell
         
-        if let icon = UIImage(named: StoreModel.lists[indexPath.row].id) {
+        if let icon = UIImage(named: storeList[indexPath.row].id) {
             cell.icon = icon
-            cell.iconColor = StoreModel.lists[indexPath.row].color
-        }
-        /// 초기화 셀의 경우 필터가 선택 된 경우에만 보이기
-        if StoreModel.lists[indexPath.row].id == "refresh" {
-            cell.itemText.textColor = .pointBlue
-            if storeViewModel.selectStoreArray.count == 0 {
-                //cell.isHidden = true
-            }
-        } else {
-            cell.isHidden = false
+            cell.iconColor = storeList[indexPath.row].color
         }
         
         /// 선택된 항목인가?
-        if let fi = storeViewModel.selectStoreArray.firstIndex(where: {$0 == StoreModel.lists[indexPath.row].title}) {
+        if let fi = storeViewModel.selectStoreArray.firstIndex(where: {$0 == storeList[indexPath.row].title}) {
             print("*** MainVC, cellForItemAt, fi: \(fi)")
             cell.cellSelected = true
         }
-        cell.itemText.text = StoreModel.lists[indexPath.row].title
-        cell.storeId = StoreModel.lists[indexPath.row].id
+        cell.itemText.text = storeList[indexPath.row].title
+        cell.storeId = storeList[indexPath.row].id
         return cell
     }
     /// 컬렉션뷰 선택시 필터 적용
@@ -876,12 +880,13 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
     }
     /// 컬렉션뷰 셀 라벨 사이즈 대비 사이즈 변경
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-//        if StoreModel.lists[indexPath.row].id == "refresh" {
-//            if storeViewModel.selectStoreArray.count == 0 {
-//                return .zero
-//            }
-//        }
-        let labelSize = CommonUtils.getTextSizeWidth(text: StoreModel.lists[indexPath.row].title)
+        var storeList = StoreModel.lists
+        if storeViewModel.selectStoreArray.count > 0 {
+            storeList = StoreModel.lists
+        } else {
+            storeList = StoreModel.lists.filter({$0.id != "refresh"})
+        }
+        let labelSize = CommonUtils.getTextSizeWidth(text: storeList[indexPath.row].title)
         return CGSize(width: labelSize.width + 35, height: 28)
     }
 }

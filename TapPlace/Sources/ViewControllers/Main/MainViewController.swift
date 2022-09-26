@@ -103,10 +103,11 @@ extension MainViewController {
         
         self.storeViewModel.$selectStoreArray.sink { (result: [String]?) in
             DispatchQueue.main.async {
-                self.aroundStoreList = self.storeViewModel.filteredAroundStore
                 self.storeViewModel.applyFilterAroundPlace()
+                self.aroundStoreList = self.storeViewModel.filteredAroundStore
                 self.updateMapAroundStore()
                 self.collectionView.reloadData()
+                
             }
         }.store(in: &disposalbleBag)
         
@@ -140,6 +141,7 @@ extension MainViewController {
         hideAllMarkers()
         self.markerList.removeAll()
         if let aroundStoreList = aroundStoreList {
+            print("*** MainVC, updateMapAroundStore(), aroundStoreList: \(aroundStoreList)")
             addMarker(markers: aroundStoreList)
         } else {
             hideAllMarkers()
@@ -831,10 +833,21 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
     /// 컬렉션뷰 셀 설정
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: StoreTabCollectionViewCell.cellId, for: indexPath) as! StoreTabCollectionViewCell
+        
         if let icon = UIImage(named: StoreModel.lists[indexPath.row].id) {
             cell.icon = icon
             cell.iconColor = StoreModel.lists[indexPath.row].color
         }
+        /// 초기화 셀의 경우 필터가 선택 된 경우에만 보이기
+        if StoreModel.lists[indexPath.row].id == "refresh" {
+            cell.itemText.textColor = .pointBlue
+            if storeViewModel.selectStoreArray.count == 0 {
+                //cell.isHidden = true
+            }
+        } else {
+            cell.isHidden = false
+        }
+        
         /// 선택된 항목인가?
         if let fi = storeViewModel.selectStoreArray.firstIndex(where: {$0 == StoreModel.lists[indexPath.row].title}) {
             print("*** MainVC, cellForItemAt, fi: \(fi)")
@@ -849,6 +862,10 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
         guard let cell = collectionView.cellForItem(at: indexPath) as? StoreTabCollectionViewCell else { return }
         if let category = cell.itemText.text {
             print("*** MainVC, didSelectItemAt, category: \(category)")
+            if category == "초기화" {
+                self.storeViewModel.selectStoreArray.removeAll()
+                return
+            }
             if let index = self.storeViewModel.selectStoreArray.firstIndex(where: {$0 == category}) {
                 self.storeViewModel.selectStoreArray.remove(at: index)
             } else {
@@ -859,6 +876,11 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
     }
     /// 컬렉션뷰 셀 라벨 사이즈 대비 사이즈 변경
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+//        if StoreModel.lists[indexPath.row].id == "refresh" {
+//            if storeViewModel.selectStoreArray.count == 0 {
+//                return .zero
+//            }
+//        }
         let labelSize = CommonUtils.getTextSizeWidth(text: StoreModel.lists[indexPath.row].title)
         return CGSize(width: labelSize.width + 35, height: 28)
     }

@@ -37,7 +37,7 @@ struct CommonUtils {
         let label: UILabel = {
             let label = UILabel()
             label.text = text
-            label.font = .systemFont(ofSize: CommonUtils.resizeFontSize(size: 14), weight: .regular)
+            label.font = .systemFont(ofSize: CommonUtils.resizeFontSize(size: 13), weight: .regular)
             label.sizeToFit()
             return label
         }()

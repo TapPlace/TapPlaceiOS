@@ -60,7 +60,6 @@ extension StoreViewModel {
             tempCategoryFilteredArray = aroundStoreArray?.stores ?? []
         }
         
-        
         switch self.selectPaymentArray.count > 0 {
         case true:
             self.selectPaymentArray.forEach { payment in
@@ -79,32 +78,6 @@ extension StoreViewModel {
         let setPaymentArray = Set(tempPaymentFilteredArray)
         self.filteredAroundStore = Array(setCategoryArray.intersection(setPaymentArray))
         self.filteredAroundStore = self.filteredAroundStore.sorted(by: {$0.distance < $1.distance})
-        
-        
-        
-        
-        
-        /*
-         
-         
-         if AroundFilter[1] > 0 {
-             AroundFilterModel.paymentList.forEach { payment in
-                 let filteredPayment = aroundPlaceList.filter({$0.pays.contains(PaymentModel.encodingPayment(payment: payment))})
-                 filteredPayment.forEach { tempPayment in
-                     if tempPaymentsFilteredArray.first(where: {$0.storeID == tempPayment.storeID}) == nil {
-                         tempPaymentsFilteredArray.append(tempPayment)
-                     }
-                 }
-             }
-         } else {
-             tempPaymentsFilteredArray = aroundPlaceList
-         }
-         
-         let setCategoryArray = Set(tempCategoryFilteredArray)
-         let setPaymentArray = Set(tempPaymentsFilteredArray)
-         filteredAroundPlaceList = Array(setCategoryArray.intersection(setPaymentArray))
-         filteredAroundPlaceList = filteredAroundPlaceList.sorted(by: {$0.distance < $1.distance})
-         */
     }
     /**
      * @ 주변 스토어 검색
@@ -199,65 +172,3 @@ extension StoreViewModel {
         }
     }
 }
-
-
-
-
-//
-//
-//class StoreViewModel {
-//    let storeDataService = StoreDataService.shared
-//
-
-//    /**
-//     * @ 스토어 아이디로 가맹점 정보 요청
-//     * coder : sanghyeon
-//     */
-//    func requestStoreInfo(storeID: String, pays: [String], completion: @escaping (StoreInfo?) -> ()) {
-//        let parameter: Parameters = [
-//            "store_id": storeID,
-//            "user_id": Constants.keyChainDeviceID,
-//            "pays": pays
-//        ]
-//        storeDataService.requestFetchStoreInfo(parameter: parameter) { result, error in
-//            completion(result)
-//        }
-//    }
-//    /**
-//     * @ 스토어 등록여부 확인
-//     * coder : sanghyeon
-//     */
-//    func requestStoreInfoCheck(searchModel: SearchModel, pays: [String], completion: @escaping ([Feedback]?) -> ()) {
-//        let parameter: Parameters = [
-//            "store_id": searchModel.id,
-//            "phone": searchModel.phone,
-//            "place_name": searchModel.placeName,
-//            "category_group_name": searchModel.categoryGroupName,
-//            "address_name": searchModel.addressName,
-//            "y": searchModel.y,
-//            "road_address_name": searchModel.roadAddressName,
-//            "x": searchModel.x,
-//            "pays": pays,
-//            "user_id": Constants.keyChainDeviceID
-//        ]
-//
-//        storeDataService.requestFetchStoreInfoCheck(parameter: parameter) { result, error in
-//            completion(result)
-//        }
-//    }
-//    /**
-//     * @ 카카오 로컬 API로 현재 주소 요청
-//     * coder : sanghyeon
-//     */
-//    func requestGeoAddress(location: CLLocationCoordinate2D, completion: @escaping (KakaoGeoAddresModel) -> ()) {
-//        let parameter: Parameters = [
-//            "x": "\(location.longitude)",
-//            "y": "\(location.latitude)"
-//        ]
-//        storeDataService.requestFetchKakaoGeoAddress(parameter: parameter) { result, error in
-//            if let result = result {
-//                completion(result)
-//            }
-//        }
-//    }
-//}

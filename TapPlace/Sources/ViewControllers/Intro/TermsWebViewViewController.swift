@@ -95,26 +95,30 @@ extension TermsWebViewViewController: CustomNavigationBarProtocol, UIScrollViewD
         print("*** TermsWebVC, term.title: \(term.title)")
         switch term.title {
         case "서비스 이용약관":
-            let parameter = [
+            var parameter = [
                 "service_date": LatestTermsModel.latestServiceDate
             ]
             
             self.delegate?.checkReceiveTerm(term: term, currentTermIndex: self.termIndex)
             UserRegisterModel.setUser.serviceDate = LatestTermsModel.latestServiceDate
             if isExistUser {
+                parameter["user_id"] = Constants.keyChainDeviceID
                 UserDataService().requestFetchUpdateUser(parameter: parameter, header: Constants().header) { result in
+                    print("*** result: \(result)")
+                    print("*** parameter: \(parameter)")
                     self.navigationController?.popViewController(animated: true)
                 }
             } else {
                 self.navigationController?.popViewController(animated: true)
             }
         case "개인정보 수집 및 이용동의":
-            let parameter = [
+            var parameter = [
                 "personal_date": LatestTermsModel.latestPersonalDate
             ]
             self.delegate?.checkReceiveTerm(term: term, currentTermIndex: self.termIndex)
             UserRegisterModel.setUser.personalDate = LatestTermsModel.latestPersonalDate
             if isExistUser {
+                parameter["user_id"] = Constants.keyChainDeviceID
                 UserDataService().requestFetchUpdateUser(parameter: parameter, header: Constants().header) { result in
                     self.navigationController?.popViewController(animated: true)
                 }

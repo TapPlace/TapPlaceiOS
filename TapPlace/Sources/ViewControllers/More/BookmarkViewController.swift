@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Combine
  
 class BookmarkViewController: CommonViewController {
     
@@ -23,9 +24,11 @@ class BookmarkViewController: CommonViewController {
     var isLoading: Bool = false
     
     var bookmarkDataSource: [Bookmark] = []
+    var subscription = Set<AnyCancellable>()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setBindings()
         setupNavigation()
         setupView()
         loadBookmarks()
@@ -48,33 +51,26 @@ class BookmarkViewController: CommonViewController {
 
 extension BookmarkViewController: CustomNavigationBarProtocol, FilterTitleProtocol {
     /**
+     * @ 북마크 뷰모델 바인딩
+     * coder : sanghyeon
+     */
+    func setBindings() {
+        bookmarkViewModel.$dataSource.sink { (bookmarks: [Bookmark]?) in
+            if let bookmarks = bookmarks {
+                self.bookmarkDataSource = bookmarks
+                self.tableView.reloadData()
+            }
+        }.store(in: &subscription)
+    }
+    /**
      * @ 북마크 불러오기
      * coder : sanghyeon
      */
     func loadBookmarks() {
         if isEnd || isLoading { return }
         isLoading = true
-        bookmarkViewModel.requestBookmark(page: isPage) { result, error in
-            if let _ = error {
-                showToast(message: "알 수 없는 이유로 즐겨찾는 매장을 불러오지 못했습니다.\n잠시 후, 다시 시도해주시기 바랍니다.", view: self.view)
-            }
-            if let result = result {
-                self.isEnd = result.isEnd
-                if !result.isEnd {
-                    self.isPage += 1
-                }
-                guard let bookmarks = result.bookmarks else { return }
-                bookmarks.forEach {
-                    var tempBookmark = $0
-                    tempBookmark.isChecked = false
-                    self.bookmarkDataSource.append(tempBookmark)
-                }
-                
-                self.filterTitle.filterCount = self.bookmarkDataSource.count
-                self.tableView.reloadData()
-                self.isLoading = false
-            }
-        }
+        bookmarkViewModel.requestBookmark(page: isPage)
+
     }
     /**
      * @ 초기 레이아웃 설정

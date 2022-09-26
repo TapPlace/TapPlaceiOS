@@ -31,7 +31,9 @@ class UserViewModel {
             if let error = error {
                 completion(nil, error)
             }
-            completion(result, nil)
+            if let result = result {
+                completion(result, nil)
+            }
         }
     }
     

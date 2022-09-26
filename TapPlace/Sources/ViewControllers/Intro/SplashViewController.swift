@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import EFCountingLabel
+
 
 class SplashViewController: UIViewController {
     /**
@@ -27,11 +29,13 @@ class SplashViewController: UIViewController {
     var isExistsUser: Bool = false
     var isAgreeLatestService: Bool = false
     var isAgreeLatestPersonal: Bool = false
+    var countOfFeedbacks: Int = 0
     
     
     var storageViewModel = StorageViewModel()
     var userViewModel = UserViewModel()
     var bookmarkViewModel = BookmarkViewModel()
+    var countingLabel = EFCountingLabel(frame: .zero)
     //MARK: - ViewController Lift Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,20 +47,24 @@ class SplashViewController: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        setupSlidingNumber()
 
         var nextVC: UIViewController?
 
         
-//        loadLatestTerms { result in
-//            switch result {
-//            case false:
-//                self.exitApp()
-//            case true:
-//                self.checkExistsUser { result in
-//                    self.checkedServer()
-//                }
-//            }
-//        }
+        loadLatestTerms { result in
+            switch result {
+            case false:
+                self.exitApp()
+            case true:
+                self.countingLabel.countFrom(0, to: CGFloat(self.countOfFeedbacks), withDuration: 1.0)
+                self.countingLabel.completionBlock = { () in
+                    self.checkExistsUser { result in
+                        self.checkedServer()
+                    }
+                }
+            }
+        }
     }
 }
 //MARK: - Layout
@@ -103,7 +111,39 @@ extension SplashViewController {
      * coder : sanghyeon
      */
     func setupSlidingNumber() {
+        countingLabel = {
+            let countingLabel = EFCountingLabel(frame: self.view.frame)
+            countingLabel.sizeToFit()
+            countingLabel.textColor = .white
+            countingLabel.font = .systemFont(ofSize: CommonUtils.resizeFontSize(size: 25), weight: .semibold)
+            return countingLabel
+        }()
+        let countInfoLabel: UILabel = {
+            let countInfoLabel = UILabel()
+            countInfoLabel.sizeToFit()
+            countInfoLabel.text = "현재까지 등록된 피드백 수"
+            countInfoLabel.textColor = .white
+            countInfoLabel.font = .systemFont(ofSize: CommonUtils.resizeFontSize(size: 13), weight: .medium)
+            return countInfoLabel
+        }()
         
+        countingLabel.setUpdateBlock { value, label in
+            let numberFormatter = NumberFormatter()
+            numberFormatter.numberStyle = .decimal
+            label.text = numberFormatter.string(for: value)
+        }
+        
+        view.addSubview(countingLabel)
+        view.addSubview(countInfoLabel)
+        
+        countingLabel.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.bottom.equalTo(view.safeAreaLayoutGuide).offset(-38)
+        }
+        countInfoLabel.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.bottom.equalTo(countingLabel.snp.top).offset(-10)
+        }
     }
 }
 //MARK: - Logic Functions
@@ -133,6 +173,7 @@ extension SplashViewController {
                 self.isServerStatus = true
                 LatestTermsModel.latestServiceDate = result.serviceDate.stringValue ?? ""
                 LatestTermsModel.latestPersonalDate = result.personalDate.stringValue ?? ""
+                self.countOfFeedbacks = Int(result.count ?? "0") ?? 0
                 completion(true)
             }
         }

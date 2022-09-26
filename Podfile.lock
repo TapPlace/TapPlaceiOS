@@ -4,6 +4,7 @@ PODS:
   - BlueCryptor (1.0.32)
   - BlueECC (1.2.5)
   - BlueRSA (1.0.200)
+  - EFCountingLabel (5.1.4)
   - FloatingPanel (2.5.4)
   - IQKeyboardManagerSwift (6.5.10)
   - KituraContracts (1.2.1):
@@ -29,6 +30,7 @@ PODS:
 DEPENDENCIES:
   - Alamofire
   - AlignedCollectionViewFlowLayout
+  - EFCountingLabel
   - FloatingPanel
   - IQKeyboardManagerSwift
   - NMapsMap
@@ -44,6 +46,7 @@ SPEC REPOS:
     - BlueCryptor
     - BlueECC
     - BlueRSA
+    - EFCountingLabel
     - FloatingPanel
     - IQKeyboardManagerSwift
     - KituraContracts
@@ -62,6 +65,7 @@ SPEC CHECKSUMS:
   BlueCryptor: b0aee3d9b8f367b49b30de11cda90e1735571c24
   BlueECC: 0d18e93347d3ec6d41416de21c1ffa4d4cd3c2cc
   BlueRSA: dfeef51db96bcc4edec654956c1581adbda4e6a3
+  EFCountingLabel: 210620994a2d54759f53034b5bda4642255969c7
   FloatingPanel: 387377aa46a9b088e5f8f5f2a8d2c00c61e67298
   IQKeyboardManagerSwift: 52962c76ab33532f15ad9f3ff4e5715eda5335bb
   KituraContracts: e845e60dc8627ad0a76fa55ef20a45451d8f830b
@@ -74,6 +78,6 @@ SPEC CHECKSUMS:
   SwiftJWT: 88c412708f58c169d431d344c87bc79a87c830ae
   SwiftKeychainWrapper: 807ba1d63c33a7d0613288512399cd1eda1e470c
 
-PODFILE CHECKSUM: 061a6fda61736ad82959af9470a0c47022e76c57
+PODFILE CHECKSUM: 77e50234093046f00c72fef34e26f4e27dcb9778
 
 COCOAPODS: 1.11.3

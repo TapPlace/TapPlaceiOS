@@ -63,11 +63,12 @@ struct UserDataService {
      * coder : sanghyeon
      */
     func requestFetchUpdateUser(parameter: [String: Any], header: HTTPHeaders?, completion: @escaping (Bool) -> ()) {
-        let url = "\(userApiUrl)/\(Constants.keyChainDeviceID)"
+        let url = "\(userApiUrl)"
         
         AF.request(url, method: .patch, parameters: parameter, encoding: URLEncoding.default, headers: header)
             .validate()
             .responseDecodable(of: UserUpdateModel.self) { (response) in
+                print("*** UserDS, response: \(response)")
                 switch response.result {
                 case .success(let response):
                     if let message = response.message {

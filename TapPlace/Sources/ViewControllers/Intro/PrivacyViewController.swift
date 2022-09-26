@@ -299,7 +299,7 @@ extension PrivacyViewController: BottomButtonProtocol {
             storageViewModel.updateUser(setUser)
         }
         
-        UserRegisterModel.setUser.birth = userSex.toDate()?.getDate(4) ?? "2022-01-01"
+        UserRegisterModel.setUser.birth = birthInputField.text ?? "20220101"
         UserRegisterModel.setUser.sex = userSex
         
         let vc = PickPaymentsViewController()

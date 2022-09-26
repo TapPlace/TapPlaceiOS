@@ -92,6 +92,7 @@ extension TermsWebViewViewController: CustomNavigationBarProtocol, UIScrollViewD
         term?.checked = true
         /// 옵셔널 바인딩
         guard let term = term else { return }
+        print("*** TermsWebVC, term.title: \(term.title)")
         switch term.title {
         case "서비스 이용약관":
             let parameter = [
@@ -104,11 +105,12 @@ extension TermsWebViewViewController: CustomNavigationBarProtocol, UIScrollViewD
                 UserDataService().requestFetchUpdateUser(parameter: parameter, header: Constants().header) { result in
                     self.navigationController?.popViewController(animated: true)
                 }
+            } else {
+                self.navigationController?.popViewController(animated: true)
             }
         case "개인정보 수집 및 이용동의":
             let parameter = [
-                "personal_date": LatestTermsModel.latestPersonalDate,
-                "key": Constants.tapplaceApiKey
+                "personal_date": LatestTermsModel.latestPersonalDate
             ]
             self.delegate?.checkReceiveTerm(term: term, currentTermIndex: self.termIndex)
             UserRegisterModel.setUser.personalDate = LatestTermsModel.latestPersonalDate
@@ -116,6 +118,8 @@ extension TermsWebViewViewController: CustomNavigationBarProtocol, UIScrollViewD
                 UserDataService().requestFetchUpdateUser(parameter: parameter, header: Constants().header) { result in
                     self.navigationController?.popViewController(animated: true)
                 }
+            } else {
+                self.navigationController?.popViewController(animated: true)
             }
         default: break
         }

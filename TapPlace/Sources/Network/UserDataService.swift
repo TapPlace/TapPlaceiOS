@@ -43,10 +43,10 @@ struct UserDataService {
      * @ 유저정보 최초설정
      * coder : sanghyeon
      */ 
-    func requestFetchAddUser(parameter: [String: Any], header: HTTPHeaders?, completion: @escaping (Any?, Error?) -> ()) {
+    func requestFetchAddUser(parameter: Parameters, header: HTTPHeaders?, completion: @escaping (Any?, Error?) -> ()) {
         let url = "\(userApiUrl)"
         
-        AF.request(url, method: .post, parameters: parameter, encoding: JSONEncoding.default, headers: nil)
+        AF.request(url, method: .post, parameters: parameter, encoding: JSONEncoding.default, headers: header)
             .validate()
             .response() { (response) in
                 switch response.result {

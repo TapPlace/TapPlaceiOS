@@ -102,12 +102,17 @@ extension SplashViewController {
                 completion(false)
             }
             if let result = result {
-                self.isExistsUser = true
-                let userServiceDate = result.serviceDate.stringValue ?? ""
-                let userPersonalDate = result.personalDate.stringValue ?? ""
-                self.isAgreeLatestService = Bool(userServiceDate.toBoolean)
-                self.isAgreeLatestPersonal = Bool(userPersonalDate.toBoolean)
-                completion(true)
+                if result.personalDate.stringValue == "" && result.serviceDate.stringValue == "" {
+                    self.isExistsUser = false
+                    completion(false)
+                } else {
+                    self.isExistsUser = true
+                    let userServiceDate = result.serviceDate.stringValue ?? ""
+                    let userPersonalDate = result.personalDate.stringValue ?? ""
+                    self.isAgreeLatestService = Bool(userServiceDate.toBoolean)
+                    self.isAgreeLatestPersonal = Bool(userPersonalDate.toBoolean)
+                    completion(true)
+                }
             }
         }
     }

@@ -46,16 +46,20 @@ class UserViewModel {
             parameter = parameters
         } else {
             guard let user = user else { return }
+            let formattedDate = user.birth.toDateString()
+            print("*** UserVm, formattedDate: \(formattedDate)")
             parameter = [
                 "user_id": user.userID,
                 "os": user.os,
-                "birth": user.birth,
                 "pays": user.pays,
                 "sex" : user.sex,
                 "personal_date" : user.personalDate,
                 "service_date" : user.serviceDate,
                 "marketing_agree": user.marketingAgree
             ]
+            if let formattedDate = formattedDate {
+                parameter!["birth"] = formattedDate
+            }
         }
         
         guard let parameter = parameter else { return }

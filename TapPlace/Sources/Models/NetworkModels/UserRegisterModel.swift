@@ -13,7 +13,6 @@ struct UserRegisterModel: Codable {
     var pays: [String]
     var sex, personalDate, serviceDate: String
     var marketingAgree: Bool
-    var key: String
 
     enum CodingKeys: String, CodingKey {
         case userID = "user_id"
@@ -21,10 +20,9 @@ struct UserRegisterModel: Codable {
         case personalDate = "personal_date"
         case serviceDate = "service_date"
         case marketingAgree = "marketing_agree"
-        case key
     }
 }
 
 extension UserRegisterModel {
-    static var setUser: UserRegisterModel = UserRegisterModel(userID: "", os: "", birth: "", pays: [], sex: "", personalDate: "", serviceDate: "", marketingAgree: false, key: "")
+    static var setUser: UserRegisterModel = UserRegisterModel(userID: "", os: "", birth: "", pays: [], sex: "", personalDate: "", serviceDate: "", marketingAgree: false)
 }

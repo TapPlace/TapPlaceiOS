@@ -84,6 +84,22 @@ extension String {
             return nil
         }
     }
+    /**
+     * @ 일반 문자를 데이트스트링으로 변환 (yyyy-MM-dd)
+     * coder : sanghyeon
+     */
+    func toDateString() -> String? {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyyMMdd"
+        
+        let dateObj = dateFormatter.date(from: self)
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        if let dateObj = dateObj {
+            return dateFormatter.string(from: dateObj)
+        } else {
+            return nil
+        }
+    }
 }
 
 extension Date {

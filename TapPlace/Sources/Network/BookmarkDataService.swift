@@ -37,18 +37,20 @@ struct BookmarkDataService {
      * param : isBookmark = 추가여부 (true=추가, false=삭제)
      * coder : sanghyeon
      */
-    func requestFetchToggleBookmark(isBookmark: Bool, parameter: Parameters, header: HTTPHeaders?, completion: @escaping (Bool?) -> ()) {
+    func requestFetchToggleBookmark(currentBookmark: Bool, parameter: Parameters, header: HTTPHeaders?, completion: @escaping (Bool?) -> ()) {
         var method: HTTPMethod = .post
         let url = "\(bookmarkUrl)"
-        switch isBookmark {
+        switch currentBookmark {
         case true:
-            method = .post
-        case false:
             method = .delete
+        case false:
+            method = .post
         }
         AF.request(url, method: method, parameters: parameter, encoding: JSONEncoding.default, headers: header)
             .validate()
             .responseDecodable(of: AddBookmarkResponseModel.self) { (response) in
+                print("*** BookmarkDS, requestFetchToggleBookmark,\n - url: \(url)\n - method: \(method)\n - parameter: \(parameter)")
+                print("*** BookmarkDS, requestFetchToggleBookmark, response: \(response)")
                 switch response.result {
                 case .success(let result):
                     if result.message == "ok" {

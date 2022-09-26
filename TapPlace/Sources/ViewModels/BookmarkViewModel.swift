@@ -63,12 +63,12 @@ extension BookmarkViewModel {
      * @ 북마크 추가/삭제
      * coder : sanghyeon
      */
-    func requestToggleBookmark(isBookmark: Bool, storeID: String, completion: @escaping (Bool?) -> ()) {
+    func requestToggleBookmark(currentBookmark: Bool, storeID: String, completion: @escaping (Bool?) -> ()) {
         let parameter: [String: Any] = [
             "user_id": "\(Constants.keyChainDeviceID)",
             "store_id": "\(storeID)"
         ]
-        bookmarkDataService.requestFetchToggleBookmark(isBookmark: isBookmark, parameter: parameter, header: Constants().header) { response in
+        bookmarkDataService.requestFetchToggleBookmark(currentBookmark: currentBookmark, parameter: parameter, header: Constants().header) { response in
             if let response = response {
                 completion(response)
             }

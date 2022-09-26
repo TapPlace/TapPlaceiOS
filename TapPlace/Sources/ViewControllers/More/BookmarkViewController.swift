@@ -316,7 +316,7 @@ extension BookmarkViewController: UITableViewDelegate, UITableViewDataSource {
     func deleteBookmark() {
         let checkedBookmark = bookmarkDataSource.filter { $0.isChecked == true }
         checkedBookmark.forEach { bookmark in
-            bookmarkViewModel.requestToggleBookmark(isBookmark: false, storeID: bookmark.storeID) { result in
+            bookmarkViewModel.requestToggleBookmark(currentBookmark: false, storeID: bookmark.storeID) { result in
                 if let result = result {
                     if result {
                         if self.bookmarkDataSource.count <= 0 {

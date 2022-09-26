@@ -134,6 +134,7 @@
 		F43CA9FF28D43CEC009E8845 /* NoticeDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43CA9FE28D43CEC009E8845 /* NoticeDataService.swift */; };
 		F449AEB328ACEABE008E0417 /* SearchContentButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F449AEB228ACEABE008E0417 /* SearchContentButton.swift */; };
 		F449AEB628ADD205008E0417 /* SearchingActionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F449AEB528ADD205008E0417 /* SearchingActionTableViewCell.swift */; };
+		F44C1B3C28E1659C009F623D /* NoticeDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F44C1B3B28E1659C009F623D /* NoticeDetailViewController.swift */; };
 		F4551D3A28A8B651003B93F4 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4551D3928A8B651003B93F4 /* SearchViewController.swift */; };
 		F4551D3C28A9F9C6003B93F4 /* SearchHistoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4551D3B28A9F9C6003B93F4 /* SearchHistoryTableViewCell.swift */; };
 		F470A33D28C9AA36007F4F24 /* FeedbackDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F470A33C28C9AA36007F4F24 /* FeedbackDetailViewController.swift */; };
@@ -288,6 +289,7 @@
 		F43CA9FE28D43CEC009E8845 /* NoticeDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeDataService.swift; sourceTree = "<group>"; };
 		F449AEB228ACEABE008E0417 /* SearchContentButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchContentButton.swift; sourceTree = "<group>"; };
 		F449AEB528ADD205008E0417 /* SearchingActionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchingActionTableViewCell.swift; sourceTree = "<group>"; };
+		F44C1B3B28E1659C009F623D /* NoticeDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeDetailViewController.swift; sourceTree = "<group>"; };
 		F4551D3928A8B651003B93F4 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		F4551D3B28A9F9C6003B93F4 /* SearchHistoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchHistoryTableViewCell.swift; sourceTree = "<group>"; };
 		F470A33C28C9AA36007F4F24 /* FeedbackDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackDetailViewController.swift; sourceTree = "<group>"; };
@@ -779,6 +781,7 @@
 			isa = PBXGroup;
 			children = (
 				F438236628C5C2A500C75063 /* NoticeViewController.swift */,
+				F44C1B3B28E1659C009F623D /* NoticeDetailViewController.swift */,
 				F438236F28C7085200C75063 /* AlarmViewController.swift */,
 				F438237328C7188A00C75063 /* InquiryViewController.swift */,
 				F470A33E28C9C27E007F4F24 /* FAQViewController.swift */,
@@ -1058,6 +1061,7 @@
 				F43CA9FD28D43CB7009E8845 /* NoticeListViewModel.swift in Sources */,
 				DF1CD4B828AF7BEC000D23E4 /* AroundPlaceFilterView.swift in Sources */,
 				DFDBB83528B094FE008D2E09 /* CommonViewController.swift in Sources */,
+				F44C1B3C28E1659C009F623D /* NoticeDetailViewController.swift in Sources */,
 				DF6B69F128B8BCA4009D4076 /* ToastMessage.swift in Sources */,
 				DF2340D128A239FC00A9DAE1 /* PickPaymentsCollectionReusableView.swift in Sources */,
 				DF1D34B728A3662900BDDA15 /* StoreModel.swift in Sources */,

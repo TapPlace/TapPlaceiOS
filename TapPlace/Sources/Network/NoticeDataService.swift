@@ -18,7 +18,6 @@ class NoticeDataService {
                 switch response.result{
                 case .success(let response):
                     completion(response.notice?.notice, response.isEnd ?? false, nil)
-                    print(response)
                 case .failure(let error):
                     completion(nil, false, error)
                     print(error.localizedDescription)

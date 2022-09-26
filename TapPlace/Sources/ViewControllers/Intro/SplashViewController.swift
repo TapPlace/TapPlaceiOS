@@ -59,8 +59,10 @@ class SplashViewController: UIViewController {
             case true:
                 self.countingLabel.countFrom(0, to: CGFloat(self.countOfFeedbacks), withDuration: 1.0)
                 self.countingLabel.completionBlock = { () in
-                    self.checkExistsUser { result in
-                        self.checkedServer()
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                        self.checkExistsUser { result in
+                            self.checkedServer()
+                        }
                     }
                 }
             }

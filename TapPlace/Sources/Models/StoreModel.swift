@@ -1,7 +1,7 @@
 //
 //  StoreModel.swift
 //  TapPlace
-//
+// 
 //  Created by 박상현 on 2022/08/10. 
 //
 
@@ -16,6 +16,7 @@ struct StoreModel {
 
 extension StoreModel {
     static let lists = [
+        StoreModel(id: "refresh", title: "초기화", color: .pointBlue),
         StoreModel(id: "FD6", title: "음식점", color: .init(hex: 0xFF6635)),
         StoreModel(id: "CE7", title: "카페", color: .init(hex: 0xFF6635)),
         StoreModel(id: "CS2", title: "편의점", color: .init(hex: 0x15AEEF)),

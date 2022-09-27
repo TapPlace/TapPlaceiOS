@@ -58,7 +58,6 @@ extension PickPaymentsViewController: BottomButtonProtocol, TitleViewProtocol, C
                 }
             } else {
                 UserRegisterModel.setUser.pays = selectedPayments
-                UserRegisterModel.setUser.key = Constants.tapplaceApiKey
                 
                 
                 let vc = TabBarViewController()
@@ -66,8 +65,12 @@ extension PickPaymentsViewController: BottomButtonProtocol, TitleViewProtocol, C
                 vc.modalPresentationStyle = .fullScreen
                 
                 userViewModel.sendUserInfo(user: UserRegisterModel.setUser) { result in
-                    self.storageViewModel.setPayments(self.selectedPayments)
-                    self.present(vc, animated: true)
+//                    if let result = result {
+                        self.storageViewModel.setPayments(self.selectedPayments)
+                        self.present(vc, animated: true)
+//                    } else {
+//                        showToast(message: "알 수 없는 이유로 이용등록에 실패하였습니다.\n잠시 후 다시 시도해주시기 바랍니다.", view: self.view)
+//                    }
                 }
             }
         } else {

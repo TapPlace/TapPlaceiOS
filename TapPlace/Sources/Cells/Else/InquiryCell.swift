@@ -1,28 +1,36 @@
 //
-//  NoticeCell.swift
+//  InquiryCell.swift
 //  TapPlace
 //
-//  Created by 이상준 on 2022/09/05.
+//  Created by 이상준 on 2022/09/27.
 //
 
 import Foundation
 import UIKit
 
-class NoticeCell: UITableViewCell {
-    
-    static let identifier = "NoticeCell"
+class InquiryCell: UITableViewCell {
+    static let identifier = "InquiryCell"
     
     let titleLbl: UILabel = {
         let titleLbl = UILabel()
-        titleLbl.font = .systemFont(ofSize: 16)
+        titleLbl.font = .systemFont(ofSize: 15)
         titleLbl.textColor = .init(hex: 0x4D4D4D)
         titleLbl.sizeToFit()
         return titleLbl
     }()
     
+    let acceptLbl: UILabel = {
+        let acceptLbl = UILabel()
+        acceptLbl.text = "접수완료"
+        acceptLbl.textColor = .init(hex: 0x9E9E9E)
+        acceptLbl.layer.borderWidth = 1
+        acceptLbl.layer.cornerRadius = 10
+        return acceptLbl
+    }()
+    
     let timeLbl: UILabel = {
-       let timeLbl = UILabel()
-        timeLbl.font = .systemFont(ofSize: 13)
+        let timeLbl = UILabel()
+        timeLbl.font = .systemFont(ofSize: 14)
         timeLbl.textColor = .init(hex: 0x9E9E9E)
         timeLbl.sizeToFit()
         return timeLbl
@@ -40,6 +48,7 @@ class NoticeCell: UITableViewCell {
     
     private func addContentView() {
         contentView.addSubview(titleLbl)
+        contentView.addSubview(acceptLbl)
         contentView.addSubview(timeLbl)
     }
     
@@ -49,14 +58,18 @@ class NoticeCell: UITableViewCell {
             $0.leading.equalToSuperview().offset(20)
         }
         
-        timeLbl.snp.makeConstraints {
-            $0.top.equalTo(titleLbl.snp.bottom).offset(6)
+        acceptLbl.snp.makeConstraints {
+            $0.top.equalTo(titleLbl).offset(10)
             $0.leading.equalToSuperview().offset(20)
+        }
+        
+        timeLbl.snp.makeConstraints {
+            $0.top.equalTo(titleLbl).offset(10)
+            $0.leading.equalTo(acceptLbl).offset(8)
         }
     }
     
-    func prepare(title: String?, content: String?,writeDate: String?) {
-        self.titleLbl.text = title
-        self.timeLbl.text = writeDate
+    private func prepare() {
+        
     }
 }

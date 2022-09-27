@@ -35,7 +35,7 @@ class NoticeViewController: CommonViewController {
         noticeTableView.register(NoticeCell.self, forCellReuseIdentifier: NoticeCell.identifier)
         noticeTableView.separatorInset.left = 20
         noticeTableView.separatorInset.right = 20
-        noticeTableView.allowsSelection = false
+        noticeTableView.allowsSelection = true
         return noticeTableView
     }()
     
@@ -43,10 +43,31 @@ class NoticeViewController: CommonViewController {
     func requestNotice() {
         NoticeDataService().getNotice(page: "\(noticeApiPage)") { (notice, isEnd, error) in
             if let notice = notice {
-                self.isEnd = isEnd
-                self.noticeListVM = NoticeListViewModel(noticeList: notice, isEnd: isEnd)
-                self.noticeResult += notice
-                self.configureTableView()
+                if notice.count > 0 {
+                    self.view.addSubview(self.noticeTableView)
+                    self.noticeTableView.snp.makeConstraints {
+                        $0.top.equalTo(self.customNavigationBar.snp.bottom)
+                        $0.leading.trailing.bottom.equalToSuperview()
+                    }
+                    
+                    self.isEnd = isEnd
+                    self.noticeListVM = NoticeListViewModel(noticeList: notice, isEnd: isEnd)
+                    self.noticeResult += notice
+                    self.configureTableView()
+                } else {
+                    let label: UILabel = {
+                        let label = UILabel()
+                        label.text = "등록된 공지사항이 없습니다."
+                        label.font = .systemFont(ofSize: 18)
+                        label.textColor = .init(hex: 0x707070)
+                        return label
+                    }()
+                    
+                    self.view.addSubview(label)
+                    label.snp.makeConstraints {
+                        $0.center.equalToSuperview()
+                    }
+                }
             }
             
             DispatchQueue.main.async {
@@ -69,7 +90,7 @@ extension NoticeViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         // 탭바
-        tabBar?.hideTabBar(hide: false)
+        tabBar?.hideTabBar(hide: true)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -94,12 +115,6 @@ extension NoticeViewController {
         customNavigationBar.snp.makeConstraints {
             $0.top.leading.trailing.equalToSuperview()
             $0.bottom.equalTo(customNavigationBar.containerView)
-        }
-        
-        view.addSubview(noticeTableView)
-        noticeTableView.snp.makeConstraints {
-            $0.top.equalTo(customNavigationBar.snp.bottom)
-            $0.leading.trailing.bottom.equalToSuperview()
         }
     }
 }
@@ -126,20 +141,28 @@ extension NoticeViewController: UITableViewDelegate, UITableViewDataSource {
             return 0
         }
         return noticeResult.count
-//        return noticeListVM.numberOfRowsInSection(1)
     }
-
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: NoticeCell.identifier, for: indexPath) as! NoticeCell
-//        let noticeVM = self.noticeListVM.searchAtIndex(indexPath.row)
-//        cell.prepare(title: noticeVM.title, content: noticeVM.content, writeDate: getOnlyDate(writeDate: noticeVM.writeDate))
         let notice = self.noticeResult[indexPath.row]
         cell.prepare(title: notice.title, content: notice.content, writeDate: getOnlyDate(writeDate: notice.writeDate))
         return cell
     }
     
+    // 공지사항 셀 선택시 해당 공지사항 상세보기 페이지로 이동
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print("클릭됨: \(indexPath.row)")
+        let notice = self.noticeResult[indexPath.row]
+        let nextVC = NoticeDetailViewController()
+        nextVC.noticeTitle = notice.title
+        nextVC.content = notice.content
+        nextVC.writeDate = getOnlyDate(writeDate: notice.writeDate)
+        self.navigationController?.pushViewController(nextVC, animated: true)
+    }
+    
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        if section != 1 { return .zero }
+        if section != 1 || isEnd == true { return .zero }
         return 50
     }
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {

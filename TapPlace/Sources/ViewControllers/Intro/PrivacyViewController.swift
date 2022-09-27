@@ -15,6 +15,16 @@ class PrivacyViewController: UIViewController {
             skipButton.isHidden = newValue
         }
     }
+    
+    var userInfo: UserInfoResponseModel? = nil {
+        willSet {
+            if let userInfo = newValue {
+                birthInputField.text = userInfo.birth.replacingOccurrences(of: "-", with: "")
+                actionGenderButton(userInfo.sex == "남" ? maleButton : femaleButton)
+            }
+        }
+    }
+    
     let customNavigationBar = CustomNavigationBar()
     let bottomButton = BottomButton()
     let birthInputField = UITextField() // 생년월일 입력 필드
@@ -22,8 +32,35 @@ class PrivacyViewController: UIViewController {
     let femaleButton = UIButton() // 여성 버튼
     let skipButton = UIButton(type: .system)
     
-    var userSex = "남"
+    var userSex = "남" {
+        willSet {
+            if newValue == "남" {
+                maleButton.backgroundColor = UIColor(red: 0.306, green: 0.467, blue: 0.984, alpha: 0.06)
+                maleButton.layer.borderColor = UIColor(red: 0.306, green: 0.467, blue: 0.984, alpha: 0.6).cgColor
+                maleButton.layer.borderWidth = 1.5
+                maleButton.setTitleColor(.pointBlue, for: .normal)
+                
+                femaleButton.backgroundColor = .white
+                femaleButton.layer.borderWidth = 1.0
+                femaleButton.layer.borderColor = UIColor(red: 0.859, green: 0.871, blue: 0.91, alpha: 1).cgColor
+                femaleButton.setTitleColor(UIColor(red: 0.62, green: 0.62, blue: 0.62, alpha: 1), for: .normal)
+            } else {
+                femaleButton.backgroundColor = UIColor(red: 0.306, green: 0.467, blue: 0.984, alpha: 0.06)
+                femaleButton.layer.borderColor = UIColor(red: 0.306, green: 0.467, blue: 0.984, alpha: 0.6).cgColor
+                femaleButton.layer.borderWidth = 1.5
+                femaleButton.setTitleColor(.pointBlue, for: .normal)
+                
+                maleButton.backgroundColor = .white
+                maleButton.layer.borderWidth = 1.0
+                maleButton.layer.borderColor = UIColor(red: 0.859, green: 0.871, blue: 0.91, alpha: 1).cgColor
+                maleButton.setTitleColor(UIColor(red: 0.62, green: 0.62, blue: 0.62, alpha: 1), for: .normal)
+            }
+            maleButton.layoutIfNeeded()
+            femaleButton.layoutIfNeeded()
+        }
+    }
     var storageViewModel = StorageViewModel()
+    var userViewModel = UserViewModel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -112,21 +149,17 @@ extension PrivacyViewController {
             return genderLabel
         }()
         
-        maleButton.backgroundColor = UIColor(red: 0.306, green: 0.467, blue: 0.984, alpha: 0.06)
+
         maleButton.layer.cornerRadius = 8
         maleButton.layer.borderWidth = 1.5
-        maleButton.layer.borderColor = UIColor(red: 0.306, green: 0.467, blue: 0.984, alpha: 0.6).cgColor
         maleButton.setTitle("남성", for: .normal)
-        maleButton.setTitleColor(.pointBlue, for: .normal)
         maleButton.titleLabel?.font = .systemFont(ofSize: CommonUtils.resizeFontSize(size: 15))
         maleButton.addTarget(self, action: #selector(self.actionGenderButton(_:)), for: .touchUpInside)
         
         
         femaleButton.layer.cornerRadius = 8
         femaleButton.layer.borderWidth = 1
-        femaleButton.layer.borderColor = UIColor(red: 0.859, green: 0.871, blue: 0.91, alpha: 1).cgColor
         femaleButton.setTitle("여성", for: .normal)
-        femaleButton.setTitleColor(UIColor(red: 0.62, green: 0.62, blue: 0.62, alpha: 1), for: .normal)
         femaleButton.titleLabel?.font = .systemFont(ofSize: CommonUtils.resizeFontSize(size: 15))
         femaleButton.addTarget(self, action: #selector(self.actionGenderButton(_:)), for: .touchUpInside)
         
@@ -211,28 +244,8 @@ extension PrivacyViewController {
     // 성별 버튼 클릭시 이벤트
     @objc func actionGenderButton(_ sender: UIButton) {
         if sender == maleButton {
-            maleButton.backgroundColor = UIColor(red: 0.306, green: 0.467, blue: 0.984, alpha: 0.06)
-            maleButton.layer.borderColor = UIColor(red: 0.306, green: 0.467, blue: 0.984, alpha: 0.6).cgColor
-            maleButton.layer.borderWidth = 1.5
-            maleButton.setTitleColor(.pointBlue, for: .normal)
-            
-            femaleButton.backgroundColor = .white
-            femaleButton.layer.borderWidth = 1.0
-            femaleButton.layer.borderColor = UIColor(red: 0.859, green: 0.871, blue: 0.91, alpha: 1).cgColor
-            femaleButton.setTitleColor(UIColor(red: 0.62, green: 0.62, blue: 0.62, alpha: 1), for: .normal)
-            
             userSex = "남"
         } else {
-            femaleButton.backgroundColor = UIColor(red: 0.306, green: 0.467, blue: 0.984, alpha: 0.06)
-            femaleButton.layer.borderColor = UIColor(red: 0.306, green: 0.467, blue: 0.984, alpha: 0.6).cgColor
-            femaleButton.layer.borderWidth = 1.5
-            femaleButton.setTitleColor(.pointBlue, for: .normal)
-            
-            maleButton.backgroundColor = .white
-            maleButton.layer.borderWidth = 1.0
-            maleButton.layer.borderColor = UIColor(red: 0.859, green: 0.871, blue: 0.91, alpha: 1).cgColor
-            maleButton.setTitleColor(UIColor(red: 0.62, green: 0.62, blue: 0.62, alpha: 1), for: .normal)
-            
             userSex = "여"
         }
     }
@@ -294,12 +307,35 @@ extension PrivacyViewController: BottomButtonProtocol {
             return
         }
         
+        if isEditMode {
+            print("textFieldText: \(textFieldText)")
+            if let formattedUserBirth = textFieldText.toDateString() {
+                let parameter : [String: Any] = [
+                    "user_id": "\(Constants.keyChainDeviceID)",
+                    "birth": "\(formattedUserBirth)",
+                    "sex": "\(userSex)"
+                ]
+                print("*** parameter: \(parameter)")
+                UserDataService().requestFetchUpdateUser(parameter: parameter, header: Constants().header) { result in
+                    if result {
+                        self.navigationController?.popViewController(animated: true)
+                    } else {
+                        showToast(message: "알 수 없는 이유로 변경되지 않았습니다.\n잠시 후, 다시 시도해주시기 바랍니다.", view: self.view)
+                    }
+                }
+            } else {
+                showToast(message: "알 수 없는 이유로 변경되지 않았습니다.\n잠시 후, 다시 시도해주시기 바랍니다.", view: self.view)
+            }
+
+            return
+        }
+        
         if let user = storageViewModel.getUserInfo(uuid: Constants.keyChainDeviceID) {
             let setUser = UserModel(uuid: user.uuid, isFirstLaunch: user.isFirstLaunch, agreeTerm: user.agreeTerm, agreePrivacy: user.agreePrivacy, agreeMarketing: user.agreeMarketing, birth: textFieldText, sex: userSex)
             storageViewModel.updateUser(setUser)
         }
         
-        UserRegisterModel.setUser.birth = userSex.toDate()?.getDate(4) ?? "2022-01-01"
+        UserRegisterModel.setUser.birth = birthInputField.text ?? "20220101"
         UserRegisterModel.setUser.sex = userSex
         
         let vc = PickPaymentsViewController()

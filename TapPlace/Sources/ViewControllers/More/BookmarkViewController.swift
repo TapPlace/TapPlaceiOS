@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Combine
  
 class BookmarkViewController: CommonViewController {
     
@@ -18,14 +19,16 @@ class BookmarkViewController: CommonViewController {
 
     var filterAsc: Bool = false
     var isEditMode: Bool = false
-    var isPage: Int = 1
+    var isPage: Int = 0
     var isEnd: Bool = false
     var isLoading: Bool = false
     
     var bookmarkDataSource: [Bookmark] = []
+    var subscription = Set<AnyCancellable>()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setBindings()
         setupNavigation()
         setupView()
         loadBookmarks()
@@ -48,33 +51,32 @@ class BookmarkViewController: CommonViewController {
 
 extension BookmarkViewController: CustomNavigationBarProtocol, FilterTitleProtocol {
     /**
+     * @ 북마크 뷰모델 바인딩
+     * coder : sanghyeon
+     */
+    func setBindings() {
+        bookmarkViewModel.$dataSource.sink { (bookmarks: [Bookmark]?) in
+            print("*** BookmarkVC, BookmarkVM dataSource 데이터 변경됨")
+            if let bookmarks = bookmarks {
+                /// 기존 데이터와 같다면 별도의 처리를 하지 않음
+                //if self.bookmarkDataSource.count > 0 && self.bookmarkDataSource[0].num == bookmarks[0].num { return }
+                self.bookmarkDataSource += bookmarks
+                self.filterTitle.filterCount = self.bookmarkDataSource.count
+                self.isEnd = self.bookmarkViewModel.isEnd
+                self.isLoading = false
+                self.isPage += 1
+                self.tableView.reloadData()
+            }
+        }.store(in: &subscription)
+    }
+    /**
      * @ 북마크 불러오기
      * coder : sanghyeon
      */
     func loadBookmarks() {
         if isEnd || isLoading { return }
         isLoading = true
-        bookmarkViewModel.requestBookmark(page: isPage) { result, error in
-            if let _ = error {
-                showToast(message: "알 수 없는 이유로 즐겨찾는 매장을 불러오지 못했습니다.\n잠시 후, 다시 시도해주시기 바랍니다.", view: self.view)
-            }
-            if let result = result {
-                self.isEnd = result.isEnd
-                if !result.isEnd {
-                    self.isPage += 1
-                }
-                guard let bookmarks = result.bookmarks else { return }
-                bookmarks.forEach {
-                    var tempBookmark = $0
-                    tempBookmark.isChecked = false
-                    self.bookmarkDataSource.append(tempBookmark)
-                }
-                
-                self.filterTitle.filterCount = self.bookmarkDataSource.count
-                self.tableView.reloadData()
-                self.isLoading = false
-            }
-        }
+        bookmarkViewModel.requestBookmark(page: isPage, containFeedback: true)
     }
     /**
      * @ 초기 레이아웃 설정
@@ -96,7 +98,6 @@ extension BookmarkViewController: CustomNavigationBarProtocol, FilterTitleProtoc
         self.view.backgroundColor = .white
         filterTitle.setFilterName = "등록순"
         filterTitle.filterName = "가맹점"
-        filterTitle.filterCount = self.bookmarkDataSource.count
         
         
         //MARK: AddSubView
@@ -136,7 +137,7 @@ extension BookmarkViewController: CustomNavigationBarProtocol, FilterTitleProtoc
             $0.bottom.equalTo(safeArea)
             $0.top.equalTo(filterTitle.snp.bottom)
         }
-        tableView.register(AroundStoreTableViewCell.self, forCellReuseIdentifier: AroundStoreTableViewCell.cellId)
+        //tableView.register(AroundStoreTableViewCell.self, forCellReuseIdentifier: AroundStoreTableViewCell.cellId)
         tableView.register(BookMarkEditModeCell.self, forCellReuseIdentifier: BookMarkEditModeCell.cellId)
         
     }
@@ -244,22 +245,17 @@ extension BookmarkViewController: CustomNavigationBarProtocol, FilterTitleProtoc
 extension BookmarkViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print("*** BookmarkVC, tableview\n - numberOfRowsInSection: \(self.bookmarkDataSource.count)")
         return self.bookmarkDataSource.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: BookMarkEditModeCell.cellId, for: indexPath) as? BookMarkEditModeCell else { return UITableViewCell() }
-        let cellDataSource = self.bookmarkDataSource[indexPath.row]
         cell.cellIndex = indexPath.row
         // FIXME: MVVM 수정
-//        storeViewModel.requestStoreInfo(storeID: cellDataSource.storeID, pays: storageViewModel.userFavoritePaymentsString) { result in
-//            guard let storeInfo = result else { return }
-//            cell.storeInfo = storeInfo//AroundStoreModel.convertStoreInfo(storeInfo: storeInfo)
-//        }
-//        if let bookmarkChecked = bookmarkDataSource[indexPath.row].isChecked {
-//            cell.cellSelected = bookmarkChecked
-//        }
+        cell.storeInfo = self.bookmarkDataSource[indexPath.row].convertStoreInfo()
+        if let bookmarkChecked = bookmarkDataSource[indexPath.row].isChecked {
+            cell.cellSelected = bookmarkChecked
+        }
         cell.selectionStyle = .none
         cell.isEditMode = isEditMode
         return cell
@@ -269,21 +265,10 @@ extension BookmarkViewController: UITableViewDelegate, UITableViewDataSource {
         if isEditMode {
             selectBookmark(indexPath: indexPath)
         } else {
-            if isLoading { return }
-            isLoading = true
             let vc = StoreDetailViewController()
             let bookmarkStore = self.bookmarkDataSource[indexPath.row]
-            var tempStore = bookmarkStore.convertStoreInfo()
-            // FIXME: MVVM 수정
-//            storeViewModel.requestStoreInfoCheck(searchModel: bookmarkStore.convertSearchModel(), pays: storageViewModel.userFavoritePaymentsString) { result in
-//                if let result = result {
-//                    tempStore.feedback = result
-//                    vc.storeInfo = tempStore
-//                    self.navigationController?.pushViewController(vc, animated: true)
-//                }
-//                self.isLoading = false
-//            }
-            
+            vc.storeInfo = bookmarkStore.convertStoreInfo()
+            self.navigationController?.pushViewController(vc, animated: true)
         }
     }
     
@@ -295,7 +280,6 @@ extension BookmarkViewController: UITableViewDelegate, UITableViewDataSource {
         if !isEditMode { return }
         
         if let allSelect = allSelect {
-            print("*** BookmarkVC, selectBookmark\n - allSelect: \(allSelect)\n - self.bookmarkDataSource.count: \(self.bookmarkDataSource.count)")
             // FIXME: 인덱스 오류 확인
             for i in 0 ... bookmarkDataSource.count - 1 {
                 var bookmark = bookmarkDataSource[i]
@@ -334,7 +318,7 @@ extension BookmarkViewController: UITableViewDelegate, UITableViewDataSource {
     func deleteBookmark() {
         let checkedBookmark = bookmarkDataSource.filter { $0.isChecked == true }
         checkedBookmark.forEach { bookmark in
-            bookmarkViewModel.requestToggleBookmark(isBookmark: false, storeID: bookmark.storeID) { result in
+            bookmarkViewModel.requestToggleBookmark(currentBookmark: false, storeID: bookmark.storeID) { result in
                 if let result = result {
                     if result {
                         if self.bookmarkDataSource.count <= 0 {

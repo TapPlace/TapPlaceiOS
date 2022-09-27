@@ -17,6 +17,16 @@ class InquiryViewController: CommonViewController {
     let customNavigationBar = CustomNavigationBar()
     let contentPlaceholder: String = "문의하실 내용을 남겨주세요."
     
+    let inquiriesBtn: UIButton = {
+        let inquiriesBtn = UIButton()
+        inquiriesBtn.setTitle("문의내역", for: .normal)
+        inquiriesBtn.setTitleColor(.init(hex: 0x9E9E9E), for: .normal)
+        inquiriesBtn.titleLabel?.font = .systemFont(ofSize: 15)
+        inquiriesBtn.sizeToFit()
+        inquiriesBtn.addTarget(self, action: #selector(pushInquiriesVC), for: .touchUpInside)
+        return inquiriesBtn
+    }()
+    
     let titleLbl: UILabel = {
         let titleLbl = UILabel()
         titleLbl.text = "문의제목"
@@ -59,24 +69,6 @@ class InquiryViewController: CommonViewController {
         return contentTextView
     }()
     
-    let emailLbl: UILabel = {
-        let emailLbl = UILabel()
-        emailLbl.text = "이메일 주소"
-        emailLbl.font = .systemFont(ofSize: 17)
-        emailLbl.sizeToFit()
-        return emailLbl
-    }()
-    
-    let emailField: UITextField = {
-        let emailField = UITextField()
-        emailField.layer.cornerRadius = 8
-        emailField.layer.borderWidth = 1
-        emailField.layer.borderColor = UIColor.init(hex: 0xDBDEE8).cgColor
-        emailField.font = .systemFont(ofSize: 15)
-        emailField.setLeftPaddingPoints(15)
-        emailField.placeholder = "답변 받을 이메일 주소를 알려주세요."
-        return emailField
-    }()
     
     let tableView: UITableView = {
         let tableView = UITableView()
@@ -107,7 +99,6 @@ class InquiryViewController: CommonViewController {
         
         titleField.delegate = self
         contentTextView.delegate = self
-        emailField.delegate = self
         button.delegate = self
         button.isActive = true
         
@@ -158,6 +149,12 @@ extension InquiryViewController {
             $0.bottom.equalTo(customNavigationBar.containerView)
         }
         
+        customNavigationBar.addSubview(inquiriesBtn)
+        inquiriesBtn.snp.makeConstraints {
+            $0.bottom.equalTo(customNavigationBar.containerView).offset(-13)
+            $0.trailing.equalToSuperview().offset(-20)
+        }
+        
         view.addSubview(titleLbl)
         titleLbl.snp.makeConstraints {
             $0.top.equalTo(customNavigationBar.snp.bottom).offset(20)
@@ -192,20 +189,6 @@ extension InquiryViewController {
             $0.height.equalTo(190)
         }
         
-        view.addSubview(emailLbl)
-        emailLbl.snp.makeConstraints {
-            $0.top.equalTo(contentTextView.snp.bottom).offset(28)
-            $0.leading.equalToSuperview().offset(20)
-        }
-        
-        view.addSubview(emailField)
-        emailField.snp.makeConstraints {
-            $0.top.equalTo(emailLbl.snp.bottom).offset(10)
-            $0.leading.equalToSuperview().offset(20)
-            $0.trailing.equalToSuperview().offset(-20)
-            $0.height.equalTo(48)
-        }
-        
         view.addSubview(button)
         button.snp.makeConstraints {
             $0.left.right.bottom.equalToSuperview()
@@ -218,6 +201,11 @@ extension InquiryViewController {
             $0.height.equalTo(50)
             $0.bottom.equalTo(button.snp.top).offset(-15)
         }
+    }
+    
+    @objc func pushInquiriesVC() {
+        let nextVC = InquiryHistoryViewController()
+        self.navigationController?.pushViewController(nextVC, animated: true)
     }
 }
 
@@ -246,11 +234,6 @@ extension InquiryViewController: UITextFieldDelegate {
         }
         else {
             contentTextView.resignFirstResponder()
-        }
-        
-        if textField == emailField {
-            self.view.endEditing(true)
-            return false
         }
         return true
     }
@@ -350,18 +333,11 @@ extension InquiryViewController: BottomButtonProtocol {
             return
         }
         
-        let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
-        let emailTest = NSPredicate(format: "SELF MATCHES %@", emailRegEx)
-        if !emailTest.evaluate(with: emailField.text) {
-            showToast(message: "올바른 형식의 이메일을 입력해주세요.", view: self.view)
-            return
-        }
-        
         button.isActive = false
         button.setButtonStyle(title: "문의하기", type: .disabled, fill: true)
         
-        if let titleText = titleField.text, let contentText = contentTextView.text, let emailText = emailField.text {
-            if titleText.count != 0 && contentText.count != 0 && emailText.count != 0 {
+        if let titleText = titleField.text, let contentText = contentTextView.text {
+            if titleText.count != 0 && contentText.count != 0 {
                 if answerCheck != 1 {
                     showToast(message: "개인정보 수집, 이용동의를 체크해주시기 바랍니다.", view: self.view)
                     self.button.setButtonStyle(title: "문의하기", type: .activate, fill: true)
@@ -375,7 +351,6 @@ extension InquiryViewController: BottomButtonProtocol {
                     "title": titleText,
                     "content": contentText,
                     "answer_check": answerCheck,
-                    "email": emailText,
                     "os": "iOS"
                 ]
                 
@@ -393,7 +368,6 @@ extension InquiryViewController: BottomButtonProtocol {
                             self.titleField.text = ""
                             self.contentTextView.text =  "문의하실 내용을 남겨주세요."
                             self.contentTextView.textColor = .systemGray3
-                            self.emailField.text = ""
                             
                             guard let cell = self.tableView.cellForRow(at: IndexPath.init(row: 0, section: 0)) as? TermsTableViewCell else { return }
                             cell.setCheck(check: false)

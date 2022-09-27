@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import EFCountingLabel
+
 
 class SplashViewController: UIViewController {
     /**
@@ -27,12 +29,13 @@ class SplashViewController: UIViewController {
     var isExistsUser: Bool = false
     var isAgreeLatestService: Bool = false
     var isAgreeLatestPersonal: Bool = false
+    var countOfFeedbacks: Int = 0
     
     
     var storageViewModel = StorageViewModel()
     var userViewModel = UserViewModel()
     var bookmarkViewModel = BookmarkViewModel()
-    let currentStatusLabel = UILabel()
+    var countingLabel = EFCountingLabel(frame: .zero)
     //MARK: - ViewController Lift Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,19 +47,105 @@ class SplashViewController: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        setupSlidingNumber()
+
         var nextVC: UIViewController?
-        
+
         
         loadLatestTerms { result in
             switch result {
             case false:
                 self.exitApp()
             case true:
-                self.checkExistsUser { result in
-                    self.checkedServer()
+                self.countingLabel.countFrom(0, to: CGFloat(self.countOfFeedbacks), withDuration: 1.0)
+                self.countingLabel.completionBlock = { () in
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                        self.checkExistsUser { result in
+                            self.checkedServer()
+                        }
+                    }
                 }
             }
-        }        
+        }
+    }
+}
+//MARK: - Layout
+extension SplashViewController {
+    /**
+     * @ 초기 레이아웃 설정
+     * coder : sanghyeon
+     */
+    private func setupView() {
+        /// 뷰컨트롤러 배경색 지정
+        view.backgroundColor = .white
+        self.navigationController?.navigationBar.isHidden = true
+        
+        lazy var gradientLayer: CAGradientLayer = {
+            let gradientLayer = CAGradientLayer()
+            gradientLayer.frame = view.bounds
+            gradientLayer.colors = [
+                UIColor(red: 0.306, green: 0.467, blue: 0.984, alpha: 1).cgColor,
+                UIColor(red: 0.095, green: 0.296, blue: 0.946, alpha: 1).cgColor
+            ]
+            gradientLayer.startPoint = CGPoint(x: 0.0, y: 0.0)
+            gradientLayer.endPoint = CGPoint(x: 1.0, y: 1.0)
+            
+            return gradientLayer
+        }()
+        view.layer.addSublayer(gradientLayer)
+        
+        let logoImageView: UIImageView = {
+            let logoImageView = UIImageView()
+            logoImageView.image = .init(named: "fullLogoWhite")
+            logoImageView.contentMode = .scaleAspectFit
+            return logoImageView
+        }()
+
+        view.addSubview(logoImageView)
+        
+        logoImageView.snp.makeConstraints {
+            $0.center.equalTo(view.safeAreaLayoutGuide)
+            $0.height.equalTo(50)
+        }
+    }
+    /**
+     * @ 슬라이딩 넘버 설정
+     * coder : sanghyeon
+     */
+    func setupSlidingNumber() {
+        countingLabel = {
+            let countingLabel = EFCountingLabel(frame: self.view.frame)
+            countingLabel.sizeToFit()
+            countingLabel.textColor = .white
+            countingLabel.font = .systemFont(ofSize: CommonUtils.resizeFontSize(size: 25), weight: .semibold)
+            return countingLabel
+        }()
+        let countInfoLabel: UILabel = {
+            let countInfoLabel = UILabel()
+            countInfoLabel.sizeToFit()
+            countInfoLabel.text = "현재까지 등록된 피드백 수"
+            countInfoLabel.textColor = .white
+            countInfoLabel.font = .systemFont(ofSize: CommonUtils.resizeFontSize(size: 13), weight: .medium)
+            return countInfoLabel
+        }()
+        
+        countingLabel.setUpdateBlock { value, label in
+            let numberFormatter = NumberFormatter()
+            numberFormatter.numberStyle = .decimal
+            label.text = numberFormatter.string(for: value)
+        }
+        
+        view.addSubview(countingLabel)
+        view.addSubview(countInfoLabel)
+        
+        countingLabel.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.bottom.equalTo(view.safeAreaLayoutGuide).offset(-38)
+        }
+        countInfoLabel.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.bottom.equalTo(countingLabel.snp.top).offset(-10)
+        }
     }
 }
 //MARK: - Logic Functions
@@ -86,6 +175,7 @@ extension SplashViewController {
                 self.isServerStatus = true
                 LatestTermsModel.latestServiceDate = result.serviceDate.stringValue ?? ""
                 LatestTermsModel.latestPersonalDate = result.personalDate.stringValue ?? ""
+                self.countOfFeedbacks = Int(result.count ?? "0") ?? 0
                 completion(true)
             }
         }
@@ -102,12 +192,17 @@ extension SplashViewController {
                 completion(false)
             }
             if let result = result {
-                self.isExistsUser = true
-                let userServiceDate = result.serviceDate.stringValue ?? ""
-                let userPersonalDate = result.personalDate.stringValue ?? ""
-                self.isAgreeLatestService = Bool(userServiceDate.toBoolean)
-                self.isAgreeLatestPersonal = Bool(userPersonalDate.toBoolean)
-                completion(true)
+                if result.personalDate.stringValue == "" && result.serviceDate.stringValue == "" {
+                    self.isExistsUser = false
+                    completion(false)
+                } else {
+                    self.isExistsUser = true
+                    let userServiceDate = result.serviceDate.stringValue ?? ""
+                    let userPersonalDate = result.personalDate.stringValue ?? ""
+                    self.isAgreeLatestService = Bool(userServiceDate.toBoolean)
+                    self.isAgreeLatestPersonal = Bool(userPersonalDate.toBoolean)
+                    completion(true)
+                }
             }
         }
     }
@@ -182,81 +277,13 @@ extension SplashViewController {
         return .fail
     }
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    /**
-     * @ 유저가 동의한 약관과 최신 약관 비교
-     * coder : sanghyeon
-     */
-//    func checkTerms() -> TermResultType {
-//        currentStatusLabel.text = "새로운 약관 정보를 불러오는중..."
-//        if let user = storageViewModel.getUserInfo(uuid: Constants.keyChainDeviceID) {
-//            //            print("유저의 서비스 이용약관 날짜: \(user.agreeTerm), 유저의 개인정보 처리방침 날짜: \(user.agreePrivacy)")
-//            //            print("최신 이용약관 날짜: \(LatestTermsModel.latestServiceDate), 최신 개인정보 처리방침 날짜: \(LatestTermsModel.latestPersonalDate)")
-//            if user.agreeTerm != LatestTermsModel.latestServiceDate {
-//                //                print("서비스 이용약관 날짜 다름")
-//                return .service
-//            } else if user.agreePrivacy != LatestTermsModel.latestPersonalDate {
-//                //                print("서비스 개인정보 처리방침 날짜 다름")
-//                return .privacy
-//            } else {
-//                return .success
-//            }
-//        }
-//        return .fail
-//    }
     /**
      * @ 유저 UUID 체크
      * coder : sanghyeon
      */
     private func checkUUID() {
-        currentStatusLabel.text = "유저 정보 확인중..."
         if let _ = KeyChain.readUserDeviceUUID() {} else {
             KeyChain.saveUserDeviceUUID(Constants.keyChainDeviceID)
-        }
-    }
-    /**
-     * @ 초기 레이아웃 설정
-     * coder : sanghyeon
-     */
-    private func setupView() {
-        /// 뷰컨트롤러 배경색 지정
-        view.backgroundColor = .white
-        self.navigationController?.navigationBar.isHidden = true
-        
-        let logoImageView: UIImageView = {
-            let logoImageView = UIImageView()
-            logoImageView.image = .init(named: "fullLogo")
-            logoImageView.contentMode = .scaleAspectFit
-            return logoImageView
-        }()
-        currentStatusLabel.sizeToFit()
-        currentStatusLabel.textColor = .init(hex: 0x9E9E9E)
-        currentStatusLabel.font = .systemFont(ofSize: CommonUtils.resizeFontSize(size: 14), weight: .regular)
-        
-        
-        view.addSubview(logoImageView)
-        view.addSubview(currentStatusLabel)
-        
-        logoImageView.snp.makeConstraints {
-            $0.center.equalTo(view.safeAreaLayoutGuide)
-            $0.height.equalTo(50)
-        }
-        currentStatusLabel.snp.makeConstraints {
-            $0.centerX.equalToSuperview()
-            $0.bottom.equalTo(view.safeAreaLayoutGuide).offset(-10)
         }
     }
     /**
@@ -265,7 +292,6 @@ extension SplashViewController {
      * coder : sanghyeon
      */
     private func isFirstLaunch() -> Bool {
-        currentStatusLabel.text = "첫 실행 여부 확인중..."
         guard let user = storageViewModel.getUserInfo(uuid: Constants.keyChainDeviceID) else { return true }
         if user.isFirstLaunch {
             return true
@@ -274,38 +300,13 @@ extension SplashViewController {
         }
         
     }
-    /**
-     * @ 약관 동의가 되었는지 확인
-     * coder : sanghyeon
-     */
-//    private func isAgreeTerms() -> Bool {
-//        currentStatusLabel.text = "약관 동의 여부 확인중..."
-//        let user = storageViewModel.getUserInfo(uuid: Constants.keyChainDeviceID)
-//        if user?.agreeTerm == "" || user?.agreePrivacy == "" {
-//            return false
-//        } else {
-//            return true
-//        }
-//    }
-    /**
-     * @ 성별, 생년월일(유저 정보) 설정 되었는지 확인
-     * coder : sanghyeon
-     */
-//    private func isSettedUser() -> Bool {
-//        let user = storageViewModel.getUserInfo(uuid: Constants.keyChainDeviceID)
-//        if user?.birth == "" || user?.sex == "" {
-//            return false
-//        } else {
-//            return true
-//        }
-//    }
+   
     /**
      * @ 관심 결제수단 여부 확인
      * return : 확인 여부 (Bool)
      * coder : sanghyeon
      */
     private func isPickedPayments() -> Bool {
-        currentStatusLabel.text = "결제수단 설정 여부 확인중..."
         if storageViewModel.numberOfFavoritePayments > 0 {
             return true
         }
@@ -325,16 +326,4 @@ extension SplashViewController {
             self.navigationController?.pushViewController(vc, animated: true)
         }
     }
-    /**
-     * @ 유저 정보 세팅
-     * coder : sanghyeon
-     */
-//    private func userInfoSetting() {
-//        currentStatusLabel.text = "유저 정보 설정중..."
-//        let isUserInfo = storageViewModel.existUser(uuid: Constants.keyChainDeviceID)
-//        if !isUserInfo {
-//            let userModel = UserModel(uuid: Constants.keyChainDeviceID, isFirstLaunch: true, agreeTerm: "", agreePrivacy: "", agreeMarketing: "", birth: "", sex: "")
-//            storageViewModel.writeUser(userModel)
-//        }
-//    }
 }

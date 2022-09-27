@@ -60,7 +60,7 @@ class StoreTabCollectionViewCell: UICollectionViewCell {
         itemText.text = ""
         itemText.textColor = .init(hex: 0x212121)
         itemText.sizeToFit()
-        itemText.font = .systemFont(ofSize: CommonUtils.resizeFontSize(size: 14), weight: .regular)
+        itemText.font = .systemFont(ofSize: CommonUtils.resizeFontSize(size: 13), weight: .regular)
         return itemText
     }()
     

@@ -15,10 +15,12 @@ import Foundation
 // MARK: - LatestTermsModelElement
 struct LatestTermsModel: Codable {
     let personalDate, serviceDate: PersonalDateUnion
+    let count: String?
 
     enum CodingKeys: String, CodingKey {
         case personalDate = "personal_date"
         case serviceDate = "service_date"
+        case count
     }
 }
 

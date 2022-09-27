@@ -37,7 +37,7 @@ struct CommonUtils {
         let label: UILabel = {
             let label = UILabel()
             label.text = text
-            label.font = .systemFont(ofSize: CommonUtils.resizeFontSize(size: 14), weight: .regular)
+            label.font = .systemFont(ofSize: CommonUtils.resizeFontSize(size: 13), weight: .regular)
             label.sizeToFit()
             return label
         }()
@@ -80,6 +80,22 @@ extension String {
         dateFormatter.timeZone = TimeZone(identifier: "KST")
         if let date = dateFormatter.date(from: self) {
             return date
+        } else {
+            return nil
+        }
+    }
+    /**
+     * @ 일반 문자를 데이트스트링으로 변환 (yyyy-MM-dd)
+     * coder : sanghyeon
+     */
+    func toDateString() -> String? {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyyMMdd"
+        
+        let dateObj = dateFormatter.date(from: self)
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        if let dateObj = dateObj {
+            return dateFormatter.string(from: dateObj)
         } else {
             return nil
         }

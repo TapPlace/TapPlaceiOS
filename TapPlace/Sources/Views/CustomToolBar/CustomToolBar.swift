@@ -17,8 +17,13 @@ protocol CustomToolBarShareProtocol {
 
 class CustomToolBar: UIView, DetailToolBarButtonProtocol {
     var storageViewModel = StorageViewModel()
+    var bookmarkViewModel = BookmarkViewModel()
     var viewController = UIViewController()
-    var isBookmark: Bool = false
+    var isBookmark: Bool = false {
+        willSet {
+            bookmarkButton.selected = newValue
+        }
+    }
     
     func didTapToolBarButton(_ sender: UIButton) {
         guard let delegate = delegate else { return }
@@ -34,8 +39,20 @@ class CustomToolBar: UIView, DetailToolBarButtonProtocol {
               UIApplication.shared.open(appStoreURL)
             }
         case bookmarkButton.button:
-            let result = storageViewModel.toggleBookmark(storeInfo.convertBookmark())
-            bookmarkButton.selected = result
+            print("*** CustomToolBar, BookmarkButtonTap")
+            print("*** CustomToolBar, BookmarkButtonTap, currentBookmark: \(isBookmark)")
+
+            bookmarkViewModel.requestToggleBookmark(currentBookmark: isBookmark, storeID: storeInfo.storeID) { result in
+                print("*** CustomToolBar, requestToggleBookmark, result: \(result)")
+                if let result = result {
+                    if result {
+                        self.isBookmark.toggle()
+                        self.bookmarkButton.selected = self.isBookmark
+                        self.delegate?.storeInfo?.isBookmark = self.isBookmark
+                    }
+                }
+            }
+            
         case shareButton.button:
             let shareUrl = "\(Constants.tapplaceBaseUrl)/app/\(storeInfo.storeID)"
             vcDelegate?.showShare(storeID: storeInfo.storeID)
@@ -107,9 +124,7 @@ class CustomToolBar: UIView, DetailToolBarButtonProtocol {
         
         
         DispatchQueue.main.async {
-            if let storeID = self.delegate?.storeInfo?.storeID {
-                self.bookmarkButton.selected = self.storageViewModel.isStoreBookmark(storeID)
-            }
+            self.isBookmark = self.delegate?.storeInfo?.isBookmark ?? false
         }
         
         // 베타 버전 임시 숨김

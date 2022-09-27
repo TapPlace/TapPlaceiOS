@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-// 수정하기
+// 정보 수정제안
 class SuggestedViewController: CommonViewController {
     
     
@@ -39,25 +39,6 @@ class SuggestedViewController: CommonViewController {
         // 텍스트 간격
         contentTextView.textContainerInset = UIEdgeInsets(top: 13, left: 14, bottom: 15, right: 13)
         return contentTextView
-    }()
-    
-    let emailLbl: UILabel = {
-        let emailLbl = UILabel()
-        emailLbl.text = "이메일 주소"
-        emailLbl.font = .systemFont(ofSize: 17)
-        emailLbl.sizeToFit()
-        return emailLbl
-    }()
-    
-    let emailField: UITextField = {
-        let emailField = UITextField()
-        emailField.layer.cornerRadius = 8
-        emailField.layer.borderWidth = 1
-        emailField.layer.borderColor = UIColor.init(hex: 0xDBDEE8).cgColor
-        emailField.font = .systemFont(ofSize: 15)
-        emailField.setLeftPaddingPoints(15)
-        emailField.placeholder = "답변 받을 이메일 주소를 알려주세요."
-        return emailField
     }()
     
     let tableView: UITableView = {
@@ -134,7 +115,7 @@ extension SuggestedViewController {
         
         view.addSubview(editContentLbl)
         editContentLbl.snp.makeConstraints {
-            $0.top.equalTo(customNavigationBar.snp.bottom).offset(20)
+            $0.top.equalTo(customNavigationBar.snp.bottom).offset(30)
             $0.leading.equalToSuperview().offset(20)
         }
         
@@ -144,20 +125,6 @@ extension SuggestedViewController {
             $0.leading.equalToSuperview().offset(20)
             $0.trailing.equalToSuperview().offset(-20)
             $0.height.equalTo(190)
-        }
-        
-        view.addSubview(emailLbl)
-        emailLbl.snp.makeConstraints {
-            $0.top.equalTo(contentTextView.snp.bottom).offset(28)
-            $0.leading.equalToSuperview().offset(20)
-        }
-        
-        view.addSubview(emailField)
-        emailField.snp.makeConstraints {
-            $0.top.equalTo(emailLbl.snp.bottom).offset(10)
-            $0.leading.equalToSuperview().offset(20)
-            $0.trailing.equalToSuperview().offset(-20)
-            $0.height.equalTo(48)
         }
         
         view.addSubview(button)
@@ -255,18 +222,11 @@ extension SuggestedViewController: BottomButtonProtocol {
             return
         }
         
-        let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
-        let emailTest = NSPredicate(format: "SELF MATCHES %@", emailRegEx)
-        if !emailTest.evaluate(with: emailField.text) {
-            showToast(message: "올바른 형식의 이메일을 입력해주세요.", view: self.view)
-            return
-        }
-        
         button.isActive = false
         button.setButtonStyle(title: "문의하기", type: .disabled, fill: true)
         
-        if let contentText = contentTextView.text, let emailText = emailField.text {
-            if contentText.count != 0 && emailText.count != 0 {
+        if let contentText = contentTextView.text {
+            if contentText.count != 0 {
                 if answerCheck != 1 {
                     showToast(message: "개인정보 수집, 이용동의를 체크해주시기 바랍니다.", view: self.view)
                     self.button.setButtonStyle(title: "문의하기", type: .activate, fill: true)
@@ -279,7 +239,6 @@ extension SuggestedViewController: BottomButtonProtocol {
                     "title": "수정제안요청",
                     "content": contentText,
                     "answer_check": answerCheck,
-                    "email": emailText,
                     "os": "iOS"
                 ]
                 
@@ -296,7 +255,6 @@ extension SuggestedViewController: BottomButtonProtocol {
                             self.button.setButtonStyle(title: "요청하기", type: .activate, fill: true)
                             self.contentTextView.text = self.contentPlaceholder
                             self.contentTextView.textColor = .systemGray3
-                            self.emailField.text = ""
                             guard let cell = self.tableView.cellForRow(at: IndexPath.init(row: 0, section: 0)) as? TermsTableViewCell else { return }
                             cell.setCheck(check: false)
                             answerCheck = 0

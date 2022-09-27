@@ -43,10 +43,31 @@ class NoticeViewController: CommonViewController {
     func requestNotice() {
         NoticeDataService().getNotice(page: "\(noticeApiPage)") { (notice, isEnd, error) in
             if let notice = notice {
-                self.isEnd = isEnd
-                self.noticeListVM = NoticeListViewModel(noticeList: notice, isEnd: isEnd)
-                self.noticeResult += notice
-                self.configureTableView()
+                if notice.count > 0 {
+                    self.view.addSubview(self.noticeTableView)
+                    self.noticeTableView.snp.makeConstraints {
+                        $0.top.equalTo(self.customNavigationBar.snp.bottom)
+                        $0.leading.trailing.bottom.equalToSuperview()
+                    }
+                    
+                    self.isEnd = isEnd
+                    self.noticeListVM = NoticeListViewModel(noticeList: notice, isEnd: isEnd)
+                    self.noticeResult += notice
+                    self.configureTableView()
+                } else {
+                    let label: UILabel = {
+                        let label = UILabel()
+                        label.text = "등록된 공지사항이 없습니다."
+                        label.font = .systemFont(ofSize: 18)
+                        label.textColor = .init(hex: 0x707070)
+                        return label
+                    }()
+                    
+                    self.view.addSubview(label)
+                    label.snp.makeConstraints {
+                        $0.center.equalToSuperview()
+                    }
+                }
             }
             
             DispatchQueue.main.async {
@@ -95,12 +116,6 @@ extension NoticeViewController {
             $0.top.leading.trailing.equalToSuperview()
             $0.bottom.equalTo(customNavigationBar.containerView)
         }
-        
-        view.addSubview(noticeTableView)
-        noticeTableView.snp.makeConstraints {
-            $0.top.equalTo(customNavigationBar.snp.bottom)
-            $0.leading.trailing.bottom.equalToSuperview()
-        }
     }
 }
 
@@ -127,7 +142,7 @@ extension NoticeViewController: UITableViewDelegate, UITableViewDataSource {
         }
         return noticeResult.count
     }
-
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: NoticeCell.identifier, for: indexPath) as! NoticeCell
         let notice = self.noticeResult[indexPath.row]
@@ -147,7 +162,7 @@ extension NoticeViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        if section != 1 { return .zero }
+        if section != 1 || isEnd == true { return .zero }
         return 50
     }
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {

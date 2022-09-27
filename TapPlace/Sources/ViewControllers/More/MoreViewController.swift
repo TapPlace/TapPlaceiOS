@@ -27,7 +27,6 @@ class MoreViewController: CommonViewController {
         
         // 베타 버전 임시 처리
         alarmButton.isHidden = true
-        settingButton.isHidden = true
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -86,7 +85,7 @@ extension MoreViewController: NavigationBarButtonProtocol {
             $0.width.equalTo(20)
         }
         settingButton.snp.makeConstraints {
-            $0.width.equalTo(30)
+            $0.width.equalTo(25)
         }
         tableView.snp.makeConstraints {
             $0.top.equalTo(customNavigationBar.snp.bottom)
@@ -125,8 +124,9 @@ extension MoreViewController: NavigationBarButtonProtocol {
             let vc = AlarmViewController()
             self.navigationController?.pushViewController(vc, animated: true)
         case settingButton:
+            let vc = SettingViewController()
+            self.navigationController?.pushViewController(vc, animated: true)
             break
-//            print("네비게이션 설정 버튼 탭")
         default:
             break
         }
@@ -229,8 +229,6 @@ extension MoreViewController: UITableViewDelegate, UITableViewDataSource, MoreHe
                 switch type {
                 case .version:
                     break
-                case .reset:
-                    showResetActionSheet()
                 case .feedback:
                     self.navigationController?.pushViewController(menuList[indexPath.row].vc!, animated: true)
                 default: break
@@ -299,65 +297,6 @@ extension MoreViewController: UITableViewDelegate, UITableViewDataSource, MoreHe
         return 6
     }
     
-    /**
-     * @ 초기화 액션시트 생성
-     * coder : sanghyeon
-     */
-    func showResetActionSheet() {
-        let actionSheet = UIAlertController(title: "활동내역 초기화", message: "초기화하신 후 되돌릴 수 없습니다.", preferredStyle: .actionSheet)
-        let bookmark = UIAlertAction(title: "즐겨찾기 항목 초기화", style: .default) { action in
-            print("*** MoreVC: 즐겨찾기 항목 초기화 탭")
-            self.bookmarkViewModel.requestClearBookmark() { result in
-                if result {
-                    self.headerView?.countOfBookmark = 0
-                    self.tableView.reloadData()
-                } else {
-                    showToast(message: "알 수 없는 이유로 초기화하지 못했습니다.\n잠시 후, 다시 시도해주시기 바랍니다.", view: self.view)
-                }
-            }
-        }
 
-        let clear = UIAlertAction(title: "모든 항목 초기화", style: .destructive) { action in
-//            print("모든 항목 초기화 탭")
-            let alertAction = UIAlertController(title: "모든 항목 초기화", message: "이 작업은 되돌릴 수 없으며, 앱에 저장된 가맹점 정보 및 서버에 저장된 데이터 모두 삭제합니다.", preferredStyle: .alert)
-            let alertConfirm = UIAlertAction(title: "초기화", style: .destructive) { action in
-                self.userViewModel.dropUserInfo() { result in
-                    self.storageViewModel.deleteAllPayments {}
-                    self.storageViewModel.deleteAllSearchHistory()
-                    if let deleteResult = result as? Bool {
-//                        print("moreVC, dropUserIfo, Success")
-                        self.storageViewModel.deleteUser() { result in
-                            if deleteResult == true {
-                                KeyChain.deleteUserDeviceUUID()
-                                DispatchQueue.main.async {
-                                    self.dismiss(animated: true)
-                                    self.present(SplashViewController(), animated: true)
-                                }
-                            } else {
-                                showToast(message: "알 수 없는 이유로 초기화에 실패했습니다.\n다시 시도해주시기 바랍니다.", view: self.view)
-                            }
-                        }
-                    } else {
-                        //                        print("moreVC, dropUserInfo, Error")
-                    }
-                }
-            }
-            let alertDismiss = UIAlertAction(title: "취소", style: .default)
-            alertAction.addAction(alertConfirm)
-            alertAction.addAction(alertDismiss)
-            self.present(alertAction, animated: true, completion: nil)
-            
-        }
-        let cancel = UIAlertAction(title: "취소", style: .cancel) { action in
-//            print("취소 탭")
-        }
-        
-        actionSheet.addAction(bookmark)
-        actionSheet.addAction(clear)
-        actionSheet.addAction(cancel)
-        
-        present(actionSheet, animated: true, completion: nil)
-    } //Function: 초기화 액션시트
-    
     
 }

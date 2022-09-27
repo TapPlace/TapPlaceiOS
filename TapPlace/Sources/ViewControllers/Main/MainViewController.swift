@@ -141,7 +141,6 @@ extension MainViewController {
         hideAllMarkers()
         self.markerList.removeAll()
         if let aroundStoreList = aroundStoreList {
-            print("*** MainVC, updateMapAroundStore(), aroundStoreList: \(aroundStoreList)")
             addMarker(markers: aroundStoreList)
         } else {
             hideAllMarkers()

@@ -1,6 +1,6 @@
 // This file was generated from JSON Schema using quicktype, do not modify it directly.
 // To parse the JSON, add this file to your project and do:
-//
+// 
 //   let storeInfo = try? newJSONDecoder().decode(StoreInfo.self, from: jsonData)
 
 import Foundation
@@ -27,7 +27,7 @@ struct StoreInfo: Codable {
     /**
      * @ AroundStores -> StoreInfo 변환
      * coder : sanghyeon
-     */
+     */ 
     static func convertAroundStores(aroundStore: AroundStores) -> StoreInfo {
         var storeFeedback: [Feedback] = []
         for pay in aroundStore.pays {

@@ -65,11 +65,3 @@ struct Feedback: Codable {
     
     static let emptyFeedback = Feedback(num: 0, storeID: "", success: 0, fail: 0, lastState: "", lastTime: "", pay: "", exist: true)
 }
-
-extension StoreInfo {
-    func convertBookmark() -> UserBookmarkStore {
-        let bookmarkStore = UserBookmarkStore(storeID: self.storeID, placeName: self.placeName, locationX: Double(self.x) ?? 0, locationY: Double(self.y) ?? 0, addressName: self.addressName, roadAddressName: self.roadAddressName, storeCategory: self.categoryGroupName, date: Date().getDate(3))
-        
-        return bookmarkStore
-    }
-}

@@ -58,19 +58,6 @@ extension FeedbackRequestViewController: CustomNavigationBarProtocol, BottomButt
         guard let storeID = storeInfo?.storeID else { return }
         feedbackViewModel.requestUpdateFeedback(storeID: storeID, feedback: [successFeedback, failFeedback]) { result in
             if let result = result {
-                if let storeInfo = self.storeInfo {
-                    self.successFeedback.forEach {
-                        let tempFeedbackStore = UserFeedbackStoreModel(storeID: storeInfo.storeID, storeName: storeInfo.placeName, storeCategory: storeInfo.categoryGroupName, locationX: Double(storeInfo.x) ?? 0, locationY: Double(storeInfo.y) ?? 0, address: storeInfo.roadAddressName == "" ? storeInfo.addressName : storeInfo.roadAddressName, date: Date().getDate(3))
-                        let tempFeedback = UserFeedbackModel(storeID: storeInfo.storeID, pay: $0.pay, feedback: true, date: Date().getDate(3))
-                        self.storageViewModel.addFeedbackHistory(store: tempFeedbackStore, feedback: tempFeedback)
-                    }
-                    self.failFeedback.forEach {
-                        let tempFeedbackStore = UserFeedbackStoreModel(storeID: storeInfo.storeID, storeName: storeInfo.placeName, storeCategory: storeInfo.categoryGroupName, locationX: Double(storeInfo.x) ?? 0, locationY: Double(storeInfo.y) ?? 0, address: storeInfo.roadAddressName == "" ? storeInfo.addressName : storeInfo.roadAddressName, date: Date().getDate(3))
-                        let tempFeedback = UserFeedbackModel(storeID: storeInfo.storeID, pay: $0.pay, feedback: false, date: Date().getDate(3))
-                        self.storageViewModel.addFeedbackHistory(store: tempFeedbackStore, feedback: tempFeedback)
-                    }
-                }
-                print("*** result.remainCount: \(result.remainCount)")
                 let vc = FeedbackDoneViewController()
                 vc.feedbackResult = result.feedbackResult
                 vc.remainCount = result.remainCount

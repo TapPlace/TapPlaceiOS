@@ -306,13 +306,7 @@ extension MoreViewController: UITableViewDelegate, UITableViewDataSource, MoreHe
     func showResetActionSheet() {
         let actionSheet = UIAlertController(title: "활동내역 초기화", message: "초기화하신 후 되돌릴 수 없습니다.", preferredStyle: .actionSheet)
         let bookmark = UIAlertAction(title: "즐겨찾기 항목 초기화", style: .default) { action in
-//            print("즐겨찾기 초기화 탭")
-            self.storageViewModel.deleteAllBookmark() { result in
-                if result {
-                    self.tableView.reloadData()
-                }
-            }
-            
+            print("*** MoreVC: 즐겨찾기 항목 초기화 탭")
         }
 
         let clear = UIAlertAction(title: "모든 항목 초기화", style: .destructive) { action in
@@ -320,7 +314,6 @@ extension MoreViewController: UITableViewDelegate, UITableViewDataSource, MoreHe
             let alertAction = UIAlertController(title: "모든 항목 초기화", message: "이 작업은 되돌릴 수 없으며, 앱에 저장된 가맹점 정보 및 서버에 저장된 데이터 모두 삭제합니다.", preferredStyle: .alert)
             let alertConfirm = UIAlertAction(title: "초기화", style: .destructive) { action in
                 self.userViewModel.dropUserInfo() { result in
-                    self.storageViewModel.deleteAllBookmark { result in }
                     self.storageViewModel.deleteAllPayments {}
                     self.storageViewModel.deleteAllSearchHistory()
                     if let deleteResult = result as? Bool {

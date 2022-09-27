@@ -7,6 +7,7 @@
 
 import SnapKit
 import UIKit
+import Combine
 import Alamofire
 import CoreLocation
 
@@ -31,6 +32,16 @@ class SearchViewController: CommonViewController {
     var isPaging: Int = 1
     var isEndPage: Bool = false
     
+    // 북마크 검색 페이지
+    var bookmarkDataSource: [Bookmark] = []
+    var isBookmarkBinding: Bool = false
+    var isBookmarkPage: Int = 0
+    var isBookmarkLoading: Bool = false
+    var isBookmarkEnd: Bool = false
+    var isBookmarkLoaded: Bool = false
+    
+    var subscription = Set<AnyCancellable>()
+    
     // 검색 결과 저장할 배열
     var searchResult: [SearchModel] = []
     
@@ -48,6 +59,7 @@ class SearchViewController: CommonViewController {
         setupView()
         configureTableView()
         setLayout()
+        loadBookmarks()
         
         customNavigationBar.delegate = self
         customNavigationBar.isDrawShadow = true
@@ -121,8 +133,7 @@ class SearchViewController: CommonViewController {
         // 카카오 검색 API 통신 사용
         SearchService().getPlace(parameter: parameter) { (result, error) in
              print("*** isPaging: \(self.isPaging)")
-            if let error = error {
-//                print("*** 에러가 발생했고 이제 튕길거야!!! 그만해, 이러다 다 튕겨!!! \(error)")
+            if let _ = error {
                 return
             }
             if let result = result {
@@ -135,6 +146,40 @@ class SearchViewController: CommonViewController {
                 self.searchTableView.reloadData()
             }
         }
+    }
+}
+//MARK: - 뷰모델 바인딩
+extension SearchViewController {
+    /**
+     * @ 뷰모델 바인딩
+     * coder : sanghyeon
+     */
+    func setBindings() {
+        if isBookmarkBinding { return }
+        isBookmarkBinding.toggle()
+        bookmarkViewModel.$dataSource.sink { (bookmark: [Bookmark]?) in
+            if let bookmark = bookmark {
+                self.bookmarkDataSource += bookmark
+                self.isBookmarkLoading = false
+                self.isBookmarkPage += 1
+                self.isBookmarkEnd = self.bookmarkViewModel.isEnd
+                if !self.isBookmarkEnd {
+                    self.loadBookmarks()
+                } else {
+                    self.isBookmarkLoaded.toggle()
+                }
+                self.searchTableView.reloadData()
+            }
+        }.store(in: &subscription)
+    }
+    /**
+     * @ 북마크 로딩
+     * coder : sanghyeon
+     */
+    func loadBookmarks() {
+        if isBookmarkLoading || isBookmarkLoaded { return }
+        isBookmarkLoading = true
+        bookmarkViewModel.requestBookmark(page: isBookmarkPage)
     }
 }
 
@@ -153,6 +198,7 @@ extension SearchViewController: SearchContentButtonProtocol {
             self.recentSearchButton.setTitleColor(UIColor(red: 0, green: 0, blue: 0, alpha: 0.3), for: .normal)
             self.favoriteSearchButton.titleLabel?.font = UIFont.systemFont(ofSize: CommonUtils.resizeFontSize(size: 16))
             self.favoriteSearchButton.setTitleColor(.black, for: .normal)
+            setBindings()
             isBookmarkTap = true
             editButton.isHidden = true
         }
@@ -347,8 +393,8 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
         switch self.searchMode {
         case false:
             if isBookmarkTap {
-                showEmptyView(show: storageViewModel.numberOfBookmark <= 0, text: "즐겨찾기에 추가한 가맹점이 없어요.")
-                return storageViewModel.numberOfBookmark
+                showEmptyView(show: bookmarkDataSource.count <= 0, text: "즐겨찾기에 추가한 가맹점이 없어요.")
+                return self.bookmarkDataSource.count
             } else {
                 showEmptyView(show: storageViewModel.latestSearchStore.count <= 0, text: "최근에 검색한 가맹점이 없어요.")
                 return storageViewModel.latestSearchStore.count
@@ -372,17 +418,17 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
         case false:
             if isBookmarkTap {
                 guard let cell = tableView.dequeueReusableCell(withIdentifier: SearchingTableViewCell.identifier, for: indexPath) as? SearchingTableViewCell else { fatalError("no matched articleTableViewCell identifier") }
-                let bookmarkStore = storageViewModel.bookmarkDataSource[indexPath.row]
+                let bookmarkStore = bookmarkDataSource[indexPath.row]
                 // 카테고리 이미지
                 var categoryName = "etc"
-                if let categoryGroupCode = StoreModel.lists.first(where: {$0.title == bookmarkStore.storeCategory}) {
+                if let categoryGroupCode = StoreModel.lists.first(where: {$0.title == bookmarkStore.categoryGroupName}) {
                     categoryName = categoryGroupCode.id
                 }
                 // 매장 거리
                 var storeDistance = "0m"
                 let userLocation = UserInfo.userLocation
                 if let userLocation = userLocation {
-                    let storeLocation = CLLocationCoordinate2D(latitude: Double(bookmarkStore.locationY), longitude: Double(bookmarkStore.locationX))
+                    let storeLocation = CLLocationCoordinate2D(latitude: Double(bookmarkStore.y) ?? 0, longitude: Double(bookmarkStore.x) ?? 0)
                     let userStoreDistance = userLocation.distance(from: storeLocation)
                     storeDistance = DistancelModel.getDistance(distance: userStoreDistance)
                 }
@@ -463,8 +509,8 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
             var searchModelEach: SearchModel?
             var storeID = ""
             if isBookmarkTap {
-                var tempDataSource = storageViewModel.bookmarkDataSource[indexPath.row]
-                searchModelEach = SearchModel(addressName: tempDataSource.addressName, categoryGroupCode: "", categoryGroupName: tempDataSource.storeCategory, distance: "", id: tempDataSource.storeID, phone: "", placeName: tempDataSource.placeName, placeURL: "", roadAddressName: tempDataSource.roadAddressName, x: "\(tempDataSource.locationX)", y: "\(tempDataSource.locationY)")
+                var tempDataSource = bookmarkDataSource[indexPath.row]
+                searchModelEach = SearchModel(addressName: tempDataSource.addressName, categoryGroupCode: "", categoryGroupName: tempDataSource.categoryGroupName, distance: "", id: tempDataSource.storeID, phone: "", placeName: tempDataSource.placeName, placeURL: "", roadAddressName: tempDataSource.roadAddressName, x: "\(tempDataSource.x)", y: "\(tempDataSource.y)")
                 storeID = tempDataSource.storeID
             } else {
                 var tempDataSource = storageViewModel.latestSearchStore[indexPath.row]

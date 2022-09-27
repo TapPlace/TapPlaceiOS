@@ -853,8 +853,7 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
         }
         
         /// 선택된 항목인가?
-        if let fi = storeViewModel.selectStoreArray.firstIndex(where: {$0 == storeList[indexPath.row].title}) {
-            print("*** MainVC, cellForItemAt, fi: \(fi)")
+        if let _ = storeViewModel.selectStoreArray.firstIndex(where: {$0 == storeList[indexPath.row].title}) {
             cell.cellSelected = true
         }
         cell.itemText.text = storeList[indexPath.row].title
@@ -865,7 +864,6 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let cell = collectionView.cellForItem(at: indexPath) as? StoreTabCollectionViewCell else { return }
         if let category = cell.itemText.text {
-            print("*** MainVC, didSelectItemAt, category: \(category)")
             if category == "초기화" {
                 self.storeViewModel.selectStoreArray.removeAll()
                 return

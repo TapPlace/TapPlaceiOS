@@ -398,8 +398,6 @@ extension StoreDetailViewController: CustomNavigationBarProtocol, CustomToolBarS
             $0.top.equalTo(separatorView.snp.bottom)
             $0.leading.trailing.equalTo(contentView)
             $0.height.equalTo(186 * feedbackList.count)
-            print("*** feedbackList.count: \(feedbackList.count)")
-            print("*** feedbackList: \(feedbackList)")
         }
     }
     /**

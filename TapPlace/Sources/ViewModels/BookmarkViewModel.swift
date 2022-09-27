@@ -48,6 +48,10 @@ extension BookmarkViewModel {
                             }
                         }
                     }
+                } else {
+                    self.dataSource = tempDataSource
+                    self.isEnd = response.isEnd
+                    self.currentPage = page
                 }
                 
             } else {

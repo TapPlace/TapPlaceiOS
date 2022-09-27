@@ -31,7 +31,9 @@ class UserViewModel {
             if let error = error {
                 completion(nil, error)
             }
-            completion(result, nil)
+            if let result = result {
+                completion(result, nil)
+            }
         }
     }
     
@@ -47,7 +49,6 @@ class UserViewModel {
         } else {
             guard let user = user else { return }
             let formattedDate = user.birth.toDateString()
-            print("*** UserVm, formattedDate: \(formattedDate)")
             parameter = [
                 "user_id": user.userID,
                 "os": user.os,
@@ -66,6 +67,14 @@ class UserViewModel {
         userDataService.requestFetchAddUser(parameter: parameter, header: Constants().header) { result, error in
             completion(result)
         }
+    }
+    
+    /**
+     * @ 유저 정보 수정
+     * coder : sanghyeon
+     */
+    func updateUserInfo(parameter: [String: Any], completion: @escaping (Bool) -> ()) {
+        
     }
     
     /**

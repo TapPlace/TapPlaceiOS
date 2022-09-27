@@ -14,6 +14,7 @@ target 'TapPlace' do
   pod 'IQKeyboardManagerSwift'
   pod 'SwiftKeychainWrapper'
   pod 'SwiftJWT'
+  pod 'EFCountingLabel'
 
   # Pods for TapPlace
 

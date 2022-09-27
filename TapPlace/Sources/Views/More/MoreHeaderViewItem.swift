@@ -33,7 +33,7 @@ class MoreHeaderViewItem: UIView {
         let countLabel = UILabel()
         countLabel.sizeToFit()
         countLabel.textColor = .black
-        countLabel.font = .systemFont(ofSize: CommonUtils.resizeFontSize(size: 20), weight: .regular)
+        countLabel.font = .systemFont(ofSize: CommonUtils.resizeFontSize(size: 17), weight: .regular)
         countLabel.text = "0"
         return countLabel
     }()
@@ -41,7 +41,7 @@ class MoreHeaderViewItem: UIView {
         let itemTitleLabel = UILabel()
         itemTitleLabel.sizeToFit()
         itemTitleLabel.textColor = .init(hex: 0x333333)
-        itemTitleLabel.font = .systemFont(ofSize: CommonUtils.resizeFontSize(size: 14), weight: .medium)
+        itemTitleLabel.font = .systemFont(ofSize: CommonUtils.resizeFontSize(size: 13), weight: .medium)
         return itemTitleLabel
     }()
     let button: UIButton = {

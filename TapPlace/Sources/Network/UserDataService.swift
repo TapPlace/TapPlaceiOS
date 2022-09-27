@@ -17,7 +17,7 @@ struct UserDataService {
     
     /**
      * @ 최신 약관 정보 요청
-     * coder : sanghyeon
+     * coder : sanghyeon 
      */
     func requestFetchLatestTerms(parameter: Parameters? = nil, header: HTTPHeaders? = nil, completion: @escaping (LatestTermsModel?, Error?) -> ()) {
         var url = "\(termsUrl)"
@@ -116,6 +116,30 @@ struct UserDataService {
                     completion(response)
                 case .failure:
                     completion(UserAllCountModel(bookmarkCount: "0", feedbackCount: "0", remainCount: 0))
+                }
+            }
+    }
+    
+    /**
+     * @ 유저 정보 불러오기
+     * coder : sanghyeon
+     */
+    func requestFetchUserInfo(userID: String, completion: @escaping (UserInfoResponseModel?) -> ()) {
+        let url = "\(userApiUrl)/\(userID)"
+        
+        AF.request(url, method: .get, headers: Constants().header)
+            .validate()
+            .responseDecodable(of: UserInfoResponseModel.self) { (response) in
+                print("*** UserDS, requestFetchUserInfo, response: \(response)")
+                switch response.result {
+                case .success(let response):
+                    if response.userID == userID {
+                        completion(response)
+                    } else {
+                        completion(nil)
+                    }
+                case .failure(_):
+                    completion(nil)
                 }
             }
     }

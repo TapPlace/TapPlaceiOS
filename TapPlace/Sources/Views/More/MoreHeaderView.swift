@@ -122,7 +122,6 @@ extension MoreHeaderView {
         
         self.backgroundColor = .white
         itemBookmark.title = "즐겨찾기"
-        itemBookmark.countOfItem = storageViewModel.numberOfBookmark
         itemFeedback.title = "피드백"
         remainFeedback.title = "남은 피드백"
         

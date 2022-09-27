@@ -7,9 +7,29 @@
 
 import Foundation
 import Alamofire
+import Combine
 
-struct FeedbackViewModel {
+class FeedbackViewModel {
     let feedbackDataService = FeedbackDataService.shared
+    
+    @Published var remainCount: Int = -1
+    @Published var userFeedbackHistory: FeedbackResponseModel?
+}
+
+extension FeedbackViewModel {
+    /**
+     * @ 유저의 피드백 목록 가져오기
+     * coder : sanghyeon
+     */
+    func requestUserFeedback(page: Int = 1) {
+        feedbackDataService.requestFetchUserFeedback(page: page) { result in
+            if let result = result {
+                self.userFeedbackHistory = result
+            } else {
+                self.userFeedbackHistory = nil
+            }
+        }
+    }
     
     /**
      * @ 유저의 결제수단의 피드백 가져오기
@@ -73,7 +93,6 @@ struct FeedbackViewModel {
         }
         let parameter: Parameters = [
             "store_id": storeID,
-            "key": Constants.tapplaceApiKey,
             "user_feedback": requestFeedback,
             "user_id": Constants.keyChainDeviceID
         ]
@@ -89,9 +108,9 @@ struct FeedbackViewModel {
      * @ 남은 피드백 확인
      * coder : sanghyeon
      */
-    func requestRemainFeedbackCount(completion: @escaping (Int) -> ()) {
+    func requestRemainFeedbackCount() {
         feedbackDataService.requestFetchReaminFeedback() { result in
-            completion(result)
+            self.remainCount = result
         }
     }
 }

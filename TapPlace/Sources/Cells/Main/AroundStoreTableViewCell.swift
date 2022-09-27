@@ -1,7 +1,7 @@
 //
 //  AroundStoreTableViewCell.swift
 //  TapPlace
-//
+// 
 //  Created by 박상현 on 2022/08/17.
 //
 
@@ -83,7 +83,7 @@ extension AroundStoreTableViewCell {
         //self.isBookmark = storageViewModel.toggleBookmark(storeInfo.convertBookmark())
         var setBookmark: Bool = isBookmark
         setBookmark.toggle()
-        bookmarkViewModel.requestToggleBookmark(isBookmark: setBookmark, storeID: storeInfo.storeID) { result in
+        bookmarkViewModel.requestToggleBookmark(currentBookmark: isBookmark, storeID: storeInfo.storeID) { result in
             if let result = result {
                 if result {
                     self.isBookmark = setBookmark

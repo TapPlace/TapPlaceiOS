@@ -327,9 +327,11 @@ extension AroundPlaceListView: UITableViewDelegate, UITableViewDataSource {
     func setupCell(cell: UITableViewCell, indexPath: IndexPath, aroundStore: AroundStores) -> UITableViewCell {
         guard let cell = cell as? AroundStoreTableViewCell else { return UITableViewCell() }
         let storeInfo = StoreInfo.convertAroundStores(aroundStore: aroundStore)
-        
         cell.cellIndex = indexPath.row
         cell.storeInfo = storeInfo
+        storeViewModel?.requestStoreInfoCheck(searchModel: SearchModel.convertSearchModel(storeInfo: storeInfo), pays: StorageViewModel().userFavoritePaymentsString) { feedback in
+            cell.storeInfo.feedback = feedback
+        }
         cell.isBookmark = storeInfo.isBookmark
         cell.contentView.isUserInteractionEnabled = false
         cell.selectionStyle = .none

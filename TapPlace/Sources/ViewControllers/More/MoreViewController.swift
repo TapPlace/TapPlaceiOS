@@ -307,6 +307,14 @@ extension MoreViewController: UITableViewDelegate, UITableViewDataSource, MoreHe
         let actionSheet = UIAlertController(title: "활동내역 초기화", message: "초기화하신 후 되돌릴 수 없습니다.", preferredStyle: .actionSheet)
         let bookmark = UIAlertAction(title: "즐겨찾기 항목 초기화", style: .default) { action in
             print("*** MoreVC: 즐겨찾기 항목 초기화 탭")
+            self.bookmarkViewModel.requestClearBookmark() { result in
+                if result {
+                    self.headerView?.countOfBookmark = 0
+                    self.tableView.reloadData()
+                } else {
+                    showToast(message: "알 수 없는 이유로 초기화하지 못했습니다.\n잠시 후, 다시 시도해주시기 바랍니다.", view: self.view)
+                }
+            }
         }
 
         let clear = UIAlertAction(title: "모든 항목 초기화", style: .destructive) { action in

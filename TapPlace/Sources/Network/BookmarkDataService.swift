@@ -49,8 +49,6 @@ struct BookmarkDataService {
         AF.request(url, method: method, parameters: parameter, encoding: JSONEncoding.default, headers: header)
             .validate()
             .responseDecodable(of: AddBookmarkResponseModel.self) { (response) in
-                print("*** BookmarkDS, requestFetchToggleBookmark,\n - url: \(url)\n - method: \(method)\n - parameter: \(parameter)")
-                print("*** BookmarkDS, requestFetchToggleBookmark, response: \(response)")
                 switch response.result {
                 case .success(let result):
                     if result.message == "ok" {
@@ -62,6 +60,28 @@ struct BookmarkDataService {
                     completion(false)
                 }
                     
+            }
+    }
+    
+    /**
+     * @ 북마크 초기화
+     * coder : sanghyeon
+     */
+    func requestFetchClearBookmark(parameter: Parameters, header: HTTPHeaders?, completion: @escaping (Bool) -> ()) {
+        let url = "\(bookmarkUrl)/all"
+        AF.request(url, method: .delete, parameters: parameter, encoding: JSONEncoding.default, headers: header)
+            .validate()
+            .responseDecodable(of: AddBookmarkResponseModel.self) { (response) in
+                switch response.result {
+                case .success(let result):
+                    if result.message == "ok" {
+                        completion(true)
+                    } else {
+                        completion(false)
+                    }
+                case .failure(let error):
+                    completion(false)
+                }
             }
     }
 }

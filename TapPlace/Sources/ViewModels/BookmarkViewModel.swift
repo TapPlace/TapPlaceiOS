@@ -75,4 +75,17 @@ extension BookmarkViewModel {
             }
         }
     }
+    
+    /**
+     * @ 북마크 초기화
+     * coder : sanghyeon
+     */
+    func requestClearBookmark(completion: @escaping (Bool) -> ()) {
+        let parameter: [String: Any] = [
+            "user_id": "\(Constants.keyChainDeviceID)"
+        ]
+        bookmarkDataService.requestFetchClearBookmark(parameter: parameter, header: Constants().header) { result in
+            completion(result)
+        }
+    }
 }

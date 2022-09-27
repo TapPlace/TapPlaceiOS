@@ -677,6 +677,7 @@ extension MainViewController: CustomToolBarShareProtocol, StoreInfoViewDelegate 
         let vc = StoreDetailViewController()
         print("*** vc: \(vc)")
         print("*** 상세뷰 이동")
+        tabBar?.selectedIndex = 0
         vc.storeInfo = store
         self.navigationController?.pushViewController(vc, animated: true)
         

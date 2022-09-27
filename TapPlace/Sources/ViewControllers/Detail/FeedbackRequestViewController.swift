@@ -172,7 +172,7 @@ extension FeedbackRequestViewController {
         }
     }
     /**
-     * @ 서버로부터 유저 결제수단의 피드백 목록 가져오기
+     * @ 서버로부터 유저 결제수단 외 피드백 목록 가져오기
      * coder : sanghyeon
      */
     func getFeedbackOfMorePayments() {
@@ -267,7 +267,7 @@ extension FeedbackRequestViewController: UITableViewDelegate, UITableViewDataSou
         return setupFooterView()
     }
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        if section != 2 || isLoadedAllPayments { return .zero }
+        if section != 2 || isLoadedAllPayments || storageViewModel.userFavoritePaymentsString.count == PaymentModel.list.count { return .zero }
         return 50
     }
     

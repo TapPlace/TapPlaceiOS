@@ -14,6 +14,38 @@ struct FeedbackDataService {
     private let loadMoreFeedbackUrl = "\(Constants.tapplaceApiUrl)/pay/list/more"
     private let updateFeedbackUrl = "\(Constants.tapplaceApiUrl)/pay/feedback"
     private let feedbackCountUrl = "\(Constants.tapplaceApiUrl)/feedback-count"
+    private let feedbackUrl = "\(Constants.tapplaceApiUrl)/feedback"
+    
+    
+}
+
+
+extension FeedbackDataService {
+    
+    /**
+     * @ 유저의 피드백 목록 가져오기
+     * coder : sanghyeon
+     */
+    func requestFetchUserFeedback(page: Int = 1, completion: @escaping (FeedbackResponseModel?) -> ()) {
+        let url = "\(feedbackUrl)/\(Constants.keyChainDeviceID)/\(page)"
+        
+        AF.request(url, method: .get, encoding: URLEncoding.default, headers: Constants().header)
+            .validate()
+            .responseDecodable(of: FeedbackResponseModel.self) { (response) in
+                switch response.result {
+                case .success(let response):
+                    var tempResponse = response
+                    for i in 0...tempResponse.feedbacks.count - 1 {
+                        var tempFeedback = tempResponse.feedbacks[i]
+                        tempFeedback.date = "\(tempFeedback.date.split(separator: " ")[0])"
+                        tempResponse.feedbacks[i] = tempFeedback
+                    }
+                    completion(tempResponse)
+                case .failure(_):
+                    completion(nil)
+                }
+            }
+    }
     
     /**
      * @ 유저의 결제수단 피드백 목록 가져오기
@@ -21,6 +53,7 @@ struct FeedbackDataService {
      */
     func requestFetchUserPaymentFeedback(parameter: Parameters, completion: @escaping (LoadFeedbackModel?, Error?) -> ()) {
         let url = "\(loadFeedbackUrl)"
+        
         AF.request(url, method: .post, parameters: parameter, encoding: JSONEncoding.default, headers: nil)
             .validate()
             .responseDecodable(of: LoadFeedbackModel.self) { (response) in
@@ -56,7 +89,7 @@ struct FeedbackDataService {
      */
     func requestFetchUpdatetFeedback(parameter: Parameters, completion: @escaping (FeedbackResultModel?, Error?) -> ()) {
         let url = "\(updateFeedbackUrl)"
-        AF.request(url, method: .patch, parameters: parameter, encoding: JSONEncoding.default, headers: nil)
+        AF.request(url, method: .patch, parameters: parameter, encoding: JSONEncoding.default, headers: Constants().header)
             .validate()
             .responseDecodable(of: FeedbackResultModel.self) { (response) in
                 switch response.result {
@@ -84,7 +117,5 @@ struct FeedbackDataService {
                     completion(0)
                 }
             }
-        
-        
     }
 }

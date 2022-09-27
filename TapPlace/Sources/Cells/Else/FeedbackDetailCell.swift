@@ -68,13 +68,13 @@ class FeedbackDetailCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func prepare(feedback: UserFeedbackModel) {
+    func prepare(feedback: UserFeedbackResult) {
         guard let payment = PaymentModel.thisPayment(payment: feedback.pay) else { return }
         let iconName = payment.payments == "" ? payment.brand : payment.payments
         self.imgView.image = .init(named: iconName)
         self.payNameLbl.text = payment.designation
-        self.whetherToPayLbl.text = feedback.feedback ? "결제성공" : "결제실패"
-        self.whetherToPayLbl.textColor = feedback.feedback ? .init(hex: 0x4E77FB) : .init(hex: 0x707070)
+        self.whetherToPayLbl.text = feedback.feed ? "결제성공" : "결제실패"
+        self.whetherToPayLbl.textColor = feedback.feed ? .init(hex: 0x4E77FB) : .init(hex: 0x707070)
         
 //        if whetherToPay == "결제성공" {
 //            DispatchQueue.main.async {

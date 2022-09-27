@@ -119,4 +119,28 @@ struct UserDataService {
                 }
             }
     }
+    
+    /**
+     * @ 유저 정보 불러오기
+     * coder : sanghyeon
+     */
+    func requestFetchUserInfo(userID: String, completion: @escaping (UserInfoResponseModel?) -> ()) {
+        let url = "\(userApiUrl)/\(userID)"
+        
+        AF.request(url, method: .get, headers: Constants().header)
+            .validate()
+            .responseDecodable(of: UserInfoResponseModel.self) { (response) in
+                print("*** UserDS, requestFetchUserInfo, response: \(response)")
+                switch response.result {
+                case .success(let response):
+                    if response.userID == userID {
+                        completion(response)
+                    } else {
+                        completion(nil)
+                    }
+                case .failure(_):
+                    completion(nil)
+                }
+            }
+    }
 }

@@ -101,6 +101,9 @@
 		DFDC182F289FE8A70076EE2E /* UserDefaults+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFDC182E289FE8A70076EE2E /* UserDefaults+Extension.swift */; };
 		DFDC5CAC28DBF69F000AC32C /* UserRegisterModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFDC5CAB28DBF69F000AC32C /* UserRegisterModel.swift */; };
 		DFDC5CAE28DBF92F000AC32C /* Codable+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFDC5CAD28DBF92F000AC32C /* Codable+Extension.swift */; };
+		DFE0374A28E292E900BE9E35 /* FeedbackResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFE0374928E292E900BE9E35 /* FeedbackResponseModel.swift */; };
+		DFE0374C28E2F18B00BE9E35 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFE0374B28E2F18B00BE9E35 /* SettingViewController.swift */; };
+		DFE0374E28E3093B00BE9E35 /* UserInfoResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFE0374D28E3093B00BE9E35 /* UserInfoResponseModel.swift */; };
 		DFE5F6AC28A8D36A000511E9 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFE5F6AB28A8D36A000511E9 /* Constants.swift */; };
 		DFE5F6B028A9385C000511E9 /* MapButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFE5F6AF28A9385C000511E9 /* MapButton.swift */; };
 		DFECC8CA28AC95E800DC64FD /* AroundPlaceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFECC8C928AC95E800DC64FD /* AroundPlaceViewController.swift */; };
@@ -255,6 +258,9 @@
 		DFDC182E289FE8A70076EE2E /* UserDefaults+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Extension.swift"; sourceTree = "<group>"; };
 		DFDC5CAB28DBF69F000AC32C /* UserRegisterModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRegisterModel.swift; sourceTree = "<group>"; };
 		DFDC5CAD28DBF92F000AC32C /* Codable+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Codable+Extension.swift"; sourceTree = "<group>"; };
+		DFE0374928E292E900BE9E35 /* FeedbackResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackResponseModel.swift; sourceTree = "<group>"; };
+		DFE0374B28E2F18B00BE9E35 /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
+		DFE0374D28E3093B00BE9E35 /* UserInfoResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoResponseModel.swift; sourceTree = "<group>"; };
 		DFE5F6AB28A8D36A000511E9 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		DFE5F6AF28A9385C000511E9 /* MapButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapButton.swift; sourceTree = "<group>"; };
 		DFECC8C928AC95E800DC64FD /* AroundPlaceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AroundPlaceViewController.swift; sourceTree = "<group>"; };
@@ -388,6 +394,7 @@
 				DFD780DF28C7804400F822C3 /* BookmarkViewController.swift */,
 				DF67A05028C9635F00435C28 /* FeedbackListViewController.swift */,
 				DFBFDF4D28D55CED003A8EF6 /* FeedbackWebViewController.swift */,
+				DFE0374B28E2F18B00BE9E35 /* SettingViewController.swift */,
 			);
 			path = More;
 			sourceTree = "<group>";
@@ -551,6 +558,7 @@
 				DFA1BAD328DB3924002B9010 /* UserUpdateModel.swift */,
 				DFDC5CAB28DBF69F000AC32C /* UserRegisterModel.swift */,
 				DF4882FA28E09B3600AA472D /* UserAllCountModel.swift */,
+				DFE0374D28E3093B00BE9E35 /* UserInfoResponseModel.swift */,
 			);
 			path = NetworkModels;
 			sourceTree = "<group>";
@@ -742,6 +750,7 @@
 			children = (
 				DFD672A228C8A71B000220EE /* FeedbackRequestModel.swift */,
 				DFC81D3428D09C2A00E400EB /* FeedbackResultModel.swift */,
+				DFE0374928E292E900BE9E35 /* FeedbackResponseModel.swift */,
 			);
 			path = Feedback;
 			sourceTree = "<group>";
@@ -931,6 +940,7 @@
 				DFC449A428C8B4700029DD5E /* FeedbackButton.swift in Sources */,
 				DFA1BAD428DB3924002B9010 /* UserUpdateModel.swift in Sources */,
 				F41A51E828B0865D00FE546B /* SearchEditViewController.swift in Sources */,
+				DFE0374A28E292E900BE9E35 /* FeedbackResponseModel.swift in Sources */,
 				DFDA43F628A14AB3003763AC /* PickViewControllerTitleView.swift in Sources */,
 				DF82669C289CA11700272830 /* PickPaymentsViewController.swift in Sources */,
 				DF6B69F728B90BA2009D4076 /* FilterResetButtonView.swift in Sources */,
@@ -995,6 +1005,7 @@
 				DF6609D928DC6A9800D6F33A /* BookmarkResponseModel.swift in Sources */,
 				DF67A06028CA34F500435C28 /* StoreDataService.swift in Sources */,
 				F438237028C7085200C75063 /* AlarmViewController.swift in Sources */,
+				DFE0374C28E2F18B00BE9E35 /* SettingViewController.swift in Sources */,
 				DF01A89428C5C94500124788 /* CustomNavigationBar.swift in Sources */,
 				DFF7BEDA28A67DFE00289F39 /* CALayer+Extension.swift in Sources */,
 				DF38177028A46EF100B900B5 /* CommonPickViewController.swift in Sources */,
@@ -1055,6 +1066,7 @@
 				DF9EAF8528AA00F5001B3D74 /* ResearchButton.swift in Sources */,
 				DF6609DF28DC7D1500D6F33A /* AddBookmarkResponseModel.swift in Sources */,
 				DFF484D828DAC2EC00FF441C /* NotificationCenter+Extension.swift in Sources */,
+				DFE0374E28E3093B00BE9E35 /* UserInfoResponseModel.swift in Sources */,
 				DF4BD37C28A76F8100C4C5B4 /* UIImage+Extension.swift in Sources */,
 				DF4A14A428ABBEF50068D1AD /* CustomToolBar.swift in Sources */,
 				DF81E40728D07A77000FF975 /* FeedbackDataService.swift in Sources */,

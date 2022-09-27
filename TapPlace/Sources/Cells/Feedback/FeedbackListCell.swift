@@ -11,22 +11,22 @@ import CoreLocation
 class FeedbackListCell: UITableViewCell {
 
     static let cellId = "feedbackListItem"
-    var feedback: UserFeedbackStoreModel? = nil {
+    var feedback: FeedbackList? = nil {
         willSet {
             guard let feedback = newValue else { return }
             dateLabel.text = feedback.date
-            storeNameLabel.text = feedback.storeName
-            storeCategory.text = feedback.storeCategory
+            storeNameLabel.text = feedback.placeName
+            storeCategory.text = feedback.categoryGroupName
             
             var placeDistance: Double?
             if let _ = UserInfo.userLocation {
-                let storeLocation = CLLocationCoordinate2D(latitude: feedback.locationY ?? 0, longitude: feedback.locationX ?? 0)
+                let storeLocation = CLLocationCoordinate2D(latitude: Double(feedback.y) ?? 0, longitude: Double(feedback.x) ?? 0)
                 placeDistance = UserInfo.userLocation?.distance(from: storeLocation)
             } else {
                 placeDistance = 0
             }
             
-            setAttributedString(distance: DistancelModel.getDistance(distance: placeDistance!), address: feedback.address)
+            setAttributedString(distance: DistancelModel.getDistance(distance: placeDistance!), address: feedback.roadAddressName == "" ? feedback.addressName : feedback.roadAddressName)
         }
     }
     

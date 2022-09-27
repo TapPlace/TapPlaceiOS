@@ -19,7 +19,7 @@ class BookmarkViewController: CommonViewController {
 
     var filterAsc: Bool = false
     var isEditMode: Bool = false
-    var isPage: Int = 1
+    var isPage: Int = 0
     var isEnd: Bool = false
     var isLoading: Bool = false
     
@@ -56,8 +56,10 @@ extension BookmarkViewController: CustomNavigationBarProtocol, FilterTitleProtoc
      */
     func setBindings() {
         bookmarkViewModel.$dataSource.sink { (bookmarks: [Bookmark]?) in
+            print("*** BookmarkVC, BookmarkVM dataSource 데이터 변경됨")
             if let bookmarks = bookmarks {
-                if self.bookmarkDataSource.count == bookmarks.count { return }
+                /// 기존 데이터와 같다면 별도의 처리를 하지 않음
+                //if self.bookmarkDataSource.count > 0 && self.bookmarkDataSource[0].num == bookmarks[0].num { return }
                 self.bookmarkDataSource += bookmarks
                 self.filterTitle.filterCount = self.bookmarkDataSource.count
                 self.isEnd = self.bookmarkViewModel.isEnd
@@ -316,7 +318,7 @@ extension BookmarkViewController: UITableViewDelegate, UITableViewDataSource {
     func deleteBookmark() {
         let checkedBookmark = bookmarkDataSource.filter { $0.isChecked == true }
         checkedBookmark.forEach { bookmark in
-            bookmarkViewModel.requestToggleBookmark(isBookmark: false, storeID: bookmark.storeID) { result in
+            bookmarkViewModel.requestToggleBookmark(currentBookmark: false, storeID: bookmark.storeID) { result in
                 if let result = result {
                     if result {
                         if self.bookmarkDataSource.count <= 0 {

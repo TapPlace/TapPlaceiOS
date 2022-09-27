@@ -14,7 +14,7 @@ class TableViewExpendButton: UIButton {
         self.imageEdgeInsets = UIEdgeInsets(top: .zero, left: 5, bottom: .zero, right: .zero)
         self.setImage(UIImage(systemName: "chevron.down"), for: .normal)
         self.setPreferredSymbolConfiguration(.init(pointSize: CommonUtils.resizeFontSize(size: 14), weight: .regular, scale: .default), forImageIn: .normal)
-        self.tintColor = .init(hex: 0x333333)
+        self.tintColor = .pointBlue
         self.titleLabel?.font = .systemFont(ofSize: CommonUtils.resizeFontSize(size: 14))
     }
 }

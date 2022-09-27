@@ -7,8 +7,7 @@
 
 import UIKit
 
-
-class FeedbackDoneViewController: CommonViewController {
+class FeedbackDoneViewController: CommonViewController, UIScrollViewDelegate {
     
     let customNavigationBar = CustomNavigationBar()
     var feedbackResult: [FeedbackResult]? = nil
@@ -36,6 +35,7 @@ class FeedbackDoneViewController: CommonViewController {
         storePaymentTableView.separatorInset.left = 20
         storePaymentTableView.separatorInset.right = 20
         storePaymentTableView.allowsSelection = false
+//        storePaymentTableView.isScrollEnabled = false
         return storePaymentTableView
     }()
     
@@ -195,11 +195,8 @@ extension FeedbackDoneViewController: UITableViewDataSource, UITableViewDelegate
         guard let feedbackResult = feedbackResult else { return UITableViewCell() }
         let cell = tableView.dequeueReusableCell(withIdentifier: StorePaymentTableViewCell.identifier, for: indexPath) as! StorePaymentTableViewCell
         
-        //let storePaymentModel = StorePaymentModel.lists[indexPath.row]
         let feedback = feedbackResult[indexPath.row]
-//        print(feedback)
         cell.feedback = Feedback(num: 0, storeID: nil, success: feedback.success, fail: feedback.fail, lastState: feedback.lastState, lastTime: nil, pay: feedback.pay, exist: true)
-        //cell.prepare(pay: nil, payName: storePaymentModel.payName, success: storePaymentModel.success, successDate: storePaymentModel.successDate, successRate: storePaymentModel.successRate)
         
         return cell
     }

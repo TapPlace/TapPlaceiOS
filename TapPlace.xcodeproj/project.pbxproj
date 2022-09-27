@@ -137,6 +137,10 @@
 		F43CA9FF28D43CEC009E8845 /* NoticeDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43CA9FE28D43CEC009E8845 /* NoticeDataService.swift */; };
 		F449AEB328ACEABE008E0417 /* SearchContentButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F449AEB228ACEABE008E0417 /* SearchContentButton.swift */; };
 		F449AEB628ADD205008E0417 /* SearchingActionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F449AEB528ADD205008E0417 /* SearchingActionTableViewCell.swift */; };
+		F44C1B3C28E1659C009F623D /* NoticeDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F44C1B3B28E1659C009F623D /* NoticeDetailViewController.swift */; };
+		F44C1B3E28E2C4E2009F623D /* InquiryHistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F44C1B3D28E2C4E2009F623D /* InquiryHistoryViewController.swift */; };
+		F44C1B4028E2D1E1009F623D /* InquiryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F44C1B3F28E2D1E1009F623D /* InquiryCell.swift */; };
+		F44C1B4228E303AF009F623D /* InquiryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F44C1B4128E303AF009F623D /* InquiryModel.swift */; };
 		F4551D3A28A8B651003B93F4 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4551D3928A8B651003B93F4 /* SearchViewController.swift */; };
 		F4551D3C28A9F9C6003B93F4 /* SearchHistoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4551D3B28A9F9C6003B93F4 /* SearchHistoryTableViewCell.swift */; };
 		F470A33D28C9AA36007F4F24 /* FeedbackDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F470A33C28C9AA36007F4F24 /* FeedbackDetailViewController.swift */; };
@@ -294,6 +298,10 @@
 		F43CA9FE28D43CEC009E8845 /* NoticeDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeDataService.swift; sourceTree = "<group>"; };
 		F449AEB228ACEABE008E0417 /* SearchContentButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchContentButton.swift; sourceTree = "<group>"; };
 		F449AEB528ADD205008E0417 /* SearchingActionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchingActionTableViewCell.swift; sourceTree = "<group>"; };
+		F44C1B3B28E1659C009F623D /* NoticeDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeDetailViewController.swift; sourceTree = "<group>"; };
+		F44C1B3D28E2C4E2009F623D /* InquiryHistoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquiryHistoryViewController.swift; sourceTree = "<group>"; };
+		F44C1B3F28E2D1E1009F623D /* InquiryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquiryCell.swift; sourceTree = "<group>"; };
+		F44C1B4128E303AF009F623D /* InquiryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquiryModel.swift; sourceTree = "<group>"; };
 		F4551D3928A8B651003B93F4 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		F4551D3B28A9F9C6003B93F4 /* SearchHistoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchHistoryTableViewCell.swift; sourceTree = "<group>"; };
 		F470A33C28C9AA36007F4F24 /* FeedbackDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackDetailViewController.swift; sourceTree = "<group>"; };
@@ -654,6 +662,7 @@
 				F478DA4728BCA94E003C686A /* StoreDetailModel.swift */,
 				DFF5300028BC515D00FFC302 /* UserModel.swift */,
 				F438236B28C5CD2200C75063 /* NoticeModel.swift */,
+				F44C1B4128E303AF009F623D /* InquiryModel.swift */,
 				F438237128C709E100C75063 /* AlarmModel.swift */,
 			);
 			path = Models;
@@ -788,8 +797,10 @@
 			isa = PBXGroup;
 			children = (
 				F438236628C5C2A500C75063 /* NoticeViewController.swift */,
+				F44C1B3B28E1659C009F623D /* NoticeDetailViewController.swift */,
 				F438236F28C7085200C75063 /* AlarmViewController.swift */,
 				F438237328C7188A00C75063 /* InquiryViewController.swift */,
+				F44C1B3D28E2C4E2009F623D /* InquiryHistoryViewController.swift */,
 				F470A33E28C9C27E007F4F24 /* FAQViewController.swift */,
 				F43B068728D56EB800701538 /* SuggestedViewController.swift */,
 			);
@@ -802,6 +813,7 @@
 				F438236928C5C39300C75063 /* NoticeCell.swift */,
 				F438236D28C5D24800C75063 /* AlarmCell.swift */,
 				F470A34028C9CA36007F4F24 /* FeedbackDetailCell.swift */,
+				F44C1B3F28E2D1E1009F623D /* InquiryCell.swift */,
 			);
 			path = Else;
 			sourceTree = "<group>";
@@ -966,6 +978,7 @@
 				F4C6C8BD28B0A89B00FAF10A /* EditButton.swift in Sources */,
 				F4551D3A28A8B651003B93F4 /* SearchViewController.swift in Sources */,
 				DFC23FB2289AB6E500EC1090 /* EmptyViewModel.swift in Sources */,
+				F44C1B4228E303AF009F623D /* InquiryModel.swift in Sources */,
 				DF67A05128C9635F00435C28 /* FeedbackListViewController.swift in Sources */,
 				DF6609DB28DC6CF300D6F33A /* BookmarkDataService.swift in Sources */,
 				F43B068828D56EB800701538 /* SuggestedViewController.swift in Sources */,
@@ -986,6 +999,8 @@
 				DFD780E028C7804400F822C3 /* BookmarkViewController.swift in Sources */,
 				DFE5F6B028A9385C000511E9 /* MapButton.swift in Sources */,
 				DF6B69EF28B8518E009D4076 /* TermsWebViewViewController.swift in Sources */,
+				F44C1B3E28E2C4E2009F623D /* InquiryHistoryViewController.swift in Sources */,
+				F44C1B4028E2D1E1009F623D /* InquiryCell.swift in Sources */,
 				DF8266A8289F1D0D00272830 /* PlaceDataService.swift in Sources */,
 				F4E198D528CDDB5700619174 /* SearchListViewModel.swift in Sources */,
 				DFDC182F289FE8A70076EE2E /* UserDefaults+Extension.swift in Sources */,
@@ -1074,6 +1089,7 @@
 				F43CA9FD28D43CB7009E8845 /* NoticeListViewModel.swift in Sources */,
 				DF1CD4B828AF7BEC000D23E4 /* AroundPlaceFilterView.swift in Sources */,
 				DFDBB83528B094FE008D2E09 /* CommonViewController.swift in Sources */,
+				F44C1B3C28E1659C009F623D /* NoticeDetailViewController.swift in Sources */,
 				DF6B69F128B8BCA4009D4076 /* ToastMessage.swift in Sources */,
 				DF2340D128A239FC00A9DAE1 /* PickPaymentsCollectionReusableView.swift in Sources */,
 				DF1D34B728A3662900BDDA15 /* StoreModel.swift in Sources */,
@@ -1223,7 +1239,7 @@
 				CODE_SIGN_ENTITLEMENTS = TapPlace/TapPlace.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 5NACCZGM3F;
+				DEVELOPMENT_TEAM = BFTA9SX898;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TapPlace/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "탭플레이스";
@@ -1262,7 +1278,7 @@
 				CODE_SIGN_ENTITLEMENTS = TapPlace/TapPlace.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 5NACCZGM3F;
+				DEVELOPMENT_TEAM = BFTA9SX898;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TapPlace/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "탭플레이스";

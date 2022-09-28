@@ -21,21 +21,14 @@ struct UserInfo {
 class UserModel: Object {
     @Persisted(primaryKey: true) var uuid: String = Constants.keyChainDeviceID
     @Persisted var isFirstLaunch: Bool = false
-    @Persisted var agreeTerm: String = ""
-    @Persisted var agreePrivacy: String = ""
-    @Persisted var agreeMarketing: String = ""
-    @Persisted var birth: String = ""
-    @Persisted var sex: String = ""
+    @Persisted var isAlarm: Bool = false
+
     
-    convenience init(uuid: String, isFirstLaunch: Bool, agreeTerm: String, agreePrivacy: String, agreeMarketing: String, birth: String, sex: String) {
+    convenience init(uuid: String, isFirstLaunch: Bool, isAlarm: Bool = false) {
         self.init()
         self.uuid = uuid
         self.isFirstLaunch = isFirstLaunch
-        self.agreeTerm = agreeTerm
-        self.agreePrivacy = agreePrivacy
-        self.agreeMarketing = agreeMarketing
-        self.birth = birth
-        self.sex = sex
+        self.isAlarm = isAlarm
     }
 }
 

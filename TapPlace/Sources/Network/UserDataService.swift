@@ -1,7 +1,7 @@
 //
 //  UserDataService.swift
 //  TapPlace
-// 
+//        
 //  Created by 박상현 on 2022/09/08.
 // 
 
@@ -68,7 +68,6 @@ struct UserDataService {
         AF.request(url, method: .patch, parameters: parameter, encoding: URLEncoding.default, headers: header)
             .validate()
             .responseDecodable(of: UserUpdateModel.self) { (response) in
-                print("*** UserDS, response: \(response)")
                 switch response.result {
                 case .success(let response):
                     if let message = response.message {

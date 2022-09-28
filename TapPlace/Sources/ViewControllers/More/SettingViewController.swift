@@ -13,6 +13,7 @@ class SettingViewController: CommonViewController {
     let settingTableView = UITableView()
     var settingDataSource: [Int: [String]] = [:]
     var userInfo: UserInfoResponseModel?
+    let alarmSwitch: UISwitch = UISwitch()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -62,6 +63,7 @@ extension SettingViewController: CustomNavigationBarProtocol {
         //MARK: ViewPropertyManual
         view.backgroundColor = .white
         settingTableView.separatorStyle = .none
+        settingTableView.isScrollEnabled = false
 
         
         //MARK: AddSubView
@@ -141,16 +143,30 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
      */
     func setupCell(indexPath: IndexPath) -> UITableViewCell {
         guard let cell = settingTableView.dequeueReusableCell(withIdentifier: MoreMenuTableViewCell.cellId, for: indexPath) as? MoreMenuTableViewCell else { return UITableViewCell() }
-        cell.selectionStyle = .none
+    
         let cellTitle = settingDataSource[indexPath.section]![indexPath.row]
-        cell.title = cellTitle
-        if cellTitle == "정보 수정" {
+
+        switch cellTitle {
+        case "정보 수정":
             if let userInfo = userInfo {
                 cell.subTitle = "\(userInfo.birth) / \(userInfo.sex)성"
             } else {
                 cell.subTitle = "알 수 없음"
             }
+        case "알림 및 소리":
+            cell.addSubview(alarmSwitch)
+            alarmSwitch.snp.makeConstraints {
+                $0.centerY.equalTo(cell)
+                $0.trailing.equalTo(cell).offset(-20)
+            }
+            alarmSwitch.isOn = storageViewModel.getAlarm()
+            alarmSwitch.addTarget(self, action: #selector(didToggleSwitch(_:)), for: .touchUpInside)
+
+        default: break
         }
+
+        cell.title = cellTitle
+        cell.selectionStyle = .none
         return cell
     }
     
@@ -208,14 +224,12 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
         }
 
         let clear = UIAlertAction(title: "모든 항목 초기화", style: .destructive) { action in
-//            print("모든 항목 초기화 탭")
             let alertAction = UIAlertController(title: "모든 항목 초기화", message: "이 작업은 되돌릴 수 없으며, 앱에 저장된 가맹점 정보 및 서버에 저장된 데이터 모두 삭제합니다.", preferredStyle: .alert)
             let alertConfirm = UIAlertAction(title: "초기화", style: .destructive) { action in
                 self.userViewModel.dropUserInfo() { result in
                     self.storageViewModel.deleteAllPayments {}
                     self.storageViewModel.deleteAllSearchHistory()
                     if let deleteResult = result as? Bool {
-//                        print("moreVC, dropUserIfo, Success")
                         self.storageViewModel.deleteUser() { result in
                             if deleteResult == true {
                                 KeyChain.deleteUserDeviceUUID()
@@ -227,8 +241,6 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
                                 showToast(message: "알 수 없는 이유로 초기화에 실패했습니다.\n다시 시도해주시기 바랍니다.", view: self.view)
                             }
                         }
-                    } else {
-                        //                        print("moreVC, dropUserInfo, Error")
                     }
                 }
             }
@@ -249,4 +261,33 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
         present(actionSheet, animated: true, completion: nil)
     } //Function: 초기화 액션시트
     
+    /**
+     * @ 알림 설정 스위치 토글 이벤트
+     * coder : sanghyeon
+     */
+    @objc func didToggleSwitch(_ sender: UISwitch) {
+        sender.isOn = self.storageViewModel.toggleAlarm()
+        authorization.requestNotificationAuthorization() { result in
+            switch result {
+            case true:
+                print("알림권한 허용")
+                self.fcm.generateFCMToken() { result in
+                    if let result = result {
+                        let parameter: [String: Any] = [
+                            "user_id": "\(Constants.keyChainDeviceID)",
+                            "token": "\(result)"
+                        ]
+                        UserDataService().requestFetchUpdateUser(parameter: parameter, header: Constants().header) { response in
+                            if !response {
+                                showToast(message: "알 수 없는 이유로 서버로 토큰이 전송되지 않았습니다.\n알림이 정상적으로 수신되지 않을 수 있습니다.", view: self.view)
+                            }
+                        }
+                    }
+                }
+                
+            case false:
+                print("알림권한 거부")
+            }
+        }
+    }
 }

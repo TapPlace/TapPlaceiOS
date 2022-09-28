@@ -852,10 +852,17 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
             cell.iconColor = storeList[indexPath.row].color
         }
         
-        /// 선택된 항목인가?
-        if let _ = storeViewModel.selectStoreArray.firstIndex(where: {$0 == storeList[indexPath.row].title}) {
-            cell.cellSelected = true
+        /// 초기화 탭인가?
+        if storeList[indexPath.row].title == "초기화" {
+            cell.itemText.textColor = .pointBlue
+        } else {
+            cell.itemText.textColor = .init(hex: 0x212121)
+            /// 선택된 항목인가?
+            if let _ = storeViewModel.selectStoreArray.firstIndex(where: {$0 == storeList[indexPath.row].title}) {
+                cell.cellSelected = true
+            }
         }
+        
         cell.itemText.text = storeList[indexPath.row].title
         cell.storeId = storeList[indexPath.row].id
         return cell

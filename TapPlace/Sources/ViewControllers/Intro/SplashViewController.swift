@@ -34,6 +34,7 @@ class SplashViewController: UIViewController {
     
     var storageViewModel = StorageViewModel()
     var userViewModel = UserViewModel()
+    var fcm = FCM.shared
     var bookmarkViewModel = BookmarkViewModel()
     var countingLabel = EFCountingLabel(frame: .zero)
     //MARK: - ViewController Lift Cycle

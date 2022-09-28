@@ -9,7 +9,7 @@ import Foundation
 import RealmSwift
 
 struct DB {
-    let realm = try! Realm(configuration: Realm.Configuration(schemaVersion: 8))
+    let realm = try! Realm(configuration: Realm.Configuration(schemaVersion: 10))
     let location: URL = Realm.Configuration.defaultConfiguration.fileURL!
     var userObject: Results<UserModel>?
     var userPaymentsObject: Results<UserFavoritePaymentsModel>?
@@ -50,6 +50,33 @@ extension StorageProtocol {
         try! dataBases?.realm.write {
             dataBases?.realm.add(user, update: .modified)
         }
+    }
+    /**
+     * @ 알람 설정 가져오기
+     * coder : sanghyeon
+     */
+    mutating func getAlarm() -> Bool {
+        let users = dataBases?.realm.objects(UserModel.self).where {
+            $0.uuid == Constants.keyChainDeviceID
+        }.first
+        guard let users = users else { return false }
+        return users.isAlarm
+    }
+    /**
+     * @ 알람 설정 토글
+     * coder : sanghyeon
+     */
+    mutating func toggleAlarm() -> Bool {
+        let users = dataBases?.realm.objects(UserModel.self).where {
+            $0.uuid == Constants.keyChainDeviceID
+        }.first
+        guard let users = users else { return false }
+        let setAlarm = users.isAlarm ? false : true
+        let setUser = UserModel(uuid: Constants.keyChainDeviceID, isFirstLaunch: users.isFirstLaunch, isAlarm: setAlarm)
+        try! dataBases?.realm.write {
+            dataBases?.realm.add(setUser, update: .modified)
+        }
+        return setAlarm
     }
     /**
      * @ 유저 정보 초기화

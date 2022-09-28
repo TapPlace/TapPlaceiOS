@@ -15,6 +15,7 @@ class CommonViewController: UIViewController {
     var feedbackViewModel = FeedbackViewModel()
     var userViewModel = UserViewModel()
     let authorization = Authorization.shared
+    let fcm = FCM.shared
     
     override func viewDidLoad() {
         super.viewDidLoad()

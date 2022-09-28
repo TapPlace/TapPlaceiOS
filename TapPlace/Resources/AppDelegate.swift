@@ -8,6 +8,9 @@
 import UIKit
 import NMapsMap
 import IQKeyboardManagerSwift
+import Firebase
+import FirebaseCore
+import UserNotifications
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -23,6 +26,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if let kakaoApiKey = Constants.kakaoRestApiKey {
             //print("Kakao Rest Api Key:", kakaoApiKey)
         }
+        
+        //MARK: FCM Settings
+        FirebaseApp.configure()
+        UNUserNotificationCenter.current().delegate = self
+        Messaging.messaging().delegate = self
+        if #available(iOS 10.0, *) {
+          // For iOS 10 display notification (sent via APNS)
+          UNUserNotificationCenter.current().delegate = self
+
+          let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
+          UNUserNotificationCenter.current().requestAuthorization(
+            options: authOptions,
+            completionHandler: { _, _ in }
+          )
+        } else {
+          let settings: UIUserNotificationSettings =
+            UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
+          application.registerUserNotificationSettings(settings)
+        }
+
+        
+        application.registerForRemoteNotifications()
         
         IQKeyboardManager.shared.enable = true
         IQKeyboardManager.shared.enableAutoToolbar = false
@@ -53,3 +78,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 }
 
+//MARK: Messaging Delegate for FCM
+extension AppDelegate: UNUserNotificationCenterDelegate, MessagingDelegate {
+    func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
+        /// print("*** AppDelegate_ Get FCM TOKEN: \(fcmToken)")
+    }
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        Messaging.messaging().apnsToken = deviceToken
+    }
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification) async -> UNNotificationPresentationOptions {
+        let userInfo = notification.request.content.userInfo
+        print(userInfo)
+        var alertType: UNNotificationPresentationOptions = []
+        if #available(iOS 14, *) {
+            alertType = [.banner, .list, .sound]
+        } else {
+            alertType = [.alert, .sound]
+        }
+        return [alertType]
+    }
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse) async {
+        let userInfo = response.notification.request.content.userInfo
+        /// print(userInfo)
+    }
+}

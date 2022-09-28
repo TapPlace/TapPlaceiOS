@@ -44,6 +44,12 @@ extension InquiryHistoryViewController {
             $0.top.leading.trailing.equalToSuperview()
             $0.bottom.equalTo(customNavigationBar.containerView)
         }
+        
+        view.addSubview(inquiryTableView)
+        inquiryTableView.snp.makeConstraints {
+            $0.top.equalTo(customNavigationBar.snp.bottom).offset(4)
+            $0.leading.trailing.bottom.equalToSuperview()
+        }
     }
 }
 
@@ -52,13 +58,13 @@ extension InquiryHistoryViewController: CustomNavigationBarProtocol {
         self.navigationController?.popViewController(animated: true)
     }
 }
-
+//
 //extension InquiryHistoryViewController: UITableViewDataSource, UITableViewDelegate {
 //    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//
+//        
 //    }
 //
 //    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//
+//        
 //    }
 //}

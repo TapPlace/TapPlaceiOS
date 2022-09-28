@@ -141,6 +141,7 @@
 		F44C1B3E28E2C4E2009F623D /* InquiryHistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F44C1B3D28E2C4E2009F623D /* InquiryHistoryViewController.swift */; };
 		F44C1B4028E2D1E1009F623D /* InquiryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F44C1B3F28E2D1E1009F623D /* InquiryCell.swift */; };
 		F44C1B4228E303AF009F623D /* InquiryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F44C1B4128E303AF009F623D /* InquiryModel.swift */; };
+		F44C1B4428E34732009F623D /* InquiryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F44C1B4328E34732009F623D /* InquiryViewModel.swift */; };
 		F4551D3A28A8B651003B93F4 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4551D3928A8B651003B93F4 /* SearchViewController.swift */; };
 		F4551D3C28A9F9C6003B93F4 /* SearchHistoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4551D3B28A9F9C6003B93F4 /* SearchHistoryTableViewCell.swift */; };
 		F470A33D28C9AA36007F4F24 /* FeedbackDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F470A33C28C9AA36007F4F24 /* FeedbackDetailViewController.swift */; };
@@ -302,6 +303,7 @@
 		F44C1B3D28E2C4E2009F623D /* InquiryHistoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquiryHistoryViewController.swift; sourceTree = "<group>"; };
 		F44C1B3F28E2D1E1009F623D /* InquiryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquiryCell.swift; sourceTree = "<group>"; };
 		F44C1B4128E303AF009F623D /* InquiryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquiryModel.swift; sourceTree = "<group>"; };
+		F44C1B4328E34732009F623D /* InquiryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquiryViewModel.swift; sourceTree = "<group>"; };
 		F4551D3928A8B651003B93F4 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		F4551D3B28A9F9C6003B93F4 /* SearchHistoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchHistoryTableViewCell.swift; sourceTree = "<group>"; };
 		F470A33C28C9AA36007F4F24 /* FeedbackDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackDetailViewController.swift; sourceTree = "<group>"; };
@@ -679,6 +681,7 @@
 				F4E198D428CDDB5700619174 /* SearchListViewModel.swift */,
 				DF81E40828D07C0A000FF975 /* FeedbackViewModel.swift */,
 				F43CA9FC28D43CB7009E8845 /* NoticeListViewModel.swift */,
+				F44C1B4328E34732009F623D /* InquiryViewModel.swift */,
 				DF6609DC28DC6EFC00D6F33A /* BookmarkViewModel.swift */,
 			);
 			path = ViewModels;
@@ -1023,6 +1026,7 @@
 				DFE0374C28E2F18B00BE9E35 /* SettingViewController.swift in Sources */,
 				DF01A89428C5C94500124788 /* CustomNavigationBar.swift in Sources */,
 				DFF7BEDA28A67DFE00289F39 /* CALayer+Extension.swift in Sources */,
+				F44C1B4428E34732009F623D /* InquiryViewModel.swift in Sources */,
 				DF38177028A46EF100B900B5 /* CommonPickViewController.swift in Sources */,
 				DF67A05C28CA0F1B00435C28 /* LatestTermsModel.swift in Sources */,
 				DFD672A328C8A71B000220EE /* FeedbackRequestModel.swift in Sources */,
@@ -1237,9 +1241,12 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = TapPlace/TapPlace.entitlements;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = BFTA9SX898;
+				DEVELOPMENT_TEAM = 5NACCZGM3F;
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 5NACCZGM3F;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TapPlace/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "탭플레이스";
@@ -1260,6 +1267,8 @@
 				MARKETING_VERSION = 1.1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = kr.co.tapplace.TapPlace;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = TapPlace;
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = TapPlaceDistribution;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
@@ -1276,9 +1285,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = TapPlace/TapPlace.entitlements;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = BFTA9SX898;
+				DEVELOPMENT_TEAM = 5NACCZGM3F;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TapPlace/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "탭플레이스";
@@ -1299,6 +1309,7 @@
 				MARKETING_VERSION = 1.1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = kr.co.tapplace.TapPlace;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = TapPlaceDistribution;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;

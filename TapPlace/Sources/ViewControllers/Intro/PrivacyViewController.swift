@@ -32,7 +32,7 @@ class PrivacyViewController: UIViewController {
     let femaleButton = UIButton() // 여성 버튼
     let skipButton = UIButton(type: .system)
     
-    var userSex = "남" {
+    var userSex = "미선택" {
         willSet {
             if newValue == "남" {
                 maleButton.backgroundColor = UIColor(red: 0.306, green: 0.467, blue: 0.984, alpha: 0.06)
@@ -55,8 +55,6 @@ class PrivacyViewController: UIViewController {
                 maleButton.layer.borderColor = UIColor(red: 0.859, green: 0.871, blue: 0.91, alpha: 1).cgColor
                 maleButton.setTitleColor(UIColor(red: 0.62, green: 0.62, blue: 0.62, alpha: 1), for: .normal)
             }
-            maleButton.layoutIfNeeded()
-            femaleButton.layoutIfNeeded()
         }
     }
     var storageViewModel = StorageViewModel()
@@ -87,6 +85,9 @@ extension PrivacyViewController {
         self.navigationController?.navigationBar.isHidden = true
         /// 네비게이션 컨트롤러 스와이프 뒤로가기 제거
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
+        if userInfo == nil {
+            userSex = "남"
+        }
     }
     
     private func setLayout() {
@@ -151,14 +152,12 @@ extension PrivacyViewController {
         
 
         maleButton.layer.cornerRadius = 8
-        maleButton.layer.borderWidth = 1.5
         maleButton.setTitle("남성", for: .normal)
         maleButton.titleLabel?.font = .systemFont(ofSize: CommonUtils.resizeFontSize(size: 15))
         maleButton.addTarget(self, action: #selector(self.actionGenderButton(_:)), for: .touchUpInside)
         
         
         femaleButton.layer.cornerRadius = 8
-        femaleButton.layer.borderWidth = 1
         femaleButton.setTitle("여성", for: .normal)
         femaleButton.titleLabel?.font = .systemFont(ofSize: CommonUtils.resizeFontSize(size: 15))
         femaleButton.addTarget(self, action: #selector(self.actionGenderButton(_:)), for: .touchUpInside)
@@ -330,10 +329,6 @@ extension PrivacyViewController: BottomButtonProtocol {
             return
         }
         
-        if let user = storageViewModel.getUserInfo(uuid: Constants.keyChainDeviceID) {
-            let setUser = UserModel(uuid: user.uuid, isFirstLaunch: user.isFirstLaunch, agreeTerm: user.agreeTerm, agreePrivacy: user.agreePrivacy, agreeMarketing: user.agreeMarketing, birth: textFieldText, sex: userSex)
-            storageViewModel.updateUser(setUser)
-        }
         
         UserRegisterModel.setUser.birth = birthInputField.text ?? "20220101"
         UserRegisterModel.setUser.sex = userSex

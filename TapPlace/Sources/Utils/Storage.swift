@@ -9,11 +9,10 @@ import Foundation
 import RealmSwift
 
 struct DB {
-    let realm = try! Realm(configuration: Realm.Configuration(schemaVersion: 6))
+    let realm = try! Realm(configuration: Realm.Configuration(schemaVersion: 10))
     let location: URL = Realm.Configuration.defaultConfiguration.fileURL!
     var userObject: Results<UserModel>?
-    var userFeedbackObject: Results<UserFeedbackModel>?
-    var userPaymentsObject: Results<UserFeedbackModel>?
+    var userPaymentsObject: Results<UserFavoritePaymentsModel>?
 }
 
 protocol StorageProtocol {
@@ -51,6 +50,33 @@ extension StorageProtocol {
         try! dataBases?.realm.write {
             dataBases?.realm.add(user, update: .modified)
         }
+    }
+    /**
+     * @ 알람 설정 가져오기
+     * coder : sanghyeon
+     */
+    mutating func getAlarm() -> Bool {
+        let users = dataBases?.realm.objects(UserModel.self).where {
+            $0.uuid == Constants.keyChainDeviceID
+        }.first
+        guard let users = users else { return false }
+        return users.isAlarm
+    }
+    /**
+     * @ 알람 설정 토글
+     * coder : sanghyeon
+     */
+    mutating func toggleAlarm() -> Bool {
+        let users = dataBases?.realm.objects(UserModel.self).where {
+            $0.uuid == Constants.keyChainDeviceID
+        }.first
+        guard let users = users else { return false }
+        let setAlarm = users.isAlarm ? false : true
+        let setUser = UserModel(uuid: Constants.keyChainDeviceID, isFirstLaunch: users.isFirstLaunch, isAlarm: setAlarm)
+        try! dataBases?.realm.write {
+            dataBases?.realm.add(setUser, update: .modified)
+        }
+        return setAlarm
     }
     /**
      * @ 유저 정보 초기화
@@ -92,112 +118,7 @@ extension StorageProtocol {
             dataBases?.realm.delete(targetPayment)
         }
     }
-    /**
-     * @ 즐겨찾기 저장
-     * coder : sanghyeon
-     */
-    mutating func toggleBookmark(_ userBookmarkStore: UserBookmarkStore) -> Bool {
-        let targetStore = dataBases?.realm.objects(UserBookmarkStore.self).where {
-            $0.storeID == userBookmarkStore.storeID
-        }.first
-        if targetStore == nil {
-            try! dataBases?.realm.write {
-                dataBases?.realm.add(userBookmarkStore)
-            }
-            return true
-        } else {
-            if let targetStore = targetStore {
-                try! dataBases?.realm.write {
-                    dataBases?.realm.delete(targetStore)
-                }
-            }
-            return false
-        }
-    }
-    /**
-     * @ 즐겨찾기 모두 삭제
-     * coder : sanghyeon
-     */
-    mutating func deleteAllBookmark(completion: (Bool) -> ()) {
-        let targetBookmark = dataBases?.realm.objects(UserBookmarkStore.self)
-        guard let targetBookmark = targetBookmark else { return }
-        try! dataBases?.realm.write {
-            dataBases?.realm.delete(targetBookmark)
-        }
-        completion(true)
-    }
-    /**
-     * @ 즐겨찾기 삭제
-     * coder : sanghyeon
-     */
-    mutating func deleteBookmark(_ userBookmarkStore: UserBookmarkStore) {
-        let targetBookmark = dataBases?.realm.objects(UserBookmarkStore.self).where {
-            $0.storeID == userBookmarkStore.storeID
-        }.first
-        guard let targetBookmark = targetBookmark else { return }
-        try! dataBases?.realm.write {
-            dataBases?.realm.delete(targetBookmark)
-        }
-    }
-    /**
-     * @ 즐겨찾기 여부 확인
-     * coder : sanghyeon
-     */
-    mutating func isStoreBookmark(_ storeID: String) -> Bool {
-        let targetStore = dataBases?.realm.objects(UserBookmarkStore.self).where {
-            $0.storeID == storeID
-        }.first
-        if targetStore == nil {
-            return false
-        } else {
-            return true
-        }
-    }
-    /**
-     * @ 피드백 모두 삭제
-     * coder : sanghyeon
-     */
-    mutating func deleteAllFeedback(completion: (Bool) -> ()) {
-        let targetFeedbackStore = dataBases?.realm.objects(UserFeedbackStoreModel.self)
-        guard let targetFeedbackStore = targetFeedbackStore else { return  }
-        try! dataBases?.realm.write {
-            dataBases?.realm.delete(targetFeedbackStore)
-        }
-        let targetFeedback = dataBases?.realm.objects(UserFeedbackModel.self)
-        guard let targetFeedback = targetFeedback else { return  }
-        try! dataBases?.realm.write {
-            dataBases?.realm.delete(targetFeedback)
-        }
-        completion(true)
-    }
-    /**
-     * @ 피드백 이력 저장
-     * coder : sanghyeon
-     */
-    mutating func addFeedbackHistory(store: UserFeedbackStoreModel, feedback:UserFeedbackModel) {
-        let searchFeedbackStore = dataBases?.realm.objects(UserFeedbackStoreModel.self).where {
-            $0.storeID == feedback.storeID &&
-            $0.date == feedback.date
-        }.first
-        if searchFeedbackStore == nil {
-            try! dataBases?.realm.write {
-                dataBases?.realm.add(store)
-            }
-        }
-        
-        let searchFeedback = dataBases?.realm.objects(UserFeedbackModel.self).where {
-            $0.storeID == feedback.storeID &&
-            $0.pay == feedback.pay &&
-            $0.feedback == feedback.feedback &&
-            $0.date == feedback.date
-        }.first
-        if searchFeedback == nil {
-            try! dataBases?.realm.write {
-                dataBases?.realm.add(feedback)
-            }
-        }
-    }
-    
+ 
     /**
      * @ 최근검색어 등록
      * coder : sanghyeon

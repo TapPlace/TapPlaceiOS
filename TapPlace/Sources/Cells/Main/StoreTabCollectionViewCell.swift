@@ -60,7 +60,7 @@ class StoreTabCollectionViewCell: UICollectionViewCell {
         itemText.text = ""
         itemText.textColor = .init(hex: 0x212121)
         itemText.sizeToFit()
-        itemText.font = .systemFont(ofSize: CommonUtils.resizeFontSize(size: 14), weight: .regular)
+        itemText.font = .systemFont(ofSize: CommonUtils.resizeFontSize(size: 13), weight: .regular)
         return itemText
     }()
     
@@ -103,6 +103,12 @@ class StoreTabCollectionViewCell: UICollectionViewCell {
         
         let targetSize = CGSize(width: UIView.layoutFittingCompressedSize.width, height: availableHeight)
         return cell.itemFrame.systemLayoutSizeFitting(targetSize, withHorizontalFittingPriority: .fittingSizeLevel, verticalFittingPriority: .required)
+    }
+    
+    override func prepareForReuse() {
+        itemFrame.backgroundColor = .white
+        itemIcon.tintColor = iconColor
+        itemText.textColor = .black.withAlphaComponent(0.7)
     }
     
 }

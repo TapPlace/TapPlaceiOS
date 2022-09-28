@@ -8,7 +8,6 @@
 import UIKit
 
 class FeedbackRequestViewController: CommonViewController {
-    var feedbackViewModel = FeedbackViewModel()
     let customNavigationBar = CustomNavigationBar()
     var tableView = UITableView()
     let bottomButton = BottomButton()
@@ -59,20 +58,9 @@ extension FeedbackRequestViewController: CustomNavigationBarProtocol, BottomButt
         guard let storeID = storeInfo?.storeID else { return }
         feedbackViewModel.requestUpdateFeedback(storeID: storeID, feedback: [successFeedback, failFeedback]) { result in
             if let result = result {
-                if let storeInfo = self.storeInfo {
-                    self.successFeedback.forEach {
-                        let tempFeedbackStore = UserFeedbackStoreModel(storeID: storeInfo.storeID, storeName: storeInfo.placeName, storeCategory: storeInfo.categoryGroupName, locationX: Double(storeInfo.x) ?? 0, locationY: Double(storeInfo.y) ?? 0, address: storeInfo.roadAddressName == "" ? storeInfo.addressName : storeInfo.roadAddressName, date: Date().getDate(3))
-                        let tempFeedback = UserFeedbackModel(storeID: storeInfo.storeID, pay: $0.pay, feedback: true, date: Date().getDate(3))
-                        self.storageViewModel.addFeedbackHistory(store: tempFeedbackStore, feedback: tempFeedback)
-                    }
-                    self.failFeedback.forEach {
-                        let tempFeedbackStore = UserFeedbackStoreModel(storeID: storeInfo.storeID, storeName: storeInfo.placeName, storeCategory: storeInfo.categoryGroupName, locationX: Double(storeInfo.x) ?? 0, locationY: Double(storeInfo.y) ?? 0, address: storeInfo.roadAddressName == "" ? storeInfo.addressName : storeInfo.roadAddressName, date: Date().getDate(3))
-                        let tempFeedback = UserFeedbackModel(storeID: storeInfo.storeID, pay: $0.pay, feedback: false, date: Date().getDate(3))
-                        self.storageViewModel.addFeedbackHistory(store: tempFeedbackStore, feedback: tempFeedback)
-                    }
-                }
                 let vc = FeedbackDoneViewController()
                 vc.feedbackResult = result.feedbackResult
+                vc.remainCount = result.remainCount
                 vc.storeID = storeID
                 self.navigationController?.pushViewController(vc, animated: true)
             } else {
@@ -152,7 +140,7 @@ extension FeedbackRequestViewController: CustomNavigationBarProtocol, BottomButt
         customNavigationBar.delegate = self
     }
 }
-//MARK: - Feedback {
+//MARK: - Feedback 
 extension FeedbackRequestViewController {
     /**
      * @ 서버로부터 유저 결제수단의 피드백 목록 가져오기
@@ -171,7 +159,7 @@ extension FeedbackRequestViewController {
         }
     }
     /**
-     * @ 서버로부터 유저 결제수단의 피드백 목록 가져오기
+     * @ 서버로부터 유저 결제수단 외 피드백 목록 가져오기
      * coder : sanghyeon
      */
     func getFeedbackOfMorePayments() {
@@ -200,7 +188,7 @@ extension FeedbackRequestViewController {
 //MARK: - TableView
 extension FeedbackRequestViewController: UITableViewDelegate, UITableViewDataSource, FeedbackRequestCellProtocol {
     func didTapFeedbackButton(indexPath: IndexPath, payment: String, exist: Bool, type: FeedbackButton.FeedbackButtonStyle) {
-//        print("버튼을 선택한...", indexPath, type, payment)
+//        print("버튼을 선택한...",  indexPath, type, payment)
         guard let cell = tableView.cellForRow(at: indexPath) as? FeedbackRequestTableViewCell else { return }
         cell.setButtonStyle = type == .success ? .success : .fail
         let feedbackModel = LoadFeedbackList(exist: exist, pay: payment)
@@ -266,7 +254,7 @@ extension FeedbackRequestViewController: UITableViewDelegate, UITableViewDataSou
         return setupFooterView()
     }
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        if section != 2 || isLoadedAllPayments { return .zero }
+        if section != 2 || isLoadedAllPayments || storageViewModel.userFavoritePaymentsString.count == PaymentModel.list.count { return .zero }
         return 50
     }
     

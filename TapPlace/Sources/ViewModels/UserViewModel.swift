@@ -6,48 +6,75 @@
 //
 
 import Foundation
+import Alamofire
+import Combine
 
 class UserViewModel {
     let userDataService = UserDataService.shared
+    
+    /// 유저 즐찾, 피드백, 남은 피드백 카운트
+    @Published var userAllCount: UserAllCountModel = UserAllCountModel(bookmarkCount: "0", feedbackCount: "0", remainCount: 0)
+    
     
     /**
      * @ 최신 약관 정보 요청
      * coder : sanghyeon
      */
-    func requestLatestTerms(uuid: String, completion: @escaping (LatestTermsModel?, Error?) -> ()) {
-        let parameter: [String: String] = [
-            "user_id": "\(Constants.keyChainDeviceID)",
-            "key": "\(Constants.tapplaceApiKey)"
-        ]
-        
-        userDataService.requestFetchLatestTerms(parameter: parameter) { result, error in
+    func requestLatestTerms(checkOnly: Bool = true, completion: @escaping (LatestTermsModel?, Error?) -> ()) {
+        var parameter: [String: Any]? = nil
+        if !checkOnly {
+            parameter = [
+                "user_id": "\(Constants.keyChainDeviceID)"
+            ]
+        }
+        userDataService.requestFetchLatestTerms(parameter: parameter, header: Constants().header) { result, error in
             if let error = error {
-//                print("*** 에러발생! \(error)")
                 completion(nil, error)
             }
-            completion(result, nil)
+            if let result = result {
+                completion(result, nil)
+            }
         }
     }
     
+
     /**
      * @ 유저 정보 서버로 전송
      * coder : sanghyeon
      */
-    func sendUserInfo(user: UserModel, payments: [String], completion: @escaping (Any) -> ()) {
-        let parameter: [String: Any] = [
-            "user_id": "\(Constants.keyChainDeviceID)",
-            "os": "ios",
-            "birth": "\(user.birth)",
-            "pays": payments,
-            "sex": "\(user.sex)",
-            "key": "\(Constants.tapplaceApiKey)",
-            "personal_date": "_",
-            "service_date": "_"
-        ]
+    func sendUserInfo(user: UserRegisterModel? = nil, parameters: [String: Any]? = nil, completion: @escaping (Any) -> ()) {
+        var parameter: [String: Any]? = nil
+        if let parameters = parameters {
+            parameter = parameters
+        } else {
+            guard let user = user else { return }
+            let formattedDate = user.birth.toDateString()
+            parameter = [
+                "user_id": user.userID,
+                "os": user.os,
+                "pays": user.pays,
+                "sex" : user.sex,
+                "personal_date" : user.personalDate,
+                "service_date" : user.serviceDate,
+                "marketing_agree": user.marketingAgree
+            ]
+            if let formattedDate = formattedDate {
+                parameter!["birth"] = formattedDate
+            }
+        }
         
-        userDataService.requestFetchAddUser(parameter: parameter, payments: payments) { result, error in
+        guard let parameter = parameter else { return }
+        userDataService.requestFetchAddUser(parameter: parameter, header: Constants().header) { result, error in
             completion(result)
         }
+    }
+    
+    /**
+     * @ 유저 정보 수정
+     * coder : sanghyeon
+     */
+    func updateUserInfo(parameter: [String: Any], completion: @escaping (Bool) -> ()) {
+        
     }
     
     /**
@@ -56,15 +83,25 @@ class UserViewModel {
      */
     func dropUserInfo(completion: @escaping (Any) -> ()) {
         let parameter: [String: Any] = [
-            "user_id": "\(Constants.keyChainDeviceID)",
-            "key": "\(Constants.tapplaceApiKey)"
+            "user_id": "\(Constants.keyChainDeviceID)"
         ]
         
-        userDataService.requestFetchDropUser(parameter: parameter) { result, error in
+        userDataService.requestFetchDropUser(parameter: parameter, header: Constants().header) { result, error in
             if let error = error {
                 completion(error)
             }
             completion(result)
+        }
+    }
+    
+    /**
+     * @ 유저 즐겨찾기, 피드백, 남은피드백 가져오기
+     * coder : sanghyeon
+     */
+    func requestUserAllCount() {
+        userDataService.requestFetchUserAllCount(userID: Constants.keyChainDeviceID) { result in
+            print("*** UserVM, requestUserAllCount, result: \(result)")
+            self.userAllCount = result
         }
     }
 }

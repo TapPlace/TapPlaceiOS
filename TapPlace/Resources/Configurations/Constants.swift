@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Alamofire
 
 struct Constants {
     static let userDeviceUUID = CommonUtils.getDeviceUUID()
@@ -21,4 +22,5 @@ struct Constants {
     static let tapplaceFAQUrl = tapplaceBaseUrl + "/questions"
     static let latestTerm = "2022-09-01"
     static let latestPrivacy = "2022-09-01"
+    let header: HTTPHeaders = ["Authorization": "\(APIToken.generateToken())"]
 }

@@ -1,7 +1,7 @@
 //
 //  SearchAroundStore.swift
 //  TapPlace
-//
+//  
 //  Created by 박상현 on 2022/09/08.
 //
 
@@ -20,6 +20,7 @@ struct AroundStores: Codable, Hashable {
     let categoryGroupName, phone, x, y: String
     let distance: Double
     let pays: [String]
+    var isBookmark: Bool = false
 
     enum CodingKeys: String, CodingKey {
         case num
@@ -28,7 +29,7 @@ struct AroundStores: Codable, Hashable {
         case addressName = "address_name"
         case roadAddressName = "road_address_name"
         case categoryGroupName = "category_group_name"
-        case phone, x, y, distance, pays
+        case phone, x, y, distance, pays, isBookmark
     }
 }
 
@@ -53,7 +54,7 @@ extension AroundStoreModel {
                 }
             }
         }
-        let returnAroundStores = AroundStores(num: 0, storeID: storeInfo.storeID, placeName: storeInfo.placeName, addressName: storeInfo.addressName, roadAddressName: storeInfo.roadAddressName, categoryGroupName: storeInfo.categoryGroupName, phone: storeInfo.phone, x: storeInfo.x, y: storeInfo.y, distance: 0, pays: returnPays)
+        let returnAroundStores = AroundStores(num: 0, storeID: storeInfo.storeID, placeName: storeInfo.placeName, addressName: storeInfo.addressName, roadAddressName: storeInfo.roadAddressName, categoryGroupName: storeInfo.categoryGroupName, phone: storeInfo.phone, x: storeInfo.x, y: storeInfo.y, distance: 0, pays: returnPays, isBookmark: false)
         return returnAroundStores
     }
     /**

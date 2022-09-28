@@ -1,26 +1,32 @@
 //
 //  FeedbackListViewController.swift
 //  TapPlace
-//
+// 
 //  Created by 박상현 on 2022/09/08.
 //  배열 -> 딕셔너리 참고 : https://stackoverflow.com/questions/53452318/swift-adding-value-to-an-array-inside-a-dictionary
 //  딕셔너리 정렬 참고 : https://2unbini.github.io/%F0%9F%93%82%20all/swift/dictionary-sorted/
 //
 
 import UIKit
+import Combine
 
 class FeedbackListViewController: CommonViewController {
-    var feedbackStoreList: [UserFeedbackStoreModel] = []
-    var feedbackListArray: [String: [UserFeedbackStoreModel]] = [:]
+    var feedbackStoreList: [FeedbackList] = []
+    var feedbackListArray: [String: [FeedbackList ]] = [:]
+    var subscription = Set<AnyCancellable>()
     
     let customNavigationBar = CustomNavigationBar()
     let filterTitle = MoreListFilterTitle()
     var tableView = UITableView()
     
     var filterAsc: Bool = true
+    var isLoading: Bool = false
+    var isEnd: Bool = false
+    var page: Int = 1
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setBindings()
         loadFeedback()
         setupNavigation()
         setupView()
@@ -37,7 +43,24 @@ extension FeedbackListViewController: FilterTitleProtocol, CustomNavigationBarPr
     func didTapLeftButton() {
         self.navigationController?.popViewController(animated: true)
     }
-    
+    /**
+     * @ 피드백 뷰모델 바인딩
+     * coder : sanghyeon
+     */
+    func setBindings() {
+        feedbackViewModel.$userFeedbackHistory.sink { (feedback: FeedbackResponseModel?) in
+            if let feedback = feedback {
+                self.feedbackStoreList += feedback.feedbacks
+                print("*** FeedbackListVC, Bindings, feedbackStoreList: \(self.feedbackStoreList.count)")
+                self.feedbackListArray = self.setupFeedbackArray(feedback: feedback.feedbacks)
+                self.filterTitle.filterCount = self.feedbackStoreList.count
+                self.isEnd = feedback.isEnd
+                self.page += 1
+                self.isLoading = false
+                self.tableView.reloadData()
+            }
+        }.store(in: &subscription)
+    }
     /**
      * @ 초기 레이아웃 설정
      * coder : sanghyeon
@@ -59,7 +82,7 @@ extension FeedbackListViewController: FilterTitleProtocol, CustomNavigationBarPr
         self.view.backgroundColor = .white
         filterTitle.isUseEditMode = false
         filterTitle.setFilterName = "등록순"
-        filterTitle.filterCount = storageViewModel.numberOfFeedback
+        filterTitle.filterCount = 0
 
         
         
@@ -133,14 +156,14 @@ extension FeedbackListViewController {
      * coder : sanghyeon
      */
     func loadFeedback() {
-        feedbackStoreList = storageViewModel.loadFeedbackStore()
-        feedbackListArray = setupFeedbackArray(feedback: feedbackStoreList)
+        isLoading = true
+        feedbackViewModel.requestUserFeedback(page: page)
     }
     /**
      * @ 피드백 배열 날짜별 그룹화
      * coder : sanghyeon
      */
-    func setupFeedbackArray(feedback: [UserFeedbackStoreModel]) -> [String: [UserFeedbackStoreModel]] {
+    func setupFeedbackArray(feedback: [FeedbackList]) -> [String: [FeedbackList]] {
         let tempDic = Dictionary
             .init(grouping: feedbackStoreList, by: {$0.date})
         return tempDic
@@ -193,7 +216,6 @@ extension FeedbackListViewController: UITableViewDelegate, UITableViewDataSource
         guard let cell = tableView.cellForRow(at: indexPath) as? FeedbackListCell else { return }
         guard let feedback = cell.feedback else { return }
         vc.feedbackStore = feedback
-        vc.feedbackList = storageViewModel.loadFeedback(store: feedback)
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -263,7 +285,15 @@ extension FeedbackListViewController: UITableViewDelegate, UITableViewDataSource
         
         return footerView
     }
-    
-    
-    
+}
+
+//MARK: - Scroll
+extension FeedbackListViewController {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if scrollView != tableView { return }
+        if tableView.contentOffset.y > tableView.contentSize.height-tableView.bounds.size.height {
+            if isLoading || isEnd { return }
+            loadFeedback()
+        }
+    }
 }

@@ -1,7 +1,7 @@
 //
 //  AroundStoreTableViewCell.swift
 //  TapPlace
-//
+// 
 //  Created by 박상현 on 2022/08/17.
 //
 
@@ -10,7 +10,7 @@ import UIKit
 class AroundStoreTableViewCell: UITableViewCell {
 
     static let cellId = "aroundStoreItem"
-    var storageViewModel = StorageViewModel()
+    var bookmarkViewModel = BookmarkViewModel()
     
     var cellIndex: Int = 0 {
         willSet {
@@ -80,7 +80,19 @@ extension AroundStoreTableViewCell {
      * coder : sanghyeon
      */
     @objc func didTapBookmarkButton() {
-        self.isBookmark = storageViewModel.toggleBookmark(storeInfo.convertBookmark())
+        //self.isBookmark = storageViewModel.toggleBookmark(storeInfo.convertBookmark())
+        var setBookmark: Bool = isBookmark
+        setBookmark.toggle()
+        bookmarkViewModel.requestToggleBookmark(currentBookmark: isBookmark, storeID: storeInfo.storeID) { result in
+            if let result = result {
+                if result {
+                    self.isBookmark = setBookmark
+                    if let index = AroundStoreModel.list?.firstIndex(where: {$0.storeID == self.storeInfo.storeID}) {
+                        AroundStoreModel.list?[index].isBookmark = setBookmark
+                    }
+                }
+            }
+        }
     }
     
 }

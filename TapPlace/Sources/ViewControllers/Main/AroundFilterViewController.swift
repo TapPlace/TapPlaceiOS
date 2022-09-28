@@ -13,10 +13,15 @@ protocol AroundPlaceApplyFilterProtocol {
 }
 
 class AroundFilterViewController: UIViewController {
-    
-    
     var delegate: AroundPlaceApplyFilterProtocol?
+    let storeCategory: [StoreModel] = StoreModel.lists.filter({$0.id != "refresh"})
     var storageViewModel = StorageViewModel()
+    var storeViewModel: StoreViewModel? = nil {
+        willSet {
+            print("*** AroundFilterVC, self: \(self)")
+            print("*** AroundFilterVC, storeVM, willSet, userLocationGeoAddress: \(newValue?.userLocationGeoAddress)")
+        }
+    }
     var isFirstLoaded: Bool = true
 
     let scrollView = UIScrollView()
@@ -233,7 +238,7 @@ extension AroundFilterViewController: FilterResetProtocol {
         paymentCollectionView.register(PickPaymentsCollectionViewCell.self, forCellWithReuseIdentifier: "paymentsItem")
         paymentCollectionView.register(PickPaymentsCollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "paymentsHeader")
         closeButton.addTarget(self, action: #selector(didTapCloseButton), for: .touchUpInside)
-        bottomButton.addTarget(self, action: #selector(didTapBottonButton), for: .touchUpInside)
+        bottomButton.addTarget(self, action: #selector(didTapBottomButton), for: .touchUpInside)
         
         
         //MARK: Delegate
@@ -247,14 +252,17 @@ extension AroundFilterViewController: FilterResetProtocol {
         
 
     }
-    
+     
     @objc func didTapCloseButton() {
         self.dismiss(animated: true)
     }
-    @objc func didTapBottonButton() {
+    @objc func didTapBottomButton() {
+        storeViewModel?.selectStoreArray = tempStores.map { $0.title }
+        storeViewModel?.selectPaymentArray = tempPayments
         AroundFilterModel.storeList = tempStores
         AroundFilterModel.paymentList = tempPayments
         delegate?.applyFilter()
+        NotificationCenter.default.post(name: NSNotification.Name.applyAroundFilter, object: nil)
         self.dismiss(animated: true)
     }
 }
@@ -273,7 +281,7 @@ extension AroundFilterViewController: UICollectionViewDelegate, UICollectionView
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         switch collectionView {
         case storeCollectionView:
-            return StoreModel.lists.count
+            return storeCategory.count
         case paymentCollectionView:
             let paymentList = storageViewModel.userFavoritePayments.filter({$0.payments == EasyPaymentModel.list[section].designation})
             return paymentList.count
@@ -286,8 +294,8 @@ extension AroundFilterViewController: UICollectionViewDelegate, UICollectionView
         switch collectionView {
         case storeCollectionView:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "distanceItem", for: indexPath) as? PickPaymentsCollectionViewCell else { return UICollectionViewCell() }
-            cell.itemText.text = StoreModel.lists[indexPath.row].title
-            cell.cellVariable = StoreModel.lists[indexPath.row].id
+            cell.itemText.text = storeCategory[indexPath.row].title
+            cell.cellVariable = storeCategory[indexPath.row].id
             
             if let _ = tempStores.first(where: {$0.id == cell.cellVariable}) {
                 cell.cellSelected = true
@@ -322,8 +330,8 @@ extension AroundFilterViewController: UICollectionViewDelegate, UICollectionView
             guard let cell = storeCollectionView.cellForItem(at: indexPath) as? PickPaymentsCollectionViewCell else { return }
             cell.cellSelected.toggle()
             if cell.cellSelected {
-                guard let targetStore = StoreModel.lists.firstIndex(where: { $0.id == cell.cellVariable }) else { return }
-                tempStores.append(StoreModel.lists[targetStore])
+                guard let targetStore = storeCategory.firstIndex(where: { $0.id == cell.cellVariable }) else { return }
+                tempStores.append(storeCategory[targetStore])
             } else {
                 guard let targetStore = tempStores.firstIndex(where: {$0.id == cell.cellVariable}) else { return }
                 tempStores.remove(at: targetStore)
@@ -384,7 +392,7 @@ extension AroundFilterViewController: UICollectionViewDelegate, UICollectionView
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         switch collectionView {
         case storeCollectionView:
-            let labelSize = CommonUtils.getTextSizeWidth(text: StoreModel.lists[indexPath.row].title)
+            let labelSize = CommonUtils.getTextSizeWidth(text: storeCategory[indexPath.row].title)
             return CGSize(width: labelSize.width + 40, height: 36)
         case paymentCollectionView:
             let sectionTitle = EasyPaymentModel.list[indexPath.section].designation

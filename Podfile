@@ -19,8 +19,7 @@ target 'TapPlace' do
   pod 'IQKeyboardManagerSwift'
   pod 'SwiftKeychainWrapper'
   pod 'SwiftJWT'
-  pod 'Firebase/Analytics'
-  pod 'Firebase/Messaging'
+  pod 'EFCountingLabel'
 
   # Pods for TapPlace
 

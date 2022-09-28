@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Combine
 import AlignedCollectionViewFlowLayout
 import NMapsMap
 import CoreLocation
@@ -14,6 +15,7 @@ import FloatingPanel
 
 class MainViewController: CommonViewController {
     
+    var disposalbleBag = Set<AnyCancellable>()
     var aroundStoreList: [AroundStores]?
     
     /// 메인모드인가?
@@ -51,6 +53,7 @@ class MainViewController: CommonViewController {
     //MARK: ViewLifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        setBindings()
         setupView()
         setupNaverMap()
         setupFloatingPanel()
@@ -77,6 +80,70 @@ class MainViewController: CommonViewController {
         if isFirstLaunched {
             checkLocationAuth()
             isFirstLaunched.toggle()
+        }
+    }
+    
+    /**
+     * @ 노티피케이션 센터 세팅
+     * coder : sanghyeon
+     */
+    override func setupNotification() {
+        super.setupNotification()
+
+    }
+}
+//MARK: - ViewModel
+extension MainViewController {
+    fileprivate func setBindings() {
+        self.storeViewModel.$aroundStoreArray.sink { (result: AroundStoreModel?) in
+            self.aroundStoreList = result?.stores
+            self.updateMapAroundStore()
+            AroundStoreModel.list = result?.stores
+        }.store(in: &disposalbleBag)
+        
+        self.storeViewModel.$selectStoreArray.sink { (result: [String]?) in
+            DispatchQueue.main.async {
+                self.storeViewModel.applyFilterAroundPlace()
+                self.aroundStoreList = self.storeViewModel.filteredAroundStore
+                self.updateMapAroundStore()
+                self.collectionView.reloadData()
+                
+            }
+        }.store(in: &disposalbleBag)
+        
+        self.storeViewModel.$selectPaymentArray.sink { (result: [PaymentModel]?) in
+            DispatchQueue.main.async {
+                self.aroundStoreList = self.storeViewModel.filteredAroundStore
+                self.storeViewModel.applyFilterAroundPlace()
+                self.updateMapAroundStore()
+                self.collectionView.reloadData()
+            }
+        }.store(in: &disposalbleBag)
+
+    }
+}
+
+extension MainViewController {
+    /**
+     * @ 좌표 기준으로 주변 매장 검색 후 마커 표시
+     * coder : sanghyeon
+     */
+    func searchAroundStore(location: CLLocationCoordinate2D?) {
+        guard let location = location else { return }
+        storeViewModel.requestAroundStore(location: location, pays: storageViewModel.userFavoritePaymentsString)
+    }
+    /**
+     * @ 지도 가맹점 업데이트
+     * coder : sanghyeon
+     */
+    func updateMapAroundStore() {
+        /// 모든 마커 삭제
+        hideAllMarkers()
+        self.markerList.removeAll()
+        if let aroundStoreList = aroundStoreList {
+            addMarker(markers: aroundStoreList)
+        } else {
+            hideAllMarkers()
         }
     }
 }
@@ -144,6 +211,8 @@ extension MainViewController: MapButtonProtocol, ResearchButtonProtocol, CustomN
     }
     func didTapResearchButton() {
         guard let camLocation = cameraLocation else { return }
+        storeViewModel.selectStoreArray.removeAll()
+        storeViewModel.selectPaymentArray.removeAll()
         showInMapViewTracking(location: camLocation)
         showResearchElement(hide: true)
         let clLocation = CLLocationCoordinate2D(latitude: camLocation.lat, longitude: camLocation.lng)
@@ -166,7 +235,7 @@ extension MainViewController: MapButtonProtocol, ResearchButtonProtocol, CustomN
                 searchAroundStore(location: UserInfo.userLocation)
                 showResearchElement(hide: true)
                 showDetailOverView(hide: true)
-                resetAllMarkersSize()
+                resetAllMarkers()
             }
         }
     }
@@ -358,7 +427,6 @@ extension MainViewController: CLLocationManagerDelegate, NMFMapViewCameraDelegat
         UserInfo.userLocation = result
         UserInfo.cameraLocation = result
         if isMainMode { // 메인모드에서만 실행
-            print("*** back MainVC")
             searchAroundStore(location: result)
         }
     }
@@ -394,6 +462,7 @@ extension MainViewController: CLLocationManagerDelegate, NMFMapViewCameraDelegat
         circleOverlay.outlineColor = .pointBlue.withAlphaComponent(0.5)
         circleOverlay.mapView = naverMapView
     }
+//MARK: Marker
     /**
      * @ 지도에 마커 추가
      * coder : sanghyeon
@@ -444,10 +513,28 @@ extension MainViewController: CLLocationManagerDelegate, NMFMapViewCameraDelegat
         }
     }
     /**
-     * @ 지도상 마커 사이즈 초기화
+     * @ 배열에 있는 모든 마커 보이기
      * coder : sanghyeon
      */
-    func resetAllMarkersSize() {
+    func showAllMarkers() {
+        markerList.forEach {
+            $0.marker.mapView = naverMapView
+        }
+    }
+    /**
+     * @ 지도상 모든 마커 숨기기
+     * coder : sanghyeon
+     */
+    func hideAllMarkers() {
+        markerList.forEach {
+            $0.marker.mapView = nil
+        }
+    }
+    /**
+     * @ 지도상 마커 설정 초기화
+     * coder : sanghyeon
+     */
+    func resetAllMarkers() {
         for eachMarker in markerList {
             if let markerImage = MarkerModel.list.first(where: {$0.groupName == eachMarker.store.categoryGroupName}) {
                 eachMarker.marker.iconImage = NMFOverlayImage(name: markerImage.markerImage)
@@ -455,6 +542,7 @@ extension MainViewController: CLLocationManagerDelegate, NMFMapViewCameraDelegat
             }
             eachMarker.marker.width = 36
             eachMarker.marker.height = 48
+            eachMarker.marker.mapView = naverMapView
         }
     }
     /**
@@ -466,7 +554,7 @@ extension MainViewController: CLLocationManagerDelegate, NMFMapViewCameraDelegat
         /// 열려있는 오버뷰 닫기
         showDetailOverView(hide: true)
         /// 모든 마커 사이즈 초기화
-        resetAllMarkersSize()
+        resetAllMarkers()
         /// 선택된 마커 사이즈 확장
         guard let marker = marker else { return }
         marker.width = 51
@@ -485,13 +573,19 @@ extension MainViewController: CLLocationManagerDelegate, NMFMapViewCameraDelegat
         /// AroundStores -> StoreInfo 변환
         var targetStoreInfo = StoreInfo.convertAroundStores(aroundStore: targetStore)
         storeViewModel.requestStoreInfoCheck(searchModel: AroundStoreModel.convertSearchModel(storeInfo: targetStoreInfo), pays: storageViewModel.userFavoritePaymentsString) { result in
-            targetStoreInfo.feedback = result
-            self.showDetailOverView(hide: false, storeInfo: targetStoreInfo)
+            if let result = result {
+                targetStoreInfo.feedback = result
+                self.showDetailOverView(hide: false, storeInfo: targetStoreInfo)
+            } else {
+                showToast(message: "알 수 없는 이유로 가맹점 정보를 불러오지 못했습니다.\n잠시 후 다시 시도해주시기 바랍니다.", view: self.view)
+            }
         }
     }
     //MARK: NaverMapView Tap Event
     func mapView(_ mapView: NMFMapView, didTapMap latlng: NMGLatLng, point: CGPoint) {
 //        print("*** Touched Point Location: \(latlng)")
+        print("*** MainVC, for Test, \(Constants().header)")
+        print("*** MainVC, for Test, \(storeViewModel.selectStoreArray)")
     }
     
     func mapView(_ mapView: NMFMapView, didTap symbol: NMFSymbol) -> Bool {
@@ -583,6 +677,7 @@ extension MainViewController: CustomToolBarShareProtocol, StoreInfoViewDelegate 
         let vc = StoreDetailViewController()
         print("*** vc: \(vc)")
         print("*** 상세뷰 이동")
+        tabBar?.selectedIndex = 0
         vc.storeInfo = store
         self.navigationController?.pushViewController(vc, animated: true)
         
@@ -592,7 +687,7 @@ extension MainViewController: CustomToolBarShareProtocol, StoreInfoViewDelegate 
      * coder : sanghyeon
      */
     func showShare(storeID: String) {
-        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "showShare"), object: storeID)
+        NotificationCenter.default.post(name: NSNotification.Name.showShare, object: storeID)
     }
     
     /**
@@ -728,72 +823,75 @@ extension MainViewController: CustomToolBarShareProtocol, StoreInfoViewDelegate 
         }
     }
 }
-//MARK: - 뷰모델 함수
-extension MainViewController {
-    /**
-     * @ 좌표 기준으로 주변 매장 검색 후 마커 표시
-     * coder : sanghyeon
-     */
-    func searchAroundStore(location: CLLocationCoordinate2D?) {
-        guard let location = location else { return }
-        storeViewModel.requestAroundStore(location: location, pays: storageViewModel.userFavoritePaymentsString) { result in
-            guard let result = result else { return }
-            AroundStoreModel.list = result.stores
-            self.addMarker(markers: result.stores)
-            if let latestSelectStore = self.latestSelectStore {
-                let selectedCategory = latestSelectStore.itemText.text
-                for marker in self.markerList {
-                    if marker.store.categoryGroupName != selectedCategory {
-                        self.hideMarker(marker: marker.marker)
-                    }
-                }
-            }
-        }
-    }
-}
-
 
 //MARK: - CollectionView
 extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     /// 컬렉션뷰 셀 개수 반환
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return StoreModel.lists.count
+        var storeList = StoreModel.lists
+        if storeViewModel.selectStoreArray.count > 0 {
+            storeList = StoreModel.lists
+        } else {
+            storeList = StoreModel.lists.filter({$0.id != "refresh"})
+        }
+        return storeList.count
     }
     /// 컬렉션뷰 셀 설정
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        var storeList = StoreModel.lists
+        if storeViewModel.selectStoreArray.count > 0 {
+            storeList = StoreModel.lists
+        } else {
+            storeList = StoreModel.lists.filter({$0.id != "refresh"})
+        }
+        
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: StoreTabCollectionViewCell.cellId, for: indexPath) as! StoreTabCollectionViewCell
-        if let icon = UIImage(named: StoreModel.lists[indexPath.row].id) {
+        
+        if let icon = UIImage(named: storeList[indexPath.row].id) {
             cell.icon = icon
-            cell.iconColor = StoreModel.lists[indexPath.row].color
-        } 
-        cell.itemText.text = StoreModel.lists[indexPath.row].title
-        cell.storeId = StoreModel.lists[indexPath.row].id
+            cell.iconColor = storeList[indexPath.row].color
+        }
+        
+        /// 초기화 탭인가?
+        if storeList[indexPath.row].title == "초기화" {
+            cell.itemText.textColor = .pointBlue
+        } else {
+            cell.itemText.textColor = .init(hex: 0x212121)
+            /// 선택된 항목인가?
+            if let _ = storeViewModel.selectStoreArray.firstIndex(where: {$0 == storeList[indexPath.row].title}) {
+                cell.cellSelected = true
+            }
+        }
+        
+        cell.itemText.text = storeList[indexPath.row].title
+        cell.storeId = storeList[indexPath.row].id
         return cell
     }
     /// 컬렉션뷰 선택시 필터 적용
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let cell = collectionView.cellForItem(at: indexPath) as? StoreTabCollectionViewCell else { return }
-        latestSelectStore?.cellSelected = false
-        /// 이미 선택 된 셀을 클릭했을때
-        if cell == latestSelectStore {
-            latestSelectStore = nil
-            hideMarker(marker: nil)
-            return
-        } else {
-            cell.cellSelected = true
-            latestSelectStore = cell
-            hideMarker(marker: nil)
-            let storeCategory = cell.itemText.text == "기타" ? "" : cell.itemText.text
-            for marker in markerList {
-                if marker.store.categoryGroupName != storeCategory {
-                    hideMarker(marker: marker.marker)
-                }
+        if let category = cell.itemText.text {
+            if category == "초기화" {
+                self.storeViewModel.selectStoreArray.removeAll()
+                return
+            }
+            if let index = self.storeViewModel.selectStoreArray.firstIndex(where: {$0 == category}) {
+                self.storeViewModel.selectStoreArray.remove(at: index)
+            } else {
+                self.storeViewModel.selectStoreArray.append(category)
             }
         }
+        cell.cellSelected = cell.cellSelected ? false : true
     }
     /// 컬렉션뷰 셀 라벨 사이즈 대비 사이즈 변경
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let labelSize = CommonUtils.getTextSizeWidth(text: StoreModel.lists[indexPath.row].title)
+        var storeList = StoreModel.lists
+        if storeViewModel.selectStoreArray.count > 0 {
+            storeList = StoreModel.lists
+        } else {
+            storeList = StoreModel.lists.filter({$0.id != "refresh"})
+        }
+        let labelSize = CommonUtils.getTextSizeWidth(text: storeList[indexPath.row].title)
         return CGSize(width: labelSize.width + 35, height: 28)
     }
 }
@@ -846,6 +944,7 @@ extension MainViewController: FloatingPanelControllerDelegate, AroundPlaceMainCo
         if fpc.state == type { return }
         if fpc.state == .hidden {
             let contentVC = AroundPlaceViewController()
+            contentVC.storeViewModel = self.storeViewModel
             fpc.addPanel(toParent: self)
             fpc.track(scrollView: contentVC.aroundPlaceListView.tableView)
             fpc.set(contentViewController: contentVC)

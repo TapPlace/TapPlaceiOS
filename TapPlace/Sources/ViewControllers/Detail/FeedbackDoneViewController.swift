@@ -7,12 +7,12 @@
 
 import UIKit
 
-
-class FeedbackDoneViewController: CommonViewController {
+class FeedbackDoneViewController: CommonViewController, UIScrollViewDelegate {
     
     let customNavigationBar = CustomNavigationBar()
     var feedbackResult: [FeedbackResult]? = nil
     var storeID: String?
+    var remainCount: Int = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,12 +27,15 @@ class FeedbackDoneViewController: CommonViewController {
         configureTableView()
     }
     
+    var resultLabel: UILabel = UILabel()
+    
     private lazy var storePaymentTableView: UITableView = {
         let storePaymentTableView = UITableView()
         storePaymentTableView.register(StorePaymentTableViewCell.self, forCellReuseIdentifier: StorePaymentTableViewCell.identifier)
         storePaymentTableView.separatorInset.left = 20
         storePaymentTableView.separatorInset.right = 20
         storePaymentTableView.allowsSelection = false
+//        storePaymentTableView.isScrollEnabled = false
         return storePaymentTableView
     }()
     
@@ -79,15 +82,15 @@ extension FeedbackDoneViewController: BottomButtonProtocol {
             return imgView
         }()
         
-        let label: UILabel = {
-            let label = UILabel()
-            label.text = "피드백이 완료되었습니다!\n오늘 피드백 횟수가 \(storageViewModel.numberOfAllowFeedback - storageViewModel.numberOfTodayFeedback)번 남아있어요."
-            label.textColor = .init(hex: 0x707070)
-            label.font = .systemFont(ofSize: 15)
-            label.numberOfLines = 2
-            label.textAlignment = .center
-            label.sizeToFit()
-            return label
+        resultLabel = {
+            let resultLabel = UILabel()
+            resultLabel.text = "피드백이 완료되었습니다!\n오늘 피드백 횟수가 \(remainCount)번 남아있어요."
+            resultLabel.textColor = .init(hex: 0x707070)
+            resultLabel.font = .systemFont(ofSize: 15)
+            resultLabel.numberOfLines = 2
+            resultLabel.textAlignment = .center
+            resultLabel.sizeToFit()
+            return resultLabel
         }()
         
         let lineView: UIView = {
@@ -131,15 +134,15 @@ extension FeedbackDoneViewController: BottomButtonProtocol {
             $0.width.height.equalTo(60)
         }
         
-        view.addSubview(label)
-        label.snp.makeConstraints {
+        view.addSubview(resultLabel)
+        resultLabel.snp.makeConstraints {
             $0.top.equalTo(imgView.snp.bottom).offset(18)
             $0.centerX.equalToSuperview()
         }
         
         view.addSubview(lineView)
         lineView.snp.makeConstraints {
-            $0.top.equalTo(label.snp.bottom).offset(30)
+            $0.top.equalTo(resultLabel.snp.bottom).offset(30)
             $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(6)
         }
@@ -192,11 +195,8 @@ extension FeedbackDoneViewController: UITableViewDataSource, UITableViewDelegate
         guard let feedbackResult = feedbackResult else { return UITableViewCell() }
         let cell = tableView.dequeueReusableCell(withIdentifier: StorePaymentTableViewCell.identifier, for: indexPath) as! StorePaymentTableViewCell
         
-        //let storePaymentModel = StorePaymentModel.lists[indexPath.row]
         let feedback = feedbackResult[indexPath.row]
-//        print(feedback)
         cell.feedback = Feedback(num: 0, storeID: nil, success: feedback.success, fail: feedback.fail, lastState: feedback.lastState, lastTime: nil, pay: feedback.pay, exist: true)
-        //cell.prepare(pay: nil, payName: storePaymentModel.payName, success: storePaymentModel.success, successDate: storePaymentModel.successDate, successRate: storePaymentModel.successRate)
         
         return cell
     }

@@ -1,11 +1,12 @@
 //
 //  StoreDetailViewController.swift
 //  TapPlace
-//
+// 
 //  Created by 박상현 on 2022/09/12.
 //
 
 import UIKit
+import Combine
 import NMapsMap
 import CoreLocation
 import SnapKit
@@ -43,9 +44,12 @@ class StoreDetailViewController: CommonViewController, CustomToolBarProtocol {
     var contentViewHeight: CGFloat = 0
     var feedbackVC: UIViewController?
     
+    var subscription = Set<AnyCancellable>()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setBindings()
         setupNaverMapView()
         setupView()
         setupNavigation()
@@ -63,7 +67,6 @@ class StoreDetailViewController: CommonViewController, CustomToolBarProtocol {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tabBar?.hideTabBar(hide: true)
-        updateFeedback()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -74,19 +77,22 @@ class StoreDetailViewController: CommonViewController, CustomToolBarProtocol {
 }
 
 extension StoreDetailViewController: CustomNavigationBarProtocol, CustomToolBarShareProtocol {
-    func showShare(storeID: String) {
-        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "showShare"), object: storeID)
-    }
-    func updateFeedback() {
-        //if self.isFirstLoaded { return }
-        guard let storeInfo = storeInfo else { return }
-        storeViewModel.requestStoreInfoCheck(searchModel: SearchModel.convertSearchModel(storeInfo: storeInfo), pays: storageViewModel.userFavoritePaymentsString) { result in
-            print("*** result: \(result)\n*** result.count: \(result?.count)")
-            self.feedbackList = result
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
+    func setBindings() {
+        feedbackViewModel.requestRemainFeedbackCount()
+        feedbackViewModel.$remainCount.sink { (count: Int) in
+            if count == 0 {
+                self.feedbackButton.tintColor = .init(hex: 0x333333, alpha: 0.2)
+                self.feedbackButton.setTitleColor(.init(hex: 0x333333, alpha: 0.2), for: .normal)
+                self.feedbackButton.isEnabled = false
+            } else {
+                self.feedbackButton.tintColor = .pointBlue
+                self.feedbackButton.setTitleColor(.pointBlue, for: .normal)
+                self.feedbackButton.isEnabled = true
             }
-        }
+        }.store(in: &subscription)
+    }
+    func showShare(storeID: String) {
+        NotificationCenter.default.post(name: NSNotification.Name.showShare, object: storeID)
     }
     
     /**
@@ -392,8 +398,6 @@ extension StoreDetailViewController: CustomNavigationBarProtocol, CustomToolBarS
             $0.top.equalTo(separatorView.snp.bottom)
             $0.leading.trailing.equalTo(contentView)
             $0.height.equalTo(186 * feedbackList.count)
-            print("*** feedbackList.count: \(feedbackList.count)")
-            print("*** feedbackList: \(feedbackList)")
         }
     }
     /**
@@ -579,13 +583,9 @@ extension StoreDetailViewController: UITableViewDelegate, UITableViewDataSource 
     }
     
     @objc func didTapFeedbackButton() {
-        if !storageViewModel.isAllowFeedback {
-            showToast(message: "금일 \(storageViewModel.numberOfAllowFeedback)번의 피드백을 모두 하셨습니다.\n내일 다시 시도해주시기 바랍니다.", view: self.view)
-            return
-        }
-        feedbackVC = FeedbackRequestViewController()
-        if let feedbackVC = feedbackVC as? FeedbackRequestViewController {
-            feedbackVC.storeInfo = storeInfo
+        self.feedbackVC = FeedbackRequestViewController()
+        if let feedbackVC = self.feedbackVC as? FeedbackRequestViewController {
+            feedbackVC.storeInfo = self.storeInfo
             self.navigationController?.pushViewController(feedbackVC, animated: true)
         } else {
             showToast(message: "알 수 없는 문제로 피드백 요청을 불러올 수 없습니다.\n잠시 후 다시 시도해주시기 바랍니다.", view: self.view)

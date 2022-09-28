@@ -8,13 +8,24 @@
 import UIKit
 import RealmSwift
 
-// 문의하기, 수정하기
+// 문의하기
 class InquiryViewController: CommonViewController {
     var term = TermsModel(title: "개인정보 수집, 이용동의", isTerm: true, require: true, link: Constants.tapplacePolicyUrl, checked: false)
     var numberOfLetter: Int = 0 // 타이틀 글자수
     var type: MoreMenuModel.MoreMenuType = .qna
     
     let customNavigationBar = CustomNavigationBar()
+    let contentPlaceholder: String = "문의하실 내용을 남겨주세요."
+    
+    let inquiriesBtn: UIButton = {
+        let inquiriesBtn = UIButton()
+        inquiriesBtn.setTitle("문의내역", for: .normal)
+        inquiriesBtn.setTitleColor(.init(hex: 0x9E9E9E), for: .normal)
+        inquiriesBtn.titleLabel?.font = .systemFont(ofSize: 15)
+        inquiriesBtn.sizeToFit()
+        inquiriesBtn.addTarget(self, action: #selector(pushInquiriesVC), for: .touchUpInside)
+        return inquiriesBtn
+    }()
     
     let titleLbl: UILabel = {
         let titleLbl = UILabel()
@@ -51,7 +62,6 @@ class InquiryViewController: CommonViewController {
         contentTextView.font = .systemFont(ofSize: 15)
         contentTextView.layer.borderWidth = 1
         contentTextView.layer.borderColor = UIColor.init(hex: 0xDBDEE8).cgColor
-        contentTextView.text =  "문의하실 내용을 남겨주세요."
         contentTextView.textColor = .systemGray3
         
         // 텍스트 간격
@@ -59,24 +69,6 @@ class InquiryViewController: CommonViewController {
         return contentTextView
     }()
     
-    let emailLbl: UILabel = {
-        let emailLbl = UILabel()
-        emailLbl.text = "이메일 주소"
-        emailLbl.font = .systemFont(ofSize: 17)
-        emailLbl.sizeToFit()
-        return emailLbl
-    }()
-    
-    let emailField: UITextField = {
-        let emailField = UITextField()
-        emailField.layer.cornerRadius = 8
-        emailField.layer.borderWidth = 1
-        emailField.layer.borderColor = UIColor.init(hex: 0xDBDEE8).cgColor
-        emailField.font = .systemFont(ofSize: 15)
-        emailField.setLeftPaddingPoints(15)
-        emailField.placeholder = "답변 받을 이메일 주소를 알려주세요."
-        return emailField
-    }()
     
     let tableView: UITableView = {
         let tableView = UITableView()
@@ -107,9 +99,7 @@ class InquiryViewController: CommonViewController {
         
         titleField.delegate = self
         contentTextView.delegate = self
-        emailField.delegate = self
         button.delegate = self
-        
         button.isActive = true
         
         configureTableView()
@@ -123,24 +113,25 @@ class InquiryViewController: CommonViewController {
 }
 
 extension InquiryViewController {
-    private func setupView() {
-        self.view.backgroundColor = .white
-    }
-    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
     }
-
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         // 탭바
         tabBar?.hideTabBar(hide: true)
     }
-
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         // 탭바
         tabBar?.hideTabBar(hide: true)
+    }
+    
+    private func setupView() {
+        self.view.backgroundColor = .white
+        self.contentTextView.text = contentPlaceholder
     }
     
     
@@ -156,6 +147,12 @@ extension InquiryViewController {
         customNavigationBar.snp.makeConstraints {
             $0.top.leading.trailing.equalToSuperview()
             $0.bottom.equalTo(customNavigationBar.containerView)
+        }
+        
+        customNavigationBar.addSubview(inquiriesBtn)
+        inquiriesBtn.snp.makeConstraints {
+            $0.bottom.equalTo(customNavigationBar.containerView).offset(-13)
+            $0.trailing.equalToSuperview().offset(-20)
         }
         
         view.addSubview(titleLbl)
@@ -192,20 +189,6 @@ extension InquiryViewController {
             $0.height.equalTo(190)
         }
         
-        view.addSubview(emailLbl)
-        emailLbl.snp.makeConstraints {
-            $0.top.equalTo(contentTextView.snp.bottom).offset(28)
-            $0.leading.equalToSuperview().offset(20)
-        }
-        
-        view.addSubview(emailField)
-        emailField.snp.makeConstraints {
-            $0.top.equalTo(emailLbl.snp.bottom).offset(10)
-            $0.leading.equalToSuperview().offset(20)
-            $0.trailing.equalToSuperview().offset(-20)
-            $0.height.equalTo(48)
-        }
-        
         view.addSubview(button)
         button.snp.makeConstraints {
             $0.left.right.bottom.equalToSuperview()
@@ -218,6 +201,11 @@ extension InquiryViewController {
             $0.height.equalTo(50)
             $0.bottom.equalTo(button.snp.top).offset(-15)
         }
+    }
+    
+    @objc func pushInquiriesVC() {
+        let nextVC = InquiryHistoryViewController()
+        self.navigationController?.pushViewController(nextVC, animated: true)
     }
 }
 
@@ -246,11 +234,6 @@ extension InquiryViewController: UITextFieldDelegate {
         }
         else {
             contentTextView.resignFirstResponder()
-        }
-        
-        if textField == emailField {
-            self.view.endEditing(true)
-            return false
         }
         return true
     }
@@ -308,16 +291,16 @@ extension InquiryViewController: UITableViewDataSource, UITableViewDelegate, Ter
         return cell
     }
     
+    // 개인정보, 이용동의 셀 체크 여부
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let cell = tableView.cellForRow(at: indexPath) as? TermsTableViewCell else { return }
         
-        if term.checked == true {
+        if term.checked {
             term.checked = false
             cell.setCheck(check: term.checked)
         } else {
             term.checked = true
             pushTermVC(term)
-            cell.setCheck(check: term.checked)
         }
     }
     
@@ -333,43 +316,68 @@ extension InquiryViewController: UITableViewDataSource, UITableViewDelegate, Ter
 extension InquiryViewController: BottomButtonProtocol {
     func didTapBottomButton() {
         if !button.isActive { return }
-        button.isActive = false
-        button.setButtonStyle(title: "문의하기", type: .disabled, fill: true)
         
         var answerCheck = 0
+        
         if term.checked  == true {
             answerCheck = 1
         }
         
-        if let titleText = titleField.text, let contentText = contentTextView.text, let emailText = emailField.text {
-            
-            let parameter: [String: Any] = [
-                "key": "\(Constants.tapplaceApiKey)",
-                "user_id": "\(Constants.keyChainDeviceID)",
-                "category": type,
-                "title": titleText,
-                "content": contentText,
-                "answer_check": answerCheck,
-                "email": emailText,
-                "os": "iOS"
-            ]
-            
-            InquiryService().postInquiry(parameter: parameter) { response,error in
-                if let error = error {
-                    showToast(message: "서버에 오류가 있습니다.\n잠시후 다시 시도해주시기 바랍니다.", view: self.view)
+        if titleField.text?.count == 0 {
+            showToast(message: "문의 제목을 작성해주세요.", view: self.view)
+            return
+        }
+        
+        if contentTextView.text == contentPlaceholder {
+            showToast(message: "문의하실 내용을 작성해주세요.", view: self.view)
+            return
+        }
+        
+        button.isActive = false
+        button.setButtonStyle(title: "문의하기", type: .disabled, fill: true)
+        
+        if let titleText = titleField.text, let contentText = contentTextView.text {
+            if titleText.count != 0 && contentText.count != 0 {
+                if answerCheck != 1 {
+                    showToast(message: "개인정보 수집, 이용동의를 체크해주시기 바랍니다.", view: self.view)
                     self.button.setButtonStyle(title: "문의하기", type: .activate, fill: true)
                     return
                 }
-                if response == true {
-                    showToast(message: "문의가 정상적으로 등록 되었습니다.", duration: 3, view: self.view)
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                        self.navigationController?.popViewController(animated: true)
+                
+                let parameter: [String: Any] = [
+                    "key": "\(Constants.tapplaceApiKey)",
+                    "user_id": "\(Constants.keyChainDeviceID)",
+                    "category": type,
+                    "title": titleText,
+                    "content": contentText,
+                    "answer_check": answerCheck,
+                    "os": "iOS"
+                ]
+                
+                InquiryService().postInquiry(parameter: parameter) { response,error in
+                    if let error = error {
+                        showToast(message: "알 수 없는 오류가 발생했습니다.\n입력 값을 확인 후 다시 시도해주시기 바랍니다.", view: self.view)
                         self.button.setButtonStyle(title: "문의하기", type: .activate, fill: true)
+                        return
                     }
-                } else {
-                    showToast(message: "알 수 없는 오류가 발생했습니다.\n입력 값을 확인 후 다시 시도해주시기 바랍니다.", view: self.view)
-                    self.button.setButtonStyle(title: "문의하기", type: .activate, fill: true)
+                    if response == true {
+                        showToast(message: "문의가 정상적으로 등록 되었습니다.", duration: 3, view: self.view)
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                            self.navigationController?.popViewController(animated: true)
+                            self.button.setButtonStyle(title: "문의하기", type: .activate, fill: true)
+                            self.titleField.text = ""
+                            self.contentTextView.text =  "문의하실 내용을 남겨주세요."
+                            self.contentTextView.textColor = .systemGray3
+                            
+                            guard let cell = self.tableView.cellForRow(at: IndexPath.init(row: 0, section: 0)) as? TermsTableViewCell else { return }
+                            cell.setCheck(check: false)
+                            answerCheck = 0
+                        }
+                    }
                 }
+            }else {
+                showToast(message: "입력 값을 모두 채워주시기 바랍니다.", view: self.view)
+                self.button.setButtonStyle(title: "문의하기", type: .activate, fill: true)
             }
         }
     }

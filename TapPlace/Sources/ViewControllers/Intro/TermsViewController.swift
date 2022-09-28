@@ -44,8 +44,6 @@ extension TermsViewController: CustomNavigationBarProtocol, BottomButtonProtocol
         if let user = storageViewModel.getUserInfo(uuid: Constants.keyChainDeviceID) {
             //guard let marketingIndex = allTermsLists.firstIndex(where: { $0.title == "마케팅 정보 수신 동의" }) else { return }
             let isCheckedMarketing = false //allTermsLists[marketingIndex].checked
-            let setUser = UserModel(uuid: user.uuid, isFirstLaunch: user.isFirstLaunch, agreeTerm: LatestTermsModel.latestServiceDate, agreePrivacy: LatestTermsModel.latestPersonalDate, agreeMarketing: isCheckedMarketing ? CommonUtils.getDate(Date(), type: 3) : "", birth: "", sex: "")
-            storageViewModel.updateUser(setUser)
         }
         let vc = PrivacyViewController()
         self.navigationController?.pushViewController(vc, animated: true)
@@ -141,7 +139,7 @@ extension TermsViewController: UITableViewDelegate, UITableViewDataSource, Terms
         allCheckTermsCell()
         bottomButtonUpdate()
         
-        /// 모두 동의일 경우 다음 약관 표시 로직
+        /// 모두 동의일 경우 다음 약관 표시 로직  
         if isAllCheck {
             guard let nonCheckRequireTerm = allTermsLists.firstIndex(where: {$0.require == true && $0.read == false && $0.checked == false }) else { return }
             DispatchQueue.main.async {

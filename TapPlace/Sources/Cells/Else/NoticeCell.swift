@@ -12,17 +12,17 @@ class NoticeCell: UITableViewCell {
     
     static let identifier = "NoticeCell"
     
-    let contentLbl: UILabel = {
-        let contentLbl = UILabel()
-        contentLbl.font = .systemFont(ofSize: 15)
-        contentLbl.textColor = .init(hex: 0x4D4D4D)
-        contentLbl.sizeToFit()
-        return contentLbl
+    let titleLbl: UILabel = {
+        let titleLbl = UILabel()
+        titleLbl.font = .systemFont(ofSize: 16)
+        titleLbl.textColor = .init(hex: 0x4D4D4D)
+        titleLbl.sizeToFit()
+        return titleLbl
     }()
     
     let timeLbl: UILabel = {
        let timeLbl = UILabel()
-        timeLbl.font = .systemFont(ofSize: 12)
+        timeLbl.font = .systemFont(ofSize: 13)
         timeLbl.textColor = .init(hex: 0x9E9E9E)
         timeLbl.sizeToFit()
         return timeLbl
@@ -39,24 +39,24 @@ class NoticeCell: UITableViewCell {
     }
     
     private func addContentView() {
-        contentView.addSubview(contentLbl)
+        contentView.addSubview(titleLbl)
         contentView.addSubview(timeLbl)
     }
     
     private func setLayout() {
-        contentLbl.snp.makeConstraints {
+        titleLbl.snp.makeConstraints {
             $0.top.equalToSuperview().offset(16)
             $0.leading.equalToSuperview().offset(20)
         }
         
         timeLbl.snp.makeConstraints {
-            $0.top.equalTo(contentLbl.snp.bottom).offset(6)
+            $0.top.equalTo(titleLbl.snp.bottom).offset(6)
             $0.leading.equalToSuperview().offset(20)
         }
     }
     
     func prepare(title: String?, content: String?,writeDate: String?) {
-        self.contentLbl.text = title
+        self.titleLbl.text = title
         self.timeLbl.text = writeDate
     }
 }

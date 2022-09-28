@@ -11,23 +11,24 @@ class FeedbackDetailViewController: UIViewController {
     var storeViewModel = StoreViewModel()
     var storageViewModel = StorageViewModel()
     
-    var feedbackStore: UserFeedbackStoreModel? = nil {
+    var feedbackStore: FeedbackList? = nil {
         willSet {
             guard let store = newValue else { return }
-            customNavigationBar.titleText = store.storeName
-            storeViewModel.requestStoreInfo(storeID: store.storeID, pays: storageViewModel.userFavoritePaymentsString) { result in
-                if let result = result {
-                    self.storeInfo = result
-                    self.locationBtn.isEnabled = true
-                }
-                
+            customNavigationBar.titleText = store.placeName
+            feedbackList = store.feedback
+            self.storeInfo = newValue?.convertStoreInfo()
+        }
+    }
+    
+    var storeInfo: StoreInfo? = nil {
+        willSet {
+            if let _ = newValue {
+                self.locationBtn.isEnabled = true
             }
         }
     }
     
-    var storeInfo: StoreInfo?
-    
-    var feedbackList: [UserFeedbackModel]? = nil
+    var feedbackList: [UserFeedbackResult]? = nil
     
     private let customNavigationBar = CustomNavigationBar()
     private let tableView: UITableView = {

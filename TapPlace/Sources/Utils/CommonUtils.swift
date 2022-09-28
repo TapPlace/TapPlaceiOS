@@ -37,7 +37,7 @@ struct CommonUtils {
         let label: UILabel = {
             let label = UILabel()
             label.text = text
-            label.font = .systemFont(ofSize: CommonUtils.resizeFontSize(size: 14), weight: .regular)
+            label.font = .systemFont(ofSize: CommonUtils.resizeFontSize(size: 13), weight: .regular)
             label.sizeToFit()
             return label
         }()
@@ -84,6 +84,22 @@ extension String {
             return nil
         }
     }
+    /**
+     * @ 일반 문자를 데이트스트링으로 변환 (yyyy-MM-dd)
+     * coder : sanghyeon
+     */
+    func toDateString() -> String? {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyyMMdd"
+        
+        let dateObj = dateFormatter.date(from: self)
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        if let dateObj = dateObj {
+            return dateFormatter.string(from: dateObj)
+        } else {
+            return nil
+        }
+    }
 }
 
 extension Date {
@@ -102,7 +118,7 @@ extension Date {
      * @날짜를 지정한 형식으로 반환
      * @creater : sanghyeon
      * @param date : 기준 날짜
-     * @param type : 가져올 형식(1 : 년, 2 : 년/월, 3 : 년/월/일
+     * @param type : 가져올 형식(1 : 년, 2 : 년/월, 3 : 년.월.일, 4 : 년-월-일
      * @Return : String
      */
     func getDate(_ type: Int) -> String {
@@ -113,8 +129,10 @@ extension Date {
             dateFormatter.dateFormat = "yyyy"
         case 2:
             dateFormatter.dateFormat = "yyyy.MM"
-        default:
+        case 3:
             dateFormatter.dateFormat = "yyyy.MM.dd"
+        default:
+            dateFormatter.dateFormat = "yyyy-MM-dd"
         }
         
         return dateFormatter.string(from: self)

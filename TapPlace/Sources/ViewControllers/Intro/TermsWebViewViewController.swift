@@ -18,6 +18,7 @@ class TermsWebViewViewController: UIViewController {
     var storageViewModel = StorageViewModel()
     var term: TermsModel?
     var termIndex: Int = 0
+    var isExistUser: Bool = false
     
     var isReadOnly: Bool = false {
         willSet {
@@ -91,19 +92,42 @@ extension TermsWebViewViewController: CustomNavigationBarProtocol, UIScrollViewD
         term?.checked = true
         /// 옵셔널 바인딩
         guard let term = term else { return }
-        delegate?.checkReceiveTerm(term: term, currentTermIndex: termIndex)
+        print("*** TermsWebVC, term.title: \(term.title)")
         switch term.title {
         case "서비스 이용약관":
-            guard let user = storageViewModel.getUserInfo(uuid: Constants.keyChainDeviceID) else { return }
-            let setUser = UserModel(uuid: user.uuid, isFirstLaunch: user.isFirstLaunch, agreeTerm: LatestTermsModel.latestServiceDate, agreePrivacy: user.agreePrivacy, agreeMarketing: user.agreeMarketing, birth: user.birth, sex: user.sex)
-            storageViewModel.updateUser(setUser)
+            var parameter = [
+                "service_date": LatestTermsModel.latestServiceDate
+            ]
+            
+            self.delegate?.checkReceiveTerm(term: term, currentTermIndex: self.termIndex)
+            UserRegisterModel.setUser.serviceDate = LatestTermsModel.latestServiceDate
+            if isExistUser {
+                parameter["user_id"] = Constants.keyChainDeviceID
+                UserDataService().requestFetchUpdateUser(parameter: parameter, header: Constants().header) { result in
+                    print("*** result: \(result)")
+                    print("*** parameter: \(parameter)")
+                    self.navigationController?.popViewController(animated: true)
+                }
+            } else {
+                self.navigationController?.popViewController(animated: true)
+            }
         case "개인정보 수집 및 이용동의":
-            guard let user = storageViewModel.getUserInfo(uuid: Constants.keyChainDeviceID) else { return }
-            let setUser = UserModel(uuid: user.uuid, isFirstLaunch: user.isFirstLaunch, agreeTerm: user.agreeTerm, agreePrivacy: LatestTermsModel.latestPersonalDate, agreeMarketing: user.agreeMarketing, birth: user.birth, sex: user.sex)
-            storageViewModel.updateUser(setUser)
+            var parameter = [
+                "personal_date": LatestTermsModel.latestPersonalDate
+            ]
+            self.delegate?.checkReceiveTerm(term: term, currentTermIndex: self.termIndex)
+            UserRegisterModel.setUser.personalDate = LatestTermsModel.latestPersonalDate
+            if isExistUser {
+                parameter["user_id"] = Constants.keyChainDeviceID
+                UserDataService().requestFetchUpdateUser(parameter: parameter, header: Constants().header) { result in
+                    self.navigationController?.popViewController(animated: true)
+                }
+            } else {
+                self.navigationController?.popViewController(animated: true)
+            }
         default: break
         }
-        self.navigationController?.popViewController(animated: true)
+        
     }
     
     func didTapLeftButton() {

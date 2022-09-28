@@ -25,7 +25,6 @@ class PickPaymentsViewController: CommonPickViewController {
         if !isEditMode {
             self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
         } else {
-//            print("*** selected Payments: \(selectedPayments)")
             bottomButtonUpdate()
         }
     }
@@ -48,16 +47,30 @@ extension PickPaymentsViewController: BottomButtonProtocol, TitleViewProtocol, C
     func didTapBottomButton() {
         if bottomButton.isActive {
 //            print("액션 실행 가능")
-            storageViewModel.setPayments(selectedPayments)
             if isEditMode {
-                self.navigationController?.popViewController(animated: true)
+                let parameter : [String: Any] = [
+                    "user_id": "\(Constants.keyChainDeviceID)",
+                    "pays": selectedPayments
+                ]
+                UserDataService().requestFetchUpdateUser(parameter: parameter, header: Constants().header) { result in
+                    self.storageViewModel.setPayments(self.selectedPayments)
+                    self.navigationController?.popViewController(animated: true)
+                }
             } else {
+                UserRegisterModel.setUser.pays = selectedPayments
+                
+                
                 let vc = TabBarViewController()
                 vc.modalTransitionStyle = .crossDissolve
                 vc.modalPresentationStyle = .fullScreen
                 
-                userViewModel.sendUserInfo(user: storageViewModel.getUserInfo(uuid: Constants.keyChainDeviceID)!, payments: selectedPayments) { result in
-                    self.present(vc, animated: true)
+                userViewModel.sendUserInfo(user: UserRegisterModel.setUser) { result in
+//                    if let result = result {
+                        self.storageViewModel.setPayments(self.selectedPayments)
+                        self.present(vc, animated: true)
+//                    } else {
+//                        showToast(message: "알 수 없는 이유로 이용등록에 실패하였습니다.\n잠시 후 다시 시도해주시기 바랍니다.", view: self.view)
+//                    }
                 }
             }
         } else {
@@ -129,10 +142,6 @@ extension PickPaymentsViewController: UICollectionViewDelegate, UICollectionView
         let sectionTitle = EasyPaymentModel.list[indexPath.section].designation
 
         if !cell.cellSelected {
-            if selectedPayments.count >= 5 {
-                showToast(message: "결제수단은 5개를 초과할 수 없습니다.", view: self.view)
-                return
-            }
             selectedPayments.append(cell.cellVariable)
         } else {
             guard let targetPayments = selectedPayments.firstIndex(where: {$0 == cell.cellVariable}) else { return }

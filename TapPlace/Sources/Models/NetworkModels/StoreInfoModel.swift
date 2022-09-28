@@ -1,6 +1,6 @@
 // This file was generated from JSON Schema using quicktype, do not modify it directly.
 // To parse the JSON, add this file to your project and do:
-//
+// 
 //   let storeInfo = try? newJSONDecoder().decode(StoreInfo.self, from: jsonData)
 
 import Foundation
@@ -11,6 +11,7 @@ struct StoreInfo: Codable {
     let storeID, placeName, addressName, roadAddressName: String
     let categoryGroupName, phone, x, y: String
     var feedback: [Feedback]?
+    var isBookmark: Bool = false
 
     enum CodingKeys: String, CodingKey {
         case num
@@ -26,14 +27,14 @@ struct StoreInfo: Codable {
     /**
      * @ AroundStores -> StoreInfo 변환
      * coder : sanghyeon
-     */
+     */ 
     static func convertAroundStores(aroundStore: AroundStores) -> StoreInfo {
         var storeFeedback: [Feedback] = []
         for pay in aroundStore.pays {
             let feedback = Feedback(num: nil, storeID: nil, success: nil, fail: nil, lastState: nil, lastTime: nil, pay: pay, exist: true)
             storeFeedback.append(feedback)
         }
-        let resultStoreInfo: StoreInfo = StoreInfo(num: aroundStore.num, storeID: aroundStore.storeID, placeName: aroundStore.placeName, addressName: aroundStore.addressName, roadAddressName: aroundStore.roadAddressName, categoryGroupName: aroundStore.categoryGroupName, phone: aroundStore.phone, x: aroundStore.x, y: aroundStore.y, feedback: storeFeedback)
+        let resultStoreInfo: StoreInfo = StoreInfo(num: aroundStore.num, storeID: aroundStore.storeID, placeName: aroundStore.placeName, addressName: aroundStore.addressName, roadAddressName: aroundStore.roadAddressName, categoryGroupName: aroundStore.categoryGroupName, phone: aroundStore.phone, x: aroundStore.x, y: aroundStore.y, feedback: storeFeedback, isBookmark: aroundStore.isBookmark)
         
         return resultStoreInfo
     }
@@ -63,12 +64,4 @@ struct Feedback: Codable {
     }
     
     static let emptyFeedback = Feedback(num: 0, storeID: "", success: 0, fail: 0, lastState: "", lastTime: "", pay: "", exist: true)
-}
-
-extension StoreInfo {
-    func convertBookmark() -> UserBookmarkStore {
-        let bookmarkStore = UserBookmarkStore(storeID: self.storeID, placeName: self.placeName, locationX: Double(self.x) ?? 0, locationY: Double(self.y) ?? 0, addressName: self.addressName, roadAddressName: self.roadAddressName, storeCategory: self.categoryGroupName, date: Date().getDate(3))
-        
-        return bookmarkStore
-    }
 }

@@ -8,11 +8,12 @@
 import Foundation
 import UIKit
 
+// 정보 수정제안
 class SuggestedViewController: CommonViewController {
     
     
     var termView: Bool = false
-    var privacyTerm = TermsModel(title: "개인정보 수집, 이용동의", isTerm: true, require: true, link: "\(Constants.tapplacePolicyUrl)", checked: false)
+    var term = TermsModel(title: "개인정보 수집, 이용동의", isTerm: true, require: true, link: "\(Constants.tapplacePolicyUrl)", checked: false)
     var numberOfLetter: Int = 0 // 타이틀 글자수
     var type: MoreMenuModel.MoreMenuType = .edit
     
@@ -38,25 +39,6 @@ class SuggestedViewController: CommonViewController {
         // 텍스트 간격
         contentTextView.textContainerInset = UIEdgeInsets(top: 13, left: 14, bottom: 15, right: 13)
         return contentTextView
-    }()
-    
-    let emailLbl: UILabel = {
-        let emailLbl = UILabel()
-        emailLbl.text = "이메일 주소"
-        emailLbl.font = .systemFont(ofSize: 17)
-        emailLbl.sizeToFit()
-        return emailLbl
-    }()
-    
-    let emailField: UITextField = {
-        let emailField = UITextField()
-        emailField.layer.cornerRadius = 8
-        emailField.layer.borderWidth = 1
-        emailField.layer.borderColor = UIColor.init(hex: 0xDBDEE8).cgColor
-        emailField.font = .systemFont(ofSize: 15)
-        emailField.setLeftPaddingPoints(15)
-        emailField.placeholder = "답변 받을 이메일 주소를 알려주세요."
-        return emailField
     }()
     
     let tableView: UITableView = {
@@ -87,7 +69,7 @@ class SuggestedViewController: CommonViewController {
         contentTextView.delegate = self
         button.delegate = self
         button.isActive = true
-
+        
         configureTableView()
     }
     
@@ -108,7 +90,7 @@ extension SuggestedViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         // 탭바
-        tabBar?.hideTabBar(hide: termView)
+        tabBar?.hideTabBar(hide: true)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -133,7 +115,7 @@ extension SuggestedViewController {
         
         view.addSubview(editContentLbl)
         editContentLbl.snp.makeConstraints {
-            $0.top.equalTo(customNavigationBar.snp.bottom).offset(20)
+            $0.top.equalTo(customNavigationBar.snp.bottom).offset(30)
             $0.leading.equalToSuperview().offset(20)
         }
         
@@ -143,20 +125,6 @@ extension SuggestedViewController {
             $0.leading.equalToSuperview().offset(20)
             $0.trailing.equalToSuperview().offset(-20)
             $0.height.equalTo(190)
-        }
-        
-        view.addSubview(emailLbl)
-        emailLbl.snp.makeConstraints {
-            $0.top.equalTo(contentTextView.snp.bottom).offset(28)
-            $0.leading.equalToSuperview().offset(20)
-        }
-        
-        view.addSubview(emailField)
-        emailField.snp.makeConstraints {
-            $0.top.equalTo(emailLbl.snp.bottom).offset(10)
-            $0.leading.equalToSuperview().offset(20)
-            $0.trailing.equalToSuperview().offset(-20)
-            $0.height.equalTo(48)
         }
         
         view.addSubview(button)
@@ -201,10 +169,8 @@ extension SuggestedViewController: UITextViewDelegate {
 // MARK: - 테이블 뷰 데이터소스, 델리게이트
 extension SuggestedViewController: UITableViewDataSource, UITableViewDelegate, TermsProtocol {
     func checkReceiveTerm(term: TermsModel, currentTermIndex: Int) {
-        guard let targetCell = tableView.cellForRow(at: IndexPath(row: currentTermIndex, section: 0)) as? TermsTableViewCell else { return }
-        privacyTerm.checked = true
-        targetCell.setCheck(check: true)
-        termView.toggle()        
+        guard let targetCell = tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? TermsTableViewCell else { return }
+        targetCell.setCheck(check: term.checked)
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -215,8 +181,8 @@ extension SuggestedViewController: UITableViewDataSource, UITableViewDelegate, T
         let cell = tableView.dequeueReusableCell(withIdentifier: TermsTableViewCell.cellId, for: indexPath) as! TermsTableViewCell
         cell.selectionStyle = .none
         cell.contentView.isUserInteractionEnabled = false
-        cell.setInitCell(isTerm: privacyTerm.isTerm, require: privacyTerm.require, title: privacyTerm.title, link: privacyTerm.link)
-        cell.setCheck(check: privacyTerm.checked)
+        cell.setInitCell(isTerm: term.isTerm, require: term.require, title: term.title, link: term.link)
+        cell.setCheck(check: term.checked)
         
         return cell
     }
@@ -224,18 +190,20 @@ extension SuggestedViewController: UITableViewDataSource, UITableViewDelegate, T
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let cell = tableView.cellForRow(at: indexPath) as? TermsTableViewCell else { return }
         
-        if privacyTerm.checked == true {
-            privacyTerm.checked = false
-            cell.setCheck(check: privacyTerm.checked)
+        if term.checked == true {
+            term.checked = false
+            cell.setCheck(check: term.checked)
         } else {
-            let vc = TermsWebViewViewController()
-            vc.termIndex = 0
-            vc.term = privacyTerm
-            vc.delegate = self
-            termView.toggle()
-            self.navigationController?.pushViewController(vc, animated: true)
-            tabBar?.hideTabBar(hide: true)
+            term.checked = true
+            pushTermVC(term)
         }
+    }
+    
+    func pushTermVC(_ term: TermsModel) {
+        let vc = TermsWebViewViewController()
+        vc.term = term
+        vc.delegate = self
+        self.navigationController?.pushViewController(vc, animated: true)
     }
 }
 
@@ -245,7 +213,7 @@ extension SuggestedViewController: BottomButtonProtocol {
         if !button.isActive { return }
         
         var answerCheck = 0
-        if privacyTerm.checked  == true {
+        if term.checked  == true {
             answerCheck = 1
         }
         
@@ -254,44 +222,48 @@ extension SuggestedViewController: BottomButtonProtocol {
             return
         }
         
-        let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
-        let emailTest = NSPredicate(format: "SELF MATCHES %@", emailRegEx)
-        if !emailTest.evaluate(with: emailField.text) {
-            showToast(message: "올바른 형식의 이메일을 입력해주세요.", view: self.view)
-            return
-        }
-        
         button.isActive = false
         button.setButtonStyle(title: "문의하기", type: .disabled, fill: true)
         
-        if let contentText = contentTextView.text, let emailText = emailField.text {
-            let parameter: [String: Any] = [
-                "key": "\(Constants.tapplaceApiKey)",
-                "user_id": "\(Constants.keyChainDeviceID)",
-                "category": type,
-                "title": "수정제안요청",
-                "content": contentText,
-                "answer_check": answerCheck,
-                "email": emailText,
-                "os": "iOS"
-            ]
-            
-            InquiryService().postInquiry(parameter: parameter) { response,error in
-                if let error = error {
-                    showToast(message: "서버에 오류가 있습니다.\n잠시후 다시 시도해주시기 바랍니다.", view: self.view)
-                    self.button.setButtonStyle(title: "요청하기", type: .activate, fill: true)
+        if let contentText = contentTextView.text {
+            if contentText.count != 0 {
+                if answerCheck != 1 {
+                    showToast(message: "개인정보 수집, 이용동의를 체크해주시기 바랍니다.", view: self.view)
+                    self.button.setButtonStyle(title: "문의하기", type: .activate, fill: true)
                     return
                 }
-                if response == true {
-                    showToast(message: "정보 수정 요청이 정상적으로 등록 되었습니다.", duration: 3, view: self.view)
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                        self.navigationController?.popViewController(animated: true)
+                let parameter: [String: Any] = [
+                    "key": "\(Constants.tapplaceApiKey)",
+                    "user_id": "\(Constants.keyChainDeviceID)",
+                    "category": type,
+                    "title": "수정제안요청",
+                    "content": contentText,
+                    "answer_check": answerCheck,
+                    "os": "iOS"
+                ]
+                
+                InquiryService().postInquiry(parameter: parameter) { response,error in
+                    if let error = error {
+                        showToast(message: "알 수 없는 오류가 발생했습니다.\n입력 값을 확인 후 다시 시도해주시기 바랍니다.", view: self.view)
                         self.button.setButtonStyle(title: "요청하기", type: .activate, fill: true)
+                        return
                     }
-                } else {
-                    showToast(message: "알 수 없는 오류가 발생했습니다.\n입력 값을 확인 후 다시 시도해주시기 바랍니다.", view: self.view)
-                    self.button.setButtonStyle(title: "요청하기", type: .activate, fill: true)
+                    if response == true {
+                        showToast(message: "정보 수정 요청이 정상적으로 등록 되었습니다.", duration: 3, view: self.view)
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                            self.navigationController?.popViewController(animated: true)
+                            self.button.setButtonStyle(title: "요청하기", type: .activate, fill: true)
+                            self.contentTextView.text = self.contentPlaceholder
+                            self.contentTextView.textColor = .systemGray3
+                            guard let cell = self.tableView.cellForRow(at: IndexPath.init(row: 0, section: 0)) as? TermsTableViewCell else { return }
+                            cell.setCheck(check: false)
+                            answerCheck = 0
+                        }
+                    }
                 }
+            } else {
+                showToast(message: "입력 값을 모두 채워주시기 바랍니다.", view: self.view)
+                self.button.setButtonStyle(title: "문의하기", type: .activate, fill: true)
             }
         }
     }

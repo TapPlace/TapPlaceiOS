@@ -20,6 +20,8 @@ target 'TapPlace' do
   pod 'SwiftKeychainWrapper'
   pod 'SwiftJWT'
   pod 'EFCountingLabel'
+  pod 'Firebase/Analytics'
+  pod 'Firebase/Messaging'
 
   # Pods for TapPlace
 

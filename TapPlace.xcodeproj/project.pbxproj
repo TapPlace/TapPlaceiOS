@@ -68,6 +68,8 @@
 		DFA2875728AB684200DD9F63 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFA2875628AB684200DD9F63 /* UIView+Extension.swift */; };
 		DFA2875928AB94C700DD9F63 /* DetailOverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFA2875828AB94C700DD9F63 /* DetailOverView.swift */; };
 		DFA2875B28ABA8D400DD9F63 /* DetailToolBarButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFA2875A28ABA8D400DD9F63 /* DetailToolBarButton.swift */; };
+		DFA8094228E3D30B0087116A /* FCM.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFA8094128E3D30B0087116A /* FCM.swift */; };
+		DFA8094428E3D3410087116A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DFA8094328E3D3410087116A /* GoogleService-Info.plist */; };
 		DFB6CD6028CEE3A90095C9FA /* UIApplication+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFB6CD5F28CEE3A90095C9FA /* UIApplication+Extension.swift */; };
 		DFBFDF4E28D55CED003A8EF6 /* FeedbackWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFBFDF4D28D55CED003A8EF6 /* FeedbackWebViewController.swift */; };
 		DFBFDF5028D59092003A8EF6 /* TableViewExpendButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFBFDF4F28D59092003A8EF6 /* TableViewExpendButton.swift */; };
@@ -227,6 +229,8 @@
 		DFA2875628AB684200DD9F63 /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		DFA2875828AB94C700DD9F63 /* DetailOverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailOverView.swift; sourceTree = "<group>"; };
 		DFA2875A28ABA8D400DD9F63 /* DetailToolBarButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailToolBarButton.swift; sourceTree = "<group>"; };
+		DFA8094128E3D30B0087116A /* FCM.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FCM.swift; sourceTree = "<group>"; };
+		DFA8094328E3D3410087116A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../FCM/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		DFB6CD5F28CEE3A90095C9FA /* UIApplication+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+Extension.swift"; sourceTree = "<group>"; };
 		DFBFDF4D28D55CED003A8EF6 /* FeedbackWebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackWebViewController.swift; sourceTree = "<group>"; };
 		DFBFDF4F28D59092003A8EF6 /* TableViewExpendButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewExpendButton.swift; sourceTree = "<group>"; };
@@ -596,7 +600,7 @@
 				DFC23FAB289AB69D00EC1090 /* Sources */,
 				DFC23FA9289AB66C00EC1090 /* Resources */,
 				DFC23FA3289AB66600EC1090 /* Info.plist */,
-				DFF484D128DA95D500FF441C /* GoogleService-Info.plist */,
+				DFA8094328E3D3410087116A /* GoogleService-Info.plist */,
 			);
 			path = TapPlace;
 			sourceTree = "<group>";
@@ -785,12 +789,12 @@
 		DFDA43F728A14C56003763AC /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				DFA8094128E3D30B0087116A /* FCM.swift */,
 				DFDA43F828A14C61003763AC /* CommonUtils.swift */,
 				DFF5300228BC55D000FFC302 /* Storage.swift */,
 				DFC7037828D3E4AC006C597F /* KeyChain.swift */,
 				DF34FC4B28D95E6E00B01F95 /* Authorization.swift */,
 				DF34FC7528D9BE2B00B01F95 /* APIToken.swift */,
-				DFF484D528DAAA9400FF441C /* FCM.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -899,7 +903,7 @@
 			files = (
 				DFC23FA2289AB66600EC1090 /* LaunchScreen.storyboard in Resources */,
 				DFC23F9F289AB66600EC1090 /* Assets.xcassets in Resources */,
-				DFF484D228DA95D500FF441C /* GoogleService-Info.plist in Resources */,
+				DFA8094428E3D3410087116A /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -972,6 +976,7 @@
 				F438236428C47BF300C75063 /* FeedbackDoneViewController.swift in Sources */,
 				DFECC8D228AD129300DC64FD /* UIStackView+Extension.swift in Sources */,
 				DFF5300128BC515D00FFC302 /* UserModel.swift in Sources */,
+				DFA8094228E3D30B0087116A /* FCM.swift in Sources */,
 				DFA2875B28ABA8D400DD9F63 /* DetailToolBarButton.swift in Sources */,
 				F4E198D728CF18F400619174 /* SearchingTableViewCell.swift in Sources */,
 				DFC23F96289AB66400EC1090 /* AppDelegate.swift in Sources */,
@@ -994,7 +999,6 @@
 				DF85D8CB28C4C22300465D6A /* CLLocation+Extension.swift in Sources */,
 				DF9BE0AE28B7271F009E075D /* TermsTableViewCell.swift in Sources */,
 				DFB6CD6028CEE3A90095C9FA /* UIApplication+Extension.swift in Sources */,
-				DFF484D628DAAA9400FF441C /* FCM.swift in Sources */,
 				DFDBB83728B0BB69008D2E09 /* AroundPlaceListView.swift in Sources */,
 				DFDC5CAE28DBF92F000AC32C /* Codable+Extension.swift in Sources */,
 				DFC23FB5289AB6F000EC1090 /* EmptyNetwork.swift in Sources */,

@@ -16,13 +16,12 @@ struct FCM {
      * @ FCM 토큰 생성
      * coder : sanghyeon
      */
-    func generateFCMToken() {
+    func generateFCMToken(completion: @escaping (String?) -> ()) {
         Messaging.messaging().token { token, error in
             if let error = error {
-                print("Error fetching FCM registration token: \(error)")
-                
+                completion(nil)
             } else if let token = token as? String {
-                print("FCM registration token: \(token)")
+                completion(token)
             }
         }
     }

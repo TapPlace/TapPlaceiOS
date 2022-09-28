@@ -266,6 +266,28 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
      * coder : sanghyeon
      */
     @objc func didToggleSwitch(_ sender: UISwitch) {
-        sender.isOn = storageViewModel.toggleAlarm()
+        sender.isOn = self.storageViewModel.toggleAlarm()
+        authorization.requestNotificationAuthorization() { result in
+            switch result {
+            case true:
+                print("알림권한 허용")
+                self.fcm.generateFCMToken() { result in
+                    if let result = result {
+                        let parameter: [String: Any] = [
+                            "user_id": "\(Constants.keyChainDeviceID)",
+                            "token": "\(result)"
+                        ]
+                        UserDataService().requestFetchUpdateUser(parameter: parameter, header: Constants().header) { response in
+                            if !response {
+                                showToast(message: "알 수 없는 이유로 서버로 토큰이 전송되지 않았습니다.\n알림이 정상적으로 수신되지 않을 수 있습니다.", view: self.view)
+                            }
+                        }
+                    }
+                }
+                
+            case false:
+                print("알림권한 거부")
+            }
+        }
     }
 }

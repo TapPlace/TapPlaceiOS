@@ -122,6 +122,7 @@
 		DFF7BEDE28A68CDD00289F39 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFF7BEDD28A68CDD00289F39 /* TabBarViewController.swift */; };
 		F41A51E828B0865D00FE546B /* SearchEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41A51E728B0865D00FE546B /* SearchEditViewController.swift */; };
 		F41A51EA28B08D3C00FE546B /* SearchEditTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41A51E928B08D3C00FE546B /* SearchEditTableViewCell.swift */; };
+		F430D77C28E5F689004EB90E /* InquiryDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F430D77B28E5F689004EB90E /* InquiryDetailViewController.swift */; };
 		F438236028C3120C00C75063 /* StickyHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = F438235F28C3120C00C75063 /* StickyHeader.swift */; };
 		F438236228C3124300C75063 /* StickyHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F438236128C3124300C75063 /* StickyHeaderView.swift */; };
 		F438236428C47BF300C75063 /* FeedbackDoneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F438236328C47BF300C75063 /* FeedbackDoneViewController.swift */; };
@@ -286,6 +287,7 @@
 		DFF7BEDD28A68CDD00289F39 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		F41A51E728B0865D00FE546B /* SearchEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchEditViewController.swift; sourceTree = "<group>"; };
 		F41A51E928B08D3C00FE546B /* SearchEditTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchEditTableViewCell.swift; sourceTree = "<group>"; };
+		F430D77B28E5F689004EB90E /* InquiryDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquiryDetailViewController.swift; sourceTree = "<group>"; };
 		F438235F28C3120C00C75063 /* StickyHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickyHeader.swift; sourceTree = "<group>"; };
 		F438236128C3124300C75063 /* StickyHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickyHeaderView.swift; sourceTree = "<group>"; };
 		F438236328C47BF300C75063 /* FeedbackDoneViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackDoneViewController.swift; sourceTree = "<group>"; };
@@ -810,6 +812,7 @@
 				F438236F28C7085200C75063 /* AlarmViewController.swift */,
 				F438237328C7188A00C75063 /* InquiryViewController.swift */,
 				F44C1B3D28E2C4E2009F623D /* InquiryHistoryViewController.swift */,
+				F430D77B28E5F689004EB90E /* InquiryDetailViewController.swift */,
 				F470A33E28C9C27E007F4F24 /* FAQViewController.swift */,
 				F43B068728D56EB800701538 /* SuggestedViewController.swift */,
 			);
@@ -1022,6 +1025,7 @@
 				DF4882FB28E09B3600AA472D /* UserAllCountModel.swift in Sources */,
 				DFE5F6AC28A8D36A000511E9 /* Constants.swift in Sources */,
 				DF67A05328C9846900435C28 /* FeedbackListCell.swift in Sources */,
+				F430D77C28E5F689004EB90E /* InquiryDetailViewController.swift in Sources */,
 				F49D36E028B6227D000D025D /* SearchModel.swift in Sources */,
 				DF67A05E28CA2F4600435C28 /* AroundStoreModel.swift in Sources */,
 				F478DA4628BCA210003C686A /* StorePaymentTableViewCell.swift in Sources */,

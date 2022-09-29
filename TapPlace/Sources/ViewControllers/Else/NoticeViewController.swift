@@ -100,6 +100,7 @@ extension NoticeViewController {
         super.viewWillAppear(animated)
         // 탭바
         tabBar?.hideTabBar(hide: true)
+        noticeTableView.reloadData()
     }
     
     // 테이블 뷰 구성 메소드
@@ -152,7 +153,6 @@ extension NoticeViewController: UITableViewDelegate, UITableViewDataSource {
     
     // 공지사항 셀 선택시 해당 공지사항 상세보기 페이지로 이동
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("클릭됨: \(indexPath.row)")
         let notice = self.noticeResult[indexPath.row]
         let nextVC = NoticeDetailViewController()
         nextVC.noticeTitle = notice.title

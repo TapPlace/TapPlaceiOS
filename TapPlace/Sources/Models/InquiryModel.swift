@@ -9,13 +9,14 @@ import Foundation
 
 // MARK: - Welcome
 struct InquiryList: Decodable {
-    let totalCount: String
-    let isEnd: Bool
-    let inquiries: [InquiryModel]
+    let totalCount: String?
+    let isEnd: Bool?
+    let qna: [InquiryModel]?
 
     enum CodingKeys: String, CodingKey {
         case totalCount = "total_count"
-        case isEnd, inquiries
+        case isEnd
+        case qna
     }
 }
 
@@ -25,16 +26,21 @@ struct InquiryModel: Decodable {
     let userID: String
     let category: String
     let title, content, writeDate: String
-    let email: String
     let os: String
     let answerCheck: Int
+    let storeId: String
+    let answer: String
 
     enum CodingKeys: String, CodingKey {
         case num
         case userID = "user_id"
-        case category, title, content
+        case category
+        case title
+        case content
         case writeDate = "write_date"
-        case email, os
+        case os
         case answerCheck = "answer_check"
+        case storeId = "store_id"
+        case answer
     }
 }

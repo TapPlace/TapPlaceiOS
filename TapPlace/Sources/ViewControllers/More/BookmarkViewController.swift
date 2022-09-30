@@ -237,6 +237,7 @@ extension BookmarkViewController: CustomNavigationBarProtocol, FilterTitleProtoc
     @objc func didTapDeleteButton() {
 //        print("삭제 버튼 탭")
         if !deleteButton.isActive { return }
+        print("삭제 버튼 탭")
         deleteBookmark()
         
     }
@@ -286,11 +287,14 @@ extension BookmarkViewController: UITableViewDelegate, UITableViewDataSource {
                 bookmark.isChecked = allSelect
                 bookmarkDataSource[i] = bookmark
             }
-            tableView.reloadData()
         } else {
             guard let indexPath = indexPath else { return }
             var checkedBookmark = bookmarkDataSource[indexPath.row]
-            checkedBookmark.isChecked?.toggle()
+            if let _ = checkedBookmark.isChecked {
+                checkedBookmark.isChecked?.toggle()
+            } else {
+                checkedBookmark.isChecked = true
+            }
             bookmarkDataSource[indexPath.row] = checkedBookmark
         }
         tableView.reloadData()
@@ -318,7 +322,7 @@ extension BookmarkViewController: UITableViewDelegate, UITableViewDataSource {
     func deleteBookmark() {
         let checkedBookmark = bookmarkDataSource.filter { $0.isChecked == true }
         checkedBookmark.forEach { bookmark in
-            bookmarkViewModel.requestToggleBookmark(currentBookmark: false, storeID: bookmark.storeID) { result in
+            bookmarkViewModel.requestToggleBookmark(currentBookmark: true, storeID: bookmark.storeID) { result in
                 if let result = result {
                     if result {
                         if self.bookmarkDataSource.count <= 0 {

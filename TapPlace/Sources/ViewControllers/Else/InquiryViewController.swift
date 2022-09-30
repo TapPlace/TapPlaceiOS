@@ -303,7 +303,7 @@ extension InquiryViewController: UITableViewDataSource, UITableViewDelegate, Ter
             pushTermVC(term)
         }
     }
-    
+     
     func pushTermVC(_ term: TermsModel) {
         let vc = TermsWebViewViewController()
         vc.term = term

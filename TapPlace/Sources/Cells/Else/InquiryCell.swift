@@ -19,12 +19,14 @@ class InquiryCell: UITableViewCell {
         return titleLbl
     }()
     
-    let acceptLbl: UILabel = {
+    var acceptLbl: UILabel = {
         let acceptLbl = UILabel()
         acceptLbl.text = "접수완료"
+        acceptLbl.font = .systemFont(ofSize: 12)
         acceptLbl.textColor = .init(hex: 0x9E9E9E)
         acceptLbl.layer.borderWidth = 1
         acceptLbl.layer.cornerRadius = 10
+        acceptLbl.textAlignment = .center
         return acceptLbl
     }()
     
@@ -59,17 +61,29 @@ class InquiryCell: UITableViewCell {
         }
         
         acceptLbl.snp.makeConstraints {
-            $0.top.equalTo(titleLbl).offset(10)
+            $0.top.equalTo(titleLbl.snp.bottom).offset(10)
             $0.leading.equalToSuperview().offset(20)
+            $0.width.equalTo(66)
+            $0.height.equalTo(22)
         }
         
         timeLbl.snp.makeConstraints {
-            $0.top.equalTo(titleLbl).offset(10)
-            $0.leading.equalTo(acceptLbl).offset(8)
+            $0.top.equalTo(titleLbl.snp.bottom).offset(11)
+            $0.leading.equalTo(acceptLbl.snp.trailing).offset(8)
         }
     }
     
-    private func prepare() {
+    func prepare(title: String?, writeDate: String?, content: String?, answerCheck: Int?) {
+        self.titleLbl.text = title
+        self.timeLbl.text = writeDate
         
+        if answerCheck == 1 {
+            acceptLbl.text = "답변완료"
+            acceptLbl.textColor = .init(hex: 0x4E77FB)
+            acceptLbl.layer.borderWidth = 1
+            acceptLbl.layer.borderColor = UIColor.init(hex: 0x4E77FB).cgColor
+            acceptLbl.backgroundColor = .white
+            acceptLbl.layer.cornerRadius = 10
+        }
     }
 }

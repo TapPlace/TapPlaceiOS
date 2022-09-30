@@ -6,17 +6,16 @@
 //
 
 import UIKit
-import RealmSwift
 
 // 문의하기
 class InquiryViewController: CommonViewController {
     var term = TermsModel(title: "개인정보 수집, 이용동의", isTerm: true, require: true, link: Constants.tapplacePolicyUrl, checked: false)
     var numberOfLetter: Int = 0 // 타이틀 글자수
     var type: MoreMenuModel.MoreMenuType = .qna
-    
+
     let customNavigationBar = CustomNavigationBar()
     let contentPlaceholder: String = "문의하실 내용을 남겨주세요."
-    
+
     let inquiriesBtn: UIButton = {
         let inquiriesBtn = UIButton()
         inquiriesBtn.setTitle("문의내역", for: .normal)
@@ -26,7 +25,7 @@ class InquiryViewController: CommonViewController {
         inquiriesBtn.addTarget(self, action: #selector(pushInquiriesVC), for: .touchUpInside)
         return inquiriesBtn
     }()
-    
+
     let titleLbl: UILabel = {
         let titleLbl = UILabel()
         titleLbl.text = "문의제목"
@@ -34,7 +33,7 @@ class InquiryViewController: CommonViewController {
         titleLbl.sizeToFit()
         return titleLbl
     }()
-    
+
     let titleField: UITextField = {
         let titleField = UITextField()
         titleField.layer.cornerRadius = 8
@@ -45,9 +44,9 @@ class InquiryViewController: CommonViewController {
         titleField.placeholder = "제목을 입력해주세요. (20자 이내)"
         return titleField
     }()
-    
+
     let countingTextLbl = UILabel()
-    
+
     let contentLbl: UILabel = {
         let contentLbl = UILabel()
         contentLbl.text = "문의내용"
@@ -55,7 +54,7 @@ class InquiryViewController: CommonViewController {
         contentLbl.sizeToFit()
         return contentLbl
     }()
-    
+
     let contentTextView: UITextView = {
         let contentTextView = UITextView()
         contentTextView.layer.cornerRadius = 8
@@ -63,13 +62,13 @@ class InquiryViewController: CommonViewController {
         contentTextView.layer.borderWidth = 1
         contentTextView.layer.borderColor = UIColor.init(hex: 0xDBDEE8).cgColor
         contentTextView.textColor = .systemGray3
-        
+
         // 텍스트 간격
         contentTextView.textContainerInset = UIEdgeInsets(top: 13, left: 14, bottom: 15, right: 13)
         return contentTextView
     }()
-    
-    
+
+
     let tableView: UITableView = {
         let tableView = UITableView()
         tableView.register(TermsTableViewCell.self, forCellReuseIdentifier: TermsTableViewCell.cellId)
@@ -77,34 +76,34 @@ class InquiryViewController: CommonViewController {
         tableView.isScrollEnabled = false
         return tableView
     }()
-    
+
     let button: BottomButton = {
         let button = BottomButton()
         button.setButtonStyle(title: "문의하기", type: .activate, fill: true)
         return button
     }()
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
         setLayout()
-        
+
         customNavigationBar.delegate = self
         customNavigationBar.isDrawShadow = false
         customNavigationBar.isDrawBottomLine = false
         customNavigationBar.titleText = "문의하기"
         customNavigationBar.isUseLeftButton = true
-        
+
         contentTextView.delegate = self
-        
+
         titleField.delegate = self
         contentTextView.delegate = self
         button.delegate = self
         button.isActive = true
-        
+
         configureTableView()
     }
-    
+
     private func configureTableView() {
         self.tableView.dataSource = self
         self.tableView.delegate = self
@@ -116,51 +115,51 @@ extension InquiryViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
     }
-    
+
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         // 탭바
         tabBar?.hideTabBar(hide: true)
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         // 탭바
         tabBar?.hideTabBar(hide: true)
     }
-    
+
     private func setupView() {
         self.view.backgroundColor = .white
         self.contentTextView.text = contentPlaceholder
     }
-    
-    
+
+
     private func setLayout() {
         let safeArea = view.safeAreaLayoutGuide
-        
+
         countingTextLbl.text = "\(numberOfLetter)/20"
         countingTextLbl.font = .systemFont(ofSize: 15)
         countingTextLbl.textColor = .systemGray3
         countingTextLbl.sizeToFit()
-        
+
         view.addSubview(customNavigationBar)
         customNavigationBar.snp.makeConstraints {
             $0.top.leading.trailing.equalToSuperview()
             $0.bottom.equalTo(customNavigationBar.containerView)
         }
-        
+
         customNavigationBar.addSubview(inquiriesBtn)
         inquiriesBtn.snp.makeConstraints {
             $0.bottom.equalTo(customNavigationBar.containerView).offset(-13)
             $0.trailing.equalToSuperview().offset(-20)
         }
-        
+
         view.addSubview(titleLbl)
         titleLbl.snp.makeConstraints {
             $0.top.equalTo(customNavigationBar.snp.bottom).offset(20)
             $0.leading.equalToSuperview().offset(20)
         }
-        
+
         view.addSubview(titleField)
         titleField.snp.makeConstraints {
             $0.top.equalTo(titleLbl.snp.bottom).offset(10)
@@ -168,19 +167,19 @@ extension InquiryViewController {
             $0.trailing.equalToSuperview().offset(-20)
             $0.height.equalTo(48)
         }
-        
+
         titleField.addSubview(countingTextLbl)
         countingTextLbl.snp.makeConstraints {
             $0.top.equalToSuperview().offset(14)
             $0.trailing.equalToSuperview().offset(-15)
         }
-        
+
         view.addSubview(contentLbl)
         contentLbl.snp.makeConstraints {
             $0.top.equalTo(titleField.snp.bottom).offset(28)
             $0.leading.equalToSuperview().offset(20)
         }
-        
+
         view.addSubview(contentTextView)
         contentTextView.snp.makeConstraints {
             $0.top.equalTo(contentLbl.snp.bottom).offset(10)
@@ -188,13 +187,13 @@ extension InquiryViewController {
             $0.trailing.equalToSuperview().offset(-20)
             $0.height.equalTo(190)
         }
-        
+
         view.addSubview(button)
         button.snp.makeConstraints {
             $0.left.right.bottom.equalToSuperview()
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-50)
         }
-        
+
         view.addSubview(tableView)
         tableView.snp.makeConstraints {
             $0.leading.trailing.equalTo(safeArea).inset(22)
@@ -202,7 +201,7 @@ extension InquiryViewController {
             $0.bottom.equalTo(button.snp.top).offset(-15)
         }
     }
-    
+
     @objc func pushInquiriesVC() {
         let nextVC = InquiryHistoryViewController()
         self.navigationController?.pushViewController(nextVC, animated: true)
@@ -237,17 +236,17 @@ extension InquiryViewController: UITextFieldDelegate {
         }
         return true
     }
-    
+
     // 문의 제목 텍스트 수 20자 적용
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString text: String) -> Bool {
         if textField == titleField {
             let currentText = titleField.text ?? ""
             guard let stringRange = Range(range, in: currentText) else { return false }
-            
+
             let changeText = currentText.replacingCharacters(in: stringRange, with: text)
             numberOfLetter = changeText.count
             countingTextLbl.text = "\(numberOfLetter)/20"
-            
+
             return changeText.count <= 20
         } else { return true }
     }
@@ -261,7 +260,7 @@ extension InquiryViewController: UITextViewDelegate {
             textView.textColor = UIColor.black
         }
     }
-    
+
     func textViewDidEndEditing(_ textView: UITextView) {
         if textView.text.isEmpty {
             textView.text = "문의하실 내용을 남겨주세요."
@@ -276,25 +275,25 @@ extension InquiryViewController: UITableViewDataSource, UITableViewDelegate, Ter
         guard let cell = tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? TermsTableViewCell else { return }
         cell.setCheck(check: term.checked)
     }
-    
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 1
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: TermsTableViewCell.cellId, for: indexPath) as! TermsTableViewCell
         cell.selectionStyle = .none
         cell.contentView.isUserInteractionEnabled = false
         cell.setInitCell(isTerm: term.isTerm, require: term.require, title: term.title, link: term.link)
         cell.setCheck(check: term.checked)
-        
+
         return cell
     }
-    
+
     // 개인정보, 이용동의 셀 체크 여부
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let cell = tableView.cellForRow(at: indexPath) as? TermsTableViewCell else { return }
-        
+
         if term.checked {
             term.checked = false
             cell.setCheck(check: term.checked)
@@ -303,7 +302,7 @@ extension InquiryViewController: UITableViewDataSource, UITableViewDelegate, Ter
             pushTermVC(term)
         }
     }
-     
+
     func pushTermVC(_ term: TermsModel) {
         let vc = TermsWebViewViewController()
         vc.term = term
@@ -316,26 +315,26 @@ extension InquiryViewController: UITableViewDataSource, UITableViewDelegate, Ter
 extension InquiryViewController: BottomButtonProtocol {
     func didTapBottomButton() {
         if !button.isActive { return }
-        
+
         var answerCheck = 0
-        
+
         if term.checked  == true {
             answerCheck = 1
         }
-        
+
         if titleField.text?.count == 0 {
             showToast(message: "문의 제목을 작성해주세요.", view: self.view)
             return
         }
-        
+
         if contentTextView.text == contentPlaceholder {
             showToast(message: "문의하실 내용을 작성해주세요.", view: self.view)
             return
         }
-        
+
         button.isActive = false
         button.setButtonStyle(title: "문의하기", type: .disabled, fill: true)
-        
+
         if let titleText = titleField.text, let contentText = contentTextView.text {
             if titleText.count != 0 && contentText.count != 0 {
                 if answerCheck != 1 {
@@ -343,7 +342,7 @@ extension InquiryViewController: BottomButtonProtocol {
                     self.button.setButtonStyle(title: "문의하기", type: .activate, fill: true)
                     return
                 }
-                
+
                 let parameter: [String: Any] = [
                     "key": "\(Constants.tapplaceApiKey)",
                     "user_id": "\(Constants.keyChainDeviceID)",
@@ -353,7 +352,7 @@ extension InquiryViewController: BottomButtonProtocol {
                     "answer_check": answerCheck,
                     "os": "iOS"
                 ]
-                
+
                 InquiryService().postInquiry(parameter: parameter) { response,error in
                     if let error = error {
                         showToast(message: "알 수 없는 오류가 발생했습니다.\n입력 값을 확인 후 다시 시도해주시기 바랍니다.", view: self.view)
@@ -368,7 +367,7 @@ extension InquiryViewController: BottomButtonProtocol {
                             self.titleField.text = ""
                             self.contentTextView.text =  "문의하실 내용을 남겨주세요."
                             self.contentTextView.textColor = .systemGray3
-                            
+
                             guard let cell = self.tableView.cellForRow(at: IndexPath.init(row: 0, section: 0)) as? TermsTableViewCell else { return }
                             cell.setCheck(check: false)
                             answerCheck = 0

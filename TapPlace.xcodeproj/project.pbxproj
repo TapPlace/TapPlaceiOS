@@ -69,7 +69,6 @@
 		DFA2875928AB94C700DD9F63 /* DetailOverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFA2875828AB94C700DD9F63 /* DetailOverView.swift */; };
 		DFA2875B28ABA8D400DD9F63 /* DetailToolBarButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFA2875A28ABA8D400DD9F63 /* DetailToolBarButton.swift */; };
 		DFA8094228E3D30B0087116A /* FCM.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFA8094128E3D30B0087116A /* FCM.swift */; };
-		DFA8094428E3D3410087116A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DFA8094328E3D3410087116A /* GoogleService-Info.plist */; };
 		DFB6CD6028CEE3A90095C9FA /* UIApplication+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFB6CD5F28CEE3A90095C9FA /* UIApplication+Extension.swift */; };
 		DFBFDF4E28D55CED003A8EF6 /* FeedbackWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFBFDF4D28D55CED003A8EF6 /* FeedbackWebViewController.swift */; };
 		DFBFDF5028D59092003A8EF6 /* TableViewExpendButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFBFDF4F28D59092003A8EF6 /* TableViewExpendButton.swift */; };
@@ -123,6 +122,7 @@
 		DFF7BEDE28A68CDD00289F39 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFF7BEDD28A68CDD00289F39 /* TabBarViewController.swift */; };
 		F41A51E828B0865D00FE546B /* SearchEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41A51E728B0865D00FE546B /* SearchEditViewController.swift */; };
 		F41A51EA28B08D3C00FE546B /* SearchEditTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41A51E928B08D3C00FE546B /* SearchEditTableViewCell.swift */; };
+		F430D77C28E5F689004EB90E /* InquiryDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F430D77B28E5F689004EB90E /* InquiryDetailViewController.swift */; };
 		F438236028C3120C00C75063 /* StickyHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = F438235F28C3120C00C75063 /* StickyHeader.swift */; };
 		F438236228C3124300C75063 /* StickyHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F438236128C3124300C75063 /* StickyHeaderView.swift */; };
 		F438236428C47BF300C75063 /* FeedbackDoneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F438236328C47BF300C75063 /* FeedbackDoneViewController.swift */; };
@@ -143,6 +143,7 @@
 		F44C1B3E28E2C4E2009F623D /* InquiryHistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F44C1B3D28E2C4E2009F623D /* InquiryHistoryViewController.swift */; };
 		F44C1B4028E2D1E1009F623D /* InquiryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F44C1B3F28E2D1E1009F623D /* InquiryCell.swift */; };
 		F44C1B4228E303AF009F623D /* InquiryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F44C1B4128E303AF009F623D /* InquiryModel.swift */; };
+		F44C1B4428E34732009F623D /* InquiryListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F44C1B4328E34732009F623D /* InquiryListViewModel.swift */; };
 		F4551D3A28A8B651003B93F4 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4551D3928A8B651003B93F4 /* SearchViewController.swift */; };
 		F4551D3C28A9F9C6003B93F4 /* SearchHistoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4551D3B28A9F9C6003B93F4 /* SearchHistoryTableViewCell.swift */; };
 		F470A33D28C9AA36007F4F24 /* FeedbackDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F470A33C28C9AA36007F4F24 /* FeedbackDetailViewController.swift */; };
@@ -155,6 +156,7 @@
 		F49D36E028B6227D000D025D /* SearchModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49D36DF28B6227D000D025D /* SearchModel.swift */; };
 		F49D36E228B62952000D025D /* PrivacyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49D36E128B62952000D025D /* PrivacyViewController.swift */; };
 		F4C6C8BD28B0A89B00FAF10A /* EditButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C6C8BC28B0A89B00FAF10A /* EditButton.swift */; };
+		F4D0372328E48A560052C240 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F4D0372228E48A560052C240 /* GoogleService-Info.plist */; };
 		F4E198D528CDDB5700619174 /* SearchListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4E198D428CDDB5700619174 /* SearchListViewModel.swift */; };
 		F4E198D728CF18F400619174 /* SearchingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4E198D628CF18F400619174 /* SearchingTableViewCell.swift */; };
 		F4F12EE528B896410060B239 /* StoreDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F12EE428B896410060B239 /* StoreDetailViewController.swift */; };
@@ -230,7 +232,6 @@
 		DFA2875828AB94C700DD9F63 /* DetailOverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailOverView.swift; sourceTree = "<group>"; };
 		DFA2875A28ABA8D400DD9F63 /* DetailToolBarButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailToolBarButton.swift; sourceTree = "<group>"; };
 		DFA8094128E3D30B0087116A /* FCM.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FCM.swift; sourceTree = "<group>"; };
-		DFA8094328E3D3410087116A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../FCM/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		DFB6CD5F28CEE3A90095C9FA /* UIApplication+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+Extension.swift"; sourceTree = "<group>"; };
 		DFBFDF4D28D55CED003A8EF6 /* FeedbackWebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackWebViewController.swift; sourceTree = "<group>"; };
 		DFBFDF4F28D59092003A8EF6 /* TableViewExpendButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewExpendButton.swift; sourceTree = "<group>"; };
@@ -286,6 +287,7 @@
 		DFF7BEDD28A68CDD00289F39 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		F41A51E728B0865D00FE546B /* SearchEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchEditViewController.swift; sourceTree = "<group>"; };
 		F41A51E928B08D3C00FE546B /* SearchEditTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchEditTableViewCell.swift; sourceTree = "<group>"; };
+		F430D77B28E5F689004EB90E /* InquiryDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquiryDetailViewController.swift; sourceTree = "<group>"; };
 		F438235F28C3120C00C75063 /* StickyHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickyHeader.swift; sourceTree = "<group>"; };
 		F438236128C3124300C75063 /* StickyHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickyHeaderView.swift; sourceTree = "<group>"; };
 		F438236328C47BF300C75063 /* FeedbackDoneViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackDoneViewController.swift; sourceTree = "<group>"; };
@@ -306,6 +308,7 @@
 		F44C1B3D28E2C4E2009F623D /* InquiryHistoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquiryHistoryViewController.swift; sourceTree = "<group>"; };
 		F44C1B3F28E2D1E1009F623D /* InquiryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquiryCell.swift; sourceTree = "<group>"; };
 		F44C1B4128E303AF009F623D /* InquiryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquiryModel.swift; sourceTree = "<group>"; };
+		F44C1B4328E34732009F623D /* InquiryListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquiryListViewModel.swift; sourceTree = "<group>"; };
 		F4551D3928A8B651003B93F4 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		F4551D3B28A9F9C6003B93F4 /* SearchHistoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchHistoryTableViewCell.swift; sourceTree = "<group>"; };
 		F470A33C28C9AA36007F4F24 /* FeedbackDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackDetailViewController.swift; sourceTree = "<group>"; };
@@ -318,6 +321,7 @@
 		F49D36DF28B6227D000D025D /* SearchModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchModel.swift; sourceTree = "<group>"; };
 		F49D36E128B62952000D025D /* PrivacyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyViewController.swift; sourceTree = "<group>"; };
 		F4C6C8BC28B0A89B00FAF10A /* EditButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditButton.swift; sourceTree = "<group>"; };
+		F4D0372228E48A560052C240 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		F4E198D428CDDB5700619174 /* SearchListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchListViewModel.swift; sourceTree = "<group>"; };
 		F4E198D628CF18F400619174 /* SearchingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchingTableViewCell.swift; sourceTree = "<group>"; };
 		F4F12EE428B896410060B239 /* StoreDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreDetailViewController.swift; sourceTree = "<group>"; };
@@ -600,7 +604,7 @@
 				DFC23FAB289AB69D00EC1090 /* Sources */,
 				DFC23FA9289AB66C00EC1090 /* Resources */,
 				DFC23FA3289AB66600EC1090 /* Info.plist */,
-				DFA8094328E3D3410087116A /* GoogleService-Info.plist */,
+				F4D0372228E48A560052C240 /* GoogleService-Info.plist */,
 			);
 			path = TapPlace;
 			sourceTree = "<group>";
@@ -684,6 +688,7 @@
 				F4E198D428CDDB5700619174 /* SearchListViewModel.swift */,
 				DF81E40828D07C0A000FF975 /* FeedbackViewModel.swift */,
 				F43CA9FC28D43CB7009E8845 /* NoticeListViewModel.swift */,
+				F44C1B4328E34732009F623D /* InquiryListViewModel.swift */,
 				DF6609DC28DC6EFC00D6F33A /* BookmarkViewModel.swift */,
 			);
 			path = ViewModels;
@@ -807,6 +812,7 @@
 				F438236F28C7085200C75063 /* AlarmViewController.swift */,
 				F438237328C7188A00C75063 /* InquiryViewController.swift */,
 				F44C1B3D28E2C4E2009F623D /* InquiryHistoryViewController.swift */,
+				F430D77B28E5F689004EB90E /* InquiryDetailViewController.swift */,
 				F470A33E28C9C27E007F4F24 /* FAQViewController.swift */,
 				F43B068728D56EB800701538 /* SuggestedViewController.swift */,
 			);
@@ -903,7 +909,7 @@
 			files = (
 				DFC23FA2289AB66600EC1090 /* LaunchScreen.storyboard in Resources */,
 				DFC23F9F289AB66600EC1090 /* Assets.xcassets in Resources */,
-				DFA8094428E3D3410087116A /* GoogleService-Info.plist in Resources */,
+				F4D0372328E48A560052C240 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1019,6 +1025,7 @@
 				DF4882FB28E09B3600AA472D /* UserAllCountModel.swift in Sources */,
 				DFE5F6AC28A8D36A000511E9 /* Constants.swift in Sources */,
 				DF67A05328C9846900435C28 /* FeedbackListCell.swift in Sources */,
+				F430D77C28E5F689004EB90E /* InquiryDetailViewController.swift in Sources */,
 				F49D36E028B6227D000D025D /* SearchModel.swift in Sources */,
 				DF67A05E28CA2F4600435C28 /* AroundStoreModel.swift in Sources */,
 				F478DA4628BCA210003C686A /* StorePaymentTableViewCell.swift in Sources */,
@@ -1031,6 +1038,7 @@
 				DFE0374C28E2F18B00BE9E35 /* SettingViewController.swift in Sources */,
 				DF01A89428C5C94500124788 /* CustomNavigationBar.swift in Sources */,
 				DFF7BEDA28A67DFE00289F39 /* CALayer+Extension.swift in Sources */,
+				F44C1B4428E34732009F623D /* InquiryListViewModel.swift in Sources */,
 				DF38177028A46EF100B900B5 /* CommonPickViewController.swift in Sources */,
 				DF67A05C28CA0F1B00435C28 /* LatestTermsModel.swift in Sources */,
 				DFD672A328C8A71B000220EE /* FeedbackRequestModel.swift in Sources */,
@@ -1245,11 +1253,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = TapPlace/TapPlace.entitlements;
-				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 5NACCZGM3F;
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 5NACCZGM3F;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TapPlace/Info.plist;
@@ -1271,7 +1279,7 @@
 				MARKETING_VERSION = 1.1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = kr.co.tapplace.TapPlace;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE_SPECIFIER = TapPlace;
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = TapPlaceDevelop;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -1289,11 +1297,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = TapPlace/TapPlace.entitlements;
-				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 5NACCZGM3F;
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 5NACCZGM3F;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TapPlace/Info.plist;
@@ -1315,7 +1323,7 @@
 				MARKETING_VERSION = 1.1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = kr.co.tapplace.TapPlace;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE_SPECIFIER = TapPlaceDistribution;
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = TapPlaceDistribution;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;

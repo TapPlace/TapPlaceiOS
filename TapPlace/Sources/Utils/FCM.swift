@@ -7,7 +7,6 @@
 
 import Foundation
 import Firebase
-import FirebaseCore
 
 class FCM {
     static let shared = FCM()

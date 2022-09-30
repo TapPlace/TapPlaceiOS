@@ -9,7 +9,7 @@ import Foundation
 import RealmSwift
 
 struct DB {
-    let realm = try! Realm(configuration: Realm.Configuration(schemaVersion: 10))
+    let realm = try! Realm(configuration: Realm.Configuration(schemaVersion: 11))
     let location: URL = Realm.Configuration.defaultConfiguration.fileURL!
     var userObject: Results<UserModel>?
     var userPaymentsObject: Results<UserFavoritePaymentsModel>?
@@ -66,13 +66,20 @@ extension StorageProtocol {
      * @ 알람 설정 토글
      * coder : sanghyeon
      */
-    mutating func toggleAlarm() -> Bool {
+    mutating func toggleAlarm(fcmToken: String = "") -> Bool {
         let users = dataBases?.realm.objects(UserModel.self).where {
             $0.uuid == Constants.keyChainDeviceID
         }.first
         guard let users = users else { return false }
+        if users.fcmToken != fcmToken {
+            let parameter: [String: Any] = [
+                "user_id": "\(Constants.keyChainDeviceID)",
+                "token": "\(fcmToken)"
+            ]
+            UserDataService().requestFetchUpdateUser(parameter: parameter, header: Constants().header) { _ in }
+        }
         let setAlarm = users.isAlarm ? false : true
-        let setUser = UserModel(uuid: Constants.keyChainDeviceID, isFirstLaunch: users.isFirstLaunch, isAlarm: setAlarm)
+        let setUser = UserModel(uuid: Constants.keyChainDeviceID, isFirstLaunch: users.isFirstLaunch, isAlarm: setAlarm, fcmToken: fcmToken)
         try! dataBases?.realm.write {
             dataBases?.realm.add(setUser, update: .modified)
         }

@@ -14,9 +14,7 @@ import UserNotifications
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
-
-
+    let fcmClass = FCM.shared
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         if let cliendId = Constants.naverClientId {
@@ -84,19 +82,25 @@ extension AppDelegate: UNUserNotificationCenterDelegate, MessagingDelegate {
         Messaging.messaging().apnsToken = deviceToken
     }
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification) async -> UNNotificationPresentationOptions {
-        let userInfo = notification.request.content.userInfo
-        print(userInfo)
         var alertType: UNNotificationPresentationOptions = []
         if #available(iOS 14, *) {
             alertType = [.banner, .list, .sound]
         } else {
             alertType = [.alert, .sound]
         }
+        var storageViewModel = StorageViewModel()
+        let userGetAlarm =  storageViewModel.getAlarm()
+        if !userGetAlarm {
+            return []
+        }
+
         return [alertType]
     }
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse) async {
         let userInfo = response.notification.request.content.userInfo
-        /// print(userInfo)
+        if let pushType = userInfo["type"] as? String {
+            fcmClass.pushType = pushType
+        }
     }
 }

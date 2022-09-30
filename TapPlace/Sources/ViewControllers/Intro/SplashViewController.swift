@@ -157,7 +157,7 @@ extension SplashViewController {
      */
     func exitApp() {
         showToast(message: "서버와의 연동에 실패했습니다.\n잠시 후 앱을 종료합니다.", view: self.view)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+        DispatchQueue.main.asyncAfter(deadline: .now()+2) {
             UIApplication.shared.perform(#selector(NSXPCConnection.suspend))
             exit(0)
         }

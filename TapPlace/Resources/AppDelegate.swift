@@ -23,9 +23,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             NMFAuthManager.shared().clientId = cliendId
             //print("Naver Client ID:", cliendId)
         }
-        if let kakaoApiKey = Constants.kakaoRestApiKey {
-            //print("Kakao Rest Api Key:", kakaoApiKey)
-        }
         
         //MARK: FCM Settings
         FirebaseApp.configure()

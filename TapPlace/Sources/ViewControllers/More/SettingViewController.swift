@@ -266,28 +266,50 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
      * coder : sanghyeon
      */
     @objc func didToggleSwitch(_ sender: UISwitch) {
-        sender.isOn = self.storageViewModel.toggleAlarm()
-        authorization.requestNotificationAuthorization() { result in
-            switch result {
-            case true:
-                print("알림권한 허용")
-                self.fcm.generateFCMToken() { result in
-                    if let result = result {
-                        let parameter: [String: Any] = [
-                            "user_id": "\(Constants.keyChainDeviceID)",
-                            "token": "\(result)"
-                        ]
-                        UserDataService().requestFetchUpdateUser(parameter: parameter, header: Constants().header) { response in
-                            if !response {
-                                showToast(message: "알 수 없는 이유로 서버로 토큰이 전송되지 않았습니다.\n알림이 정상적으로 수신되지 않을 수 있습니다.", view: self.view)
+        authorization.requestNotificationAuthorization() { _ in
+            DispatchQueue.main.async {
+                /// 유저의 설정 값에 따라 서버로 보내는 값 설정
+                var token: String = ""
+                switch sender.isOn {
+                case true:
+                    self.fcm.generateFCMToken() { result in
+                        if let result = result {
+                            token = "\(result)"
+                            let parameter: [String: Any] = [
+                                "user_id": "\(Constants.keyChainDeviceID)",
+                                "token": "\(token)"
+                            ]
+                            print("par: \(parameter)")
+                            UserDataService().requestFetchUpdateUser(parameter: parameter, header: Constants().header) { response in
+                                if response {
+                                    sender.isOn = self.storageViewModel.toggleAlarm()
+                                } else {
+                                    showToast(message: "알 수 없는 이유로 서버로 토큰이 전송되지 않았습니다.\n알림이 정상적으로 수신되지 않을 수 있습니다.", view: self.view)
+                                }
                             }
+                        } else {
+                            showToast(message: "토큰 생성에 실패하였습니다.\n지속적으로 실패할 경우 문의해주시기 바랍니다.", view: self.view)
+                            sender.isOn = false
+                            return
+                        }
+                    }
+                case false:
+                    token = ""
+                    let parameter: [String: Any] = [
+                        "user_id": "\(Constants.keyChainDeviceID)",
+                        "token": "\(token)"
+                    ]
+                    print("par: \(parameter)")
+                    UserDataService().requestFetchUpdateUser(parameter: parameter, header: Constants().header) { response in
+                        if response {
+                            sender.isOn = self.storageViewModel.toggleAlarm()
+                        } else {
+                            showToast(message: "알 수 없는 이유로 설정되지 않았습니다.\n지속적인 문제 발생시 관리자에게 문의하세요.", view: self.view)
                         }
                     }
                 }
-                
-            case false:
-                print("알림권한 거부")
             }
         }
     }
+    
 }

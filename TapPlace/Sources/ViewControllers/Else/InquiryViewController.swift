@@ -11,8 +11,10 @@ import UIKit
 class InquiryViewController: CommonViewController {
     var term = TermsModel(title: "개인정보 수집, 이용동의", isTerm: true, require: true, link: Constants.tapplacePolicyUrl, checked: false)
     var numberOfLetter: Int = 0 // 타이틀 글자수
+    
+    var storeId: String? = ""
     var type: MoreMenuModel.MoreMenuType = .qna
-
+    
     let customNavigationBar = CustomNavigationBar()
     let contentPlaceholder: String = "문의하실 내용을 남겨주세요."
 
@@ -102,6 +104,8 @@ class InquiryViewController: CommonViewController {
         button.isActive = true
 
         configureTableView()
+        
+        print(storeId ?? "")
     }
 
     private func configureTableView() {
@@ -202,6 +206,7 @@ extension InquiryViewController {
         }
     }
 
+    // 문의내역으로 push
     @objc func pushInquiriesVC() {
         let nextVC = InquiryHistoryViewController()
         self.navigationController?.pushViewController(nextVC, animated: true)
@@ -342,15 +347,16 @@ extension InquiryViewController: BottomButtonProtocol {
                     self.button.setButtonStyle(title: "문의하기", type: .activate, fill: true)
                     return
                 }
-
-                let parameter: [String: Any] = [
+                
+                var parameter: [String: Any] = [
                     "key": "\(Constants.tapplaceApiKey)",
                     "user_id": "\(Constants.keyChainDeviceID)",
                     "category": type,
                     "title": titleText,
                     "content": contentText,
                     "answer_check": answerCheck,
-                    "os": "iOS"
+                    "os": "iOS",
+                    "store_id": storeId ?? ""
                 ]
 
                 InquiryService().postInquiry(parameter: parameter) { response,error in

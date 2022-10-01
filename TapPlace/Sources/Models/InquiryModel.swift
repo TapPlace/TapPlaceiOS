@@ -29,7 +29,8 @@ struct InquiryModel: Decodable {
     let os: String
     let answerCheck: Int
     let storeId: String
-    let answer: String
+    let answer: String?
+    let answerDate: String?
 
     enum CodingKeys: String, CodingKey {
         case num
@@ -42,5 +43,6 @@ struct InquiryModel: Decodable {
         case answerCheck = "answer_check"
         case storeId = "store_id"
         case answer
+        case answerDate = "answer_date"
     }
 }

@@ -13,6 +13,10 @@ struct InquiryListViewModel {
 }
 
 extension InquiryListViewModel {
+//    var numberOfSections: Int {
+//        return 2
+//    }
+    
     func numberOfRowsInSection(_ section: Int) -> Int {
         return self.inquiryList.count
     }
@@ -24,29 +28,29 @@ extension InquiryListViewModel {
 }
 
 struct InquiryViewModel {
-    private let inquiryModel: InquiryModel
+    private let inquiry: InquiryModel
 }
 
 extension InquiryViewModel {
-    init(_ inquiryModel: InquiryModel) {
-        self.inquiryModel = inquiryModel
+    init(_ inquiry: InquiryModel) {
+        self.inquiry = inquiry
     }
 }
 
 extension InquiryViewModel {
     var title: String? {
-        return inquiryModel.title
+        return inquiry.title
     }
     
     var content: String? {
-        return inquiryModel.content
+        return inquiry.content
     }
     
     var writeDate: String? {
-        return inquiryModel.writeDate
+        return inquiry.writeDate
     }
     
     var answerCheck: Int? {
-        return inquiryModel.answerCheck
+        return inquiry.answerCheck
     }
 }

@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct StorageViewModel: StorageProtocol {
+class StorageViewModel: StorageProtocol {
     
     var userObject: UserModel?
     var dataBases: DB?

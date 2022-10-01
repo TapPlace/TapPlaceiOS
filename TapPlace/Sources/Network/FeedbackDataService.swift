@@ -35,6 +35,7 @@ extension FeedbackDataService {
                 switch response.result {
                 case .success(let response):
                     var tempResponse = response
+                    if tempResponse.feedbacks.count <= 0 { return }
                     for i in 0...tempResponse.feedbacks.count - 1 {
                         var tempFeedback = tempResponse.feedbacks[i]
                         tempFeedback.date = "\(tempFeedback.date.split(separator: " ")[0])"

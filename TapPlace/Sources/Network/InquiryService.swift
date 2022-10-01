@@ -14,8 +14,9 @@ class InquiryService {
     
     // 문의사항 등록 서비스 로직
     func postInquiry(parameter: Parameters, completion: @escaping (Bool?, Error?) -> ()) {
+        print("parameter: \(parameter)")
         let url = "\(inquiryURL)"
-        AF.request(url, method: .post, parameters: parameter, encoding: URLEncoding.default, headers: nil)
+        AF.request(url, method: .post, parameters: parameter, encoding: URLEncoding.default, headers: Constants().header)
             .validate(statusCode: 200..<300)
             .response { (response) in
                 switch response.result {

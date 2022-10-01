@@ -92,7 +92,16 @@ extension TermsWebViewViewController: CustomNavigationBarProtocol, UIScrollViewD
         term?.checked = true
         /// 옵셔널 바인딩
         guard let term = term else { return }
-        print("*** TermsWebVC, term.title: \(term.title)")
+        
+        if let navigationStacks = self.navigationController?.viewControllers {
+            let stackCount = navigationStacks.count
+            if let _ = navigationStacks[stackCount - 2] as? InquiryViewController {
+                self.delegate?.checkReceiveTerm(term: term, currentTermIndex: self.termIndex)
+                self.navigationController?.popViewController(animated: true)
+            }
+        }
+        
+        
         switch term.title {
         case "서비스 이용약관":
             var parameter = [

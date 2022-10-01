@@ -20,5 +20,8 @@ struct KeyChain {
     
     static func deleteUserDeviceUUID() {
         KeychainWrapper.standard.removeObject(forKey: "uuid")
+        print("키체인 지웠어요")
+        let temp = KeychainWrapper.standard.string(forKey: "uuid") ?? "없어요"
+        print("지우고 다시 불러왔어요" + temp)
     }
 }

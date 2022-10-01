@@ -9,7 +9,7 @@ import Foundation
 import Alamofire
 
 struct Constants {
-    static let userDeviceUUID = CommonUtils.getDeviceUUID()
+    static let userDeviceUUID = UUID().uuidString
     static let keyChainDeviceID = KeyChain.readUserDeviceUUID() ?? userDeviceUUID
     static let naverClientId = Bundle.main.infoDictionary?["NAVER_CLIENT_ID"] as? String
     static let kakaoRestApiKey = Bundle.main.infoDictionary?["KAKAO_REST_API_KEY"] as? String

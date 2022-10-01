@@ -49,6 +49,8 @@ struct UserDataService {
         AF.request(url, method: .post, parameters: parameter, encoding: JSONEncoding.default, headers: header)
             .validate()
             .response() { (response) in
+                print("requestFetchAddUser: parameter: \(parameter)")
+                print("requestFetchAddUser: response: \(response)")
                 switch response.result {
                 case .success(let response):
                     completion(response, nil)
@@ -88,7 +90,7 @@ struct UserDataService {
     func requestFetchDropUser(parameter: [String: Any], header: HTTPHeaders?, completion: @escaping (Bool?, Error?) -> ()) {
         let url = "\(userDropApiUrl)"
         
-        AF.request(url, method: .patch, parameters: parameter, encoding: URLEncoding.default, headers: nil)
+        AF.request(url, method: .patch, parameters: parameter, encoding: URLEncoding.default, headers: header)
             .validate()
             .response() { (response) in
                 switch response.result {
@@ -129,7 +131,8 @@ struct UserDataService {
         AF.request(url, method: .get, headers: Constants().header)
             .validate()
             .responseDecodable(of: UserInfoResponseModel.self) { (response) in
-                print("*** UserDS, requestFetchUserInfo, response: \(response)")
+                
+                print("*** UserDS, requestFetchUserInfo, response: \(response.result)")
                 switch response.result {
                 case .success(let response):
                     if response.userID == userID {
@@ -137,7 +140,8 @@ struct UserDataService {
                     } else {
                         completion(nil)
                     }
-                case .failure(_):
+                case .failure(let error):
+                    print(error)
                     completion(nil)
                 }
             }

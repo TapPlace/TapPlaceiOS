@@ -344,17 +344,16 @@ extension InquiryViewController: BottomButtonProtocol {
                 }
 
                 let parameter: [String: Any] = [
-                    "key": "\(Constants.tapplaceApiKey)",
                     "user_id": "\(Constants.keyChainDeviceID)",
                     "category": type,
                     "title": titleText,
                     "content": contentText,
-                    "answer_check": answerCheck,
+                    "store_id": "",
                     "os": "iOS"
                 ]
 
                 InquiryService().postInquiry(parameter: parameter) { response,error in
-                    if let error = error {
+                    if let _ = error {
                         showToast(message: "알 수 없는 오류가 발생했습니다.\n입력 값을 확인 후 다시 시도해주시기 바랍니다.", view: self.view)
                         self.button.setButtonStyle(title: "문의하기", type: .activate, fill: true)
                         return

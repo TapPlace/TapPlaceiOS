@@ -27,6 +27,7 @@ class MoreViewController: CommonViewController {
         
         // 베타 버전 임시 처리
         alarmButton.isHidden = true
+        //settingButton.isHidden = true
     }
     
     override func viewWillAppear(_ animated: Bool) {

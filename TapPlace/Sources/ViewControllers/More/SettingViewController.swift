@@ -232,10 +232,11 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
                     if let deleteResult = result as? Bool {
                         self.storageViewModel.deleteUser() { result in
                             if deleteResult == true {
+                                print("유저 정보가 다 지워졌어요")
                                 KeyChain.deleteUserDeviceUUID()
-                                DispatchQueue.main.async {
-                                    self.dismiss(animated: true)
-                                    self.present(SplashViewController(), animated: true)
+                                showToast(message: "초기화가 완료 되었습니다.\n잠시 후 앱이 종료됩니다.", view: self.view)
+                                DispatchQueue.main.asyncAfter(deadline: .now()+2) {
+                                    exit(0)
                                 }
                             } else {
                                 showToast(message: "알 수 없는 이유로 초기화에 실패했습니다.\n다시 시도해주시기 바랍니다.", view: self.view)

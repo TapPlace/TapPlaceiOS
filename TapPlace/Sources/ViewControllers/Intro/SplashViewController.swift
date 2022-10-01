@@ -45,6 +45,7 @@ class SplashViewController: UIViewController {
         //userInfoSetting()
         print("*** TAPPLACE API URL: \(Constants.tapplaceApiUrl)")
         print("*** USER UUID: \(Constants.keyChainDeviceID)")
+        print("*** KeyChain.readUserDeviceUUID() : \(KeyChain.readUserDeviceUUID())")
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -58,7 +59,8 @@ class SplashViewController: UIViewController {
             case false:
                 self.exitApp()
             case true:
-                self.countingLabel.countFrom(0, to: CGFloat(self.countOfFeedbacks), withDuration: 1.0)
+                //self.countingLabel.countFrom(0, to: CGFloat(self.countOfFeedbacks), withDuration: 1.0)
+                self.countingLabel.countFromZeroTo(CGFloat(self.countOfFeedbacks), withDuration: 1.0)
                 self.countingLabel.completionBlock = { () in
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                         self.checkExistsUser { result in
@@ -118,6 +120,7 @@ extension SplashViewController {
             let countingLabel = EFCountingLabel(frame: self.view.frame)
             countingLabel.sizeToFit()
             countingLabel.textColor = .white
+            countingLabel.text = "0"
             countingLabel.font = .systemFont(ofSize: CommonUtils.resizeFontSize(size: 25), weight: .semibold)
             return countingLabel
         }()
@@ -132,8 +135,14 @@ extension SplashViewController {
         
         countingLabel.setUpdateBlock { value, label in
             let numberFormatter = NumberFormatter()
-            numberFormatter.numberStyle = .decimal
-            label.text = numberFormatter.string(for: value)
+            numberFormatter.numberStyle = .percent
+            
+            /// 스위프트 기본 넘버 포매터 사용시, 자릿수 반환 문제로 Percent 처리 후 치환함
+            var resultValue = "0"
+            if let formattedValue = numberFormatter.string(for: value / 100) {
+                resultValue = formattedValue
+            }
+            label.text = resultValue.replacingOccurrences(of: "%", with: "")
         }
         
         view.addSubview(countingLabel)

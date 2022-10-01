@@ -13,7 +13,7 @@ struct APIToken {
     
     static func generateToken() -> String {
         let jwtHeader = Header()
-        let payload = APIPayload(exp: Date(timeIntervalSinceNow: 5))
+        let payload = APIPayload(userID: Constants.keyChainDeviceID, exp: Date(timeIntervalSinceNow: 5))
         var jwtToken = JWT(header: jwtHeader, claims: payload)
         
         guard let secretKeyData = secretKey.data(using: .utf8) else { return "" }
@@ -30,5 +30,12 @@ struct APIToken {
 
 struct APIPayload: Claims, Codable {
     let role: String = "user"
+    let userID: String
     let exp: Date
+    
+    enum CodingKeys: String, CodingKey {
+        case role
+        case userID = "user_id"
+        case exp
+    }
 }

@@ -5,7 +5,7 @@
 //  Created by 이상준 on 2022/09/30.
 //
 
-import Foundation
+import UIKit
 
 class InquiryDetailViewController: UIViewController {
     var noticeTitle: String? = ""
@@ -62,7 +62,7 @@ class InquiryDetailViewController: UIViewController {
     }
 }
 
-extension NoticeDetailViewController {
+extension InquiryDetailViewController {
     private func setupView() {
         self.view.backgroundColor = .white
     }
@@ -105,7 +105,7 @@ extension NoticeDetailViewController {
 }
 
 // MARK: - 커스텀 네비게이션 바 프로토콜 구현
-extension NoticeDetailViewController: CustomNavigationBarProtocol {
+extension InquiryDetailViewController: CustomNavigationBarProtocol {
     func didTapLeftButton() {
         self.navigationController?.popViewController(animated: true)
     }

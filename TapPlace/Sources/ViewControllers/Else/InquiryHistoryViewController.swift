@@ -147,7 +147,6 @@ extension InquiryHistoryViewController: UITableViewDataSource, UITableViewDelega
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
-            print("호출")
             guard let cell = tableView.dequeueReusableCell(withIdentifier: InquiryCell.identifier, for: indexPath) as? InquiryCell else { fatalError("no matched articleTableViewCell identifier") }
             let inquiry = self.inquiryResult[indexPath.row]
             cell.selectionStyle = .none

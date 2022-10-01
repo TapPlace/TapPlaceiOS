@@ -80,9 +80,9 @@ class InquiryDetailViewController: UIViewController {
     
     let noAnwserLbl: UILabel = {
         let noAnswerLbl = UILabel()
-        noAnswerLbl.text = "아직 답변이 등록되지 않았습니다"
-        noAnswerLbl.font = .systemFont(ofSize: 17)
-        noAnswerLbl.textColor = .init(hex: 0x707070)
+        noAnswerLbl.text = "담당자가 문의내용을 확인하고 있습니다."
+        noAnswerLbl.font = .systemFont(ofSize: 15)
+        noAnswerLbl.textColor = .init(hex: 0x9E9E9E)
         noAnswerLbl.sizeToFit()
         return noAnswerLbl
     }()
@@ -186,10 +186,9 @@ extension InquiryDetailViewController {
             acceptLbl.backgroundColor = .init(hex: 0xF4F7FF)
         } else {
             responseDateLbl.text = ""
-            
             answerLbl.addSubview(noAnwserLbl)
             noAnwserLbl.snp.makeConstraints {
-                $0.center.equalToSuperview()
+                $0.centerY.equalToSuperview()
             }
         }
     }

@@ -507,6 +507,7 @@ extension StoreDetailViewController: CustomNavigationBarProtocol, CustomToolBarS
     @objc func didTapRequestButton() {
         let vc = InquiryViewController()
         vc.type = .edit
+        vc.storeId = storeInfo?.storeID
         self.navigationController?.pushViewController(vc, animated: true)
     }
     /**

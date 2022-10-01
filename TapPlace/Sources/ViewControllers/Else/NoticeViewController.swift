@@ -129,6 +129,9 @@ extension NoticeViewController: CustomNavigationBarProtocol {
 // MARK: - 테이블 뷰 델리게이트, 데이터소스
 extension NoticeViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if indexPath.section == 1 {
+            return 0
+        }
         return 74
     }
     
@@ -144,11 +147,16 @@ extension NoticeViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: NoticeCell.identifier, for: indexPath) as! NoticeCell
-        let notice = self.noticeResult[indexPath.row]
-        cell.selectionStyle = .none
-        cell.prepare(title: notice.title, content: notice.content, writeDate: getOnlyDate(writeDate: notice.writeDate))
-        return cell
+        if indexPath.section == 1 {
+            return UITableViewCell()
+        } else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: NoticeCell.identifier, for: indexPath) as! NoticeCell
+            let notice = self.noticeResult[indexPath.row]
+            print(notice.writeDate)
+            cell.selectionStyle = .none
+            cell.prepare(title: notice.title, content: notice.content, writeDate: getOnlyDate(writeDate: notice.writeDate))
+            return cell
+        }
     }
     
     // 공지사항 셀 선택시 해당 공지사항 상세보기 페이지로 이동

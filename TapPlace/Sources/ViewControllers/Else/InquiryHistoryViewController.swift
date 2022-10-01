@@ -14,7 +14,7 @@ class InquiryHistoryViewController: CommonViewController {
     let customNavigationBar = CustomNavigationBar()
     private var inquiryListVM: InquiryListViewModel!
     
-    var inquiryResult: [InquiryModel] = []
+    var inquiryResult = [InquiryModel]()
     var inquiryPage = 1
     var isEnd = false
     
@@ -28,8 +28,9 @@ class InquiryHistoryViewController: CommonViewController {
         customNavigationBar.isDrawBottomLine = false
         customNavigationBar.titleText = "문의내역"
         customNavigationBar.isUseLeftButton = true
-
+        
         requestInquiry()
+        self.configureTableView()
     }
     
     private lazy var inquiryTableView: UITableView = {
@@ -44,18 +45,18 @@ class InquiryHistoryViewController: CommonViewController {
     func requestInquiry() {
         InquiryService().getInquiries(page: "\(inquiryPage)") { (inquiry, isEnd, error) in
             if let inquiry = inquiry {
-                print("InquiryService().getInquiries 호출")
-                if inquiry.count > 0 {
+                print(inquiry.count)
+                self.inquiryListVM = InquiryListViewModel(inquiryList: inquiry, isEnd: isEnd)
+                self.inquiryResult += inquiry
+                print(self.inquiryResult.count)
+                self.isEnd = isEnd
+                
+                if self.inquiryResult.count > 0 {
                     self.view.addSubview(self.inquiryTableView)
                     self.inquiryTableView.snp.makeConstraints {
                         $0.top.equalTo(self.customNavigationBar.snp.bottom)
                         $0.leading.trailing.bottom.equalToSuperview()
                     }
-                    
-                    self.isEnd = isEnd
-                    self.inquiryListVM = InquiryListViewModel(inquiryList: inquiry, isEnd: isEnd)
-                    self.inquiryResult += inquiry
-                    self.configureTableView()
                 } else {
                     let label: UILabel = {
                         let label = UILabel()
@@ -127,6 +128,9 @@ extension InquiryHistoryViewController: CustomNavigationBarProtocol {
 // MARK: - 테이블 뷰 데이터 소스, 델리게이트
 extension InquiryHistoryViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if indexPath.section == 1 {
+            return 0
+        }
         return 82
     }
     
@@ -138,16 +142,37 @@ extension InquiryHistoryViewController: UITableViewDataSource, UITableViewDelega
         if section == 1 {
             return 0
         }
-        return inquiryResult.count
+        return self.inquiryResult.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: InquiryCell.identifier, for: indexPath) as! InquiryCell
-        cell.selectionStyle = .none
-        let inquiry = self.inquiryResult[indexPath.row]
-        cell.prepare(title: inquiry.title, writeDate: self.getOnlyDate(writeDate: inquiry.writeDate), content: inquiry.content, answerCheck: inquiry.answerCheck)
-        return cell
+        if indexPath.section == 0 {
+            print("호출")
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: InquiryCell.identifier, for: indexPath) as? InquiryCell else { fatalError("no matched articleTableViewCell identifier") }
+            let inquiry = self.inquiryResult[indexPath.row]
+            cell.selectionStyle = .none
+            cell.prepare(title: inquiry.title, writeDate: self.getOnlyDate(writeDate: inquiry.writeDate), content: inquiry.content, answerCheck: inquiry.answerCheck)
+            
+            return cell
+        }
+        return UITableViewCell()
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let inquiry = self.inquiryResult[indexPath.row]
+        let nextVC = InquiryDetailViewController()
+        nextVC.noticeTitle = inquiry.title
+        nextVC.writeDate = self.getOnlyDate(writeDate: inquiry.writeDate)
+        nextVC.content = inquiry.content
+        nextVC.answer = inquiry.answer
+        nextVC.answerCheck = inquiry.answerCheck
+        
+        if inquiry.answerDate != "" {
+            nextVC.answerDate = self.getOnlyDate(writeDate: inquiry.answerDate)
+        }
+        self.navigationController?.pushViewController(nextVC, animated: true)
+    }
+    
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         if section != 1 || isEnd == true { return .zero }
@@ -155,6 +180,7 @@ extension InquiryHistoryViewController: UITableViewDataSource, UITableViewDelega
     }
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         if section != 1 { return nil }
+        if isEnd { return nil }
         let footerView = UIView()
         let expendButton = TableViewExpendButton(type: .system)
         expendButton.setTitle("문의내역 더보기", for: .normal)
@@ -167,7 +193,7 @@ extension InquiryHistoryViewController: UITableViewDataSource, UITableViewDelega
     }
     
     @objc func didTapExpendButton() {
-        if isEnd == true {
+        if isEnd {
             showToast(message: "마지막 페이지 입니다.", view: self.view)
         } else {
             inquiryPage += 1

@@ -25,6 +25,7 @@ class InquiryCell: UITableViewCell {
         acceptLbl.font = .systemFont(ofSize: 12)
         acceptLbl.textColor = .init(hex: 0x9E9E9E)
         acceptLbl.layer.borderWidth = 1
+        acceptLbl.layer.borderColor = .init(UIColor(hex: 0x9E9E9E).cgColor)
         acceptLbl.layer.cornerRadius = 10
         acceptLbl.textAlignment = .center
         return acceptLbl
@@ -68,7 +69,7 @@ class InquiryCell: UITableViewCell {
         }
         
         timeLbl.snp.makeConstraints {
-            $0.top.equalTo(titleLbl.snp.bottom).offset(11)
+            $0.top.equalTo(titleLbl.snp.bottom).offset(12)
             $0.leading.equalTo(acceptLbl.snp.trailing).offset(8)
         }
     }
@@ -78,12 +79,23 @@ class InquiryCell: UITableViewCell {
         self.timeLbl.text = writeDate
         
         if answerCheck == 1 {
-            acceptLbl.text = "답변완료"
-            acceptLbl.textColor = .init(hex: 0x4E77FB)
+            self.acceptLbl.text = "답변완료"
+            self.acceptLbl.textColor = .init(hex: 0x4E77FB)
+            self.acceptLbl.layer.borderWidth = 1
+            self.acceptLbl.layer.borderColor = UIColor.init(hex: 0x4E77FB).cgColor
+            self.acceptLbl.backgroundColor = .white
+            self.acceptLbl.layer.cornerRadius = 10
+            self.acceptLbl.layer.masksToBounds = true
+            self.acceptLbl.backgroundColor = .init(hex: 0xF4F7FF)
+        } else {
+            acceptLbl.text = "접수완료"
+            acceptLbl.font = .systemFont(ofSize: 12)
+            acceptLbl.textColor = .init(hex: 0x9E9E9E)
             acceptLbl.layer.borderWidth = 1
-            acceptLbl.layer.borderColor = UIColor.init(hex: 0x4E77FB).cgColor
-            acceptLbl.backgroundColor = .white
+            acceptLbl.layer.borderColor = .init(UIColor(hex: 0x9E9E9E).cgColor)
             acceptLbl.layer.cornerRadius = 10
+            acceptLbl.textAlignment = .center
+            self.acceptLbl.backgroundColor = .white
         }
     }
 }

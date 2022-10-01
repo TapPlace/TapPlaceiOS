@@ -572,7 +572,7 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
             showToast(message: "마지막 검색 결과 입니다.", view: self.view)
         } else {
             isPaging += 1
-            requestPlace()
+//            requestPlace()
         }
     }
     

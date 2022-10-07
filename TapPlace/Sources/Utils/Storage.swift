@@ -70,7 +70,7 @@ extension StorageProtocol {
         let users = dataBases?.realm.objects(UserModel.self).where {
             $0.uuid == Constants.keyChainDeviceID
         }.first
-        print("toggleAlarm: users: \(users)")
+        
         guard let users = users else { return false }
         
         if users.fcmToken != fcmToken {
@@ -78,7 +78,6 @@ extension StorageProtocol {
                 "user_id": "\(Constants.keyChainDeviceID)",
                 "token": "\(fcmToken)"
             ]
-            print("toggleAlarm: parameter: \(parameter)")
             UserDataService().requestFetchUpdateUser(parameter: parameter, header: Constants().header) { _ in }
         }
         let setAlarm = users.isAlarm ? false : true

@@ -27,7 +27,6 @@ class UserViewModel {
                 "user_id": "\(Constants.keyChainDeviceID)"
             ]
         }
-        print(Constants().header)
         userDataService.requestFetchLatestTerms(parameter: parameter, header: Constants().header) { result, error in
             if let error = error {
                 completion(nil, error)
@@ -103,7 +102,6 @@ class UserViewModel {
      */
     func requestUserAllCount() {
         userDataService.requestFetchUserAllCount(userID: Constants.keyChainDeviceID) { result in
-            print("*** UserVM, requestUserAllCount, result: \(result)")
             self.userAllCount = result
         }
     }

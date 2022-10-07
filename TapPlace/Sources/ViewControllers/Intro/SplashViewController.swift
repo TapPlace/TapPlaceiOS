@@ -43,9 +43,9 @@ class SplashViewController: UIViewController {
         checkUUID()
         setupView()
         //userInfoSetting()
-        print("*** TAPPLACE API URL: \(Constants.tapplaceApiUrl)")
-        print("*** USER UUID: \(Constants.keyChainDeviceID)")
-        print("*** KeyChain.readUserDeviceUUID() : \(KeyChain.readUserDeviceUUID())")
+//        print("*** TAPPLACE API URL: \(Constants.tapplaceApiUrl)")
+//        print("*** USER UUID: \(Constants.keyChainDeviceID)")
+//        print("*** KeyChain.readUserDeviceUUID() : \(KeyChain.readUserDeviceUUID())")
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -196,7 +196,6 @@ extension SplashViewController {
      */
     func checkExistsUser(completion: @escaping (Bool) -> ()) {
         self.userViewModel.requestLatestTerms(checkOnly: false) { result, error in
-            print("*********** \(result)")
             if let _ = error {
                 self.isExistsUser = false
                 completion(false)

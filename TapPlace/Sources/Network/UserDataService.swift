@@ -131,8 +131,6 @@ struct UserDataService {
         AF.request(url, method: .get, headers: Constants().header)
             .validate()
             .responseDecodable(of: UserInfoResponseModel.self) { (response) in
-                
-                print("*** UserDS, requestFetchUserInfo, response: \(response.result)")
                 switch response.result {
                 case .success(let response):
                     if response.userID == userID {

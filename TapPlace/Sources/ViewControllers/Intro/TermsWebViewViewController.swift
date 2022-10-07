@@ -95,7 +95,12 @@ extension TermsWebViewViewController: CustomNavigationBarProtocol, UIScrollViewD
         
         if let navigationStacks = self.navigationController?.viewControllers {
             let stackCount = navigationStacks.count
+            print("navigationStacks: \(navigationStacks)")
             if let _ = navigationStacks[stackCount - 2] as? InquiryViewController {
+                self.delegate?.checkReceiveTerm(term: term, currentTermIndex: self.termIndex)
+                self.navigationController?.popViewController(animated: true)
+            }
+            if let _ = navigationStacks[stackCount - 2] as? SuggestedViewController {
                 self.delegate?.checkReceiveTerm(term: term, currentTermIndex: self.termIndex)
                 self.navigationController?.popViewController(animated: true)
             }

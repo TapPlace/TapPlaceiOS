@@ -8,8 +8,14 @@
 import Foundation
 import Firebase
 
-struct FCM {
+class FCM {
     static let shared = FCM()
+    
+    /**
+     * @ FCM으로 받은 얼럿타입 저장
+     * coder : sanghyeon
+     */
+    var pushType: String = ""
     
     /**
      * @ FCM 토큰 생성

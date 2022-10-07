@@ -14,37 +14,44 @@ import UserNotifications
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
-
-
+    let fcmClass = FCM.shared
+    var storageViewModel = StorageViewModel()
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         if let cliendId = Constants.naverClientId {
             NMFAuthManager.shared().clientId = cliendId
             //print("Naver Client ID:", cliendId)
         }
-        if let kakaoApiKey = Constants.kakaoRestApiKey {
-            //print("Kakao Rest Api Key:", kakaoApiKey)
-        }
         
         //MARK: FCM Settings
         FirebaseApp.configure()
         UNUserNotificationCenter.current().delegate = self
         Messaging.messaging().delegate = self
-        if #available(iOS 10.0, *) {
-          // For iOS 10 display notification (sent via APNS)
-          UNUserNotificationCenter.current().delegate = self
-
-          let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
-          UNUserNotificationCenter.current().requestAuthorization(
-            options: authOptions,
-            completionHandler: { _, _ in }
-          )
-        } else {
-          let settings: UIUserNotificationSettings =
-            UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
-          application.registerUserNotificationSettings(settings)
-        }
+        
+        
+//        if #available(iOS 10.0, *) {
+//          // For iOS 10 display notification (sent via APNS)
+//          UNUserNotificationCenter.current().delegate = self
+//
+//          let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
+//            UNUserNotificationCenter.current().requestAuthorization(options: authOptions) { granted, error in
+//                if let _ = error {
+//                    
+//                } else {
+//                    if granted {
+//                        self.fcmClass.generateFCMToken() { result in
+//                            if let result = result {
+//                                self.storageViewModel.toggleAlarm(fcmToken: result)
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//        } else {
+//          let settings: UIUserNotificationSettings =
+//            UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
+//          application.registerUserNotificationSettings(settings)
+//        }
 
         
         application.registerForRemoteNotifications()
@@ -87,19 +94,25 @@ extension AppDelegate: UNUserNotificationCenterDelegate, MessagingDelegate {
         Messaging.messaging().apnsToken = deviceToken
     }
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification) async -> UNNotificationPresentationOptions {
-        let userInfo = notification.request.content.userInfo
-        print(userInfo)
         var alertType: UNNotificationPresentationOptions = []
         if #available(iOS 14, *) {
             alertType = [.banner, .list, .sound]
         } else {
             alertType = [.alert, .sound]
         }
+        var storageViewModel = StorageViewModel()
+        let userGetAlarm =  storageViewModel.getAlarm()
+        if !userGetAlarm {
+            return []
+        }
+
         return [alertType]
     }
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse) async {
         let userInfo = response.notification.request.content.userInfo
-        /// print(userInfo)
+        if let pushType = userInfo["type"] as? String {
+            fcmClass.pushType = pushType
+        }
     }
 }

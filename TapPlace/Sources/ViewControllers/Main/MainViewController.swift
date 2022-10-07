@@ -15,6 +15,8 @@ import FloatingPanel
 
 class MainViewController: CommonViewController {
     
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    
     var disposalbleBag = Set<AnyCancellable>()
     var aroundStoreList: [AroundStores]?
     
@@ -53,6 +55,7 @@ class MainViewController: CommonViewController {
     //MARK: ViewLifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        checkPushNotification()
         setBindings()
         setupView()
         setupNaverMap()
@@ -94,6 +97,20 @@ class MainViewController: CommonViewController {
 }
 //MARK: - ViewModel
 extension MainViewController {
+    /**
+     * @ 푸시노티 타입 체크
+     * coder : sanghyeon
+     */
+    func checkPushNotification() {
+        let pushType = appDelegate.fcmClass.pushType
+        print("*** MainVC, pushType: \(pushType)")
+        switch pushType {
+        case "qna":
+            let vc = InquiryHistoryViewController()
+            self.navigationController?.pushViewController(vc, animated: true)
+        default: break
+        }
+    }
     fileprivate func setBindings() {
         self.storeViewModel.$aroundStoreArray.sink { (result: AroundStoreModel?) in
             self.aroundStoreList = result?.stores
@@ -586,6 +603,8 @@ extension MainViewController: CLLocationManagerDelegate, NMFMapViewCameraDelegat
 //        print("*** Touched Point Location: \(latlng)")
         print("*** MainVC, for Test, \(Constants().header)")
         print("*** MainVC, for Test, \(storeViewModel.selectStoreArray)")
+        let pushType = appDelegate.fcmClass.pushType
+        print("*** MainVC, pushType: \(pushType)")
     }
     
     func mapView(_ mapView: NMFMapView, didTap symbol: NMFSymbol) -> Bool {

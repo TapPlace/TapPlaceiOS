@@ -92,6 +92,8 @@ extension String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyyMMdd"
         
+        if self == "" { return nil }
+        
         let dateObj = dateFormatter.date(from: self)
         dateFormatter.dateFormat = "yyyy-MM-dd"
         if let dateObj = dateObj {

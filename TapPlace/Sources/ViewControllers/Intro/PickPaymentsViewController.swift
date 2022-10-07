@@ -19,6 +19,7 @@ class PickPaymentsViewController: CommonPickViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
+        bottomButtonUpdate()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -65,7 +66,14 @@ extension PickPaymentsViewController: BottomButtonProtocol, TitleViewProtocol, C
                 vc.modalPresentationStyle = .fullScreen
                 
                 userViewModel.sendUserInfo(user: UserRegisterModel.setUser) { result in
+                    print("sendUserInfo, userID: \(UserRegisterModel.setUser.userID)")
 //                    if let result = result {
+                    
+                    let tempUser = self.storageViewModel.getUserInfo(uuid: Constants.keyChainDeviceID)
+                    if tempUser == nil {
+                        let user = UserModel(uuid: Constants.keyChainDeviceID, isFirstLaunch: false, fcmToken: "")
+                        self.storageViewModel.writeUser(user)
+                    }
                         self.storageViewModel.setPayments(self.selectedPayments)
                         self.present(vc, animated: true)
 //                    } else {

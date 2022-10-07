@@ -22,13 +22,15 @@ class UserModel: Object {
     @Persisted(primaryKey: true) var uuid: String = Constants.keyChainDeviceID
     @Persisted var isFirstLaunch: Bool = false
     @Persisted var isAlarm: Bool = false
+    @Persisted var fcmToken: String = ""
 
     
-    convenience init(uuid: String, isFirstLaunch: Bool, isAlarm: Bool = false) {
+    convenience init(uuid: String, isFirstLaunch: Bool, isAlarm: Bool = false, fcmToken: String = "") {
         self.init()
         self.uuid = uuid
         self.isFirstLaunch = isFirstLaunch
         self.isAlarm = isAlarm
+        self.fcmToken = fcmToken
     }
 }
 

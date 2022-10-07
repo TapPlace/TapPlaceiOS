@@ -2,7 +2,7 @@
 //  AroundFilterViewController.swift
 //  TapPlace
 //
-//  Created by 박상현 on 2022/08/23.
+//  Created by 박상현 on 2022/08/23. 
 //
 
 import UIKit
@@ -16,12 +16,7 @@ class AroundFilterViewController: UIViewController {
     var delegate: AroundPlaceApplyFilterProtocol?
     let storeCategory: [StoreModel] = StoreModel.lists.filter({$0.id != "refresh"})
     var storageViewModel = StorageViewModel()
-    var storeViewModel: StoreViewModel? = nil {
-        willSet {
-            print("*** AroundFilterVC, self: \(self)")
-            print("*** AroundFilterVC, storeVM, willSet, userLocationGeoAddress: \(newValue?.userLocationGeoAddress)")
-        }
-    }
+    var storeViewModel: StoreViewModel?
     var isFirstLoaded: Bool = true
 
     let scrollView = UIScrollView()
@@ -29,7 +24,7 @@ class AroundFilterViewController: UIViewController {
     let storeResetView = FilterResetButtonView()
     let paymentResetView = FilterResetButtonView()
     
-    var tempStores: [StoreModel] = AroundFilterModel.storeList
+    var tempStores: [StoreModel] = [] //AroundFilterModel.storeList
     var tempPayments: [PaymentModel] = AroundFilterModel.paymentList
     
     let storeCollectionView: UICollectionView = {
@@ -249,8 +244,13 @@ extension AroundFilterViewController: FilterResetProtocol {
         storeResetView.delegate = self
         paymentResetView.delegate = self
         
-        
-
+        if let selectStoreArray = storeViewModel?.selectStoreArray {
+            for selectStore in selectStoreArray {
+                if let storeModel: StoreModel = StoreModel.lists.first(where: {$0.title == selectStore}) {
+                    tempStores.append(storeModel)
+                }
+            }
+        }
     }
      
     @objc func didTapCloseButton() {
@@ -294,10 +294,11 @@ extension AroundFilterViewController: UICollectionViewDelegate, UICollectionView
         switch collectionView {
         case storeCollectionView:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "distanceItem", for: indexPath) as? PickPaymentsCollectionViewCell else { return UICollectionViewCell() }
-            cell.itemText.text = storeCategory[indexPath.row].title
+            let cellTitle = storeCategory[indexPath.row].title
+            cell.itemText.text = cellTitle
             cell.cellVariable = storeCategory[indexPath.row].id
             
-            if let _ = tempStores.first(where: {$0.id == cell.cellVariable}) {
+            if let _ = storeViewModel?.selectStoreArray.first(where: {$0 == cellTitle}) {
                 cell.cellSelected = true
             }
             return cell

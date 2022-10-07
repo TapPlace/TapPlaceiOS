@@ -49,6 +49,7 @@ class UserViewModel {
         } else {
             guard let user = user else { return }
             let formattedDate = user.birth.toDateString()
+            
             parameter = [
                 "user_id": user.userID,
                 "os": user.os,
@@ -56,11 +57,10 @@ class UserViewModel {
                 "sex" : user.sex,
                 "personal_date" : user.personalDate,
                 "service_date" : user.serviceDate,
-                "marketing_agree": user.marketingAgree
+                "marketing_agree": user.marketingAgree,
+                "birth": formattedDate ?? "",
+                "token": ""
             ]
-            if let formattedDate = formattedDate {
-                parameter!["birth"] = formattedDate
-            }
         }
         
         guard let parameter = parameter else { return }
@@ -86,8 +86,10 @@ class UserViewModel {
             "user_id": "\(Constants.keyChainDeviceID)"
         ]
         
+        
         userDataService.requestFetchDropUser(parameter: parameter, header: Constants().header) { result, error in
             if let error = error {
+                print("parameter: \(parameter)\nerror: \(error)")
                 completion(error)
             }
             completion(result)
@@ -100,7 +102,6 @@ class UserViewModel {
      */
     func requestUserAllCount() {
         userDataService.requestFetchUserAllCount(userID: Constants.keyChainDeviceID) { result in
-            print("*** UserVM, requestUserAllCount, result: \(result)")
             self.userAllCount = result
         }
     }

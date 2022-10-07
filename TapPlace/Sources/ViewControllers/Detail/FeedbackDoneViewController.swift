@@ -7,12 +7,13 @@
 
 import UIKit
 
-class FeedbackDoneViewController: CommonViewController, UIScrollViewDelegate {
+class FeedbackDoneViewController: CommonViewController {
     
     let customNavigationBar = CustomNavigationBar()
     var feedbackResult: [FeedbackResult]? = nil
     var storeID: String?
     var remainCount: Int = 0
+    var contentViewHeight: CGFloat = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,10 +25,24 @@ class FeedbackDoneViewController: CommonViewController, UIScrollViewDelegate {
         customNavigationBar.isDrawBottomLine = false
         customNavigationBar.isUseLeftButton = true
         
+        scrollView.delegate = self
         configureTableView()
+        updateScrollView()
     }
     
     var resultLabel: UILabel = UILabel()
+    
+    let scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.backgroundColor = .white
+        return scrollView
+    }()
+    
+    let contentView = UIView()
+    let imgView = UIImageView()
+    let lineView = UIView()
+    let titleLbl = UILabel()
+    let button = BottomButton()
     
     private lazy var storePaymentTableView: UITableView = {
         let storePaymentTableView = UITableView()
@@ -35,7 +50,7 @@ class FeedbackDoneViewController: CommonViewController, UIScrollViewDelegate {
         storePaymentTableView.separatorInset.left = 20
         storePaymentTableView.separatorInset.right = 20
         storePaymentTableView.allowsSelection = false
-//        storePaymentTableView.isScrollEnabled = false
+        storePaymentTableView.isScrollEnabled = false
         return storePaymentTableView
     }()
     
@@ -69,6 +84,8 @@ extension FeedbackDoneViewController: BottomButtonProtocol {
     }
     
     private func setLayout() {
+        contentView.backgroundColor = .white
+        
         let naviTitle: UILabel = {
             let naviTitle = UILabel()
             naviTitle.font = .boldSystemFont(ofSize: 17)
@@ -76,11 +93,7 @@ extension FeedbackDoneViewController: BottomButtonProtocol {
             return naviTitle
         }()
         
-        let imgView: UIImageView = {
-            let imgView = UIImageView()
-            imgView.image = UIImage(named: "feedback_image")
-            return imgView
-        }()
+        imgView.image = UIImage(named: "feedback_image")
         
         resultLabel = {
             let resultLabel = UILabel()
@@ -93,26 +106,14 @@ extension FeedbackDoneViewController: BottomButtonProtocol {
             return resultLabel
         }()
         
-        let lineView: UIView = {
-            let lineView = UIView()
-            lineView.backgroundColor = UIColor(red: 0.859, green: 0.871, blue: 0.91, alpha: 0.4)
-            return lineView
-        }()
+        lineView.backgroundColor = UIColor(red: 0.859, green: 0.871, blue: 0.91, alpha: 0.4)
         
-        let titleLbl: UILabel = {
-            let titleLbl = UILabel()
-            titleLbl.text = "결과확인"
-            titleLbl.font = .systemFont(ofSize: 15)
-            titleLbl.textColor = .init(hex: 0x707070)
-            titleLbl.sizeToFit()
-            return titleLbl
-        }()
+        titleLbl.text = "결과확인"
+        titleLbl.font = .systemFont(ofSize: 15)
+        titleLbl.textColor = .init(hex: 0x707070)
+        titleLbl.sizeToFit()
         
-        let button: BottomButton = {
-            let button = BottomButton()
-            button.setButtonStyle(title: "확인", type: .activate, fill: true)
-            return button
-        }()
+        button.setButtonStyle(title: "확인", type: .activate, fill: true)
         button.delegate = self
         
         view.addSubview(customNavigationBar)
@@ -127,23 +128,37 @@ extension FeedbackDoneViewController: BottomButtonProtocol {
             $0.centerX.equalTo(customNavigationBar)
         }
         
-        view.addSubview(imgView)
+        view.addSubview(scrollView)
+        scrollView.snp.makeConstraints {
+            $0.top.equalTo(customNavigationBar.snp.bottom)
+            $0.leading.trailing.equalToSuperview()
+            $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-50)
+        }
+        
+        scrollView.addSubview(contentView)
+        contentView.snp.makeConstraints {
+            $0.edges.equalTo(scrollView)
+            $0.width.equalTo(view.frame.width)
+            $0.height.equalTo(contentViewHeight)
+        }
+        
+        contentView.addSubview(imgView)
         imgView.snp.makeConstraints {
-            $0.top.equalTo(customNavigationBar.snp.bottom).offset(30)
+            $0.top.equalToSuperview().offset(30)
             $0.centerX.equalToSuperview()
             $0.width.height.equalTo(60)
         }
         
-        view.addSubview(resultLabel)
+        contentView.addSubview(resultLabel)
         resultLabel.snp.makeConstraints {
             $0.top.equalTo(imgView.snp.bottom).offset(18)
             $0.centerX.equalToSuperview()
         }
         
-        view.addSubview(lineView)
+        contentView.addSubview(lineView)
         lineView.snp.makeConstraints {
             $0.top.equalTo(resultLabel.snp.bottom).offset(30)
-            $0.leading.trailing.equalToSuperview()
+            $0.leading.trailing.equalTo(scrollView)
             $0.height.equalTo(6)
         }
         
@@ -153,17 +168,32 @@ extension FeedbackDoneViewController: BottomButtonProtocol {
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-50)
         }
         
-        view.addSubview(titleLbl)
+        contentView.addSubview(titleLbl)
         titleLbl.snp.makeConstraints {
             $0.top.equalTo(lineView.snp.bottom).offset(24)
             $0.leading.equalToSuperview().offset(20)
         }
         
-        view.addSubview(storePaymentTableView)
+        contentView.addSubview(storePaymentTableView)
         storePaymentTableView.snp.makeConstraints {
             $0.top.equalTo(titleLbl.snp.bottom).offset(20)
             $0.leading.trailing.equalToSuperview()
             $0.bottom.equalTo(button.snp.top)
+        }
+    }
+    
+    func updateScrollView() {
+        guard let feedbackResult = feedbackResult else { return }
+        
+        let elseHeight: CGFloat = 30 + imgView.frame.height + 18 + resultLabel.frame.height + 30 + lineView.frame.height + 24 + titleLbl.frame.height + 20 + button.frame.height + 65
+        let tableViewHeight: CGFloat = CGFloat(140 * feedbackResult.count)
+        
+        contentViewHeight = elseHeight + tableViewHeight
+        
+        contentView.snp.remakeConstraints {
+            $0.edges.equalTo(scrollView)
+            $0.width.equalTo(view.frame.width)
+            $0.height.equalTo(contentViewHeight)
         }
     }
 }
@@ -199,5 +229,10 @@ extension FeedbackDoneViewController: UITableViewDataSource, UITableViewDelegate
         cell.feedback = Feedback(num: 0, storeID: nil, success: feedback.success, fail: feedback.fail, lastState: feedback.lastState, lastTime: nil, pay: feedback.pay, exist: true)
         
         return cell
+    }
+}
+
+extension FeedbackDoneViewController: UIScrollViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
     }
 }

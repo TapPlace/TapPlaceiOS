@@ -104,8 +104,6 @@ class InquiryViewController: CommonViewController {
         button.isActive = true
 
         configureTableView()
-        
-        print(storeId ?? "")
     }
 
     private func configureTableView() {

@@ -13,6 +13,7 @@ class CommonViewController: UIViewController {
     var storageViewModel = StorageViewModel()
     var bookmarkViewModel = BookmarkViewModel()
     var feedbackViewModel = FeedbackViewModel()
+    var noticeListViewModel = NoticeListViewModel()
     var inquiryListViewModel = InquiryListViewModel()
     var userViewModel = UserViewModel()
     let authorization = Authorization.shared

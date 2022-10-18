@@ -5,10 +5,8 @@
 //  Created by 이상준 on 2022/09/27.
 //
 
-import Foundation
-import Combine
 import UIKit
-
+import Combine
 
 // 문의내역
 class InquiryHistoryViewController: CommonViewController {
@@ -30,8 +28,8 @@ class InquiryHistoryViewController: CommonViewController {
         customNavigationBar.titleText = "문의내역"
         customNavigationBar.isUseLeftButton = true
         
+        print("호출")
         self.setBindings()
-        self.configureTableView()
     }
     
     private lazy var inquiryTableView: UITableView = {
@@ -42,43 +40,6 @@ class InquiryHistoryViewController: CommonViewController {
         inquiryTableView.separatorInset.right = 20
         return inquiryTableView
     }()
-    
-    
-// 기존 코드
-//    func requestInquiry() {
-//        InquiryService().getInquiries(page: "\(inquiryPage)") { (inquiry, isEnd, error) in
-//            if let inquiry = inquiry {
-//                self.inquiryListVM = InquiryListViewModel(inquiryList: inquiry, isEnd: isEnd)
-//                self.inquiryResult += inquiry
-//                self.isEnd = isEnd
-//
-//                if self.inquiryResult.count > 0 {
-//                    self.view.addSubview(self.inquiryTableView)
-//                    self.inquiryTableView.snp.makeConstraints {
-//                        $0.top.equalTo(self.customNavigationBar.snp.bottom)
-//                        $0.leading.trailing.bottom.equalToSuperview()
-//                    }
-//                } else {
-//                    let label: UILabel = {
-//                        let label = UILabel()
-//                        label.text = "등록된 문의내역이 없습니다."
-//                        label.font = .systemFont(ofSize: 18)
-//                        label.textColor = .init(hex: 0x707070)
-//                        return label
-//                    }()
-//
-//                    self.view.addSubview(label)
-//                    label.snp.makeConstraints {
-//                        $0.center.equalToSuperview()
-//                    }
-//                }
-//            }
-//
-//            DispatchQueue.main.async {
-//                self.inquiryTableView.reloadData()
-//            }
-//        }
-//    }
 }
 
 
@@ -94,6 +55,7 @@ extension InquiryHistoryViewController {
                     $0.top.equalTo(self.customNavigationBar.snp.bottom)
                     $0.leading.trailing.bottom.equalToSuperview()
                 }
+                self.configureTableView()
             } else {
                 let label: UILabel = {
                     let label = UILabel()
@@ -112,7 +74,7 @@ extension InquiryHistoryViewController {
         }.store(in: &subscription)
     }
     
-    // 문의내역 요청 서비스 로직 호출
+    // 문의내역 조회 서비스 로직 호출
     func requestInquiry() {
         inquiryListViewModel.requestInquiry(page: "\(inquiryPage)")
     }

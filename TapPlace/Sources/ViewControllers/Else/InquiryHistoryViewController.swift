@@ -6,17 +6,18 @@
 //
 
 import Foundation
+import Combine
 import UIKit
+
 
 // 문의내역
 class InquiryHistoryViewController: CommonViewController {
     
     let customNavigationBar = CustomNavigationBar()
-    private var inquiryListVM: InquiryListViewModel!
+    var subscription = Set<AnyCancellable>()
     
     var inquiryResult = [InquiryModel]()
     var inquiryPage = 1
-    var isEnd = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,7 +30,7 @@ class InquiryHistoryViewController: CommonViewController {
         customNavigationBar.titleText = "문의내역"
         customNavigationBar.isUseLeftButton = true
         
-        requestInquiry()
+        self.setBindings()
         self.configureTableView()
     }
     
@@ -42,41 +43,78 @@ class InquiryHistoryViewController: CommonViewController {
         return inquiryTableView
     }()
     
-    func requestInquiry() {
-        InquiryService().getInquiries(page: "\(inquiryPage)") { (inquiry, isEnd, error) in
-            if let inquiry = inquiry {
-                print(inquiry.count)
-                self.inquiryListVM = InquiryListViewModel(inquiryList: inquiry, isEnd: isEnd)
-                self.inquiryResult += inquiry
-                print(self.inquiryResult.count)
-                self.isEnd = isEnd
+    
+// 기존 코드
+//    func requestInquiry() {
+//        InquiryService().getInquiries(page: "\(inquiryPage)") { (inquiry, isEnd, error) in
+//            if let inquiry = inquiry {
+//                self.inquiryListVM = InquiryListViewModel(inquiryList: inquiry, isEnd: isEnd)
+//                self.inquiryResult += inquiry
+//                self.isEnd = isEnd
+//
+//                if self.inquiryResult.count > 0 {
+//                    self.view.addSubview(self.inquiryTableView)
+//                    self.inquiryTableView.snp.makeConstraints {
+//                        $0.top.equalTo(self.customNavigationBar.snp.bottom)
+//                        $0.leading.trailing.bottom.equalToSuperview()
+//                    }
+//                } else {
+//                    let label: UILabel = {
+//                        let label = UILabel()
+//                        label.text = "등록된 문의내역이 없습니다."
+//                        label.font = .systemFont(ofSize: 18)
+//                        label.textColor = .init(hex: 0x707070)
+//                        return label
+//                    }()
+//
+//                    self.view.addSubview(label)
+//                    label.snp.makeConstraints {
+//                        $0.center.equalToSuperview()
+//                    }
+//                }
+//            }
+//
+//            DispatchQueue.main.async {
+//                self.inquiryTableView.reloadData()
+//            }
+//        }
+//    }
+}
+
+
+// MARK: - ViewModel 관련
+extension InquiryHistoryViewController {
+    func setBindings() {
+        self.requestInquiry()
+        inquiryListViewModel.$inquiryList.sink { (inquiryList: [InquiryModel]) in
+            self.inquiryResult += inquiryList
+            if self.inquiryResult.count > 0 {
+                self.view.addSubview(self.inquiryTableView)
+                self.inquiryTableView.snp.makeConstraints {
+                    $0.top.equalTo(self.customNavigationBar.snp.bottom)
+                    $0.leading.trailing.bottom.equalToSuperview()
+                }
+            } else {
+                let label: UILabel = {
+                    let label = UILabel()
+                    label.text = "등록된 문의내역이 없습니다."
+                    label.font = .systemFont(ofSize: 18)
+                    label.textColor = .init(hex: 0x707070)
+                    return label
+                }()
                 
-                if self.inquiryResult.count > 0 {
-                    self.view.addSubview(self.inquiryTableView)
-                    self.inquiryTableView.snp.makeConstraints {
-                        $0.top.equalTo(self.customNavigationBar.snp.bottom)
-                        $0.leading.trailing.bottom.equalToSuperview()
-                    }
-                } else {
-                    let label: UILabel = {
-                        let label = UILabel()
-                        label.text = "등록된 문의내역이 없습니다."
-                        label.font = .systemFont(ofSize: 18)
-                        label.textColor = .init(hex: 0x707070)
-                        return label
-                    }()
-                    
-                    self.view.addSubview(label)
-                    label.snp.makeConstraints {
-                        $0.center.equalToSuperview()
-                    }
+                self.view.addSubview(label)
+                label.snp.makeConstraints {
+                    $0.center.equalToSuperview()
                 }
             }
-            
-            DispatchQueue.main.async {
-                self.inquiryTableView.reloadData()
-            }
-        }
+            self.inquiryTableView.reloadData()
+        }.store(in: &subscription)
+    }
+    
+    // 문의내역 요청 서비스 로직 호출
+    func requestInquiry() {
+        inquiryListViewModel.requestInquiry(page: "\(inquiryPage)")
     }
 }
 
@@ -174,12 +212,12 @@ extension InquiryHistoryViewController: UITableViewDataSource, UITableViewDelega
     
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        if section != 1 || isEnd == true { return .zero }
+        if section != 1 || inquiryListViewModel.isEnd == true { return .zero }
         return 50
     }
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         if section != 1 { return nil }
-        if isEnd { return nil }
+        if inquiryListViewModel.isEnd { return nil }
         let footerView = UIView()
         let expendButton = TableViewExpendButton(type: .system)
         expendButton.setTitle("문의내역 더보기", for: .normal)
@@ -191,12 +229,13 @@ extension InquiryHistoryViewController: UITableViewDataSource, UITableViewDelega
         return footerView
     }
     
+    // 문의내역 더보기 버튼 클릭시 이벤트
     @objc func didTapExpendButton() {
-        if isEnd {
+        if inquiryListViewModel.isEnd {
             showToast(message: "마지막 페이지 입니다.", view: self.view)
         } else {
             inquiryPage += 1
-            requestInquiry()
+            self.requestInquiry()
         }
     }
 }

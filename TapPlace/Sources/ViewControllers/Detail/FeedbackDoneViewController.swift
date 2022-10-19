@@ -144,9 +144,10 @@ extension FeedbackDoneViewController: BottomButtonProtocol {
         
         contentView.addSubview(imgView)
         imgView.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(30)
-            $0.centerX.equalToSuperview()
-            $0.width.height.equalTo(60)
+            $0.top.equalToSuperview().offset(0)
+            $0.leading.equalToSuperview().offset(74)
+            $0.trailing.equalToSuperview().offset(-74)
+            $0.height.equalTo(imgView.snp.width).multipliedBy(4.0/5.0)
         }
         
         contentView.addSubview(resultLabel)

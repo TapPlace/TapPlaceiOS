@@ -6,16 +6,16 @@
 //
 
 import UIKit
+import Combine
 
 // MARK: - 공지사항VC
 class NoticeViewController: CommonViewController {
     
     let customNavigationBar = CustomNavigationBar()
-    private var noticeListVM: NoticeListViewModel!
+    var subscription = Set<AnyCancellable>()
     
     var noticeResult: [NoticeModel] = []
-    var noticeApiPage = 1
-    var isEnd = false
+    var noticePage = 1
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,8 +28,8 @@ class NoticeViewController: CommonViewController {
         customNavigationBar.titleText = "공지사항"
         customNavigationBar.isUseLeftButton = true
         
-        // 공지사항 API 호출
-        requestNotice()
+        print("호출")
+        self.setBindings()
     }
     
     private lazy var noticeTableView: UITableView = {
@@ -41,42 +41,42 @@ class NoticeViewController: CommonViewController {
         noticeTableView.allowsSelection = true
         return noticeTableView
     }()
-    
-    // 공지사항 불러오기 서비스 호출 로직
-    func requestNotice() {
-        NoticeDataService().getNotice(page: "\(noticeApiPage)") { (notice, isEnd, error) in
-            if let notice = notice {
-                if notice.count > 0 {
-                    self.view.addSubview(self.noticeTableView)
-                    self.noticeTableView.snp.makeConstraints {
-                        $0.top.equalTo(self.customNavigationBar.snp.bottom)
-                        $0.leading.trailing.bottom.equalToSuperview()
-                    }
-                    
-                    self.isEnd = isEnd
-                    self.noticeListVM = NoticeListViewModel(noticeList: notice, isEnd: isEnd)
-                    self.noticeResult += notice
-                    self.configureTableView()
-                } else {
-                    let label: UILabel = {
-                        let label = UILabel()
-                        label.text = "등록된 공지사항이 없습니다."
-                        label.font = .systemFont(ofSize: 18)
-                        label.textColor = .init(hex: 0x707070)
-                        return label
-                    }()
-                    
-                    self.view.addSubview(label)
-                    label.snp.makeConstraints {
-                        $0.center.equalToSuperview()
-                    }
+}
+
+// MARK: - ViewModel 관련
+extension NoticeViewController {
+    func setBindings() {
+        self.requestNotice()
+        noticeListViewModel.$noticeList.sink { (noticeList: [NoticeModel]) in
+            self.noticeResult += noticeList
+            if self.noticeResult.count > 0 {
+                self.view.addSubview(self.noticeTableView)
+                self.noticeTableView.snp.makeConstraints {
+                    $0.top.equalTo(self.customNavigationBar.snp.bottom)
+                    $0.leading.trailing.bottom.equalToSuperview()
+                }
+                self.configureTableView()
+            } else {
+                let label: UILabel = {
+                    let label = UILabel()
+                    label.text = "등록된 공지사항이 없습니다."
+                    label.font = .systemFont(ofSize: 18)
+                    label.textColor = .init(hex: 0x707070)
+                    return label
+                }()
+
+                self.view.addSubview(label)
+                label.snp.makeConstraints {
+                    $0.center.equalToSuperview()
                 }
             }
-            
-            DispatchQueue.main.async {
-                self.noticeTableView.reloadData()
-            }
-        }
+            self.noticeTableView.reloadData()
+        }.store(in: &subscription)
+    }
+    
+    // 공지사항 조회 서비스 로직 호출
+    func requestNotice() {
+        noticeListViewModel.requestNotice(page: "\(noticePage)")
     }
 }
 
@@ -152,7 +152,6 @@ extension NoticeViewController: UITableViewDelegate, UITableViewDataSource {
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: NoticeCell.identifier, for: indexPath) as! NoticeCell
             let notice = self.noticeResult[indexPath.row]
-            print(notice.writeDate)
             cell.selectionStyle = .none
             cell.prepare(title: notice.title, content: notice.content, writeDate: getOnlyDate(writeDate: notice.writeDate))
             return cell
@@ -170,7 +169,7 @@ extension NoticeViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        if section != 1 || isEnd == true { return .zero }
+        if section != 1 || noticeListViewModel.isEnd == true { return .zero }
         return 50
     }
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
@@ -187,11 +186,11 @@ extension NoticeViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     @objc func didTapExpendButton() {
-        if isEnd == true {
+        if noticeListViewModel.isEnd {
             showToast(message: "마지막 페이지 입니다.", view: self.view)
         } else {
-            noticeApiPage += 1
-            requestNotice()
+            noticePage += 1
+            self.requestNotice()
         }
     }
 }

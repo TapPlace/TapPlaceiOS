@@ -6,43 +6,20 @@
 //
 
 import Foundation
+import Combine
 
-struct NoticeListViewModel {
-    var noticeList: [NoticeModel]
-    let isEnd: Bool
+class NoticeListViewModel {
+    @Published var noticeList: [NoticeModel] = []
+    var isEnd: Bool = true
 }
 
 extension NoticeListViewModel {
-    func numberOfRowsInSection(_ section: Int) -> Int {
-        return self.noticeList.count
-    }
-    
-    func searchAtIndex(_ index: Int) -> NoticeViewModel {
-        let notice = self.noticeList[index]
-        return NoticeViewModel(notice)
-    }
-}
-
-struct NoticeViewModel {
-    private let noticeModel: NoticeModel
-}
-
-extension NoticeViewModel {
-    init(_ noticeModel: NoticeModel) {
-        self.noticeModel = noticeModel
-    }
-}
-
-extension NoticeViewModel {
-    var title: String? {
-        return self.noticeModel.title
-    }
-    
-    var content: String? {
-        return self.noticeModel.content
-    }
-    
-    var writeDate: String? {
-        return self.noticeModel.writeDate
+    func requestNotice(page: String) {
+        NoticeDataService().getNotice(page: page) { (notice, isEnd, error) in
+            if let notice = notice {
+                self.noticeList = notice
+                self.isEnd = isEnd
+            }
+        }
     }
 }

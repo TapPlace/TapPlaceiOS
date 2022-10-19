@@ -14,7 +14,7 @@ import CoreLocation
 
 // MARK: - 검색화면
 class SearchViewController: CommonViewController {
-    private var searchListVM: SearchListViewModel!
+//    private var searchListVM: SearchListViewModel!
     
     // 검색 필드 활성화 여부
     var searchMode: Bool = false

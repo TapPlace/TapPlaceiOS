@@ -472,11 +472,11 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
         switch self.searchMode {
         case true: // 검색중일때
             let searchModelEach = searchResult[indexPath.row]
-            if StoreModel.lists.first(where: {$0.id == searchModelEach.categoryGroupCode }) == nil {
-                showToast(message: "지원하지 않는 가맹점입니다.", view: self.view)
-                isLoading = false
-                return
-            }
+//            if StoreModel.lists.first(where: {$0.id == searchModelEach.categoryGroupCode }) == nil {
+//                showToast(message: "지원하지 않는 가맹점입니다.", view: self.view)
+//                isLoading = false
+//                return
+//            }
             // FIXME: MVVM 수정
             storeViewModel.requestStoreInfoCheck(searchModel: searchModelEach, pays: storageViewModel.userFavoritePaymentsString) { result in
                 if let result = result {

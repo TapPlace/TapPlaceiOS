@@ -110,7 +110,7 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
     func setupTableView() {
         /// 메뉴 설정
         settingDataSource = [
-            0: ["정보 수정", "결제수단 설정", "알림 수신"],
+            0: ["결제수단 설정", "알림 수신"],
             1: ["활동내역 초기화"]
         ]
         settingTableView.reloadData()

@@ -101,7 +101,7 @@ class CustomNavigationBar: UIView {
      * @ 네비게이션 좌측 버튼 이미지 변경 (기본 = chevron.left)
      * coder : sanghyeon
      */
-    var leftButtonImage: UIImage = UIImage(systemName: "chevron.backward")! {
+    var leftButtonImage: UIImage = UIImage(systemName: "chevron.left")! {
         willSet {
             leftButton.setImage(newValue, for: .normal)
         }
@@ -120,7 +120,7 @@ class CustomNavigationBar: UIView {
     
     let leftButton: UIButton = {
         let leftButton = UIButton()
-        leftButton.setImage(UIImage(systemName: "chevron.backward"), for: .normal)
+        leftButton.setImage(UIImage(systemName: "chevron.left"), for: .normal)
         leftButton.tintColor = .black
         return leftButton
     }()

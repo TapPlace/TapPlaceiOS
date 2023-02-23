@@ -111,7 +111,7 @@ extension StoreDetailViewController: CustomNavigationBarProtocol, CustomToolBarS
         }()
         let backButtonIcon: UIImageView = {
             let backButtonIcon = UIImageView()
-            backButtonIcon.image = .init(systemName: "chevron.backward")
+            backButtonIcon.image = .init(systemName: "chevron.left")
             backButtonIcon.contentMode = .scaleAspectFit
             backButtonIcon.tintColor = .black
             return backButtonIcon

@@ -7,12 +7,13 @@
 
 import UIKit
 import WebKit
+import SnapKit
 
 protocol TermsProtocol {
     func checkReceiveTerm(term: TermsModel, currentTermIndex: Int)
 }
 
-class TermsWebViewViewController: UIViewController {
+class TermsWebViewViewController: UIViewController, WKNavigationDelegate {
 
     var delegate: TermsProtocol?
     var storageViewModel = StorageViewModel()
@@ -49,6 +50,13 @@ class TermsWebViewViewController: UIViewController {
     var webViewFrame = UIView()
     var webView: WKWebView!
     
+    //MARK: UI
+    var loadingBackground: UIView = UIView()
+    var loadingStatusLabel: UILabel = UILabel()
+    
+    
+    
+    
     override func loadView() {
         super.loadView()
         webView = {
@@ -68,7 +76,7 @@ class TermsWebViewViewController: UIViewController {
             }
             return webView
         }()
-        
+        self.webView.navigationDelegate = self
         self.webViewFrame = self.webView!
     }
     
@@ -78,9 +86,37 @@ class TermsWebViewViewController: UIViewController {
         guard let term = term else { return }
         checkTerm(term: term)
         loadTermsWeb(term: term)
+        
+        self.view.addSubview(loadingBackground)
+        loadingBackground.addSubview(loadingStatusLabel)
+        
+        loadingBackground.backgroundColor = .white
+        loadingBackground.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+        loadingStatusLabel.text = "약관정보 불러오는 중..."
+        loadingStatusLabel.textColor = .disabledTextColor
+        loadingStatusLabel.font = .systemFont(ofSize: CommonUtils.resizeFontSize(size: 14))
+        loadingStatusLabel.sizeToFit()
+        loadingStatusLabel.snp.makeConstraints {
+            $0.center.equalTo(loadingBackground)
+        }
     }
     
+    func webView(_ webView: WKWebView, didCommit navigation: WKNavigation!) {
+        //guard let loadingBackground = loadingBackground, let loadingStatusLabel = loadingStatusLabel else { return }
+        
 
+
+        print("약관 내용 불러오는중")
+    }
+    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+        loadingBackground.removeFromSuperview()
+        print("약관 내용 불러오기 완료")
+        if isReadOnly { return }
+        bottomButton.setButtonStyle(title: "동의", type: .activate, fill: true)
+        bottomButton.isActive = true
+    }
 }
 
 extension TermsWebViewViewController: CustomNavigationBarProtocol, UIScrollViewDelegate, BottomButtonProtocol {
@@ -224,10 +260,13 @@ extension TermsWebViewViewController: CustomNavigationBarProtocol, UIScrollViewD
 
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         if isReadOnly { return }
+        print("스크롤 위치\(scrollView.contentOffset.y)")
         if scrollView.contentOffset.y >= (scrollView.contentSize.height - scrollView.frame.size.height - 300) {
             bottomButton.setButtonStyle(title: "동의", type: .activate, fill: true)
             bottomButton.isActive = true
         }
     }
     
+    
+
 }

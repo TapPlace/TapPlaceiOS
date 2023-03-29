@@ -282,6 +282,10 @@ extension BookmarkViewController: UITableViewDelegate, UITableViewDataSource {
         
         if let allSelect = allSelect {
             // FIXME: 인덱스 오류 확인
+            print("총 개수 : \(bookmarkDataSource.count)")
+            if bookmarkDataSource.count == 0 {
+                return
+            }
             for i in 0 ... bookmarkDataSource.count - 1 {
                 var bookmark = bookmarkDataSource[i]
                 bookmark.isChecked = allSelect

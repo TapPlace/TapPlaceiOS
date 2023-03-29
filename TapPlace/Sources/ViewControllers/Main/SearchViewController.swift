@@ -523,12 +523,12 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
             
             guard let searchModelEach = searchModelEach else { return }
             // FIXME: MVVM 수정
-            if StoreModel.lists.first(where: {$0.title == searchModelEach.categoryGroupName }) == nil {
-                print(searchModelEach)
-                showToast(message: "지원하지 않는 가맹점입니다.", view: self.view)
-                isLoading = false
-                return
-            }
+//            if StoreModel.lists.first(where: {$0.title == searchModelEach.categoryGroupName }) == nil {
+//                print(searchModelEach)
+//                showToast(message: "지원하지 않는 가맹점입니다.", view: self.view)
+//                isLoading = false
+//                return
+//            }
             storeViewModel.requestStoreInfoCheck(searchModel: searchModelEach, pays: storageViewModel.userFavoritePaymentsString) { result in
                 if let result = result {
                     var storeInfo = SearchModel.convertStoreInfo(searchModel: searchModelEach)

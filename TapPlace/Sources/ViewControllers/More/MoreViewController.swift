@@ -193,10 +193,12 @@ extension MoreViewController: UITableViewDelegate, UITableViewDataSource, MoreHe
         case 0:
             cell.title = menuList[indexPath.row].title
             cell.menuType = menuList[indexPath.row].type
+            guard let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String else { return UITableViewCell() }
             if let subTitle = menuList[indexPath.row].subTitle {
                 switch subTitle {
-                case .version:cell.subTitle = "클로즈베타" // 베타버전 임시 문구
+                case .version:cell.subTitle = version // 베타버전 임시 문구
                 case .reset:cell.subTitle = Constants.keyChainDeviceID // 베타버전 임시 문구
+                case .donation:cell.subTitle = "열심히 달리겠습니다!"
                 default: break
                 } 
             }
@@ -232,6 +234,10 @@ extension MoreViewController: UITableViewDelegate, UITableViewDataSource, MoreHe
                     break
                 case .feedback:
                     self.navigationController?.pushViewController(menuList[indexPath.row].vc!, animated: true)
+                case .donation:
+                    if let url = URL(string: "https://toss.me/tapplace") {
+                        UIApplication.shared.open(url)
+                    }
                 default: break
                 }
             }

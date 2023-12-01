@@ -224,7 +224,7 @@ extension FeedbackRequestViewController: UITableViewDelegate, UITableViewDataSou
         case 0: return self.myPayments.count
         case 1: return self.otherPayments.count
         case 2: return 0
-        default: return 0
+        default: return 0ㄷ
         }
     }
     
